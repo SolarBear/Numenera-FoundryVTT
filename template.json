@@ -1,0 +1,103 @@
+{
+    "Actor": {
+        "types": ["pc", "npc"],
+        "pc": {
+            "templates": [],
+            "tier": 1,
+            "xp": 0,
+            "advances": [],
+            "armor": 0,
+            "type": "",
+            "descriptor": "",
+            "focus": "",
+            "effort": 1,
+            "stats": {
+                "might": {
+                    "pool": {
+                        "current": 0,
+                        "maximum": 0
+                    },
+                    "edge": 0
+                },
+                "speed": {
+                    "pool": {
+                        "current": 0,
+                        "maximum": 0
+                    },
+                    "edge": 0
+                },
+                "intellect": {
+                    "pool": {
+                        "current": 0,
+                        "maximum": 0
+                    },
+                    "edge": 0
+                }
+            },
+            "recoveries": {
+                "action": false,
+                "tenMin": false,
+                "oneHour": false,
+                "tenHours": false
+            },
+            "skills": [],
+            "shins": 0
+        },
+        "npc": {
+            "level": 1,
+            "description": "",
+            "environement": "",
+            "health": 0,
+            "damage": 0,
+            "armor": 0,
+            "movement": "short",
+            "modifications": "",
+            "interaction": "",
+            "use": "",
+            "loot": "",
+            "gmIntrusion": ""
+        }
+    },
+    "Items": {
+        "types": ["cypher", "artifact", "oddity", "equipment", "armor", "weapon"],
+        "templates": {
+            "common": {
+                "name": "",
+                "price": 0,
+                "notes": ""
+            },
+            "weightCategory": {
+                "name": ""
+            },
+            "numenera": {
+                "level": 1,
+                "form": "",
+                "effect": ""
+            }
+        },
+        "equipment": {
+            "templates": ["common"]
+        },
+        "armor": {
+            "templates": ["common", "weightCategory"],
+            "armor": 0,
+            "additionalSpeedEffortCost": 1
+        },
+        "weapon": {
+            "templates": ["common", "weightCategory"],
+            "damage": 0,
+            "easeAttackLevel": false
+        },
+        "cypher": {
+            "templates": ["common", "numenera"]
+        },
+        "artifact": {
+            "templates": ["common", "numenera"],
+            "depletion": {
+                "isDepleting": true,
+                "die": "d6",
+                "threshold": 1
+            }
+        }
+    }
+}
