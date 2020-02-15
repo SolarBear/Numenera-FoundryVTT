@@ -13,7 +13,7 @@
 form.flexcol {
     h1.character {
         flex: 0;
-        
+
         p {
             input.descriptor {
                 width: 15ch;
@@ -30,11 +30,20 @@ form.flexcol {
     }
 
     div.flexrow {
-        h3.stats {
-            text-transform: capitalize;
+        > div:not(:first-child) {
+            border-left: 1px solid #782e22;
+            padding-left: 1em;
         }
 
-        div.column {
+        div {
+            h2 {
+                border: none;
+            }
+    
+            h3.stats {
+                text-transform: capitalize;
+            }
+    
             input.stats {
                 width: 30px;
             }

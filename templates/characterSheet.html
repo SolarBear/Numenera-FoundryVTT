@@ -24,26 +24,26 @@
     </h1>
 
     <div class="flexrow">
-        <div class="flexrow">
+        <div>
             <h2>Characteristics</h2>
 
             {{#each data.stats as |stat id|}}
                 <h3 class="stats">{{id}}</h3>
         
                 <h4 class="pool">Pool</h4>
-                <div>
+                <span>
                     <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
                     /
                     <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
-                </div>
+                </span>
         
                 <h4>Edge</h4>
-                <div>
+                <span>
                     <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
-                </div>
+                </span>
             {{/each}}
         </div>
-        <div class="flexrow">
+        <div>
             <h2>Information</h2>
 
             <div>Tier <input type="text" name="data.tier" value="{{data.tier}}" class="stats" placeholder="Tier" /></div>
