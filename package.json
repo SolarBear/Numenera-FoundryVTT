@@ -1,0 +1,23 @@
+{
+  "name": "numenera-foundryvtt",
+  "version": "0.0.1",
+  "description": "Support for the Numenera role playing game for the Foundry virtual tabletop",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-sass": "^4.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SolarBear/Numenera-FoundryVTT.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SolarBear/Numenera-FoundryVTT/issues"
+  },
+  "homepage": "https://github.com/SolarBear/Numenera-FoundryVTT#readme"
+}
