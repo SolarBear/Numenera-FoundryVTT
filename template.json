@@ -2,12 +2,11 @@
     "Actor": {
         "types": ["pc", "npc"],
         "pc": {
-            "templates": [],
             "tier": 1,
             "xp": 0,
             "advances": [],
             "armor": 0,
-            "type": "",
+            "characterType": "",
             "descriptor": "",
             "focus": "",
             "effort": 1,

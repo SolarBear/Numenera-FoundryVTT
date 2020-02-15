@@ -1,42 +1,52 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
-    <h1>
-        <input type="text" name="actor.name" value="{{actor.name}}" placeholder="Character Name" />
-        is a
-        <input type="text" name="data.descriptor" value="{{data.descriptor}}" placeholder="Descriptor" />
-        <input type="text" name="data.type" value="{{data.type}}" placeholder="Type" />
-        who
-        <input type="text" name="data.focus" value="{{data.focus}}" placeholder="Focus" />
+<form class="{{cssClass}} flexcol " autocomplete="off">
+    <!-- <nav class="sheet-navigation tabs">
+		<a class="item active" data-tab="sheet"></a>
+		<a class="item" data-tab="biography"></a>
+	</nav> -->
+
+    <h1 class="character flexrow">
+        <p>
+            <span class="charname">{{actor.name}}</span> is a
+            <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
+            <select name="data.characterType" data-type="String">
+                <option value="" />
+            {{#each types}}
+                <option value="{{abbrev}}" 
+                    {{#if isActorType}}
+                        selected="selected"
+                    {{/if}}
+                >{{name}}</option>
+            {{/each}}
+            </select>
+            who
+            <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
+        </p>
     </h1>
 
-    <h2>Characteristics</h2>
+    <div class="flexrow">
+        <div class="flexrow">
+            <h2>Characteristics</h2>
 
-    <h3>Might</h3>
+            {{#each data.stats as |stat id|}}
+                <h3 class="stats">{{id}}</h3>
+        
+                <h4 class="pool">Pool</h4>
+                <div>
+                    <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                    /
+                    <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
+                </div>
+        
+                <h4>Edge</h4>
+                <div>
+                    <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
+                </div>
+            {{/each}}
+        </div>
+        <div class="flexrow">
+            <h2>Information</h2>
 
-    <h4>Pool</h4>
-    Current: <input name="data.stats.might.pool.current" type="text" value="{{data.stats.might.pool.current}}" placeholder="0" />
-    /
-    Maximum: <input name="data.stats.might.pool.maximum" type="text" value="{{data.stats.might.pool.maximum}}" placeholder="0" />
-
-    <h4>Edge</h4>
-    <input name="data.stats.might.edge" type="text" value="{{data.stats.might.edge}}" placeholder="0" />
-
-    <h3>Speed</h3>
-
-    <h4>Pool</h4>
-    Current: <input name="data.stats.speed.pool.current" type="text" value="{{data.stats.speed.pool.current}}" placeholder="0" />
-    /
-    Maximum: <input name="data.stats.speed.pool.maximum" type="text" value="{{data.stats.speed.pool.maximum}}" placeholder="0" />
-
-    <h4>Edge</h4>
-    <input name="data.stats.speed.edge" type="text" value="{{data.stats.speed.edge}}" placeholder="0" />
-
-    <h3>Intellect</h3>
-
-    <h4>Pool</h4>
-    Current: <input name="data.stats.intellect.pool.current" type="text" value="{{data.stats.intellect.pool.current}}" placeholder="0" />
-    /
-    Maximum: <input name="data.stats.intellect.pool.maximum" type="text" value="{{data.stats.intellect.pool.maximum}}" placeholder="0" />
-
-    <h4>Edge</h4>
-    <input name="data.stats.intellect.edge" type="text" value="{{data.stats.intellect.edge}}" placeholder="0" />
+            <div>Tier <input type="text" name="data.tier" value="{{data.tier}}" class="stats" placeholder="Tier" /></div>
+        </div>
+    </div>
 </form>

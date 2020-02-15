@@ -6,7 +6,7 @@
     "author": "SolarBear",
     "scripts": [],
     "esmodules": ["numenera.js"],
-    "styles": [],
+    "styles": ["numenera.css"],
     "packs": [],
     "languages": ["en"],
     "minimumCoreVersion" : "0.4.5"

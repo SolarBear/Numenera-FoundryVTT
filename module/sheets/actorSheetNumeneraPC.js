@@ -1,3 +1,5 @@
+import { NUMENERA } from '../config.js'
+
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
  *
@@ -25,5 +27,21 @@ export class ActorSheetNumeneraPC extends ActorSheet {
    */
   get template() {
     return "systems/numenera/templates/characterSheet.html";
+  }
+
+  getData() {
+    const sheetData = super.getData();
+
+    const actorType = sheetData.actor.data.characterType || "";
+
+    //"Augment" the types objects with a new "isActorType" property
+    sheetData.types = NUMENERA.types.map(value => {
+      return {
+        ...value,
+        isActorType: value.abbrev === actorType,
+      }
+    });
+
+    return sheetData;
   }
 }

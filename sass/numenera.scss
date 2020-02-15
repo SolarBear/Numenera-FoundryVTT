@@ -1,0 +1,43 @@
+/* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
+.flewrow {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+.flewcol {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+form.flexcol {
+    h1.character {
+        flex: 0;
+        
+        p {
+            input.descriptor {
+                width: 15ch;
+            }
+    
+            input.focus {
+                width: 30ch;
+            }
+    
+            span.charname {
+                font-weight: bold;
+            }
+        }
+    }
+
+    div.flexrow {
+        h3.stats {
+            text-transform: capitalize;
+        }
+
+        div.column {
+            input.stats {
+                width: 30px;
+            }
+        }
+    }
+}

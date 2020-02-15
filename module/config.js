@@ -19,10 +19,40 @@ NUMENERA.skillLevels = {
   's': 'Specialized'
 };
 
-NUMENERA.types = {
-  'g': 'Glaive',
-  'j': 'Jack',
-  'n': 'Nano'
+NUMENERA.types = [
+  {
+    abbrev: 'a',
+    name: 'Arkai',
+  },
+  {
+    abbrev: 'd',
+    name: 'Delve',
+  },
+  {
+    abbrev: 'g',
+    name: 'Glaive',
+  },
+  {
+    abbrev: 'j',
+    name: 'Jack',
+  },
+  {
+    abbrev: 'n',
+    name: 'Nano',
+  },
+  {
+    abbrev: 'w',
+    name: 'Wright',
+  },
+];
+
+NUMENERA.typePowers = {
+  'g': 'Combat Manoeuvers',
+  'j': 'Tricks of the Trade',
+  'n': 'Esoteries',
+  'a': '...',
+  'd': '...',
+  'w': '...'
 };
 
 NUMENERA.damageTrack = [
