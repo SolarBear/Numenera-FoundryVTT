@@ -4,7 +4,13 @@
         "pc": {
             "tier": 1,
             "xp": 0,
-            "advances": [],
+            "advances": {
+                "statPools": false,
+                "effort": false,
+                "edge": false,
+                "skillTraining": false,
+                "other": false
+            },
             "armor": 0,
             "characterType": "",
             "descriptor": "",

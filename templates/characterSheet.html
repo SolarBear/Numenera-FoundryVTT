@@ -8,7 +8,7 @@
         <p>
             <span class="charname">{{actor.name}}</span> is a
             <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
-            <select name="data.characterType" data-type="String">
+            <select name="data.characterType" class="characterType" data-type="String">
                 <option value="" />
             {{#each types}}
                 <option value="{{abbrev}}" 
@@ -43,10 +43,25 @@
                 </span>
             {{/each}}
         </div>
-        <div>
-            <h2>Information</h2>
+        <ul>
+            <h2>Advancement</h2>
 
-            <div>Tier <input type="text" name="data.tier" value="{{data.tier}}" class="stats" placeholder="Tier" /></div>
+            <h3>Tier <input type="text" name="data.tier" value="{{data.tier}}" class="stats" placeholder="Tier" /></h3>
+            <h3>XP <input type="text" name="data.xp" value="{{data.xp}}" class="stats" placeholder="0" /></h3>
+            <h3>Advances</h3>
+            <ul>
+                {{#each advances as |advance|}}
+                <li>
+                    <label for="data.advances.{{advance.name}}">{{advance.label}}
+                    <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean"
+                        {{#if advance.isChecked}}
+                        checked="checked"
+                        {{/if}}
+                    />
+                    </label>
+                </li>
+                {{/each}}
+            </ul>
         </div>
     </div>
 </form>

@@ -17,6 +17,14 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     });
   }
 
+  static get advances() {
+    return NUMENERA.advances;
+  }
+
+  static get damageTrack() {
+    return NUMENERA.damageTrack;
+  }
+
   /* -------------------------------------------- */
   /*  Rendering                                   */
   /* -------------------------------------------- */
@@ -29,6 +37,21 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     return "systems/numenera/templates/characterSheet.html";
   }
 
+  /**
+   * Get the current PC's level on the damage track as an integer, 0 being Hale and 3 being Dead.
+   * @type {Number}
+   */
+  damageTrackLevel(data) {
+    //Each stat whose value is 0 counts as being one step higher on the damage track
+    return Object.values(data.stats).filter(stat => {
+      return stat.pool.current === 0;
+    }).length;
+  }
+
+  /**
+   * Provides the data objects provided to the character sheet. Use that method
+   * to insert new values or mess with existing ones.
+   */
   getData() {
     const sheetData = super.getData();
 
@@ -41,6 +64,22 @@ export class ActorSheetNumeneraPC extends ActorSheet {
         isActorType: value.abbrev === actorType,
       }
     });
+
+    sheetData.advances = Object.entries(sheetData.actor.data.advances).map(([key, value]) => {
+      return {
+        name: key,
+        label: NUMENERA.advances[key],
+        isChecked: value,
+      }
+    });
+
+    // const damage = this.damageTrackLevel(sheetData);
+    // sheetData.damageTrack = NUMENERA.damageTrack.map((value, index) => {
+    //   return {
+    //     label: value,
+    //     isCurrent: index === damage,
+    //   };
+    // });
 
     return sheetData;
   }

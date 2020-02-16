@@ -50,9 +50,9 @@ NUMENERA.typePowers = {
   'g': 'Combat Manoeuvers',
   'j': 'Tricks of the Trade',
   'n': 'Esoteries',
-  'a': '...',
-  'd': '...',
-  'w': '...'
+  'a': 'Precepts',
+  'd': 'Delve Lore',
+  'w': 'Inspired Techniques',
 };
 
 NUMENERA.damageTrack = [
@@ -68,3 +68,11 @@ NUMENERA.recoveries = [
   '1 hour',
   '10 hours'
 ];
+
+NUMENERA.advances = {
+  'statPools': '+4 to stat pools',
+  'effort': '+1 to Effort',
+  'edge': '+1 to Edge',
+  'skillTraining': 'Train or specialize in a skill',
+  'other': 'Other: refer to Numenera manual',
+};
