@@ -2,7 +2,7 @@
     "name": "numenera",
     "title": "Numenera",
     "description": "Simple support for Numenera for the Fountry Virtual TableTop.",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "author": "SolarBear",
     "scripts": [],
     "esmodules": ["numenera.js"],

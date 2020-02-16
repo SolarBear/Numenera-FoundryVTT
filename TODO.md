@@ -4,7 +4,8 @@
 
 * Basic stats
     * Effort
-*  Damage track
+* Damage track
+  * display effects of current damage level
 * Advancement
   * Tier
   * XP
@@ -25,7 +26,7 @@
 * Background
 * Notes
 
-## Game features
+## Game features and mechanics
 
 * Set armor from equipment
 * Set attacks from equipment
@@ -37,13 +38,12 @@
 * Roll with difficulty
   * Roll for skill
   * Effort
+  * Equipment effects (eg. light weapons)
 * Manage artifact depletion on use
-* Manage tier advances types
 * Increase tier when 4 advances have been achieved
 * Pools
   * Manage pool expenses for powers, taking Edge into account
   * Manage damage track from changes to the pools
-
 
 ## Dev QoL
 
