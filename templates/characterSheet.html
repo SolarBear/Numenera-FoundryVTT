@@ -43,21 +43,21 @@
                 </span>
             {{/each}}
         </div>
-        <ul>
-            <h2>Advancement</h2>
+        <div>
+            <h2>Tier <input type="number" name="data.tier" value="{{data.tier}}" class="tier" placeholder="1" min="1" max="6" /></h2>
 
-            <h3>Tier <input type="text" name="data.tier" value="{{data.tier}}" class="stats" placeholder="Tier" /></h3>
-            <h3>XP <input type="text" name="data.xp" value="{{data.xp}}" class="stats" placeholder="0" /></h3>
+            <h3>XP <input type="number" name="data.xp" value="{{data.xp}}" class="xp" placeholder="0" min="0" /></h3>
             <h3>Advances</h3>
             <ul>
                 {{#each advances as |advance|}}
                 <li>
-                    <label for="data.advances.{{advance.name}}">{{advance.label}}
+                    <label for="data.advances.{{advance.name}}">
                     <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean"
                         {{#if advance.isChecked}}
                         checked="checked"
                         {{/if}}
                     />
+                    {{advance.label}}
                     </label>
                 </li>
                 {{/each}}

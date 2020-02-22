@@ -10,6 +10,10 @@
     flex-flow: column nowrap;
 }
 
+li {
+    list-style-type: none;
+}
+
 form.flexcol {
     h1.character {
         flex: 0;
@@ -39,6 +43,18 @@ form.flexcol {
         div {
             h2 {
                 border: none;
+
+                input.tier {
+                    margin-left: 1em;
+                    width: 3em;
+                }
+            }
+
+            h3 {
+                input.xp {
+                    margin-left: 1em;
+                    width: 3em;
+                }
             }
     
             h3.stats {

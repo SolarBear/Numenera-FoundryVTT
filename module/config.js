@@ -73,6 +73,6 @@ NUMENERA.advances = {
   'statPools': '+4 to stat pools',
   'effort': '+1 to Effort',
   'edge': '+1 to Edge',
-  'skillTraining': 'Train or specialize in a skill',
-  'other': 'Other: refer to Numenera manual',
+  'skillTraining': 'Train/specialize skill',
+  'other': 'Other',
 };
