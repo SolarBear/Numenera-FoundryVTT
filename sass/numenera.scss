@@ -14,6 +14,10 @@ li {
     list-style-type: none;
 }
 
+h2 {
+    border: none;
+}
+
 form.flexcol {
     h1.character {
         flex: 0;
@@ -40,9 +44,13 @@ form.flexcol {
             padding-left: 1em;
         }
 
-        div {
+
+
+        div.stats {
+            text-align: center;
+
             h2 {
-                border: none;
+                text-transform: capitalize;
 
                 input.tier {
                     margin-left: 1em;
@@ -57,13 +65,13 @@ form.flexcol {
                 }
             }
     
-            h3.stats {
-                text-transform: capitalize;
-            }
-    
             input.stats {
                 width: 30px;
             }
         }
+    }
+
+    div.flexrow:not(:last-child) {
+        border-bottom: 2px solid #782e22;
     }
 }
