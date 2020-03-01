@@ -9,5 +9,6 @@
     "styles": ["numenera.css"],
     "packs": [],
     "languages": ["en"],
-    "minimumCoreVersion" : "0.4.5"
+    "minimumCoreVersion" : "0.4.5",
+    "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json"
 }

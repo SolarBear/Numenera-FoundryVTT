@@ -1,3 +1,5 @@
+import './numenera.css';
+
 import { ActorNumeneraPC } from './module/actorNumeneraPC.js';
 import { ActorSheetNumeneraPC } from './module/sheets/actorSheetNumeneraPC.js';
 import { NUMENERA } from './module/config.js';
