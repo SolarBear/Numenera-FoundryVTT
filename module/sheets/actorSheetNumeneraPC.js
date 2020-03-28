@@ -1,3 +1,4 @@
+import { NUMENERA } from '../config.js';
 import { NUMENERA } from '../config.js'
 
 /**
@@ -12,17 +13,13 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 600,
-      height: 600
+      width: 800,
+      height: 1200
     });
   }
 
   static get advances() {
     return NUMENERA.advances;
-  }
-
-  static get damageTrack() {
-    return NUMENERA.damageTrack;
   }
 
   /* -------------------------------------------- */
@@ -73,13 +70,22 @@ export class ActorSheetNumeneraPC extends ActorSheet {
       }
     });
 
-    // const damage = this.damageTrackLevel(sheetData);
-    // sheetData.damageTrack = NUMENERA.damageTrack.map((value, index) => {
-    //   return {
-    //     label: value,
-    //     isCurrent: index === damage,
-    //   };
-    // });
+    const currentDamageTrack = this.damageTrackLevel(sheetData.actor.data);
+    sheetData.damageTrackData = Object.values(NUMENERA.damageTrack).map(trackLevel => {
+      return {
+        ...trackLevel,
+        checked: trackLevel.index === currentDamageTrack,
+      }
+    });
+    sheetData.damageTrackDescription = sheetData.damageTrackData.filter(d => d.checked)[0].description;
+
+    sheetData.recoveriesData = Object.entries(sheetData.actor.data.recoveries).map(([key, value]) => {
+      return {
+        key,
+        label: NUMENERA.recoveries[key],
+        checked: value,
+      };
+    });
 
     return sheetData;
   }

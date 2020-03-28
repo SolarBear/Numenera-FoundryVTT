@@ -10,7 +10,7 @@
             <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
             <select name="data.characterType" class="characterType" data-type="String">
                 <option value="" />
-            {{#each types}}
+                {{#each types}}
                 <option value="{{abbrev}}" 
                     {{#if isActorType}}
                         selected="selected"
@@ -25,8 +25,8 @@
 
     <div class="flexrow">
         {{#each data.stats as |stat id|}}
-            <div class="stats">
-                <h2>{{id}}</h2>
+            <div class="stats" data-stat="{{id}}">
+                <h2>{{id}}</h2 >
 
                 <h3 class="pool">Pool</h3>
                 <span>
@@ -45,9 +45,10 @@
 
     <div class="flexrow">
         <div>
-            <h2>Tier <input type="number" name="data.tier" value="{{data.tier}}" class="tier" placeholder="1" min="1" max="6" /></h2>
+            <h2>Tier <input type="number" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" /></h2>
+            <h2>Effort <input type="number" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" /></h2>
 
-            <h3>XP <input type="number" name="data.xp" value="{{data.xp}}" class="xp" placeholder="0" min="0" /></h3>
+            <h3>XP <input type="number" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" /></h3>
             <h3>Advances</h3>
             <ul>
                 {{#each advances as |advance|}}
@@ -64,5 +65,48 @@
                 {{/each}}
             </ul>
         </div>
+    </div>
+
+    <div class="flexrow">
+        <div class="flexcol">
+            
+        
+        <h2>Damage Track</h2>
+        <p>
+            {{#each damageTrackData as |track|}}
+                <label for="track.label">{{track.label}}
+                    <input type="radio" readonly="readonly" name="damageTrack" value="{{track.index}}"
+                    {{#if track.checked}}
+                    checked="checked" 
+                    {{else}}
+                    disabled 
+                    {{/if}}
+                    />
+                </label>
+            {{/each}}
+        </p>
+        <p>{{damageTrackDescription}}</p>
+    </div>
+    </div>
+    <div class="flexrow">
+        <h2>Recovery</h2>
+        <h3>1d6 + {{data.tier}}</h3>
+
+        {{#each recoveriesData as |recovery|}}
+        <label for="recoveries.action">{{recovery.label}}
+            <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{track.label}}"
+            {{#if recovery.checked}}
+            checked
+            {{/if}}
+            />
+        </label>
+        {{/each}}
+    </div>
+    <div class="flexrow">
+        <h2>Combat</h2>
+        <h3>Armor
+            <input type="numeric" name="data.armor" value="{{data.armor}}" min="0" />
+        </h3>
+        <h3>Weapons</h3>
     </div>
 </form>
