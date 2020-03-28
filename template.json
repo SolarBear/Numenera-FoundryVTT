@@ -2,8 +2,7 @@
     "Actor": {
         "types": ["pc", "npc"],
         "pc": {
-            "tier": 1,
-            "xp": 0,
+            "abilities": "",
             "advances": {
                 "statPools": false,
                 "effort": false,
@@ -12,10 +11,18 @@
                 "other": false
             },
             "armor": 0,
+            "background": "",
             "characterType": "",
             "descriptor": "",
+            "equipment": {
+                "weapons": []
+            },
             "focus": "",
-            "effort": 1,
+            "numenera": {
+                "artifacts": "",
+                "cyphers": "",
+                "oddities": ""
+            },
             "stats": {
                 "might": {
                     "pool": {
@@ -45,8 +52,11 @@
                 "oneHour": false,
                 "tenHours": false
             },
-            "skills": [],
-            "shins": 0
+            "skills": "",
+            "shins": 0,
+            "tier": 1,
+            "version": 0,
+            "xp": 0
         },
         "npc": {
             "level": 1,

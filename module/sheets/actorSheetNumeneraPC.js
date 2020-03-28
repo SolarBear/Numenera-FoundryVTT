@@ -54,6 +54,12 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
     const actorType = sheetData.actor.data.characterType || "";
 
+    //Copy labels to be used as is
+    sheetData.ranges = NUMENERA.ranges;
+    sheetData.skillLevels = NUMENERA.skillLevels;
+    sheetData.weaponTypes = NUMENERA.weaponTypes;
+    sheetData.weightClasses = NUMENERA.weightClasses;
+
     //"Augment" the types objects with a new "isActorType" property
     sheetData.types = NUMENERA.types.map(value => {
       return {

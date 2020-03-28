@@ -28,7 +28,10 @@
             <div class="stats" data-stat="{{id}}">
                 <h2>{{id}}</h2 >
 
-                <h3 class="pool">Pool</h3>
+                <!-- <span>
+                    <h3 class="pool roll">Pool</h3>
+                    <button class="roll">Roll!</button>
+                </span> -->
                 <span>
                     <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
                     /
@@ -69,32 +72,29 @@
 
     <div class="flexrow">
         <div class="flexcol">
-            
-        
-        <h2>Damage Track</h2>
-        <p>
-            {{#each damageTrackData as |track|}}
-                <label for="track.label">{{track.label}}
-                    <input type="radio" readonly="readonly" name="damageTrack" value="{{track.index}}"
-                    {{#if track.checked}}
-                    checked="checked" 
-                    {{else}}
-                    disabled 
-                    {{/if}}
-                    />
-                </label>
-            {{/each}}
-        </p>
+            <h2>Damage track</h2>
+            <p>
+                {{#each damageTrackData as |track|}}
+                    <label for="track.label">{{track.label}}
+                        <input type="radio" readonly="readonly" name="damageTrack" value="{{track.index}}"
+                        {{#if track.checked}}
+                        checked="checked" 
+                        {{else}}
+                        disabled 
+                        {{/if}}
+                        />
+                    </label>
+                {{/each}}
+            </p>
         <p>{{damageTrackDescription}}</p>
+        </div>
     </div>
-    </div>
-    <div class="flexrow">
-        <h2>Recovery</h2>
-        <h3>1d6 + {{data.tier}}</h3>
+    <div>
+        <h2>Recovery: 1d6 + {{data.tier}}</h2>
 
         {{#each recoveriesData as |recovery|}}
         <label for="recoveries.action">{{recovery.label}}
-            <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{track.label}}"
+            <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}"
             {{#if recovery.checked}}
             checked
             {{/if}}
@@ -102,11 +102,73 @@
         </label>
         {{/each}}
     </div>
-    <div class="flexrow">
+    <div>
         <h2>Combat</h2>
         <h3>Armor
-            <input type="numeric" name="data.armor" value="{{data.armor}}" min="0" />
+            <input type="number" name="data.armor" value="{{data.armor}}" min="0" />
         </h3>
         <h3>Weapons</h3>
+        <table>
+            <thead>
+                <td>Name</td>
+                <td>Type</td>
+                <td>Damage</td>
+                <td>Range</td>
+                <td>Notes</td>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" placeholder="Weapon name" />
+                    </td>
+                    <td>
+                        <select>
+                            {{#each weightClasses as |weightClass|}}
+                                <option value="{{weightClass}}">{{weightClass}}</option>
+                            {{/each}}
+                        </select>
+                        <select>
+                            {{#each weaponTypes as |weaponType|}}
+                                <option value="{{weaponType}}">{{weaponType}}</option>
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" min="1" />
+                    </td>
+                    <td>
+                        <select>
+                            {{#each ranges as |range|}}
+                                <option value="{{range}}">{{range}}</option>
+                            {{/each}}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <h2>Skills</h2>
+        <textarea name="data.skills">{{data.skills}}</textarea>
+    </div>
+    <div>
+        <h2>Abilities</h2>
+        <textarea name="data.abilities">{{data.abilities}}</textarea>
+    </div>
+    <div>
+        <h2>Numenera</h2>
+        <h3>Artifacts</h3>
+        <textarea name="data.numenera.artifacts">{{data.numenera.artifacts}}</textarea>
+        <h3>Cyphers</h3>
+        <textarea name="data.numenera.cyphers">{{data.numenera.cyphers}}</textarea>
+        <h3>Oddities</h3>
+        <textarea name="data.numenera.oddities">{{data.numenera.oddities}}</textarea>
+    </div>
+    <div>
+        <h2>Background</h2>
+        <textarea name="data.background">{{data.background}}</textarea>
     </div>
 </form>

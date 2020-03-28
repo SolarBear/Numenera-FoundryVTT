@@ -2,34 +2,22 @@
 
 ## Character Sheet
 
-* Basic stats
-    * Effort
 * Damage track
-  * display effects of current damage level
-* Advancement
-  * Tier
-  * XP
-  * Current advances
-* Skills
-  * Skill levels: inability, trained, specialized
-* Attacks
-* Equipment
+  * move near the pools so effects are clearly seen
+* Dynamic lists
   * Weapons
+  * Abilities
+  * Skills
+  * Cyphers
+  * Artifacts
   * Armor
-  * Numenera
-    * Cyphers
-    * Artifacts
 * Recovery
-  * Rest periods
-  * Bonus
   * Recovery rolls
-* Background
-* Notes
 
 ## Game features and mechanics
 
 * Set armor from equipment
-* Set attacks from equipment
+* "Attacks" section
   * Damage
   * Weapons
   * Cyphers
@@ -44,9 +32,5 @@
 * Pools
   * Manage pool expenses for powers, taking Edge into account
   * Manage damage track from changes to the pools
-
-## Dev QoL
-
-* npm command to easily bundle up the whole thing
-  * minify js and css for releases
-* improve stop server + rsync files + restart server workflow
+* Damage Track
+  * remove radio buttons, just display current level?
