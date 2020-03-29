@@ -72,14 +72,13 @@
                     </label>
                 {{/each}}
             </p>
-        <p>{{damageTrackDescription}}</p>
+            <p class="description">{{damageTrackDescription}}</p>
         </div>
     </div>
 
     <div class="flexrow">
         <div class="advances">
-            <h2>Advancement</h2>
-            <h3>XP <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /></h3>
+            <h2>Advancement: <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> XP</h2>
             
             <ul>
                 {{#each advances as |advance|}}

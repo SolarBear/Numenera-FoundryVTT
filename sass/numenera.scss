@@ -16,10 +16,15 @@ li {
 
 h2 {
     border: none;
+    padding-top: 0.5em;
 }
 
 input[data-dtype="Number"] {
     width: 3em;
+}
+
+p.description {
+    font-style: italic;
 }
 
 form.flexcol {
@@ -66,6 +71,7 @@ form.flexcol {
 
             h2 {
                 text-transform: capitalize;
+                padding-top: 0;
 
                 // input {
                 //     margin-left: 1em;
@@ -89,6 +95,5 @@ form.flexcol {
 
     div.flexrow:not(:last-child) {
         border-bottom: 2px solid #782e22;
-        margin-bottom: 1em;
     }
 }
