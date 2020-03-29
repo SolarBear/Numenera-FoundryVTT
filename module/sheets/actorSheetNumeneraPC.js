@@ -13,7 +13,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 800,
+      width: 900,
       height: 1200
     });
   }

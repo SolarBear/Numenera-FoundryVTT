@@ -23,6 +23,7 @@
                 "cyphers": "",
                 "oddities": ""
             },
+            "recovery": 1,
             "stats": {
                 "might": {
                     "pool": {

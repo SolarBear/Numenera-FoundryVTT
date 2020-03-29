@@ -44,29 +44,15 @@
                 </span>
             </div>
         {{/each}}
-    </div>
-
-    <div class="flexrow">
-        <div>
-            <h2>Tier <input type="number" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" /></h2>
-            <h2>Effort <input type="number" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" /></h2>
-
-            <h3>XP <input type="number" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" /></h3>
-            <h3>Advances</h3>
-            <ul>
-                {{#each advances as |advance|}}
-                <li>
-                    <label for="data.advances.{{advance.name}}">
-                    <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean"
-                        {{#if advance.isChecked}}
-                        checked="checked"
-                        {{/if}}
-                    />
-                    {{advance.label}}
-                    </label>
-                </li>
-                {{/each}}
-            </ul>
+        <div class="stats">
+            <h2>Tier</h2>
+            <span>
+                <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" />
+            </span>
+            <h2>Effort</h2>
+            <span>
+                <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" />
+            </span>
         </div>
     </div>
 
@@ -89,19 +75,43 @@
         <p>{{damageTrackDescription}}</p>
         </div>
     </div>
-    <div>
-        <h2>Recovery: 1d6 + {{data.tier}}</h2>
 
+    <div class="flexrow">
+        <div class="advances">
+            <h2>Advancement</h2>
+            <h3>XP <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /></h3>
+            
+            <ul>
+                {{#each advances as |advance|}}
+                <li>
+                    <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean"
+                        {{#if advance.isChecked}}
+                        checked="checked"
+                        {{/if}}
+                    />
+                    <label for="data.advances.{{advance.name}}">{{advance.label}}</label>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class="recovery">
+            <h2>Recovery: 1d6 + <input type="text" name="data.recovery" value="{{data.recovery}}" data-dtype="Number" /></h2>
+
+            <ul>
         {{#each recoveriesData as |recovery|}}
-        <label for="recoveries.action">{{recovery.label}}
+            <li>
             <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}"
             {{#if recovery.checked}}
             checked
             {{/if}}
             />
-        </label>
+                <label for="recoveries.action">{{recovery.label}}</label>
+            </li>
         {{/each}}
+        </ul>
+        </div>
     </div>
+
     <div>
         <h2>Combat</h2>
         <h3>Armor

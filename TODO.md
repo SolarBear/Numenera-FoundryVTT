@@ -2,8 +2,6 @@
 
 ## Character Sheet
 
-* Damage track
-  * move near the pools so effects are clearly seen
 * Dynamic lists
   * Weapons
   * Abilities
@@ -13,6 +11,10 @@
   * Armor
 * Recovery
   * Recovery rolls
+ * Multi-language support
+  * Extract current language in lang.en file
+  * French translation
+  * Politely ask for more translations
 
 ## Game features and mechanics
 

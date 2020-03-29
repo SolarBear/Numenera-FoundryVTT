@@ -18,10 +18,15 @@ h2 {
     border: none;
 }
 
+input[data-dtype="Number"] {
+    width: 3em;
+}
+
 form.flexcol {
     h1.character {
         flex: 0;
         font-size: 24px;
+        margin-bottom: 0;
 
         p {
             input.descriptor {
@@ -44,34 +49,46 @@ form.flexcol {
             padding-left: 1em;
         }
 
+        div.advances, div.recovery {
+            input[type="checkbox"] {
+                display: inline-block;
+            }
 
+            ul {
+                column-count: 2;
+            }
+        }
 
         div.stats {
+            padding-top: 1em;
             text-align: center;
+            padding-bottom: 1em;
 
             h2 {
                 text-transform: capitalize;
 
-                input {
+                // input {
+                //     margin-left: 1em;
+                //     width: 3em;
+                // }
+
+                button.roll {
                     margin-left: 1em;
-                    width: 3em;
+                    background-image: url("/icons/svg/d20-grey.svg"); //!important
                 }
             }
 
-            h3 {
-                input.xp {
-                    margin-left: 1em;
-                    width: 3em;
-                }
-            }
-    
-            input.stats {
-                width: 30px;
-            }
+            // h3 {
+            //     input.xp {
+            //         margin-left: 1em;
+            //         width: 3em;
+            //     }
+            // }
         }
     }
 
     div.flexrow:not(:last-child) {
         border-bottom: 2px solid #782e22;
+        margin-bottom: 1em;
     }
 }
