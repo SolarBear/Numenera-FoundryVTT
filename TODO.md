@@ -15,6 +15,9 @@
   * Extract current language in lang.en file
   * French translation
   * Politely ask for more translations
+* Skills
+  * trained and specialized should be mutually exclusive
+  * filter by stat
 
 ## Game features and mechanics
 

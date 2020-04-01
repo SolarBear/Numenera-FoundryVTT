@@ -53,7 +53,7 @@ form.flexcol {
         }
     }
 
-    div.flexrow {
+    div {
         > div:not(:first-child) {
             border-left: 1px solid #782e22;
             padding-left: 1em;
@@ -78,23 +78,30 @@ form.flexcol {
                 text-transform: capitalize;
                 padding-top: 0;
 
-                // input {
-                //     margin-left: 1em;
-                //     width: 3em;
-                // }
-
                 button.roll {
                     margin-left: 1em;
                     background-image: url("/icons/svg/d20-grey.svg"); //!important
                 }
             }
+        }
 
-            // h3 {
-            //     input.xp {
-            //         margin-left: 1em;
-            //         width: 3em;
-            //     }
-            // }
+        table.skills {
+            border: 0;
+            background-color: transparent;
+
+            td {
+                padding: 5px;
+                margin: 5px 0;
+                font-weight: bold;
+                font-size: 16px;
+                text-align: center;
+                vertical-align: center;
+            }
+
+            tbody td input[type="text"] {
+                text-align: left;
+                width: 30ch;
+            }
         }
     }
 

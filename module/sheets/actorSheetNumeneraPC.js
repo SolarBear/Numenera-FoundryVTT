@@ -95,4 +95,107 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
     return sheetData;
   }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    html.find(".skills").on("click", ".skill-control", this.onClickSkillControl.bind(this));
+
+    //Roll!
+    //html.find(".roll").click(this.onStatRoll.bind(this));
+  }
+
+  //Mostly taken from the Simple Worlduiblding sheet: https://gitlab.com/foundrynet/worldbuilding/-/blob/master/module/actor-sheet.js
+  async onClickSkillControl(event) {
+    event.preventDefault();
+
+    const a = event.currentTarget;
+    const action = a.dataset.action;
+
+    switch (action) {
+      case "create":
+        const table = a.closest("table");
+        const template = table.getElementsByTagName("template")[0];
+        const body = table.getElementsByTagName("tbody")[0];
+
+        if (!template)
+          throw new Error("No row template found in table for onClickSkillControl");
+
+        const newRow = template.content.cloneNode(true);
+        body.appendChild(newRow);
+        await this._onSubmit(event);
+        break;
+        
+      case "delete":
+        const row = a.closest(".skill");
+        row.parentElement.removeChild(row);
+        await this._onSubmit(event);
+        break;
+      default:
+        return;
+    }
+  }
+
+  onStatRoll(event) {
+    // event.preventDefault();
+
+    // //TODO major YUCK, fix this!
+    // const stat = event.target.parentElement.parentElement.dataset.stat;
+
+    // //TODO await?
+    // RollDialog.create(this.actor, stat);
+  }
+
+  /**
+   * Implement the _updateObject method as required by the parent class spec
+   * This defines how to update the subject of the form when the form is submitted
+   * @private
+   */
+  _updateObject(event, formData) {
+
+    // Handle the free-form skills list
+    const formSkills = expandObject(formData).data.skills || {};
+    const pcSkills = this.object.data.data.skills || {};
+
+    const newSkills = new Set(
+      [...Object.keys(formSkills)].filter(s => !pcSkills.hasOwnProperty(s))
+    );
+    const deletedSkills = new Set(
+      [...Object.keys(pcSkills)].filter(s => !formSkills.hasOwnProperty(s))
+    );
+
+    //Remove deleted skills
+    deletedSkills.forEach(sk => {
+      //delete pcSkills[sk];
+      this.object.deleteSkill(sk);
+    });
+
+    newSkills.forEach(sk => {
+      const skill = formSkills[sk];
+      if (typeof skill === 'undefined')
+        throw new Error("Unknown skill " + sk);
+
+      let level;
+      switch (true) {
+        case skill.specialized:
+          level = 2;
+          break;
+        case skill.trained:
+          level = 1;
+          break;
+        default:
+          level = 0;
+      }
+    });
+
+    // Re-combine formData
+    // formData = Object.entries(formData).filter(e => !e[0].startsWith("data.skills"))
+    //   .reduce((obj, e) => {
+    //     obj[e[0]] = e[1];
+    //     return obj;
+    //   }, {_id: this.object._id, "data.skills": pcSkills});
+
+    // Update the Actor
+    return this.object.update(formData);
+  }
 }
