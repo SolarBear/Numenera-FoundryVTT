@@ -124,27 +124,36 @@
             <tbody>
             {{#each data.skills as |skill| }}
                 <tr class="skill">
-                    <td class="skill-name"><input type="text" name="data.skills.{{skill.name}}.name" value="{{skill.name}}" /></td>
-                    <td class="skill-stat"><input type="text" name="data.skills.{{skill.name}}.stat" value="{{skill.stat}}" /></td>
-                    <td class="skill-inability"><input type="checkbox" name="data.skills.{{skill.name}}.inability" 
+                    <td class="skill-name">
+                        <input type="text" name="data.skills.{{skill.name}}.name" value="{{skill.name}}" />
+                    </td>
+                    <td class="skill-stat">
+                        <input type="text" name="data.skills.{{skill.name}}.stat" value="{{skill.stat}}" />
+                    </td>
+                    <td class="skill-inability">
+                        <input type="checkbox" name="data.skills.{{skill.name}}.inability" 
                         {{#if skill.inability}}
                         checked="checked"
                         {{/if}}
                         />
                     </td>
-                    <td class="skill-trained"><input class="skill-trained" type="checkbox" name="data.skills.{{skill.name}}.trained"
+                    <td class="skill-trained">
+                        <input class="skill-trained" type="checkbox" name="data.skills.{{skill.name}}.trained"
                         {{#if skill.trained}}
                         checked="checked"
                         {{/if}}
                         />
                     </td>
-                    <td class="skill-trained"><input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized"
+                    <td class="skill-trained">
+                        <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized"
                         {{#if skill.specialized}}
                         checked="checked"
                         {{/if}}
                         />
                     </td>
-                    <td class="skill-specialized"><a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a></td>
+                    <td>
+                        <a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
                 </tr>
             {{/each}}
             </tbody>
