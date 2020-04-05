@@ -103,11 +103,11 @@
         <table class="skills">
             <template>
                 <tr class="skill">
-                    <td class="skill-name"><input type="text" name="data.skills._XYZ_.name" value="" /></td>
-                    <td class="skill-stat"><input type="text" name="data.skills._XYZ_.stat" value="" /></td>
-                    <td class="skill-inability"><input type="checkbox" name="data.skills._XYZ_.inability" /></td>
-                    <td class="skill-trained"><input class="skill-trained" type="checkbox" name="data.skills._XYZ_.trained" /></td>
-                    <td class="skill-specialized"><input class="skill-specialized" type="checkbox" name="data.skills._XYZ_.specialized" /></td>
+                    <td class="skill-name"><input type="text" value="" class="skill-name-input" /></td>
+                    <td class="skill-stat"><input type="text" value="" /></td>
+                    <td class="skill-inability"><input type="checkbox" /></td>
+                    <td class="skill-trained"><input type="checkbox" /></td>
+                    <td class="skill-specialized"><input class="skill-specialized" type="checkbox"/></td>
                     <td><a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a></td>
                 </tr>  
             </template>
@@ -125,30 +125,30 @@
             {{#each data.skills as |skill| }}
                 <tr class="skill">
                     <td class="skill-name">
-                        <input type="text" name="data.skills.{{skill.name}}.name" value="{{skill.name}}" />
+                        <input type="text" name="data.skills.{{skill.name}}.name" value="{{skill.name}}" class="skill-name-input" />
                     </td>
                     <td class="skill-stat">
                         <input type="text" name="data.skills.{{skill.name}}.stat" value="{{skill.stat}}" />
                     </td>
                     <td class="skill-inability">
                         <input type="checkbox" name="data.skills.{{skill.name}}.inability" 
-                        {{#if skill.inability}}
-                        checked="checked"
-                        {{/if}}
+                            {{#if skill.inability}}
+                            checked="checked"
+                            {{/if}}
                         />
                     </td>
                     <td class="skill-trained">
                         <input class="skill-trained" type="checkbox" name="data.skills.{{skill.name}}.trained"
-                        {{#if skill.trained}}
-                        checked="checked"
-                        {{/if}}
+                            {{#if skill.trained}}
+                            checked="checked"
+                            {{/if}}
                         />
                     </td>
                     <td class="skill-trained">
                         <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized"
-                        {{#if skill.specialized}}
-                        checked="checked"
-                        {{/if}}
+                            {{#if skill.specialized}}
+                            checked="checked"
+                            {{/if}}
                         />
                     </td>
                     <td>
@@ -181,14 +181,14 @@
                     </td>
                     <td>
                         <select>
-                            {{#each weightClasses as |weightClass|}}
-                                <option value="{{weightClass}}">{{weightClass}}</option>
-                            {{/each}}
+                        {{#each weightClasses as |weightClass|}}
+                            <option value="{{weightClass}}">{{weightClass}}</option>
+                        {{/each}}
                         </select>
                         <select>
-                            {{#each weaponTypes as |weaponType|}}
-                                <option value="{{weaponType}}">{{weaponType}}</option>
-                            {{/each}}
+                        {{#each weaponTypes as |weaponType|}}
+                            <option value="{{weaponType}}">{{weaponType}}</option>
+                        {{/each}}
                         </select>
                     </td>
                     <td>
@@ -196,9 +196,9 @@
                     </td>
                     <td>
                         <select>
-                            {{#each ranges as |range|}}
-                                <option value="{{range}}">{{range}}</option>
-                            {{/each}}
+                        {{#each ranges as |range|}}
+                            <option value="{{range}}">{{range}}</option>
+                        {{/each}}
                         </select>
                     </td>
                     <td>

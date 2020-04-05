@@ -1,5 +1,4 @@
 import { NUMENERA } from '../config.js';
-import { NUMENERA } from '../config.js'
 
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
@@ -99,10 +98,9 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    html.find(".skills").on("click", ".skill-control", this.onClickSkillControl.bind(this));
-
-    //Roll!
-    //html.find(".roll").click(this.onStatRoll.bind(this));
+    const skillsTable = html.find("table.skills");
+    skillsTable.on("click", "thead .skill-control", this.onClickSkillControl.bind(this));
+    skillsTable.on("blur", "tbody input.skill-name-input", this.onSkillNameChange.bind(this));
   }
 
   //Mostly taken from the Simple Worlduiblding sheet: https://gitlab.com/foundrynet/worldbuilding/-/blob/master/module/actor-sheet.js
@@ -123,7 +121,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
         const newRow = template.content.cloneNode(true);
         body.appendChild(newRow);
-        await this._onSubmit(event);
         break;
         
       case "delete":
@@ -131,19 +128,26 @@ export class ActorSheetNumeneraPC extends ActorSheet {
         row.parentElement.removeChild(row);
         await this._onSubmit(event);
         break;
+
       default:
         return;
     }
   }
 
-  onStatRoll(event) {
-    // event.preventDefault();
+  async onSkillNameChange(event) {
+    event.preventDefault();
 
-    // //TODO major YUCK, fix this!
-    // const stat = event.target.parentElement.parentElement.dataset.stat;
+    const input = event.currentTarget;
 
-    // //TODO await?
-    // RollDialog.create(this.actor, stat);
+    //TODO Hello! I'm a hack. Please obliterate me as violently as possible! Thank you! :)
+    const row = event.currentTarget.closest(".skill");
+    row.children[0].children[0].name = `data.skills.${input.value}.name`;
+    row.children[1].children[0].name = `data.skills.${input.value}.stat`;
+    row.children[2].children[0].name = `data.skills.${input.value}.inability`;
+    row.children[3].children[0].name = `data.skills.${input.value}.trained`;
+    row.children[4].children[0].name = `data.skills.${input.value}.specialized`;
+
+    await this._onSubmit(event);
   }
 
   /**
@@ -152,48 +156,28 @@ export class ActorSheetNumeneraPC extends ActorSheet {
    * @private
    */
   _updateObject(event, formData) {
+    const fd = expandObject(formData);
+    const formSkills = fd.data.skills || {};
 
-    // Handle the free-form skills list
-    const formSkills = expandObject(formData).data.skills || {};
-    const pcSkills = this.object.data.data.skills || {};
-
-    const newSkills = new Set(
-      [...Object.keys(formSkills)].filter(s => !pcSkills.hasOwnProperty(s))
-    );
-    const deletedSkills = new Set(
-      [...Object.keys(pcSkills)].filter(s => !formSkills.hasOwnProperty(s))
-    );
-
-    //Remove deleted skills
-    deletedSkills.forEach(sk => {
-      //delete pcSkills[sk];
-      this.object.deleteSkill(sk);
-    });
-
-    newSkills.forEach(sk => {
-      const skill = formSkills[sk];
-      if (typeof skill === 'undefined')
-        throw new Error("Unknown skill " + sk);
-
-      let level;
-      switch (true) {
-        case skill.specialized:
-          level = 2;
-          break;
-        case skill.trained:
-          level = 1;
-          break;
-        default:
-          level = 0;
-      }
-    });
+    const skills = Object.values(formSkills).reduce((obj, v) => {
+      const name = v["name"].trim();
+      obj[name] = v;
+      return obj;
+    }, {});
+    
+    // Remove skills which are no longer used
+    for (let sk of Object.keys(this.object.data.data.skills) ) {
+      if (sk && !skills.hasOwnProperty(sk)) 
+        skills[`-=${sk}`] = null;
+    }
 
     // Re-combine formData
-    // formData = Object.entries(formData).filter(e => !e[0].startsWith("data.skills"))
-    //   .reduce((obj, e) => {
-    //     obj[e[0]] = e[1];
-    //     return obj;
-    //   }, {_id: this.object._id, "data.skills": pcSkills});
+    formData = Object.entries(formData)
+    .filter(e => !e[0].startsWith("data.skills"))
+    .reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {_id: this.object._id, "data.skills": skills});
 
     // Update the Actor
     return this.object.update(formData);

@@ -1,13 +1,5 @@
 import { NUMENERA } from "./config.js";
 
-const skillTemplate = {
-  id: "",
-  name: "",
-  stat: "", //related stat: might, speed or intellect
-  inability: false,
-  level: 0, //0: unskilled (default), 1: trained, 2: specialized
-};
-
 const effortObject = {
   cost: 0,
   effortLevel: 0,
@@ -157,14 +149,4 @@ export class ActorNumeneraPC extends Actor {
 
     return value;
   }
-
-  // rollStat(statId, options={}) {
-  //   return numeneraRoll({
-  //     statId,
-  //     event: options.event,
-  //     actor: this,
-  //     title: `${NUMENERA.stats[statId[0]]} Roll`,
-  //     speaker: ChatMessage.getSpeaker({actor: this}),
-  //   });
-  // }
 }
