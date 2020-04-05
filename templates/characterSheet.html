@@ -52,7 +52,7 @@
             <p>
                 {{#each damageTrackData as |track|}}
                     <label for="track.label">{{track.label}}
-                        <input type="radio" readonly="readonly" name="damageTrack" value="{{track.index}}"
+                        <input type="radio" readonly="readonly" value="{{track.index}}"
                         {{#if track.checked}}
                         checked="checked" 
                         {{else}}
