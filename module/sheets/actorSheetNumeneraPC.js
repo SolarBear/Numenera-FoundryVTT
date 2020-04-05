@@ -135,6 +135,15 @@ export class ActorSheetNumeneraPC extends ActorSheet {
       };
     });
 
+    //Skills section
+    sheetData.skills = Object.values(sheetData.actor.data.skills).forEach(skill => {
+      skill.stats = NUMENERA.stats.map(stat => {
+        return {
+          label: stat,
+          checked: stat === skill.stat,
+        }
+      })
+    });
 
     //Weapons section
     sheetData.equipment = sheetData.actor.data.equipment || {};

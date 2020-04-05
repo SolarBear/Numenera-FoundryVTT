@@ -128,7 +128,16 @@
                         <input type="text" name="data.skills.{{skill.name}}.name" value="{{skill.name}}" class="skill-name-input" />
                     </td>
                     <td class="skill-stat">
-                        <input type="text" name="data.skills.{{skill.name}}.stat" value="{{skill.stat}}" />
+                        <select name="data.skills.{{skill.name}}.stat">
+                            {{#each skill.stats}}
+                                <option value="{{this.label}}"
+                                    {{#if this.checked}}
+                                    selected="selected"
+                                    {{/if}}
+                                >{{this.label}}
+                                </option>
+                            {{/each}}
+                            </select>
                     </td>
                     <td class="skill-inability">
                         <input type="checkbox" name="data.skills.{{skill.name}}.inability" 
