@@ -1,9 +1,4 @@
 <form class="{{cssClass}} flexcol " autocomplete="off">
-    <!-- <nav class="sheet-navigation tabs">
-		<a class="item active" data-tab="sheet"></a>
-		<a class="item" data-tab="biography"></a>
-	</nav> -->
-
     <h1 class="character flexrow">
         <p>
             <span class="charname">{{actor.name}}</span> is a
@@ -24,49 +19,30 @@
     </h1>
 
     <div class="flexrow">
-        {{#each data.stats as |stat id|}}
-            <div class="stats" data-stat="{{id}}">
-                <h2>{{id}}</h2 >
+    {{#each data.stats as |stat id|}}
+        <div class="stats" data-stat="{{id}}">
+            <h2>{{id}}</h2 >
+            <span>
+                <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                /
+                <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
+            </span>
 
-                <!-- <span>
-                    <h3 class="pool roll">Pool</h3>
-                    <button class="roll">Roll!</button>
-                </span> -->
-                <span>
-                    <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
-                    /
-                    <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
-                </span>
-
-                <h3>Edge</h3>
-                <span>
-                    <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
-                </span>
-            </div>
-        {{/each}}
-    </div>
-
-    <div class="flexrow">
-        <div>
-            <h2>Tier <input type="number" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" /></h2>
-            <h2>Effort <input type="number" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" /></h2>
-
-            <h3>XP <input type="number" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" /></h3>
-            <h3>Advances</h3>
-            <ul>
-                {{#each advances as |advance|}}
-                <li>
-                    <label for="data.advances.{{advance.name}}">
-                    <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean"
-                        {{#if advance.isChecked}}
-                        checked="checked"
-                        {{/if}}
-                    />
-                    {{advance.label}}
-                    </label>
-                </li>
-                {{/each}}
-            </ul>
+            <h3>Edge</h3>
+            <span>
+                <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
+            </span>
+        </div>
+    {{/each}}
+        <div class="stats">
+            <h2>Tier</h2>
+            <span>
+                <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" />
+            </span>
+            <h2>Effort</h2>
+            <span>
+                <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" />
+            </span>
         </div>
     </div>
 
@@ -86,22 +62,104 @@
                     </label>
                 {{/each}}
             </p>
-        <p>{{damageTrackDescription}}</p>
+            <p class="description">{{damageTrackDescription}}</p>
+        </div>
+        <div class="advances">
+            <h2>Advancement: <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> XP</h2>
+            
+            <ul>
+                {{#each advances as |advance|}}
+                <li>
+                    <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean"
+                        {{#if advance.isChecked}}
+                        checked="checked"
+                        {{/if}}
+                    />
+                    <label for="data.advances.{{advance.name}}">{{advance.label}}</label>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class="recovery">
+            <h2>Recovery: 1d6 + <input type="text" name="data.recovery" value="{{data.recovery}}" data-dtype="Number" /></h2>
+
+            <ul>
+            {{#each recoveriesData as |recovery|}}
+            <li>
+                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}"
+                {{#if recovery.checked}}
+                checked
+                {{/if}}
+                />
+                <label for="recoveries.action">{{recovery.label}}</label>
+            </li>
+            {{/each}}
+        </ul>
         </div>
     </div>
-    <div>
-        <h2>Recovery: 1d6 + {{data.tier}}</h2>
 
-        {{#each recoveriesData as |recovery|}}
-        <label for="recoveries.action">{{recovery.label}}
-            <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}"
-            {{#if recovery.checked}}
-            checked
-            {{/if}}
-            />
-        </label>
-        {{/each}}
+    <div>
+        <h2>Skills</h2>
+        <table class="skills">
+            <template>
+                <tr class="skill">
+                    <td class="skill-name"><input type="text" value="" class="skill-name-input" /></td>
+                    <td class="skill-stat"><input type="text" value="" /></td>
+                    <td class="skill-inability"><input type="checkbox" /></td>
+                    <td class="skill-trained"><input type="checkbox" /></td>
+                    <td class="skill-specialized"><input class="skill-specialized" type="checkbox"/></td>
+                    <td><a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a></td>
+                </tr>  
+            </template>
+            <thead>
+                <tr>
+                    <td class="skill-name">Name</td>
+                    <td class="skill-stat">Stat</td>
+                    <td class="skill-inability">Inability</td>
+                    <td class="skill-trained">Trained</td>
+                    <td class="skill-specialized">Specialized</td>
+                    <td><a class="skill-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each data.skills as |skill| }}
+                <tr class="skill">
+                    <td class="skill-name">
+                        <input type="text" name="data.skills.{{skill.name}}.name" value="{{skill.name}}" class="skill-name-input" />
+                    </td>
+                    <td class="skill-stat">
+                        <input type="text" name="data.skills.{{skill.name}}.stat" value="{{skill.stat}}" />
+                    </td>
+                    <td class="skill-inability">
+                        <input type="checkbox" name="data.skills.{{skill.name}}.inability" 
+                            {{#if skill.inability}}
+                            checked="checked"
+                            {{/if}}
+                        />
+                    </td>
+                    <td class="skill-trained">
+                        <input class="skill-trained" type="checkbox" name="data.skills.{{skill.name}}.trained"
+                            {{#if skill.trained}}
+                            checked="checked"
+                            {{/if}}
+                        />
+                    </td>
+                    <td class="skill-trained">
+                        <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized"
+                            {{#if skill.specialized}}
+                            checked="checked"
+                            {{/if}}
+                        />
+                    </td>
+                    <td>
+                        <a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
     </div>
+
     <div>
         <h2>Combat</h2>
         <h3>Armor
@@ -123,14 +181,14 @@
                     </td>
                     <td>
                         <select>
-                            {{#each weightClasses as |weightClass|}}
-                                <option value="{{weightClass}}">{{weightClass}}</option>
-                            {{/each}}
+                        {{#each weightClasses as |weightClass|}}
+                            <option value="{{weightClass}}">{{weightClass}}</option>
+                        {{/each}}
                         </select>
                         <select>
-                            {{#each weaponTypes as |weaponType|}}
-                                <option value="{{weaponType}}">{{weaponType}}</option>
-                            {{/each}}
+                        {{#each weaponTypes as |weaponType|}}
+                            <option value="{{weaponType}}">{{weaponType}}</option>
+                        {{/each}}
                         </select>
                     </td>
                     <td>
@@ -138,9 +196,9 @@
                     </td>
                     <td>
                         <select>
-                            {{#each ranges as |range|}}
-                                <option value="{{range}}">{{range}}</option>
-                            {{/each}}
+                        {{#each ranges as |range|}}
+                            <option value="{{range}}">{{range}}</option>
+                        {{/each}}
                         </select>
                     </td>
                     <td>
@@ -149,10 +207,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <div>
-        <h2>Skills</h2>
-        <textarea name="data.skills">{{data.skills}}</textarea>
     </div>
     <div>
         <h2>Abilities</h2>

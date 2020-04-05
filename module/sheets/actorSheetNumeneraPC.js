@@ -1,5 +1,4 @@
 import { NUMENERA } from '../config.js';
-import { NUMENERA } from '../config.js'
 
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
@@ -13,8 +12,8 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 800,
-      height: 1200
+      width: 925,
+      height: 1100
     });
   }
 
@@ -94,5 +93,93 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     });
 
     return sheetData;
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    const skillsTable = html.find("table.skills");
+    skillsTable.on("click", "thead .skill-control", this.onClickSkillControl.bind(this));
+    skillsTable.on("blur", "tbody input.skill-name-input", this.onSkillNameChange.bind(this));
+  }
+
+  //Mostly taken from the Simple Worlduiblding sheet: https://gitlab.com/foundrynet/worldbuilding/-/blob/master/module/actor-sheet.js
+  async onClickSkillControl(event) {
+    event.preventDefault();
+
+    const a = event.currentTarget;
+    const action = a.dataset.action;
+
+    switch (action) {
+      case "create":
+        const table = a.closest("table");
+        const template = table.getElementsByTagName("template")[0];
+        const body = table.getElementsByTagName("tbody")[0];
+
+        if (!template)
+          throw new Error("No row template found in table for onClickSkillControl");
+
+        const newRow = template.content.cloneNode(true);
+        body.appendChild(newRow);
+        break;
+        
+      case "delete":
+        const row = a.closest(".skill");
+        row.parentElement.removeChild(row);
+        await this._onSubmit(event);
+        break;
+
+      default:
+        return;
+    }
+  }
+
+  async onSkillNameChange(event) {
+    event.preventDefault();
+
+    const input = event.currentTarget;
+
+    //TODO Hello! I'm a hack. Please obliterate me as violently as possible! Thank you! :)
+    const row = event.currentTarget.closest(".skill");
+    row.children[0].children[0].name = `data.skills.${input.value}.name`;
+    row.children[1].children[0].name = `data.skills.${input.value}.stat`;
+    row.children[2].children[0].name = `data.skills.${input.value}.inability`;
+    row.children[3].children[0].name = `data.skills.${input.value}.trained`;
+    row.children[4].children[0].name = `data.skills.${input.value}.specialized`;
+
+    await this._onSubmit(event);
+  }
+
+  /**
+   * Implement the _updateObject method as required by the parent class spec
+   * This defines how to update the subject of the form when the form is submitted
+   * @private
+   */
+  _updateObject(event, formData) {
+    const fd = expandObject(formData);
+    const formSkills = fd.data.skills || {};
+
+    const skills = Object.values(formSkills).reduce((obj, v) => {
+      const name = v["name"].trim();
+      obj[name] = v;
+      return obj;
+    }, {});
+    
+    // Remove skills which are no longer used
+    for (let sk of Object.keys(this.object.data.data.skills) ) {
+      if (sk && !skills.hasOwnProperty(sk)) 
+        skills[`-=${sk}`] = null;
+    }
+
+    // Re-combine formData
+    formData = Object.entries(formData)
+    .filter(e => !e[0].startsWith("data.skills"))
+    .reduce((obj, e) => {
+      obj[e[0]] = e[1];
+      return obj;
+    }, {_id: this.object._id, "data.skills": skills});
+
+    // Update the Actor
+    return this.object.update(formData);
   }
 }

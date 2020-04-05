@@ -16,12 +16,27 @@ li {
 
 h2 {
     border: none;
+    padding-top: 0.5em;
+}
+
+input[data-dtype="Number"] {
+    width: 2em;
+}
+
+select.characterType {
+    font-size: 24px;
+    height: auto;
+}
+
+p.description {
+    font-style: italic;
 }
 
 form.flexcol {
     h1.character {
         flex: 0;
         font-size: 24px;
+        margin-bottom: 0;
 
         p {
             input.descriptor {
@@ -38,35 +53,54 @@ form.flexcol {
         }
     }
 
-    div.flexrow {
+    div {
         > div:not(:first-child) {
             border-left: 1px solid #782e22;
             padding-left: 1em;
         }
 
+        div.advances, div.recovery {
+            input[type="checkbox"] {
+                display: inline-block;
+            }
 
+            ul {
+                column-count: 2;
+            }
+        }
 
         div.stats {
+            padding-top: 1em;
             text-align: center;
+            padding-bottom: 1em;
 
             h2 {
                 text-transform: capitalize;
+                padding-top: 0;
 
-                input {
+                button.roll {
                     margin-left: 1em;
-                    width: 3em;
+                    background-image: url("/icons/svg/d20-grey.svg"); //!important
                 }
             }
+        }
 
-            h3 {
-                input.xp {
-                    margin-left: 1em;
-                    width: 3em;
-                }
+        table.skills {
+            border: 0;
+            background-color: transparent;
+
+            td {
+                padding: 5px;
+                margin: 5px 0;
+                font-weight: bold;
+                font-size: 16px;
+                text-align: center;
+                vertical-align: center;
             }
-    
-            input.stats {
-                width: 30px;
+
+            tbody td input[type="text"] {
+                text-align: left;
+                width: 30ch;
             }
         }
     }

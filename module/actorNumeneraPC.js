@@ -1,13 +1,5 @@
 import { NUMENERA } from "./config.js";
 
-const skillTemplate = {
-  id: "",
-  name: "",
-  stat: "", //related stat: might, speed or intellect
-  level: 0, //-1: inability, 0: unskilled (default), 1: trained, 2: specialized
-  type: "other", //type of skills: one of "attack", "defense" or "other"
-};
-
 const effortObject = {
   cost: 0,
   effortLevel: 0,
@@ -32,11 +24,57 @@ export class ActorNumeneraPC extends Actor {
    * @memberof ActorNumeneraPC
    */
   getSkillLevel(skillId) {
-    if (this.skills[skillId]) {
-      return this.skills[skillId].level;
+    const skills = this.data.data.skills || {};
+
+    if (skills.hasOwnProperty(skillId)) {
+      return skills[skillId].level;
     }
 
     return 0; //defauklt skill level, aka unskilled
+  }
+
+  /**
+   * Add a new skill to the PC actor.
+   *
+   * @param {string} name Name of the skill
+   * @param {string} stat Stat used for that skill (Might, Speed or Intellect)
+   * @param {number} [level=1] Skill level (0 = untrained, 1 = trained, 2 = specialized)
+   * @param {boolean} [inability=false] Inability
+   * @returns The new skill object
+   * @memberof ActorNumeneraPC
+   */
+  addSkill(name, stat, level=1, inability=false) {
+    if (this.getSkillLevel(name)) {
+      throw new Error("This PC already have the skill " + name);
+    }
+
+    const id = name.replace(" ", ""); //id will be the skill name, without whitespace
+    const skill = {
+      id,
+      name,
+      stat,
+      level,
+      inability,
+    };
+
+    this.data.data.skills[id] = skill;
+    return skill;
+  }
+
+  /**
+   * Delete a skill from a PC actor's list.
+   *
+   * @param {string} skillId String ID of the skill to delete
+   * @returns The remaining skills
+   * @memberof ActorNumeneraPC
+   */
+  deleteSkill(skillId) {
+    if (!this.data.data.skills.hasOwnProperty(skillId)) {
+      throw new Error("This PC does not have that skill");
+    }
+
+    delete this.data.data.skills[skillId];
+    return this.data.data.skills;
   }
 
   /**
@@ -66,29 +104,6 @@ export class ActorNumeneraPC extends Actor {
 
     if (actorData.version === undefined || actorData.version < 1)
     {
-      //TODO REMOVE THIS
-      // actorData.skills = [
-      //   {
-      //     id: 'lightbladed',
-      //     name: "Light Bladed weapons",
-      //     stat: "might",
-      //     level: 1,
-      //     type: "attack",
-      //   }, {
-      //     id: "speeddefense",
-      //     name: "Speed Defense",
-      //     stat: "speed",
-      //     level: -1,
-      //     type: "defense",
-      //   }, {
-      //     id: "understandingnumenera",
-      //     name: "Understanding Numenera",
-      //     stat: "intellect",
-      //     level: 2,
-      //     type: "other",
-      //   },
-      // ];
-  
       Object.entries(actorData.stats).forEach((stat, i) => {
         return {
           ...stat,
@@ -134,14 +149,4 @@ export class ActorNumeneraPC extends Actor {
 
     return value;
   }
-
-  // rollStat(statId, options={}) {
-  //   return numeneraRoll({
-  //     statId,
-  //     event: options.event,
-  //     actor: this,
-  //     title: `${NUMENERA.stats[statId[0]]} Roll`,
-  //     speaker: ChatMessage.getSpeaker({actor: this}),
-  //   });
-  // }
 }

@@ -23,6 +23,7 @@
                 "cyphers": "",
                 "oddities": ""
             },
+            "recovery": 1,
             "stats": {
                 "might": {
                     "pool": {
@@ -52,7 +53,7 @@
                 "oneHour": false,
                 "tenHours": false
             },
-            "skills": "",
+            "skills": {},
             "shins": 0,
             "tier": 1,
             "version": 0,
