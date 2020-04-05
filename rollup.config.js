@@ -6,11 +6,21 @@ import zip from 'rollup-plugin-zip';
 const releaseBuild = true;
 const destinationDir = 'dist';
 
+const toBundle = [
+  'template.json',
+  'system.json',
+  'numenera.css',
+  'templates/characterSheet.html',
+  'templates/npcSheet.html',
+  'templates/roll-dialog.html',
+];
+
 export default [
   {
     input: 'numenera.js',
     output: {
-      file: `${destinationDir}/numenera.js`,
+      //file: `${destinationDir}/numenera.js`,
+      dir: destinationDir,
       format: 'umd',
     },
     plugins: [
@@ -23,16 +33,11 @@ export default [
         output: true,
       }),
       copy({
-        assets: [
-          'template.json',
-          'system.json',
-          'numenera.css',
-          'templates/characterSheet.html',
-          'templates/npcSheet.html',
-          'templates/roll-dialog.html',
-        ],
+        assets: toBundle,
       }),
-      zip(),
+      zip({
+        dir: destinationDir,
+      }),
     ],
   },
 ];
