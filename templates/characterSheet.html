@@ -165,21 +165,15 @@
         <h3>Armor
             <input type="number" name="data.armor" value="{{data.armor}}" min="0" />
         </h3>
+
         <h3>Weapons</h3>
-        <table>
-            <thead>
-                <td>Name</td>
-                <td>Type</td>
-                <td>Damage</td>
-                <td>Range</td>
-                <td>Notes</td>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <input type="text" placeholder="Weapon name" />
+        <table class="weapons">
+            <template>
+                <tr class="weapon">
+                    <td class="weapon-name">
+                        <input type="text" name="weapon" placeholder="Weapon name" class="weapon-name-input" />
                     </td>
-                    <td>
+                    <td class="weapon-weight-type">
                         <select>
                         {{#each weightClasses as |weightClass|}}
                             <option value="{{weightClass}}">{{weightClass}}</option>
@@ -191,20 +185,84 @@
                         {{/each}}
                         </select>
                     </td>
-                    <td>
-                        <input type="number" min="1" />
+                    <td class="weapon-damage">
+                        <input type="number" min="1" value="1" />
                     </td>
-                    <td>
+                    <td class="weapon-range">
                         <select>
                         {{#each ranges as |range|}}
                             <option value="{{range}}">{{range}}</option>
                         {{/each}}
                         </select>
                     </td>
-                    <td>
+                    <td class="weapon-notes">
                         <input type="text" />
                     </td>
+                    <td>
+                        <a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
                 </tr>
+            </template>
+            <thead>
+                <td>Name</td>
+                <td>Type</td>
+                <td>Damage</td>
+                <td>Range</td>
+                <td>Notes</td>
+                <td><a class="weapon-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+            </thead>
+            <tbody>
+            {{#each data.equipment.weapons as |weapon|}}
+                <tr class="weapon">
+                    <td class="weapon-name">
+                        <input type="text" name="data.equipment.weapons.{{weapon.name}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
+                    </td>
+                    <td class="weapon-weight-type">
+                        <select name="data.equipment.weapons.{{weapon.name}}.weight">
+                        {{#each weapon.weightClasses as |weightClass|}}
+                            <option value="{{weightClass.label}}"
+                                {{#if weightClass.checked}}
+                                selected="selected"
+                                {{/if}}
+                            >{{weightClass.label}}
+                            </option>
+                        {{/each}}
+                        </select>
+
+                        <select name="data.equipment.weapons.{{weapon.name}}.type">
+                        {{#each weapon.weaponTypes as |weaponType|}}
+                            <option value="{{weaponType.label}}"
+                                {{#if weaponType.checked}}
+                                selected="selected"
+                                {{/if}}
+                            >{{weaponType.label}}
+                            </option>
+                        {{/each}}
+                        </select>
+                    </td>
+                    <td class="weapon-damage">
+                        <input type="number"name="data.equipment.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.damage}}" />
+                    </td>
+                    <td class="weapon-range">
+                        <select name="data.equipment.weapons.{{weapon.name}}.range">
+                        {{#each weapon.ranges as |range|}}
+                            <option value="{{range.label}}"
+                                {{#if range.checked}}
+                                selected="selected"
+                                {{/if}}
+                            >{{range.label}}
+                            </option>
+                        {{/each}}
+                        </select>
+                    </td>
+                    <td class="weapon-notes">
+                        <input type="text" name="data.equipment.weapons.{{weapon.name}}.notes" value="{{weapon.notes}}" />
+                    </td>
+                    <td>
+                        <a class="weapon-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            {{/each}}
             </tbody>
         </table>
     </div>

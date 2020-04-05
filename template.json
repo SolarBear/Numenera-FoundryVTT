@@ -15,7 +15,7 @@
             "characterType": "",
             "descriptor": "",
             "equipment": {
-                "weapons": []
+                "weapons": {}
             },
             "focus": "",
             "numenera": {
@@ -71,7 +71,8 @@
             "interaction": "",
             "use": "",
             "loot": "",
-            "gmIntrusion": ""
+            "gmIntrusion": "",
+            "version": 0
         }
     },
     "Items": {
@@ -101,8 +102,8 @@
         },
         "weapon": {
             "templates": ["common", "weightCategory"],
-            "damage": 0,
-            "easeAttackLevel": false
+            "stat": "",
+            "damage": 0
         },
         "cypher": {
             "templates": ["common", "numenera"]

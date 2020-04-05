@@ -1,10 +1,10 @@
 export const NUMENERA = {};
 
-NUMENERA.weightClasses = {
-  'l': 'Light',
-  'm': 'Medium',
-  'h': 'Heavy'
-};
+NUMENERA.weightClasses = [
+  'Light',
+  'Medium',
+  'Heavy'
+];
 
 NUMENERA.weaponTypes = [
   'Bashing',
