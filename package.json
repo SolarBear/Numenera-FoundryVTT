@@ -6,6 +6,7 @@
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2",
+    "jslint": "^0.12.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "rollup": "^1.32.0",
