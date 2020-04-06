@@ -12,11 +12,11 @@ NUMENERA.weaponTypes = [
   'Ranged',
 ]
 
-NUMENERA.stats = {
-  'i': 'Intellect',
-  'm': 'Might',
-  's': 'Speed'
-};
+NUMENERA.stats = [
+  'Might',
+  'Speed',
+  'Intellect',
+];
 
 NUMENERA.skillLevels = {
   'i': 'Inability',
@@ -53,7 +53,7 @@ NUMENERA.types = [
 ];
 
 NUMENERA.typePowers = {
-  'g': 'Combat Manoeuvers',
+  'g': 'Combat Maneuvers',
   'j': 'Tricks of the Trade',
   'n': 'Esoteries',
   'a': 'Precepts',

@@ -176,6 +176,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     });
 
     //Abilities section
+    sheetData.abilitiesName = NUMENERA.typePowers[actorType];
     sheetData.abilities = Object.values(sheetData.actor.data.abilities).forEach(ability => {
       ability.cost = ability.cost || {};
       ability.cost.stats = NUMENERA.stats.map(stat => {
