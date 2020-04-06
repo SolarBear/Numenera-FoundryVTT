@@ -15,6 +15,20 @@ export class ActorNumeneraPC extends Actor {
 
     return data.tier + (data.advances.effort ? 1 : 0);
   }
+
+  /**
+   * Get the current PC's level on the damage track as an integer, 0 being Hale and 3 being Dead.
+   * @type {Object} stats Stats object (see template.json)
+   */
+  damageTrackLevel(stats = null) {
+    if (stats === null)
+      stats = this.data.data.stats;
+
+    //Each stat pool whose value is 0 counts as being one step higher on the damage track
+    return Object.values(stats).filter(stat => {
+      return stat.pool.current === 0;
+    }).length;
+  }
   
   /**
    * Given a skill ID, return this skill's level as a a numeric value.
@@ -123,7 +137,7 @@ export class ActorNumeneraPC extends Actor {
     if (effortLevel === 0) {
       return value;
     }
-
+        
     const actorData = this.data.data;
     const stat = actorData.stats[statId];
 

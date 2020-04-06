@@ -52,7 +52,7 @@
             <p>
                 {{#each damageTrackData as |track|}}
                     <label for="track.label">{{track.label}}
-                        <input type="radio" readonly="readonly" name="damageTrack" value="{{track.index}}"
+                        <input type="radio" readonly="readonly" value="{{track.index}}"
                         {{#if track.checked}}
                         checked="checked" 
                         {{else}}
@@ -104,10 +104,16 @@
             <template>
                 <tr class="skill">
                     <td class="skill-name"><input type="text" value="" class="skill-name-input" /></td>
-                    <td class="skill-stat"><input type="text" value="" /></td>
+                    <td class="skill-stat">
+                        <select>
+                        {{#each stats}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                        </select>
+                    </td>
                     <td class="skill-inability"><input type="checkbox" /></td>
                     <td class="skill-trained"><input type="checkbox" /></td>
-                    <td class="skill-specialized"><input class="skill-specialized" type="checkbox"/></td>
+                    <td class="skill-specialized"><input type="checkbox"/></td>
                     <td><a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a></td>
                 </tr>  
             </template>
@@ -128,7 +134,16 @@
                         <input type="text" name="data.skills.{{skill.name}}.name" value="{{skill.name}}" class="skill-name-input" />
                     </td>
                     <td class="skill-stat">
-                        <input type="text" name="data.skills.{{skill.name}}.stat" value="{{skill.stat}}" />
+                        <select name="data.skills.{{skill.name}}.stat">
+                            {{#each skill.stats}}
+                                <option value="{{this.label}}"
+                                    {{#if this.checked}}
+                                    selected="selected"
+                                    {{/if}}
+                                >{{this.label}}
+                                </option>
+                            {{/each}}
+                            </select>
                     </td>
                     <td class="skill-inability">
                         <input type="checkbox" name="data.skills.{{skill.name}}.inability" 
@@ -144,7 +159,7 @@
                             {{/if}}
                         />
                     </td>
-                    <td class="skill-trained">
+                    <td class="skill-specialized">
                         <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized"
                             {{#if skill.specialized}}
                             checked="checked"
@@ -165,21 +180,15 @@
         <h3>Armor
             <input type="number" name="data.armor" value="{{data.armor}}" min="0" />
         </h3>
+
         <h3>Weapons</h3>
-        <table>
-            <thead>
-                <td>Name</td>
-                <td>Type</td>
-                <td>Damage</td>
-                <td>Range</td>
-                <td>Notes</td>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <input type="text" placeholder="Weapon name" />
+        <table class="weapons">
+            <template>
+                <tr class="weapon">
+                    <td class="weapon-name">
+                        <input type="text" name="weapon" placeholder="Weapon name" class="weapon-name-input" />
                     </td>
-                    <td>
+                    <td class="weapon-weight-type">
                         <select>
                         {{#each weightClasses as |weightClass|}}
                             <option value="{{weightClass}}">{{weightClass}}</option>
@@ -191,33 +200,161 @@
                         {{/each}}
                         </select>
                     </td>
-                    <td>
-                        <input type="number" min="1" />
+                    <td class="weapon-damage">
+                        <input type="number" min="1" value="1" />
                     </td>
-                    <td>
+                    <td class="weapon-range">
                         <select>
                         {{#each ranges as |range|}}
                             <option value="{{range}}">{{range}}</option>
                         {{/each}}
                         </select>
                     </td>
-                    <td>
+                    <td class="weapon-notes">
                         <input type="text" />
                     </td>
+                    <td>
+                        <a class="weapon-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
                 </tr>
+            </template>
+            <thead>
+                <td>Name</td>
+                <td>Type</td>
+                <td>Damage</td>
+                <td>Range</td>
+                <td>Notes</td>
+                <td><a class="weapon-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+            </thead>
+            <tbody>
+            {{#each data.equipment.weapons as |weapon|}}
+                <tr class="weapon">
+                    <td class="weapon-name">
+                        <input type="text" name="data.equipment.weapons.{{weapon.name}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
+                    </td>
+                    <td class="weapon-weight-type">
+                        <select name="data.equipment.weapons.{{weapon.name}}.weight">
+                        {{#each weapon.weightClasses as |weightClass|}}
+                            <option value="{{weightClass.label}}"
+                                {{#if weightClass.checked}}
+                                selected="selected"
+                                {{/if}}
+                            >{{weightClass.label}}
+                            </option>
+                        {{/each}}
+                        </select>
+
+                        <select name="data.equipment.weapons.{{weapon.name}}.type">
+                        {{#each weapon.weaponTypes as |weaponType|}}
+                            <option value="{{weaponType.label}}"
+                                {{#if weaponType.checked}}
+                                selected="selected"
+                                {{/if}}
+                            >{{weaponType.label}}
+                            </option>
+                        {{/each}}
+                        </select>
+                    </td>
+                    <td class="weapon-damage">
+                        <input type="number"name="data.equipment.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.damage}}" />
+                    </td>
+                    <td class="weapon-range">
+                        <select name="data.equipment.weapons.{{weapon.name}}.range">
+                        {{#each weapon.ranges as |range|}}
+                            <option value="{{range.label}}"
+                                {{#if range.checked}}
+                                selected="selected"
+                                {{/if}}
+                            >{{range.label}}
+                            </option>
+                        {{/each}}
+                        </select>
+                    </td>
+                    <td class="weapon-notes">
+                        <input type="text" name="data.equipment.weapons.{{weapon.name}}.notes" value="{{weapon.notes}}" />
+                    </td>
+                    <td>
+                        <a class="weapon-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            {{/each}}
             </tbody>
         </table>
     </div>
     <div>
-        <h2>Abilities</h2>
-        <textarea name="data.abilities">{{data.abilities}}</textarea>
+        <h2>{{abilitiesName}}</h2>
+
+        <table class="abilities">
+            <template>
+                <tr class="ability">
+                    <td class="ability-name">
+                        <input type="text" class="ability-name-input" />
+                    </td>
+                    <td class="ability-cost">
+                        <input type="number" />
+                        <select>
+                        {{#each stats}}
+                                <option value="{{this}}"
+                                >{{this}}
+                                </option>
+                        {{/each}}
+                        </select>
+                    </td>
+                    <td class="ability-description">
+                        <textarea></textarea>
+                    </td>
+                    <td>
+                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>  
+            </template>
+            <thead>
+                <tr>
+                    <td class="ability-name">Name</td>
+                    <td class="ability-cost">Stat</td>
+                    <td class="ability-description">Description</td>
+                    <td><a class="ability-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each data.abilities as |ability| }}
+                <tr class="ability">
+                    <td class="ability-name">
+                        <input type="text" name="data.abilities.{{ability.name}}.name" value="{{ability.name}}" class="ability-name-input" />
+                    </td>
+                    <td class="ability-cost">
+                        <input type="number" name="data.abilities.{{ability.name}}.cost.amount" value="{{ability.cost.amount}}" />
+                        <select name="data.abilities.{{ability.name}}.cost.pool">
+                            {{#each ability.cost.stats}}
+                                <option value="{{this.label}}"
+                                    {{#if this.checked}}
+                                    selected="selected"
+                                    {{/if}}
+                                >{{this.label}}
+                                </option>
+                            {{/each}}
+                            </select>
+                    </td>
+                    <td class="ability-description">
+                        <textarea name="data.abilities.{{ability.name}}.description">{{ability.description}}</textarea>
+                    </td>
+                    <td>
+                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
     </div>
     <div>
         <h2>Numenera</h2>
+
         <h3>Artifacts</h3>
         <textarea name="data.numenera.artifacts">{{data.numenera.artifacts}}</textarea>
+
         <h3>Cyphers</h3>
         <textarea name="data.numenera.cyphers">{{data.numenera.cyphers}}</textarea>
+
         <h3>Oddities</h3>
         <textarea name="data.numenera.oddities">{{data.numenera.oddities}}</textarea>
     </div>
