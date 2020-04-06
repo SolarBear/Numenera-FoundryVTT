@@ -2,7 +2,7 @@
     "Actor": {
         "types": ["pc", "npc"],
         "pc": {
-            "abilities": "",
+            "abilities": {},
             "advances": {
                 "statPools": false,
                 "effort": false,

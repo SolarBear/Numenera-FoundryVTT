@@ -104,7 +104,13 @@
             <template>
                 <tr class="skill">
                     <td class="skill-name"><input type="text" value="" class="skill-name-input" /></td>
-                    <td class="skill-stat"><input type="text" value="" /></td>
+                    <td class="skill-stat">
+                        <select>
+                        {{#each stats}}
+                            <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                        </select>
+                    </td>
                     <td class="skill-inability"><input type="checkbox" /></td>
                     <td class="skill-trained"><input type="checkbox" /></td>
                     <td class="skill-specialized"><input type="checkbox"/></td>
@@ -277,14 +283,78 @@
     </div>
     <div>
         <h2>Abilities</h2>
-        <textarea name="data.abilities">{{data.abilities}}</textarea>
+
+        <table class="abilities">
+            <template>
+                <tr class="ability">
+                    <td class="ability-name">
+                        <input type="text" class="ability-name-input" />
+                    </td>
+                    <td class="ability-cost">
+                        <input type="number" />
+                        <select>
+                        {{#each stats}}
+                                <option value="{{this}}"
+                                >{{this}}
+                                </option>
+                        {{/each}}
+                        </select>
+                    </td>
+                    <td class="ability-description">
+                        <textarea></textarea>
+                    </td>
+                    <td>
+                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>  
+            </template>
+            <thead>
+                <tr>
+                    <td class="ability-name">Name</td>
+                    <td class="ability-cost">Stat</td>
+                    <td class="ability-description">Description</td>
+                    <td><a class="ability-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                </tr>
+            </thead>
+            <tbody>
+            {{#each data.abilities as |ability| }}
+                <tr class="ability">
+                    <td class="ability-name">
+                        <input type="text" name="data.abilities.{{ability.name}}.name" value="{{ability.name}}" class="ability-name-input" />
+                    </td>
+                    <td class="ability-cost">
+                        <input type="number" name="data.abilities.{{ability.name}}.cost.amount" value="{{ability.cost.amount}}" />
+                        <select name="data.abilities.{{ability.name}}.cost.pool">
+                            {{#each ability.cost.stats}}
+                                <option value="{{this.label}}"
+                                    {{#if this.checked}}
+                                    selected="selected"
+                                    {{/if}}
+                                >{{this.label}}
+                                </option>
+                            {{/each}}
+                            </select>
+                    </td>
+                    <td class="ability-description">
+                        <textarea name="data.abilities.{{ability.name}}.description">{{ability.description}}</textarea>
+                    </td>
+                    <td>
+                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            {{/each}}
+            </tbody>
+        </table>
     </div>
     <div>
         <h2>Numenera</h2>
+
         <h3>Artifacts</h3>
         <textarea name="data.numenera.artifacts">{{data.numenera.artifacts}}</textarea>
+
         <h3>Cyphers</h3>
         <textarea name="data.numenera.cyphers">{{data.numenera.cyphers}}</textarea>
+
         <h3>Oddities</h3>
         <textarea name="data.numenera.oddities">{{data.numenera.oddities}}</textarea>
     </div>

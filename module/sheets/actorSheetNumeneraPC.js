@@ -33,7 +33,7 @@ function onClickControlGenerator(control) {
         const newRow = template.content.cloneNode(true);
         body.appendChild(newRow);
         break;
-        
+
       case "delete":
         const row = a.closest("." + control);
         row.parentElement.removeChild(row);
@@ -74,6 +74,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     //Call generator function to assign table event handlers
     this.onClickSkillControl = onClickControlGenerator("skill");
     this.onClickWeaponControl = onClickControlGenerator("weapon");
+    this.onClickAbilityControl = onClickControlGenerator("ability");
   }
 
   /* -------------------------------------------- */
@@ -85,6 +86,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
    * @type {String}
    */
   get template() {
+    //TODO static?
     return "systems/numenera/templates/characterSheet.html";
   }
 
@@ -99,6 +101,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges;
+    sheetData.stats = NUMENERA.stats;
     sheetData.skillLevels = NUMENERA.skillLevels;
     sheetData.weaponTypes = NUMENERA.weaponTypes;
     sheetData.weightClasses = NUMENERA.weightClasses;
@@ -172,6 +175,17 @@ export class ActorSheetNumeneraPC extends ActorSheet {
       });
     });
 
+    //Abilities section
+    sheetData.abilities = Object.values(sheetData.actor.data.abilities).forEach(ability => {
+      ability.cost = ability.cost || {};
+      ability.cost.stats = NUMENERA.stats.map(stat => {
+        return {
+          label: stat,
+          checked: stat === ability.cost.pool,
+        }
+      })
+    });
+
     return sheetData;
   }
 
@@ -191,6 +205,32 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     const weaponsTable = html.find("table.weapons");
     weaponsTable.on("click", ".weapon-control", this.onClickWeaponControl.bind(this));
     weaponsTable.on("blur", "tbody input.weapon-name-input", this.onWeaponNameChange.bind(this));
+
+    const abilityTable = html.find("table.abilities");
+    abilityTable.on("click", ".ability-control", this.onClickAbilityControl.bind(this));
+    abilityTable.on("blur", "tbody input.ability-name-input", this.onAbilityNameChange.bind(this));
+  }
+
+  /**
+   * Event handler for the "blur" (ie. focus lost) event on ability names. Sets the current
+   * name as ability name to all other inputs inside the row.
+   *
+   * @param {Event} event
+   * @memberof ActorSheetNumeneraPC
+   */
+  async onAbilityNameChange(event) {
+    event.preventDefault();
+
+    const input = event.currentTarget;
+
+    //TODO Hello! I'm a hack. Please obliterate me as violently as possible! Thank you! :)
+    const row = event.currentTarget.closest(".ability");
+    row.children[0].children[0].name = `data.abilities.${input.value}.name`;
+    row.children[1].children[0].name = `data.abilities.${input.value}.cost.amount`;
+    row.children[1].children[1].name = `data.abilities.${input.value}.cost.pool`;
+    row.children[2].children[0].name = `data.abilities.${input.value}.description`;
+
+    await this._onSubmit(event);
   }
 
   /**
@@ -256,6 +296,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     const formSkills = fd.data.skills || {};
     const formEquipment = fd.data.equipment || {};
     const formWeapons = formEquipment.weapons || {};
+    const formAbilities = fd.data.abilities || {};
 
     const formDataReduceFunction = function (obj, v) {
       const name = v["name"].trim();
@@ -265,7 +306,8 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
     const skills = Object.values(formSkills).reduce(formDataReduceFunction, {});
     const weapons = Object.values(formWeapons).reduce(formDataReduceFunction, {});
-    
+    const abilities = Object.values(formAbilities).reduce(formDataReduceFunction, {});
+
     // Remove skills which are no longer used
     for (let sk of Object.keys(this.object.data.data.skills)) {
       if (sk && !skills.hasOwnProperty(sk))
@@ -275,15 +317,28 @@ export class ActorSheetNumeneraPC extends ActorSheet {
       if (wp && !weapons.hasOwnProperty(wp))
         weapons[`-=${wp}`] = null;
     }
+    for (let ab of Object.keys(this.object.data.data.abilities)) {
+      if (ab && !abilities.hasOwnProperty(ab))
+        abilities[`-=${ab}`] = null;
+    }
 
     // Re-combine formData
     //TODO cant we just replace existing properties inside formData? this seems convoluted
     formData = Object.entries(formData)
-    .filter(e => !e[0].startsWith("data.skills") && !e[0].startsWith("data.equipment.weapons"))
-    .reduce((obj, e) => {
-      obj[e[0]] = e[1];
-      return obj;
-    }, {_id: this.object._id, "data.skills": skills, "data.equipment.weapons": weapons});
+      .filter(e =>
+        !e[0].startsWith("data.skills") &&
+        !e[0].startsWith("data.equipment.weapons") &&
+        !e[0].startsWith("data.abilities")
+      )
+      .reduce((obj, e) => {
+        obj[e[0]] = e[1];
+        return obj;
+      }, {
+        _id: this.object._id,
+        "data.skills": skills,
+        "data.equipment.weapons": weapons,
+        "data.abilities": abilities,
+      });
 
     // Update the Actor
     return this.object.update(formData);
