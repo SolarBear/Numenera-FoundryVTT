@@ -1,9 +1,21 @@
 import { NUMENERA } from '../config.js';
 
-//Mostly taken from the Simple Worlduiblding sheet: https://gitlab.com/foundrynet/worldbuilding/-/blob/master/module/actor-sheet.js
-//Generalized as a HOF for multiple kinds of controls
+/**
+ * Function generator for handling click controls. Will handle dynamic tables
+ * row creation and deletion. Just call it with the required name and assign
+ * it to a class property.
+ * 
+ * - Creation: expects the table to have an embedded <template> tag as a direct child
+ * which contains the HTML structure to use as a row (ie. <tr> tag).
+ * - Deletion: expects an anchor with the "XYZ-control" class somewhere inside the
+ * rows, where "XYZ" is the control parameter.
+ *
+ * @param {string} control The kind of control to look for (eg. "ability", "skill", etc.)
+ * 
+ * @
+ */
 function onClickControlGenerator(control) {
-  return async function(event) {
+  return async function (event) {
     event.preventDefault();
 
     const a = event.currentTarget;
@@ -40,6 +52,7 @@ function onClickControlGenerator(control) {
  * @type {ActorSheet}
  */
 export class ActorSheetNumeneraPC extends ActorSheet {
+
   /**
   * Define default rendering options for the NPC sheet
   * @return {Object}
@@ -58,6 +71,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   constructor(...args) {
     super(...args);
 
+    //Call generator function to assign table event handlers
     this.onClickSkillControl = onClickControlGenerator("skill");
     this.onClickWeaponControl = onClickControlGenerator("weapon");
   }
@@ -161,6 +175,12 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     return sheetData;
   }
 
+  /**
+   * Add character sheet-specific event listeners.
+   *
+   * @param {*} html
+   * @memberof ActorSheetNumeneraPC
+   */
   activateListeners(html) {
     super.activateListeners(html);
 
@@ -173,6 +193,13 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     weaponsTable.on("blur", "tbody input.weapon-name-input", this.onWeaponNameChange.bind(this));
   }
 
+  /**
+   * Event handler for the "blur" (ie. focus lost) event on skill names. Sets the current
+   * name as skill name to all other inputs inside the row.
+   *
+   * @param {Event} event
+   * @memberof ActorSheetNumeneraPC
+   */
   async onSkillNameChange(event) {
     event.preventDefault();
 
@@ -189,6 +216,13 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     await this._onSubmit(event);
   }
 
+  /**
+   * Event handler for the "blur" (ie. focus lost) event on weapon names. Sets the current
+   * name as weapon name to all other inputs inside the row.
+   *
+   * @param {Event} event
+   * @memberof ActorSheetNumeneraPC
+   */
   async onWeaponNameChange(event) {
     event.preventDefault();
 
@@ -210,6 +244,9 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   /**
    * Implement the _updateObject method as required by the parent class spec
    * This defines how to update the subject of the form when the form is submitted
+   * 
+   * Mostly handles the funky behavior of dynamic tables inside the form.
+   * 
    * @private
    */
   _updateObject(event, formData) {
@@ -230,16 +267,17 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     const weapons = Object.values(formWeapons).reduce(formDataReduceFunction, {});
     
     // Remove skills which are no longer used
-    for (let sk of Object.keys(this.object.data.data.skills) ) {
+    for (let sk of Object.keys(this.object.data.data.skills)) {
       if (sk && !skills.hasOwnProperty(sk))
         skills[`-=${sk}`] = null;
     }
-    for (let wp of Object.keys(this.object.data.data.equipment.weapons) ) {
+    for (let wp of Object.keys(this.object.data.data.equipment.weapons)) {
       if (wp && !weapons.hasOwnProperty(wp))
         weapons[`-=${wp}`] = null;
     }
 
     // Re-combine formData
+    //TODO cant we just replace existing properties inside formData? this seems convoluted
     formData = Object.entries(formData)
     .filter(e => !e[0].startsWith("data.skills") && !e[0].startsWith("data.equipment.weapons"))
     .reduce((obj, e) => {
