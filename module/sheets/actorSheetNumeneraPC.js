@@ -75,19 +75,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   }
 
   /**
-   * Get the current PC's level on the damage track as an integer, 0 being Hale and 3 being Dead.
-   * @type {Number}
-   */
-  damageTrackLevel(data) {
-    //TODO move to Actor class, this isn't specific to the sheet
-
-    //Each stat whose value is 0 counts as being one step higher on the damage track
-    return Object.values(data.stats).filter(stat => {
-      return stat.pool.current === 0;
-    }).length;
-  }
-
-  /**
    * Provides the data objects provided to the character sheet. Use that method
    * to insert new values or mess with existing ones.
    */
@@ -118,7 +105,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
       }
     });
 
-    const currentDamageTrack = this.damageTrackLevel(sheetData.actor.data);
+    const currentDamageTrack = this.actor.damageTrackLevel();
     sheetData.damageTrackData = Object.values(NUMENERA.damageTrack).map(trackLevel => {
       return {
         ...trackLevel,
