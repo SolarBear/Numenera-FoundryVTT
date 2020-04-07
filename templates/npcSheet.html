@@ -1,0 +1,46 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+    <div class="flexrow">
+        <div>
+            <p>image here</p>
+        </div>
+        <div class="flexcol">
+            <div class="flexrow">
+                <h1>{{actor.name}}</h1>
+                <span>
+                    Level: <input type="number" name="actor.level>" value="{{actor.level}}" />
+                </span>
+            </div>
+            <div class="flexrow">
+                <p>Health: {{actor.health.current}} / {{actor.health.max}}</p>
+                <p>Movement: {{actor.movement}}</p>
+            </div>
+            <div class="flexrow">
+                <p>Armor: {{actor.armor}}</p>
+                <p>Damage: {{actor.damage}}</p>
+            </div>
+            <div>
+                <h2>Attacks</h2>
+                <ul>
+                    <li>Attack 1</li>
+                    <li>Attack 2</li>
+                    <li>Attack 3</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div>
+        {{#if actor.description}}
+        <p>DESCRIPTION: {{actor.descritpion}}</p>
+        {{/if}}
+        {{#if actor.use}}
+        <p>USE: {{actor.use}}</p>
+        {{/if}}
+        {{#if actor.environment}}
+        <p>Environment: {{actor.environment}}</p>
+        {{/if}}
+        {{#if actor.loot}}
+        <p>LOOT: {{actor.loot}}</p>
+        {{/if}}
+    </div>
+</form>
