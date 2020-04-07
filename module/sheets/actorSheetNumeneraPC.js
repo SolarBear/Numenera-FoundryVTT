@@ -59,7 +59,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 925,
+      width: 950,
       height: 1000
     });
   }
@@ -176,7 +176,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     });
 
     //Abilities section
-    sheetData.abilitiesName = NUMENERA.typePowers[actorType];
+    sheetData.abilitiesName = actorType ? NUMENERA.typePowers[actorType] : "Abilities";
     sheetData.abilities = Object.values(sheetData.actor.data.abilities).forEach(ability => {
       ability.cost = ability.cost || {};
       ability.cost.stats = NUMENERA.stats.map(stat => {
@@ -201,15 +201,15 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
     const skillsTable = html.find("table.skills");
     skillsTable.on("click", ".skill-control", this.onClickSkillControl.bind(this));
-    skillsTable.on("blur", "tbody input.skill-name-input", this.onSkillNameChange.bind(this));
+    skillsTable.on("blur", "tbody input,select,textarea", this.onSkillNameChange.bind(this));
 
     const weaponsTable = html.find("table.weapons");
     weaponsTable.on("click", ".weapon-control", this.onClickWeaponControl.bind(this));
-    weaponsTable.on("blur", "tbody input.weapon-name-input", this.onWeaponNameChange.bind(this));
+    weaponsTable.on("blur", "tbody input,select,textarea", this.onWeaponNameChange.bind(this));
 
     const abilityTable = html.find("table.abilities");
     abilityTable.on("click", ".ability-control", this.onClickAbilityControl.bind(this));
-    abilityTable.on("blur", "tbody input.ability-name-input", this.onAbilityNameChange.bind(this));
+    abilityTable.on("blur", "tbody input,select,textarea", this.onAbilityNameChange.bind(this));
   }
 
   /**
@@ -230,8 +230,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     row.children[1].children[0].name = `data.abilities.${input.value}.cost.amount`;
     row.children[1].children[1].name = `data.abilities.${input.value}.cost.pool`;
     row.children[2].children[0].name = `data.abilities.${input.value}.description`;
-
-    await this._onSubmit(event);
   }
 
   /**
@@ -253,8 +251,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     row.children[2].children[0].name = `data.skills.${input.value}.inability`;
     row.children[3].children[0].name = `data.skills.${input.value}.trained`;
     row.children[4].children[0].name = `data.skills.${input.value}.specialized`;
-
-    await this._onSubmit(event);
   }
 
   /**
@@ -278,8 +274,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     row.children[2].children[0].name = `data.equipment.weapons.${input.value}.damage`;
     row.children[3].children[0].name = `data.equipment.weapons.${input.value}.range`;
     row.children[4].children[0].name = `data.equipment.weapons.${input.value}.notes`;
-
-    await this._onSubmit(event);
   }
 
   /**
