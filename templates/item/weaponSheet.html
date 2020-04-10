@@ -1,0 +1,17 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <h1><input type="text" name="data.name" value="{{data.name}}" /></h1>
+    <div class="flexrow">
+        <div>
+            {{#if data.img}}
+            <img src="{{data.img}}" /> {{/if}}
+        </div>
+        <div>
+            <p>Weight: {{data.weightClass}}</p>
+            <p>Type: <input type="text" name="data.type" value="{{data.type}}" /></p>
+            <p>Damage: <input type="number" name="data.damage" value="{{data.damage}}" /></p>
+            <p>Range: {{> "systems/numenera/templates/parts/range.html" name="data.range" selected=data.range ranges=data.ranges }}</p>
+            <p>Price: <input type="number" name="data.price" value="{{data.price}}" /></p>
+            <p>Notes: <textarea name="data.notes">{{data.notes}}</textarea></p>
+        </div>
+    </div>
+</form>
