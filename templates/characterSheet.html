@@ -259,16 +259,9 @@
                         <input type="number"name="data.equipment.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.damage}}" />
                     </td>
                     <td class="weapon-range">
-                        <select name="data.equipment.weapons.{{weapon.name}}.range">
-                        {{#each weapon.ranges as |range|}}
-                            <option value="{{range.label}}"
-                                {{#if range.checked}}
-                                selected="selected"
-                                {{/if}}
-                            >{{range.label}}
-                            </option>
-                        {{/each}}
-                        </select>
+                        {{> "systems/numenera/templates/parts/range.html"
+                            name="data.equipement.weapons.{{weapon.name}}.range" selected=data.range ranges=data.ranges
+                        }}
                     </td>
                     <td class="weapon-notes">
                         <input type="text" name="data.equipment.weapons.{{weapon.name}}.notes" value="{{weapon.notes}}" />
