@@ -7,37 +7,41 @@ const releaseBuild = true;
 const destinationDir = 'dist';
 
 const toBundle = [
-  'template.json',
-  'system.json',
-  'numenera.css',
-  'templates/characterSheet.html',
-  'templates/npcSheet.html',
-  'templates/roll-dialog.html',
+    'template.json',
+    'system.json',
+    'numenera.css',
+    "templates/characterSheet.html",
+    "templates/npcSheet.html",
+    "templates/cypherSheet.html",
+    "templates/artifactSheet.html",
+    "templates/cypherSheet.html",
+    "templates/equipmentSheet.html",
+    "templates/odditySheet.html",
+    "templates/weaponSheet.html",
+    "templates/parts/range.html",
+    "templates/parts/stats.html",
 ];
 
-export default [
-  {
+export default [{
     input: 'numenera.js',
     output: {
-      //file: `${destinationDir}/numenera.js`,
-      dir: destinationDir,
-      format: 'umd',
+        dir: destinationDir,
+        format: 'umd',
     },
     plugins: [
-      terser({
-        sourcemap: !releaseBuild,
-        compress: releaseBuild ? {} : false,
-      }),
-      scss({
-        failOnError: true,
-        output: true,
-      }),
-      copy({
-        assets: toBundle,
-      }),
-      zip({
-        dir: destinationDir,
-      }),
+        terser({
+            sourcemap: !releaseBuild,
+            compress: releaseBuild ? {} : false,
+        }),
+        scss({
+            failOnError: true,
+            output: true,
+        }),
+        copy({
+            assets: toBundle,
+        }),
+        zip({
+            dir: destinationDir,
+        }),
     ],
-  },
-];
+}, ];
