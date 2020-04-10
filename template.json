@@ -81,38 +81,30 @@
             "version": 0
         }
     },
-    "Items": {
-        "types": ["cypher", "artifact", "oddity", "equipment", "armor", "weapon"],
+    "Item": {
+        "types": ["armor", "artifact", "cypher", "equipment", "oddity", "weapon"],
         "templates": {
             "common": {
                 "name": "",
                 "price": 0,
                 "notes": ""
             },
-            "weightCategory": {
-                "name": ""
-            },
             "numenera": {
                 "level": 1,
                 "form": "",
                 "effect": ""
+            },
+            "ranged": {
+                "range": ""
+            },
+            "weightCategory": {
+                "weightCategory": ""
             }
-        },
-        "equipment": {
-            "templates": ["common"]
         },
         "armor": {
             "templates": ["common", "weightCategory"],
             "armor": 0,
             "additionalSpeedEffortCost": 1
-        },
-        "weapon": {
-            "templates": ["common", "weightCategory"],
-            "stat": "",
-            "damage": 0
-        },
-        "cypher": {
-            "templates": ["common", "numenera"]
         },
         "artifact": {
             "templates": ["common", "numenera"],
@@ -121,6 +113,20 @@
                 "die": "d6",
                 "threshold": 1
             }
+        },
+        "cypher": {
+            "templates": ["common", "numenera"]
+        },
+        "equipment": {
+            "templates": ["common"]
+        },
+        "oddity": {
+            "templates": ["common"]
+        },
+        "weapon": {
+            "templates": ["common", "range", "weightCategory"],
+            "damage": 0,
+            "weaponType": ""
         }
     }
 }
