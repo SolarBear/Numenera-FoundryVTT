@@ -3,7 +3,8 @@
         <div class="picture">
             <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
         </div>
-        <h1 class="character flexrow">
+        <div class="flexcol">
+            <h1 class="character">
                 <input type="text" name="actor.name" value="{{actor.name}}" class="charname" />
                 is a
                 <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
@@ -17,40 +18,40 @@
                     >{{name}}</option>
                 {{/each}}
                 </select>
-                <span>
-                    who
-                    <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
-                </span>
-        </h1>
+                who&nbsp;<input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
+            </h1>
+            <div class="flexrow">
+                {{#each data.stats as |stat id|}}
+                    <div class="stats" data-stat="{{id}}">
+                        <h2>{{id}}</h2 >
+                        <span>
+                            <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                            /
+                            <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
+                        </span>
+            
+                        <h3>Edge</h3>
+                        <span>
+                            <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
+                        </span>
+                    </div>
+                {{/each}}
+                <div class="stats">
+                    <h2>Tier</h2>
+                    <span>
+                        <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" />
+                    </span>
+                    <h2>Effort</h2>
+                    <span>
+                        <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" />
+                    </span>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="flexrow">
-    {{#each data.stats as |stat id|}}
-        <div class="stats" data-stat="{{id}}">
-            <h2>{{id}}</h2 >
-            <span>
-                <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
-                /
-                <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
-            </span>
 
-            <h3>Edge</h3>
-            <span>
-                <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
-            </span>
-        </div>
-    {{/each}}
-        <div class="stats">
-            <h2>Tier</h2>
-            <span>
-                <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" />
-            </span>
-            <h2>Effort</h2>
-            <span>
-                <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" />
-            </span>
-        </div>
-    </div>
 
     <div class="flexrow">
         <div class="flexcol">

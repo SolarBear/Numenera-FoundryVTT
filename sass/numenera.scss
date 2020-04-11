@@ -30,6 +30,8 @@ p.description {
 }
 
 form.flexcol {
+    overflow: scroll;
+
     div.header {
         border-bottom: 0;
 
@@ -37,21 +39,21 @@ form.flexcol {
             padding-bottom: 1em;
             padding-right: 1em;
             margin-right: 1em;
-            border-right: 1px solid $border-color;
-            max-width: 125px;
+            flex: 0.4;
 
             img.profile-img {
                 width: 100%;
                 height: 100%;
-                max-width: 125px;
-                max-height: 125px;
+                max-width: 200px;
+                max-height: 400px;
                 margin-bottom: 1em;
             }
         }
 
         h1.character {
             font-size: 24px;
-            border-bottom: 0;
+            border-bottom: 1px solid $border-color;
+            margin-bottom: 0;
 
             input {
                 margin: 0 0.5em 0.5em 0.5em;
@@ -67,7 +69,7 @@ form.flexcol {
                 }
         
                 &.focus {
-                    width: 40ch;
+                    width: 30ch;
                 }
             }
 
@@ -80,9 +82,8 @@ form.flexcol {
     }
 
     div {
-        > div:not(:first-child) {
+        div:not(:first-child) {
             border-left: 1px solid $border-color;
-            padding-left: 1em;
         }
 
         div.advances, div.recovery {
@@ -96,6 +97,7 @@ form.flexcol {
         }
 
         div.stats {
+
             padding-top: 1em;
             text-align: center;
             padding-bottom: 1em;
