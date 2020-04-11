@@ -1,22 +1,28 @@
 <form class="{{cssClass}} flexcol " autocomplete="off">
-    <h1 class="character flexrow">
-        <p>
-            <span class="charname">{{actor.name}}</span> is a
-            <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
-            <select name="data.characterType" class="characterType" data-type="String">
-                <option value="" />
-                {{#each types}}
-                <option value="{{abbrev}}" 
-                    {{#if isActorType}}
-                        selected="selected"
-                    {{/if}}
-                >{{name}}</option>
-            {{/each}}
-            </select>
-            who
-            <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
-        </p>
-    </h1>
+    <div class="flexrow header">
+        <div class="picture">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
+        </div>
+        <h1 class="character flexrow">
+                <input type="text" name="actor.name" value="{{actor.name}}" class="charname" />
+                is a
+                <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
+                <select name="data.characterType" class="characterType" data-type="String">
+                    <option value="" />
+                    {{#each types}}
+                    <option value="{{abbrev}}" 
+                        {{#if isActorType}}
+                            selected="selected"
+                        {{/if}}
+                    >{{name}}</option>
+                {{/each}}
+                </select>
+                <span>
+                    who
+                    <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
+                </span>
+        </h1>
+    </div>
 
     <div class="flexrow">
     {{#each data.stats as |stat id|}}

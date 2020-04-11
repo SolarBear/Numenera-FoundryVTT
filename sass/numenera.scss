@@ -1,3 +1,5 @@
+$border-color: #782e22;
+
 /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
 .flewrow {
     display: flex;
@@ -23,39 +25,63 @@ input[data-dtype="Number"] {
     width: 2em;
 }
 
-select.characterType {
-    font-size: 24px;
-    height: auto;
-}
-
 p.description {
     font-style: italic;
 }
 
 form.flexcol {
-    h1.character {
-        flex: 0;
-        font-size: 24px;
-        margin-bottom: 0;
+    div.header {
+        border-bottom: 0;
 
-        p {
-            input.descriptor {
-                width: 15ch;
+        div.picture {
+            padding-bottom: 1em;
+            padding-right: 1em;
+            margin-right: 1em;
+            border-right: 1px solid $border-color;
+            max-width: 125px;
+
+            img.profile-img {
+                width: 100%;
+                height: 100%;
+                max-width: 125px;
+                max-height: 125px;
+                margin-bottom: 1em;
             }
+        }
+
+        h1.character {
+            font-size: 24px;
+            border-bottom: 0;
+
+            input {
+                margin: 0 0.5em 0.5em 0.5em;
+                height: max-content;
+
+                &.charname {
+                    font-weight: bold;
+                    width: 20ch;
+                }
     
-            input.focus {
-                width: 30ch;
+                &.descriptor {
+                    width: 15ch;
+                }
+        
+                &.focus {
+                    width: 40ch;
+                }
             }
-    
-            span.charname {
-                font-weight: bold;
+
+            select.characterType {
+                font-size: 24px;
+                height: max-content;
+                margin: 0 0.5em 0.5em 0.5em;
             }
         }
     }
 
     div {
         > div:not(:first-child) {
-            border-left: 1px solid #782e22;
+            border-left: 1px solid $border-color;
             padding-left: 1em;
         }
 
@@ -106,6 +132,6 @@ form.flexcol {
     }
 
     div.flexrow:not(:last-child) {
-        border-bottom: 2px solid #782e22;
+        border-bottom: 2px solid $border-color;
     }
 }
