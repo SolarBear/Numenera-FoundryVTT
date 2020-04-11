@@ -86,6 +86,20 @@ form.flexcol {
             border-left: 1px solid $border-color;
         }
 
+        &.numenera {
+            h2 {
+                flex: 0;
+            }
+
+            h3 {
+                flex: 0;
+            }
+
+            textarea {
+                overflow: scroll;
+            }
+        }
+
         div.advances, div.recovery {
             input[type="checkbox"] {
                 display: inline-block;
@@ -97,7 +111,6 @@ form.flexcol {
         }
 
         div.stats {
-
             padding-top: 1em;
             text-align: center;
             padding-bottom: 1em;
