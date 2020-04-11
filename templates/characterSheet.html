@@ -48,26 +48,23 @@
                 </div>
             </div>
         </div>
-
     </div>
-
-
 
     <div class="flexrow">
         <div class="flexcol">
             <h2>Damage track</h2>
             <p>
-                {{#each damageTrackData as |track|}}
-                    <label for="track.label">{{track.label}}
-                        <input type="radio" readonly="readonly" value="{{track.index}}"
-                        {{#if track.checked}}
-                        checked="checked" 
-                        {{else}}
-                        disabled 
-                        {{/if}}
-                        />
-                    </label>
-                {{/each}}
+            {{#each damageTrackData as |track|}}
+                <label for="track.label">{{track.label}}
+                    <input type="radio" readonly="readonly" value="{{track.index}}"
+                    {{#if track.checked}}
+                    checked="checked" 
+                    {{else}}
+                    disabled 
+                    {{/if}}
+                    />
+                </label>
+            {{/each}}
             </p>
             <p class="description">{{damageTrackDescription}}</p>
         </div>
@@ -182,7 +179,7 @@
         </table>
     </div>
 
-    <div class="flexrow">
+    <div>
         <h2>Combat</h2>
         <h3>Armor
             <input type="number" name="data.armor" value="{{data.armor}}" min="0" />
@@ -231,16 +228,16 @@
                 <td>Damage</td>
                 <td>Range</td>
                 <td>Notes</td>
-                <td><a class="weapon-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                <td><a class="weapon-create"><i class="fas fa-plus"></i></a></td>
             </thead>
             <tbody>
-            {{#each data.equipment.weapons as |weapon|}}
-                <tr class="weapon">
+            {{#each data.items.weapons as |weapon|}}
+                <tr class="weapon" data-item-id="{{weapon._id}}">
                     <td class="weapon-name">
-                        <input type="text" name="data.equipment.weapons.{{weapon.name}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
+                        <input type="text" name="data.items.weapons.{{weapon.name}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
                     </td>
                     <td class="weapon-weight-type">
-                        <select name="data.equipment.weapons.{{weapon.name}}.weight">
+                        <select name="data.items.weapons.{{weapon.name}}.weight">
                         {{#each weapon.weightClasses as |weightClass|}}
                             <option value="{{weightClass.label}}"
                                 {{#if weightClass.checked}}
@@ -251,7 +248,7 @@
                         {{/each}}
                         </select>
 
-                        <select name="data.equipment.weapons.{{weapon.name}}.type">
+                        <select name="data.items.weapons.{{weapon.name}}.type">
                         {{#each weapon.weaponTypes as |weaponType|}}
                             <option value="{{weaponType.label}}"
                                 {{#if weaponType.checked}}
@@ -263,18 +260,18 @@
                         </select>
                     </td>
                     <td class="weapon-damage">
-                        <input type="number"name="data.equipment.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.damage}}" />
+                        <input type="number"name="data.items.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.damage}}" />
                     </td>
                     <td class="weapon-range">
                         {{> "systems/numenera/templates/parts/range.html"
-                            name="data.equipement.weapons.{{weapon.name}}.range" selected=data.range ranges=data.ranges
+                            name=weapon.rangePropertyName selected=weapon.range ranges=../ranges
                         }}
                     </td>
                     <td class="weapon-notes">
-                        <input type="text" name="data.equipment.weapons.{{weapon.name}}.notes" value="{{weapon.notes}}" />
+                        <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.notes}}" />
                     </td>
                     <td>
-                        <a class="weapon-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="weapon-delete" data-action="delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {{/each}}

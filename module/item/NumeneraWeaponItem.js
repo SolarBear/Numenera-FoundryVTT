@@ -9,10 +9,15 @@ export class NumeneraWeaponItem extends Item {
     prepareData() {
         super.prepareData();
 
-        const itemData = this.data.data;
+        let itemData = this.data;
+        if (itemData.hasOwnProperty("data"))
+            itemData = itemData.data;
 
         //TODO we're duplicating the name here... why is that?
-        itemData.name = this.data.name || "New Weapon";
+        const desc = Object.getOwnPropertyDescriptor(itemData, "name");
+        if (desc && desc.writable)
+            itemData.name = this.data.name || "New Weapon";
+
         itemData.damage = itemData.damage || 1;
         itemData.range = itemData.range || NUMENERA.ranges[0];
         itemData.weaponType = itemData.weaponType || NUMENERA.weaponTypes[0];

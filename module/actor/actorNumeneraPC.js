@@ -1,4 +1,5 @@
 import { NUMENERA } from '../config.js';
+import { NumeneraItem } from '../item/NumeneraItem.js';
 
 const effortObject = {
   cost: 0,
@@ -10,6 +11,11 @@ const effortObject = {
  * Extend the base Actor class to implement additional logic specialized for Numenera.
  */
 export class ActorNumeneraPC extends Actor {
+
+  async createOwnedItem(itemData, options) {
+    itemData = new NumeneraItem(itemData);
+    return super.createOwnedItem(itemData, options);
+  }
 
   get effort() {
     const data = this.data.data;

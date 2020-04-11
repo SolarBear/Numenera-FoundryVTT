@@ -20,40 +20,54 @@ import { NumeneraWeaponItem } from "./NumeneraWeaponItem.js";
  * @extends {Item}
  */
 export class NumeneraItem extends Item {
-    constructor(data, options) {
+    static get ClassTypeMap()  {
+        return {
+        "armor": NumeneraArmorItem,
+        "artifact": NumeneraArtifactItem,
+        "cypher": NumeneraCypherItem,
+        "equipment": NumeneraEquipmentItem,
+        "oddity": NumeneraOddityItem,
+        "weapon": NumeneraWeaponItem
+        };
+    };
+
+    constructor(data, options = {}) {
         super(data, options);
 
         const { type } = data;
         if (!type)
             throw new Error('No object type provided');
 
-        //First, create an object of the appropriate type...
-        let object = null;
-        switch (type) {
-            case "armor":
-                object = new NumeneraArmorItem(data, options);
-                break;
-            case "artifact":
-                object = new NumeneraArtifactItem(data, options);
-                break;
-            case "cypher":
-                object = new NumeneraCypherItem(data, options);
-                break;
-            case "equipment":
-                object = new NumeneraEquipmentItem(data, options);
-                break;
-            case "oddity":
-                object = new NumeneraOddityItem(data, options);
-                break;
-            case "weapon":
-                object = new NumeneraWeaponItem(data, options);
-                break;
+        if (data.__proto__.constructor === Object)
+        {
+            //First, create an object of the appropriate type...
+            let object = null;
+            switch (type) {
+                case "armor":
+                    object = new NumeneraArmorItem(data, options);
+                    break;
+                case "artifact":
+                    object = new NumeneraArtifactItem(data, options);
+                    break;
+                case "cypher":
+                    object = new NumeneraCypherItem(data, options);
+                    break;
+                case "equipment":
+                    object = new NumeneraEquipmentItem(data, options);
+                    break;
+                case "oddity":
+                    object = new NumeneraOddityItem(data, options);
+                    break;
+                case "weapon":
+                    object = new NumeneraWeaponItem(data, options);
+                    break;
+            }
+
+            if (object === null)
+                throw new Error(`Unhandled object type ${type}`);
+
+            //...then merge that object into the current one
+            mergeObject(this.data, object.data);
         }
-
-        if (object === null)
-            throw new Error(`Unhandled object type ${type}`);
-
-        //...then merge that object into the current one
-        mergeObject(this, object);
     }
 }

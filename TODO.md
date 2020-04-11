@@ -2,10 +2,11 @@
 
 ## Character Sheet
 
-* Dynamic lists
-  * Weapons
+* Convert pretty much everything to Items
   * Abilities
-  * Skills
+  * Weapons
+  * Skills (?)
+* Dynamic lists
   * Cyphers
   * Artifacts
   * Armor

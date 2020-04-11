@@ -12,6 +12,20 @@ Still, if you're willing to try it out, simply go to the _Game Systems_ tab of t
 
 Foundry will download the current bundle and afterwards you only need to create a new world using that system. Easy as pie!
 
+## Can I help?
+
+Of course you can!
+
+First and foremost, use it! Use the system for your games and send any feedback you may have, good or bad, to me either directly through Discord or by creating an issue on Github. Show it to your friends. Broadcast it on national television. Everything helps.
+
+Otherwise, I'm always looking for all kinds of help:
+
+* translations: any non-English language translations are welcome
+* layout: if you have any HTML and CSS skills, you're probably better at this than I am!
+* feature development: there's a LOT of work ahead, so if you're familiar with Javascript, there's work to be done
+
+Whatever the case, just get in touch.
+
 ## Roadmap
 
 This is obviously subject to change but this is the current plan, with each version having a hilarious name.
@@ -25,10 +39,11 @@ If you'd like something added or prioritized, just drop me a line! You can easil
 ### 0.2 Much love for the character sheet 
 
 * Dynamic skills, weapons and abilities
+* Weapons and abilities as Items for inclusion in compendiums
 
 ### 0.3 NPCs are people, too
 
-* Character sheet
+* NPC Character sheet
 * Initiative tracking (players + NPCs)
 
 ### 0.4 Keep on (dice) rollin', baby
