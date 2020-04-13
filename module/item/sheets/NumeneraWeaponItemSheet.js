@@ -1,3 +1,5 @@
+import { NUMENERA } from "../../config.js";
+
 export class NumeneraWeaponItemSheet extends ItemSheet {
     /**
      * Define default rendering options for the weapon sheet
@@ -5,8 +7,8 @@ export class NumeneraWeaponItemSheet extends ItemSheet {
      */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            width: 500,
-            height: 400
+            width: 400,
+            height: 390
         });
     }
 
@@ -20,5 +22,15 @@ export class NumeneraWeaponItemSheet extends ItemSheet {
      */
     get template() {
         return "systems/numenera/templates/item/weaponSheet.html";
+    }
+
+    getData() {
+        const sheetData = super.getData();
+
+        sheetData.ranges = NUMENERA.ranges;
+        sheetData.weaponTypes = NUMENERA.weaponTypes;
+        sheetData.weights = NUMENERA.weightClasses;
+
+        return sheetData;
     }
 }

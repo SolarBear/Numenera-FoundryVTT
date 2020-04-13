@@ -1,17 +1,53 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <h1><input type="text" name="data.name" value="{{data.name}}" /></h1>
+    <h1>
+        <input type="text" name="item.name" value="{{item.name}}" title="{{item.name}}" data-edit="img" />
+    </h1>
     <div class="flexrow">
         <div>
             {{#if data.img}}
-            <img src="{{data.img}}" /> {{/if}}
+            <img class="profile-img" src="{{item.img}}" />
+            {{/if}}
         </div>
         <div>
-            <p>Weight: {{data.weightClass}}</p>
-            <p>Type: <input type="text" name="data.type" value="{{data.type}}" /></p>
-            <p>Damage: <input type="number" name="data.damage" value="{{data.damage}}" /></p>
-            <p>Range: {{> "systems/numenera/templates/parts/range.html" name="data.range" selected=data.range ranges=data.ranges }}</p>
-            <p>Price: <input type="number" name="data.price" value="{{data.price}}" /></p>
-            <p>Notes: <textarea name="data.notes">{{data.notes}}</textarea></p>
+            <p>Weight: <select name="data.weight">
+                {{#select data.weight}}
+                {{#each weights}}
+                    <option value="{{this}}">{{this}}</option>
+                {{/each}}
+                {{/select}}
+                </select>
+            </p>
+            <p>Type:
+                <select name="data.weaponType">
+                {{#select data.weaponType}}
+                {{#each weaponTypes}}
+                    <option value="{{this}}">
+                        {{this}}
+                    </option>
+                {{/each}}
+                {{/select}}
+                </select>
+            </p>
+            <p>
+                Damage: <input type="number" name="data.damage" value="{{data.damage}}" />
+            </p>
+            <p>Range:
+                <select name="data.range">
+                {{#select data.range}}
+                    {{#each ranges}}
+                        <option value="{{this}}">
+                            {{this}}
+                        </option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </p>
+            <p>
+                Price: <input type="number" name="data.price" value="{{data.price}}" />
+            </p>
+            <p>
+                Notes: <textarea name="data.notes">{{data.notes}}</textarea>
+            </p>
         </div>
     </div>
 </form>
