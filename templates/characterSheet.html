@@ -187,41 +187,6 @@
 
         <h3>Weapons</h3>
         <table class="weapons">
-            <template>
-                <tr class="weapon">
-                    <td class="weapon-name">
-                        <input type="text" name="weapon" placeholder="Weapon name" class="weapon-name-input" />
-                    </td>
-                    <td class="weapon-weight-type">
-                        <select>
-                        {{#each weightClasses as |weightClass|}}
-                            <option value="{{weightClass}}">{{weightClass}}</option>
-                        {{/each}}
-                        </select>
-                        <select>
-                        {{#each weaponTypes as |weaponType|}}
-                            <option value="{{weaponType}}">{{weaponType}}</option>
-                        {{/each}}
-                        </select>
-                    </td>
-                    <td class="weapon-damage">
-                        <input type="number" min="1" value="1" />
-                    </td>
-                    <td class="weapon-range">
-                        <select>
-                        {{#each ranges as |range|}}
-                            <option value="{{range}}">{{range}}</option>
-                        {{/each}}
-                        </select>
-                    </td>
-                    <td class="weapon-notes">
-                        <input type="text" />
-                    </td>
-                    <td>
-                        <a class="weapon-control" data-action="delete"><i class="fas fa-trash"></i></a>
-                    </td>
-                </tr>
-            </template>
             <thead>
                 <td>Name</td>
                 <td>Type</td>
@@ -238,37 +203,39 @@
                     </td>
                     <td class="weapon-weight-type">
                         <select name="data.items.weapons.{{weapon.name}}.weight">
-                        {{#each weapon.weightClasses as |weightClass|}}
-                            <option value="{{weightClass.label}}"
-                                {{#if weightClass.checked}}
-                                selected="selected"
-                                {{/if}}
-                            >{{weightClass.label}}
-                            </option>
+                        {{#select weapon.data.weight}}
+                        {{#each ../weights}}
+                            <option value="{{this}}">{{this}}</option>
                         {{/each}}
+                        {{/select}}
                         </select>
 
-                        <select name="data.items.weapons.{{weapon.name}}.type">
-                        {{#each weapon.weaponTypes as |weaponType|}}
-                            <option value="{{weaponType.label}}"
-                                {{#if weaponType.checked}}
-                                selected="selected"
-                                {{/if}}
-                            >{{weaponType.label}}
+                        <select name="data.items.weapons.{{weapon.name}}.weaponType">
+                        {{#select weapon.data.weaponType}}
+                        {{#each ../weaponTypes}}
+                            <option value="{{this}}">
+                                {{this}}
                             </option>
                         {{/each}}
+                        {{/select}}
                         </select>
                     </td>
                     <td class="weapon-damage">
-                        <input type="number"name="data.items.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.damage}}" />
+                        <input type="number" name="data.items.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.data.damage}}" />
                     </td>
                     <td class="weapon-range">
-                        {{> "systems/numenera/templates/parts/range.html"
-                            name=weapon.rangePropertyName selected=weapon.range ranges=../ranges
-                        }}
+                        <select name="data.items.weapons.{{weapon.name}}.range">
+                        {{#select weapon.data.range}}
+                        {{#each ../ranges}}
+                            <option value="{{this}}">
+                                {{this}}
+                            </option>
+                        {{/each}}
+                        {{/select}}
+                        </select>
                     </td>
                     <td class="weapon-notes">
-                        <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.notes}}" />
+                        <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.data.notes}}" />
                     </td>
                     <td>
                         <a class="weapon-delete" data-action="delete"><i class="fas fa-trash"></i></a>

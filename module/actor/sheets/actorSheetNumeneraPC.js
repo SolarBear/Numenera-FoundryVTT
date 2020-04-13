@@ -73,7 +73,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
     //Call generator function to assign table event handlers
     this.onClickSkillControl = onClickControlGenerator("skill");
-    this.onClickWeaponControl = onClickControlGenerator("weapon");
     this.onClickAbilityControl = onClickControlGenerator("ability");
   }
 
@@ -102,7 +101,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     sheetData.ranges = NUMENERA.ranges;
     sheetData.stats = NUMENERA.stats;
     sheetData.weaponTypes = NUMENERA.weaponTypes;
-    sheetData.weightClasses = NUMENERA.weightClasses;
+    sheetData.weights = NUMENERA.weightClasses;
 
     //"Augment" the types objects with a new "isActorType" property
     sheetData.types = NUMENERA.types.map((value) => {
@@ -158,48 +157,11 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     );
 
     //Weapons section
-    debugger;
-    if (!sheetData.data.items)
-      sheetData.data.items = sheetData.actor.items || {};
+    sheetData.data.items = sheetData.actor.items || {};
 
-    const items = sheetData.data.items || {};
+    const items = sheetData.data.items;
     if (!sheetData.data.items.weapons)
-      sheetData.data.items.weapons = items.filter(i => i.type === "weapon"); // sheetData.data.items.weapons || {}; 
-
-    Object.values(sheetData.data.items.weapons).forEach(weapon => {
-      debugger;
-      weapon.weightClasses = NUMENERA.weightClasses.map((weightClass) => {
-        return {
-          label: weightClass,
-          checked: weightClass === weapon.weight,
-        };
-      });
-
-      weapon.weaponTypes = NUMENERA.weaponTypes.map((weaponType) => {
-        return {
-          label: weaponType,
-          checked: weaponType === weapon.type,
-        };
-      });
-
-      weapon.rangePropertyName = `data.items.weapons.${weapon.name}.range`;
-    });
-
-    //Abilities section
-    sheetData.abilitiesName = actorType
-      ? NUMENERA.typePowers[actorType]
-      : "Abilities";
-    sheetData.abilities = Object.values(sheetData.actor.data.abilities).forEach(
-      (ability) => {
-        ability.cost = ability.cost || {};
-        ability.cost.stats = NUMENERA.stats.map((stat) => {
-          return {
-            label: stat,
-            checked: stat === ability.cost.pool,
-          };
-        });
-      }
-    );
+      sheetData.data.items.weapons = items.filter(i => i.type === "weapon");
 
     return sheetData;
   }
@@ -228,11 +190,7 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     const weaponsTable = html.find("table.weapons");
     weaponsTable.on("click", ".weapon-create", this.onWeaponCreate.bind(this));
     weaponsTable.on("click", ".weapon-delete", this.onWeaponDelete.bind(this));
-    // weaponsTable.on(
-    //   "blur",
-    //   "tbody input[name$=\".name\"]",
-    //   this.onWeaponNameChange.bind(this)
-    // );
+    weaponsTable.on("blur", "input,select,textarea", this.onWeaponEdit.bind(this));
 
     const abilityTable = html.find("table.abilities");
     abilityTable.on(
@@ -244,17 +202,17 @@ export class ActorSheetNumeneraPC extends ActorSheet {
       "blur",
       "tbody input,select,textarea",
       this.onAbilityNameChange.bind(this)
-    );
+    ); 
   }
 
   onWeaponCreate(event) {
     event.preventDefault();
-    debugger;
 
-    const count = this.actor.getEmbeddedCollection("OwnedItem").filter(i => i.name.startsWith("New Weapon")).length;
-
+    const count = this.actor.getEmbeddedCollection("OwnedItem")
+      .filter(i => i.name.startsWith("New Weapon"))
+      .length;
     const weaponData = {
-      name: "New Weapon " + count,
+      name: "New Weapon " + (count + 1),
       type: "weapon",
       data: new NumeneraWeaponItem({}),
     };
@@ -264,8 +222,27 @@ export class ActorSheetNumeneraPC extends ActorSheet {
 
   onWeaponDelete(event) {
     event.preventDefault();
+
     const tr = event.currentTarget.closest(".weapon");
-    //this.actor.deleteOwnedItem(tr.dataset.itemId);
+    this.actor.deleteOwnedItem(tr.dataset.itemId);
+  }
+
+  async onWeaponEdit(event) {
+    event.preventDefault();
+
+    const row = event.currentTarget.closest(".weapon");
+    const item = this.actor.getOwnedItem(row.dataset.itemId);
+    const updated = duplicate(item.data); //duplicate item
+
+    const name = event.currentTarget.name.split(".").pop();
+    //The "name" property is not at the same hierarchy levels as "regular" properties
+    if (name === "name")
+      updated.name = event.currentTarget.value
+    else
+      updated.data[name] = event.currentTarget.value;
+
+    await this.actor.updateEmbeddedEntity("OwnedItem", updated);
+    this.actor.render();
   }
 
   /**
@@ -310,31 +287,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
   }
 
   /**
-   * Event handler for the "blur" (ie. focus lost) event on weapon names. Sets the current
-   * name as weapon name to all other inputs inside the row.
-   *
-   * @param {Event} event
-   * @memberof ActorSheetNumeneraPC
-   */
-  async onWeaponNameChange(event) {
-    event.preventDefault();
-    //   //TODO check out if we could possibly make a HOF out of this function and the one for skills
-    const input = event.currentTarget;
-    const id = input.dataset.itemId;
-
-    this.actor.updateEmbeddedEntity("OwnedItem", {id, name: input.value}) ;
-
-    //   //TODO Hello! I'm a hack. Please obliterate me as violently as possible! Thank you! :)
-    const row = event.currentTarget.closest(".weapon");
-    row.children[0].children[0].name = `actor.items.weapons.${input.value}.name`;
-    row.children[1].children[0].name = `actor.items.weapons.${input.value}.weightClass`;
-    row.children[1].children[1].name = `actor.items.weapons.${input.value}.weaponType`;
-    row.children[2].children[0].name = `actor.items.weapons.${input.value}.damage`;
-    row.children[3].children[0].name = `actor.items.weapons.${input.value}.range`;
-    row.children[4].children[0].name = `actor.items.weapons.${input.value}.notes`;
-  }
-
-  /**
    * Implement the _updateObject method as required by the parent class spec
    * This defines how to update the subject of the form when the form is submitted
    *
@@ -343,12 +295,15 @@ export class ActorSheetNumeneraPC extends ActorSheet {
    * @private
    */
   async _updateObject(event, formData) {
+    //TODO this works A-OK but it's ugly... find a cleaner way to handle this
+    if (event.currentTarget && event.currentTarget.closest(".weapon")) {
+      return;
+    }
+
     const fd = expandObject(formData);
 
     const formSkills = fd.data.skills || {};
     const formAbilities = fd.data.abilities || {};
-    debugger;
-    const formWeapons = fd.data.items.weapons || {};
 
     const formDataReduceFunction = function (obj, v) {
       if (v.hasOwnProperty("name")) {
@@ -360,10 +315,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     };
 
     const skills = Object.values(formSkills).reduce(formDataReduceFunction, {});
-    const weapons = Object.values(formWeapons).reduce(
-      formDataReduceFunction,
-      {}
-    );
     const abilities = Object.values(formAbilities).reduce(
       formDataReduceFunction,
       {}
@@ -373,17 +324,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
     for (let sk of Object.keys(this.object.data.data.skills)) {
       if (sk && !skills.hasOwnProperty(sk)) skills[`-=${sk}`] = null;
     }
-    for (let item of this.object.items) {
-        switch(item.type) {
-            case "weapon":
-                if (item && !weapons.hasOwnProperty(item.name))
-                    weapons[`-=${item.name}`] = null;
-                break;
-            default:
-                throw new Error("Unhandled case");
-        }
-    }
-
     for (let ab of Object.keys(this.object.data.data.abilities)) {
       if (ab && !abilities.hasOwnProperty(ab)) abilities[`-=${ab}`] = null;
     }
@@ -393,7 +333,6 @@ export class ActorSheetNumeneraPC extends ActorSheet {
       .filter(
         (e) =>
           !e[0].startsWith("data.skills") &&
-          !e[0].startsWith("data.items.weapons") &&
           !e[0].startsWith("data.abilities")
       )
       .reduce(
@@ -404,14 +343,11 @@ export class ActorSheetNumeneraPC extends ActorSheet {
         {
           _id: this.object._id,
           "data.skills": skills,
-          "data.items.weapons": weapons,
           "data.abilities": abilities,
         }
       );
 
     // Update the Actor
-    //await this.object.update(formData);
-    debugger;
-    return super._updateObject(event, formData);
+    await this.object.update(formData);
   }
 }

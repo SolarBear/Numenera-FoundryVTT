@@ -94,12 +94,12 @@
             "ranged": {
                 "range": "Immediate"
             },
-            "weightCategory": {
-                "weightCategory": "Light"
+            "weight": {
+                "weight": "Light"
             }
         },
         "armor": {
-            "templates": ["common", "weightCategory"],
+            "templates": ["common", "weight"],
             "armor": 0,
             "additionalSpeedEffortCost": 1
         },
@@ -121,7 +121,7 @@
             "templates": ["common"]
         },
         "weapon": {
-            "templates": ["common", "range", "weightCategory"],
+            "templates": ["common", "range", "weight"],
             "damage": 0,
             "weaponType": "Bashing"
         }

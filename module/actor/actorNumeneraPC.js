@@ -12,11 +12,6 @@ const effortObject = {
  */
 export class ActorNumeneraPC extends Actor {
 
-  async createOwnedItem(itemData, options) {
-    itemData = new NumeneraItem(itemData);
-    return super.createOwnedItem(itemData, options);
-  }
-
   get effort() {
     const data = this.data.data;
 
