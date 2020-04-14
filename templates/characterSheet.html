@@ -21,19 +21,19 @@
             </h1>
             <div class="flexrow">
                 {{#each data.stats as |stat id|}}
-                    <div class="stats" data-stat="{{id}}">
-                        <h2>{{id}}</h2 >
-                        <span>
-                            <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
-                            /
-                            <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
-                        </span>
-            
-                        <h3>Edge</h3>
-                        <span>
-                            <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
-                        </span>
-                    </div>
+                <div class="stats" data-stat="{{id}}">
+                    <h2>{{id}}</h2 >
+                    <span>
+                        <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                        /
+                        <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
+                    </span>
+        
+                    <h3>Edge</h3>
+                    <span>
+                        <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" />
+                    </span>
+                </div>
                 {{/each}}
                 <div class="stats">
                     <h2>Tier</h2>
@@ -55,13 +55,7 @@
             <p>
             {{#each damageTrackData as |track|}}
                 <label for="track.label">{{track.label}}
-                    <input type="radio" readonly="readonly" value="{{track.index}}"
-                    {{#if track.checked}}
-                    checked="checked" 
-                    {{else}}
-                    disabled 
-                    {{/if}}
-                    />
+                    <input type="radio" readonly="readonly" value="{{track.index}}" {{checked track.checked}} />
                 </label>
             {{/each}}
             </p>
@@ -69,15 +63,10 @@
         </div>
         <div class="advances">
             <h2>Advancement: <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> XP</h2>
-            
             <ul>
                 {{#each advances as |advance|}}
                 <li>
-                    <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean"
-                        {{#if advance.isChecked}}
-                        checked="checked"
-                        {{/if}}
-                    />
+                    <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean" {{checked advance.isChecked}}/>
                     <label for="data.advances.{{advance.name}}">{{advance.label}}</label>
                 </li>
                 {{/each}}
@@ -89,11 +78,7 @@
             <ul>
             {{#each recoveriesData as |recovery|}}
             <li>
-                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}"
-                {{#if recovery.checked}}
-                checked
-                {{/if}}
-                />
+                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}" {{checked recovery.checked}}/>
                 <label for="recoveries.action">{{recovery.label}}</label>
             </li>
             {{/each}}
@@ -149,25 +134,13 @@
                             </select>
                     </td>
                     <td class="skill-inability">
-                        <input type="checkbox" name="data.skills.{{skill.name}}.inability" 
-                            {{#if skill.inability}}
-                            checked="checked"
-                            {{/if}}
-                        />
+                        <input type="checkbox" name="data.skills.{{skill.name}}.inability" {{checked skill.inability}} />
                     </td>
                     <td class="skill-trained">
-                        <input class="skill-trained" type="checkbox" name="data.skills.{{skill.name}}.trained"
-                            {{#if skill.trained}}
-                            checked="checked"
-                            {{/if}}
-                        />
+                        <input class="skill-trained" type="checkbox" name="data.skills.{{skill.name}}.trained" {{checked skill.trained}} />
                     </td>
                     <td class="skill-specialized">
-                        <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized"
-                            {{#if skill.specialized}}
-                            checked="checked"
-                            {{/if}}
-                        />
+                        <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized" {{checked skill.specialized}} />
                     </td>
                     <td>
                         <a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a>
