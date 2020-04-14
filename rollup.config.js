@@ -18,8 +18,6 @@ const toBundle = [
     "templates/item/equipmentSheet.html",
     "templates/item/odditySheet.html",
     "templates/item/weaponSheet.html",
-    "templates/parts/range.html",
-    "templates/parts/stats.html",
 ];
 
 export default [{
