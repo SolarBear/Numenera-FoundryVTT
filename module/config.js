@@ -28,7 +28,7 @@ NUMENERA.skillLevels = {
 NUMENERA.types = [
   {
     abbrev: 'a',
-    name: 'Arkai',
+    name: 'Arkus',
   },
   {
     abbrev: 'd',
