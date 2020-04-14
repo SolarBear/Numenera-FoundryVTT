@@ -1,14 +1,14 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <h1>
-        <input type="text" name="item.name" value="{{item.name}}" title="{{item.name}}" data-edit="img" />
-    </h1>
     <div class="flexrow">
         <div>
             {{#if data.img}}
-            <img class="profile-img" src="{{item.img}}" />
+            <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
             {{/if}}
         </div>
         <div>
+            <h1>
+                <input type="text" name="name" value="{{item.name}}"  placeholder="Item Name" />
+            </h1>
             <p>Weight: <select name="data.weight">
                 {{#select data.weight}}
                 {{#each weights}}

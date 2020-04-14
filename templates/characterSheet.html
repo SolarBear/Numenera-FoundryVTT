@@ -5,18 +5,17 @@
         </div>
         <div class="flexcol">
             <h1 class="character">
-                <input type="text" name="actor.name" value="{{actor.name}}" class="charname" />
+                <input type="text" name="name" value="{{actor.name}}" class="charname" />
                 is a
                 <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
                 <select name="data.characterType" class="characterType" data-type="String">
+                    {{#select data.characterType}}
                     <option value="" />
                     {{#each types}}
                     <option value="{{abbrev}}" 
-                        {{#if isActorType}}
-                            selected="selected"
-                        {{/if}}
                     >{{name}}</option>
-                {{/each}}
+                    {{/each}}
+                    {{/select}}
                 </select>
                 who&nbsp;<input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
             </h1>
@@ -259,9 +258,9 @@
                         <input type="number" />
                         <select>
                         {{#each stats}}
-                                <option value="{{this}}"
-                                >{{this}}
-                                </option>
+                            <option value="{{this}}"
+                            >{{this}}
+                            </option>
                         {{/each}}
                         </select>
                     </td>
