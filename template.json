@@ -121,7 +121,7 @@
             "templates": ["common"]
         },
         "weapon": {
-            "templates": ["common", "range", "weight"],
+            "templates": ["common", "ranged", "weight"],
             "damage": 0,
             "weaponType": "Bashing"
         }
