@@ -53,7 +53,7 @@
             "skills": {},
             "shins": 0,
             "tier": 1,
-            "version": 0,
+            "version": 1,
             "xp": 0
         },
         "npc": {
@@ -76,7 +76,7 @@
             "loot": null,
             "gmIntrusion": null,
             "image": null,
-            "version": 0
+            "version": 1
         }
     },
     "Item": {
@@ -85,7 +85,8 @@
             "common": {
                 "name": "",
                 "price": 0,
-                "notes": ""
+                "notes": "",
+                "version": 1
             },
             "numenera": {
                 "level": 1,
