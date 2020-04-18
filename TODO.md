@@ -4,9 +4,8 @@
 
 * Convert pretty much everything to Items
   * Abilities
-  * Weapons
   * Skills (?)
-* Dynamic lists
+* Dynamic lists (Items)
   * Cyphers
   * Artifacts
   * Armor
@@ -18,7 +17,7 @@
   * French translation
   * Politely ask for more translations
 * Skills
-  * trained and specialized should be mutually exclusive
+  * trained and specialized should be mutually exclusive OR only take specialized into account
   * filter by stat
 * Abilities
   * Damage
@@ -26,7 +25,6 @@
   * Pool spending
 
 ## NPC sheet
-* Basic sheet
 * Integration to initiative tracker
 
 ## Game features and mechanics
@@ -49,7 +47,10 @@
   * Manage damage track from changes to the pools
 * Damage Track
   * remove radio buttons, just display current level?
+    * NO, some special NPCs or events can directly lower the PC's damage track
   * combobox?
+* NPCs
+  * On creation, set base values according to level (damge = level, health = 3 x level, etc.)
 
 ## Other nice things
 
