@@ -13,7 +13,7 @@ import { NumeneraPCActor } from "./NumeneraPCActor.js";
  *
  * @export
  */
-const NumeneraActor = new Proxy(function () {}, {
+export const NumeneraActor = new Proxy(function () {}, {
   //Calling a constructor from this proxy object
   construct: function (target, args) {
     const [data] = args;
@@ -60,5 +60,3 @@ const NumeneraActor = new Proxy(function () {}, {
     }
   },
 });
-
-export { NumeneraActor };
