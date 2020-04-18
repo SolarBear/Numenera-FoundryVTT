@@ -58,6 +58,7 @@
         },
         "npc": {
             "level": 1,
+            "attacks": {},
             "description": null,
             "motive": null,
             "environment": null,
