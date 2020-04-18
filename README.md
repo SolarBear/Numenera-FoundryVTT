@@ -30,24 +30,26 @@ Whatever the case, just get in touch.
 
 This is obviously subject to change but this is the current plan, with each version having a hilarious name.
 
-If you'd like something added or prioritized, just drop me a line! You can easily join me through the Foundry Discord server (DISCORD LINK HERE).
+If you'd like something added or prioritized, just drop me a line! You can easily join me through the [Foundry Discord server](https://discordapp.com/invite/DDBZUDf).
 
-### 0.1 A New Hope (TM) - CURRENT
+### 0.1 A New Hope (TM)
 
 * Minimal but usable character sheet
 
 ### 0.2 Much love for the character sheet 
 
 * Dynamic skills, weapons and abilities
-* Weapons and abilities as Items for inclusion in compendiums
+* Weapons as Items for inclusion in compendiums
 
-### 0.3 NPCs are people, too
+### 0.3 NPCs are people, too - CURRENT
 
-* NPC Character sheet
-* Initiative tracking (players + NPCs)
+* NPC sheets
+* Items sheets
 
 ### 0.4 Keep on (dice) rollin', baby
 
+* **Data stability arrives here**
+* Initiative tracking (players + NPCs)
 * Rolls from character sheet
     * Simple roll per stat
     * Roll per skill
@@ -93,6 +95,7 @@ If you'd like something added or prioritized, just drop me a line! You can easil
 
 ### 0.6 I've got the powers
 
+* Abilities and skills as Items for inclusion in compendiums
 * Use of powers (eg. Esoteries, Tricks of the Trade, etc.)
     * Subtract cost from pool, taking Edge and Effort into account
     * Take range into account
@@ -134,11 +137,11 @@ If you're the kind of person who knows HTML, CSS and/or Javasript, well 1) my co
 
 If you want to use the code as is - unminified, without tree-shaking, etc. - follow these steps.
 
-1. Ensure the Foundry server is installed on your machine (LINK HERE PLZ).
+1. Ensure the Foundry server is installed on your machine.
 1. Clone the repo to a directory of your liking using your git client of choice. 
 1. Open a console and move to that directory.
 1. Run `npm install --save-dev` there. Wait for it to finish.
-1. Go to your foundry data folder (OTHER LINK HERE PLZ) and either move your git repo clone into the `worlds/` subdirectory or create a symlink to that directory.
+1. Go to your foundry data folder (LINK HERE PLZ) and either move your git repo clone into the `worlds/` subdirectory or create a symlink to that directory.
 1. Start the foundry server.
 1. Connect to it using your favorite browser.
 1. Enjoy.
