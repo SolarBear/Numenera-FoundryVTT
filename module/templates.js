@@ -3,18 +3,28 @@
  * Pre-loaded templates are compiled and cached for fast access when rendering
  * @return {Promise}
  */
-export const preloadHandlebarsTemplates = async function() {
+export const preloadHandlebarsTemplates = async() => {
 
     // Define template paths to load
     const templatePaths = [
-  
-      // Actor Sheet Partials
-      "systems/numenera/templates/characterSheet.html",
 
-      // Item Sheet Partials
+        // Actor Sheets
+        "systems/numenera/templates/characterSheet.html",
+        "systems/numenera/templates/npcSheet.html",
+
+        //Item sheets
+        "systems/numenera/templates/item/armorSheet.html",
+        "systems/numenera/templates/item/artifactSheet.html",
+        "systems/numenera/templates/item/cypherSheet.html",
+        "systems/numenera/templates/item/equipmentSheet.html",
+        "systems/numenera/templates/item/odditySheet.html",
+        "systems/numenera/templates/item/weaponSheet.html",
+
+        //Parts
+        "systems/numenera/templates/parts/range.html",
+        "systems/numenera/templates/parts/stats.html",
     ];
-  
+
     // Load the template parts
     return loadTemplates(templatePaths);
-  };
-  
+};

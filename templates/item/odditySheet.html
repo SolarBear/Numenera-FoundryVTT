@@ -1,0 +1,13 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <h1><input type="text" name="data.name" value="{{data.name}}" /></h1>
+    <div class="flexrow">
+
+        <div>
+            {{#if data.img}}
+            <img src="{{data.img}}" /> {{/if}}
+        </div>
+        <div>
+            <p>Notes: <textarea name="data.notes">{{data.notes}}</textarea></p>
+        </div>
+    </div>
+</form>

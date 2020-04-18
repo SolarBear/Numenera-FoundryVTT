@@ -1,0 +1,17 @@
+<form class="{{cssClass}}" autocomplete="off">
+    <h1><input type="text" name="data.name" value="{{data.name}}" /></h1>
+    <div class="flexrow">
+
+        <div>
+            {{#if data.img}}
+            <img src="{{data.img}}" /> {{/if}}
+        </div>
+        <div>
+            <p>Level:
+                <input type="text" name="data.level" value="{{data.level}}" /></p>
+            <p>Form:
+                <input type="text" name="data.form" value="{{data.form}}" " /></p>
+            <p>Effect: <textarea name="data.effect ">{{data.effect}}</textarea></p>
+        </div>
+    </div>
+</form>

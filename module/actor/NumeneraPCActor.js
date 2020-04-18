@@ -1,4 +1,4 @@
-import { NUMENERA } from "./config.js";
+import { NUMENERA } from '../config.js';
 
 const effortObject = {
   cost: 0,
@@ -9,7 +9,8 @@ const effortObject = {
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
  */
-export class ActorNumeneraPC extends Actor {
+export class NumeneraPCActor extends Actor {
+
   get effort() {
     const data = this.data.data;
 
@@ -130,20 +131,22 @@ export class ActorNumeneraPC extends Actor {
   }
 
   getEffortCostFromStat(event) {
-    const effortLevel = event.target.value;
-    const statId = event.target.dataset.statId;
-
+    //Return value, copy from template object
     const value = {...effortObject};
+
+    const effortLevel = event.target.value;
     if (effortLevel === 0) {
       return value;
     }
         
     const actorData = this.data.data;
+
+    const statId = event.target.dataset.statId;
     const stat = actorData.stats[statId];
 
     //The first effort level costs 3 pts from the pool, extra levels cost 2
-    //Substract the Edge, too
-    const availableEffortFromPool = (stat.pool.current - stat.edge - 1) / 2;
+    //Substract the related Edge, too
+    const availableEffortFromPool = (stat.pool.current + stat.edge - 1) / 2;
 
     //A PC can use as much as their Effort score, but not more
     //They're also limited by their current pool value

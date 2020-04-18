@@ -14,9 +14,6 @@
             "background": "",
             "characterType": "",
             "descriptor": "",
-            "equipment": {
-                "weapons": {}
-            },
             "focus": "",
             "numenera": {
                 "artifacts": "",
@@ -56,57 +53,57 @@
             "skills": {},
             "shins": 0,
             "tier": 1,
-            "version": 0,
+            "version": 1,
             "xp": 0
         },
         "npc": {
             "level": 1,
-            "description": "",
-            "environement": "",
-            "health": 0,
+            "attacks": {},
+            "description": null,
+            "motive": null,
+            "environment": null,
+            "health": {
+                "current": 1,
+                "max": 1
+            },
+            "combat": null,
             "damage": 0,
             "armor": 0,
             "movement": "short",
-            "modifications": "",
-            "interaction": "",
-            "use": "",
-            "loot": "",
-            "gmIntrusion": "",
-            "version": 0
+            "modifications": null,
+            "interaction": null,
+            "use": null,
+            "loot": null,
+            "gmIntrusion": null,
+            "image": null,
+            "version": 1
         }
     },
-    "Items": {
-        "types": ["cypher", "artifact", "oddity", "equipment", "armor", "weapon"],
+    "Item": {
+        "types": ["armor", "artifact", "cypher", "equipment", "oddity", "weapon"],
         "templates": {
             "common": {
                 "name": "",
                 "price": 0,
-                "notes": ""
-            },
-            "weightCategory": {
-                "name": ""
+                "notes": "",
+                "version": 1
             },
             "numenera": {
                 "level": 1,
                 "form": "",
                 "effect": ""
+            },
+            "ranged": {
+                "range": "Immediate"
+            },
+            "weight": {
+                "weight": "Light"
             }
         },
-        "equipment": {
-            "templates": ["common"]
-        },
         "armor": {
-            "templates": ["common", "weightCategory"],
+            "templates": ["common", "weight"],
             "armor": 0,
             "additionalSpeedEffortCost": 1
-        },
-        "weapon": {
-            "templates": ["common", "weightCategory"],
-            "stat": "",
-            "damage": 0
-        },
-        "cypher": {
-            "templates": ["common", "numenera"]
         },
         "artifact": {
             "templates": ["common", "numenera"],
@@ -115,6 +112,20 @@
                 "die": "d6",
                 "threshold": 1
             }
+        },
+        "cypher": {
+            "templates": ["common", "numenera"]
+        },
+        "equipment": {
+            "templates": ["common"]
+        },
+        "oddity": {
+            "templates": ["common"]
+        },
+        "weapon": {
+            "templates": ["common", "range", "weight"],
+            "damage": 0,
+            "weaponType": "Bashing"
         }
     }
 }

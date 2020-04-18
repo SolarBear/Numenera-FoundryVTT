@@ -1,0 +1,13 @@
+{{!-- Stats control
+    Expected parameters
+    name: name of the control, ie. the bound variable
+    ranges: an array of range values
+    selected: the selected value, if any
+--}}
+<select name="{{name}}">
+    {{#select selected}}
+    {{#each stats}}
+    <option value="{{this}}">{{this}}</option>
+    {{/each}}
+    {{/select}}
+</select>

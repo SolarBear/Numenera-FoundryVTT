@@ -1,20 +1,20 @@
 {
   "name": "numenera-foundryvtt",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Support for the Numenera role playing game for the Foundry virtual tabletop",
   "dependencies": {},
   "devDependencies": {
+    "eslint": "^6.8.0",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2",
-    "jslint": "^0.12.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "rollup": "^1.32.1",
     "rollup-plugin-copy2": "^0.1.3",
-    "rollup-plugin-scss": "^2.1.0",
+    "rollup-plugin-scss": "^2.4.0",
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-zip": "^0.7.0",
-    "terser": "^4.6.10"
+    "terser": "^4.6.11"
   },
   "main": "numenera.js",
   "scripts": {
