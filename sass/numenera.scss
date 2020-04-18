@@ -19,6 +19,7 @@ li {
 h2 {
     border: none;
     padding-top: 0.5em;
+    margin-left: 1em;
 }
 
 input[data-dtype="Number"] {
@@ -27,6 +28,14 @@ input[data-dtype="Number"] {
 
 p.description {
     font-style: italic;
+}
+
+label {
+    margin: 0 0.5em 0 0.5em;
+}
+
+table {
+    margin: 0 0.5em 0 0.5em;
 }
 
 form.flexcol {
@@ -48,6 +57,14 @@ form.flexcol {
                 max-height: 400px;
                 margin-bottom: 1em;
             }
+        }
+
+        div > div.npc-info {
+            flex: 0.25;
+        }
+
+        div > div.npc-stats {
+            flex: 0.5;
         }
 
         h1.character {

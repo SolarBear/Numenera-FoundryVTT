@@ -33,6 +33,7 @@ function onClickControlGenerator(control) {
 
         const newRow = template.content.cloneNode(true);
         body.appendChild(newRow);
+        await this._onSubmit(event);
         break;
 
       case "delete":
@@ -52,7 +53,7 @@ function onClickControlGenerator(control) {
  *
  * @type {ActorSheet}
  */
-export class ActorSheetNumeneraPC extends ActorSheet {
+export class NumeneraPCActorSheet extends ActorSheet {
   /**
    * Define default rendering options for the NPC sheet
    * @return {Object}
