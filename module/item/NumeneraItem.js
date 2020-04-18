@@ -7,11 +7,11 @@ import { NumeneraWeaponItem } from "./NumeneraWeaponItem.js";
 
 /**
  * Numenera item base class
- * 
+ *
  * Acts as a mix of factory and proxy: depending on its "type" argument,
  * creates an object of the right class (also extending Item) and simply
  * overrides its own properties with that of that new objects.
- * 
+ *
  * This is used since Item doesn't really allow for real inheritance, so
  * we're simply faking it. #yolo #ididntchoosethethuglife
  *
@@ -19,55 +19,62 @@ import { NumeneraWeaponItem } from "./NumeneraWeaponItem.js";
  * @class NumeneraItem
  * @extends {Item}
  */
-export class NumeneraItem extends Item {
-    static get ClassTypeMap()  {
-        return {
-        "armor": NumeneraArmorItem,
-        "artifact": NumeneraArtifactItem,
-        "cypher": NumeneraCypherItem,
-        "equipment": NumeneraEquipmentItem,
-        "oddity": NumeneraOddityItem,
-        "weapon": NumeneraWeaponItem
-        };
-    };
-
-    constructor(data, options = {}) {
-        super(data, options);
-
-        const { type } = data;
-        if (!type)
-            throw new Error('No object type provided');
-
-        if (data.__proto__.constructor === Object)
-        {
-            //First, create an object of the appropriate type...
-            let object = null;
-            switch (type) {
-                case "armor":
-                    object = new NumeneraArmorItem(data, options);
-                    break;
-                case "artifact":
-                    object = new NumeneraArtifactItem(data, options);
-                    break;
-                case "cypher":
-                    object = new NumeneraCypherItem(data, options);
-                    break;
-                case "equipment":
-                    object = new NumeneraEquipmentItem(data, options);
-                    break;
-                case "oddity":
-                    object = new NumeneraOddityItem(data, options);
-                    break;
-                case "weapon":
-                    object = new NumeneraWeaponItem(data, options);
-                    break;
-            }
-
-            if (object === null)
-                throw new Error(`Unhandled object type ${type}`);
-
-            //...then merge that object into the current one
-            mergeObject(this.data, object.data);
-        }
+export const NumeneraItem = new Proxy(function () {}, {
+  //Calling a constructor from this proxy object
+  construct: function (target, args) {
+    const [data] = args;
+    switch (data.type) {
+      case "armor":
+        return new NumeneraArmorItem(...args);
+      case "artifact":
+        return new NumeneraArtifactItem(...args);
+      case "cypher":
+        return new NumeneraCypherItem(...args);
+      case "equipment":
+        return new NumeneraEquipmentItem(...args);
+      case "oddity":
+        return new NumeneraOddityItem(...args);
+      case "weapon":
+        return new NumeneraWeaponItem(...args);
     }
-}
+  },
+  //Property access on this weird, dirty proxy object
+  get: function (target, prop, receiver) {
+    switch (prop) {
+      case "create":
+        //Calling the class' create() static function
+        return function (data, options) {
+          switch (data.type) {
+            case "armor":
+              return NumeneraArmorItem.create(data, options);
+            case "artifact":
+              return NumeneraArtifactItem.create(data, options);
+            case "cypher":
+              return NumeneraCypherItem.create(data, options);
+            case "equipment":
+              return NumeneraEquipmentItem.create(data, options);
+            case "oddity":
+              return NumeneraOddityItem.create(data, options);
+            case "weapon":
+              return NumeneraWeaponItem.create(data, options);
+          }
+        };
+
+      case Symbol.hasInstance:
+        //Applying the "instanceof" operator on the instance object
+        return function (instance) {
+          return (
+            instance instanceof NumeneraArmorItem ||
+            instance instanceof NumeneraArtifactItem ||
+            instance instanceof NumeneraCypherItem ||
+            instance instanceof NumeneraEquipmentItem ||
+            instance instanceof NumeneraOddityItem ||
+            instance instanceof NumeneraWeaponItem
+          );
+        };
+      default:
+        //Just forward any requested properties to the base Actor class
+        return Item[prop];
+    }
+  },
+});
