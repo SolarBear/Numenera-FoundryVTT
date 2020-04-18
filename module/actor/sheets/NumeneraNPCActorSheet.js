@@ -74,7 +74,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
         //Let's keep things simple here: get the largest existing id and add one
         const id =
           Math.max(
-            [...body.children].map((c) => c.children[0].children[0].value || 0)
+            ...[...body.children].map((c) => c.children[0].children[0].value || 0)
           ) + 1;
 
         const newRow = template.content.cloneNode(true);
@@ -114,6 +114,31 @@ export class NumeneraNPCActorSheet extends ActorSheet {
     const fd = expandObject(formData);
 
     const formAttacks = fd.data.attacks || {};
+
+    //***************************
+    //DISGUSTING WORKAROUND ALERT
+    //***************************
+
+    //TODO FIX THIS SHIT
+    //For some extra-weird reason, I get NaN sometimes as an ID, so just swap it around
+    let nAnPatch = 1000;
+
+    for (let at of Object.values(formAttacks)) {
+      if (typeof at.id !== "string") {
+        console.warn("Oops! Weird NaN problem here, buddy");
+        
+        //Avoid collisions, in case this is not the first time this happens
+        while (Object.values(formAttacks).some(at => at.id == nAnPatch))
+          ++nAnPatch;
+
+        at.id = nAnPatch.toString();
+        ++nAnPatch;
+      }
+    }
+
+    //*******************************
+    //END DISGUSTING WORKAROUND ALERT
+    //*******************************
 
     const formDataReduceFunction = function (obj, v) {
       if (v.hasOwnProperty("id")) {
