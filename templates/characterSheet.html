@@ -86,7 +86,8 @@
         </div>
     </div>
 
-    <div class="flexrow">
+
+    <div>
         <h2>Skills</h2>
         <table class="skills">
             <template>
@@ -248,7 +249,7 @@
             <thead>
                 <tr>
                     <td class="ability-name">Name</td>
-                    <td class="ability-cost">Stat</td>
+                    <td class="ability-cost">Cost</td>
                     <td class="ability-description">Description</td>
                     <td><a class="ability-control" data-action="create"><i class="fas fa-plus"></i></a></td>
                 </tr>
@@ -262,15 +263,12 @@
                     <td class="ability-cost">
                         <input type="number" name="data.abilities.{{ability.name}}.cost.amount" value="{{ability.cost.amount}}" />
                         <select name="data.abilities.{{ability.name}}.cost.pool">
-                            {{#each ability.cost.stats}}
-                                <option value="{{this.label}}"
-                                    {{#if this.checked}}
-                                    selected="selected"
-                                    {{/if}}
-                                >{{this.label}}
-                                </option>
+                            {{#select ability.cost.pool}}
+                            {{#each ../stats}}
+                            <option value="{{this}}">{{this}}</option>
                             {{/each}}
-                            </select>
+                            {{/select}}
+                        </select>
                     </td>
                     <td class="ability-description">
                         <textarea name="data.abilities.{{ability.name}}.description">{{ability.description}}</textarea>

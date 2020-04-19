@@ -99,6 +99,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const actorType = sheetData.actor.data.characterType || "";
 
     //Copy labels to be used as is
+    if (actorType)
+      sheetData.abilitiesName = NUMENERA.typePowers[actorType];
+    else
+      sheetData.abilitiesName = "Abilities";
+
     sheetData.ranges = NUMENERA.ranges;
     sheetData.stats = NUMENERA.stats;
     sheetData.weaponTypes = NUMENERA.weaponTypes;

@@ -74,7 +74,7 @@ form.flexcol {
 
             input {
                 margin: 0 0.5em 0.5em 0.5em;
-                height: max-content;
+                height: auto;
 
                 &.charname {
                     font-weight: bold;
@@ -92,7 +92,7 @@ form.flexcol {
 
             select.characterType {
                 font-size: 24px;
-                height: max-content;
+                height: auto;
                 margin: 0 0.5em 0.5em 0.5em;
             }
         }
@@ -144,7 +144,6 @@ form.flexcol {
         }
 
         table.skills {
-            border: 0;
             background-color: transparent;
 
             td {
@@ -158,7 +157,7 @@ form.flexcol {
 
             tbody td input[type="text"] {
                 text-align: left;
-                width: 30ch;
+                width: 100%;
             }
         }
     }
