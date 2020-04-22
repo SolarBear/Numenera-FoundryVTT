@@ -16,6 +16,11 @@ li {
     list-style-type: none;
 }
 
+h1 > input[type="text"] {
+    height: auto;
+    margin-bottom: 0.25em;
+}
+
 h2 {
     border: none;
     padding-top: 0.5em;
@@ -164,5 +169,33 @@ form.flexcol {
 
     div.flexrow:not(:last-child) {
         border-bottom: 2px solid $border-color;
+    }
+
+    div.item {
+        height: 80%;
+
+        div {
+            display: inline-block;
+
+            &.img {
+                flex: 0.5;
+                margin-right: 0.5em;
+            }
+
+            &.description {
+                height: 95%;
+                vertical-align: top;
+            }
+        }
+
+        textarea {
+            height: inherit;
+        }
+
+        label {
+            clear: both;
+            display: block;
+            margin: 0.25em 0.5em 0 0.5em;
+        }
     }
 }
