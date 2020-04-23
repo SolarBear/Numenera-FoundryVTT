@@ -194,6 +194,15 @@ form {
                 height: 95%;
                 vertical-align: top;
             }
+
+            &.armor {
+                vertical-align: top;
+                height: 100%;
+
+                textarea {
+                    height: 60%; //TODO fix this, this is a hack
+                }
+            }
         }
 
         textarea {
