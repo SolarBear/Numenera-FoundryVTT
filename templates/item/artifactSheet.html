@@ -1,27 +1,38 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <h1><input type="text" name="data.name" value="{{data.name}}" /></h1>
-    <div class="flexrow">
-
-        <div>
-            {{#if data.img}}
-            <img src="{{data.img}}" /> {{/if}}
+    <h1><input type="text" name="name" value="{{item.name}}" /></h1>
+    <div class="flexrow item">
+        <div class="img">
+            <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
         </div>
-        <div>
-            <p>Level:
-                <input type="text" name="data.level" value="{{data.level}}" /></p>
-            <p>Form:
-                <input type="text" name="data.form" value="{{data.form}}" " /></p>
-            <p>Effect: <textarea name="data.effect ">{{data.effect}}</textarea></p>
-            <p>Depletion: <input type="checkbox" name="data.depletion.isDepleting"
-                {{#if data.depletion.isDepleting}}
-                checked="checked"
-                {{/if}}
-                />
-            </p>
+        <div class="artifact">
+            <label>Level
+                <input type="number" id="data.level" name="data.level" value="{{data.level}}" data-dtype="Number" />
+            </label>
+
+            <label>Form
+                <input type="text" id="data.form" name="data.form" value="{{data.form}}" data-dtype="String" />
+            </label>
+
+            <label for="data.depletion.isDepleting">Depletion
+                <input type="checkbox" id="data.depletion.isDepleting" name="data.depletion.isDepleting" data-dtype="Boolean" {{checked data.depletion.isDepleting}} />
+            </label>
+            
             {{#if data.depletion.isDepleting}}
-            <p>Die: <input type="text " name="data.depletion.die " value="{{data.depletion.die}} " /></p>
-            <p>Threshold: <input type="number " name="data.depletion.threshold " value="{{data.depletion.threshold}} " /></p>
+            <fieldset>
+                <label for="data.depletion.die">Die
+                    <input type="text" id="data.depletion.die" name="data.depletion.die" value="{{data.depletion.die}}" data-dtype="String" />
+                </label>
+
+                <label>Threshold
+                    <input type="number" name="data.depletion.threshold" value="{{data.depletion.threshold}}" data-dtype="Number" />
+                </label>
+            </fieldset>
             {{/if}}
+
+            <label>Effect
+                
+            </label>
+            <textarea name="data.effect" data-dtype="String">{{data.effect}}</textarea>
         </div>
     </div>
 </form>

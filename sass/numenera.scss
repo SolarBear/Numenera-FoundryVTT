@@ -203,10 +203,22 @@ form {
                     height: 60%; //TODO fix this, this is a hack
                 }
             }
+
+            &.artifact {
+                display: flex;
+                flex-direction: column;;
+
+                textarea {
+                    flex: 1;
+                }
+            }
         }
 
         textarea {
-            height: inherit;
+            //height: inherit;
+            width: 100%;
+            height: 100%; 
+            box-sizing: border-box;
         }
 
         label {
