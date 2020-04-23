@@ -24,7 +24,10 @@ h1 > input[type="text"] {
 h2 {
     border: none;
     padding-top: 0.5em;
-    margin-left: 1em;
+
+    &:not(.stat) {
+        margin-left: 1em;
+    }
 }
 
 input[data-dtype="Number"] {
@@ -43,7 +46,7 @@ table {
     margin: 0 0.5em 0 0.5em;
 }
 
-form.flexcol {
+form {
     overflow: scroll;
 
     div.header {
@@ -104,8 +107,13 @@ form.flexcol {
     }
 
     div {
-        div:not(:first-child) {
+        //Ca sert dans la feuille de PC...
+        &:not(.item) div:not(:first-of-type) {
             border-left: 1px solid $border-color;
+        }
+
+        &.pc-info {
+            border: 0;
         }
 
         &.numenera {
