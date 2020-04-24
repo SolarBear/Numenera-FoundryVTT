@@ -7,8 +7,8 @@ export class NumeneraWeaponItemSheet extends ItemSheet {
      */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            width: 400,
-            height: 390
+            width: 500,
+            height: 400
         });
     }
 

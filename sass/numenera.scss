@@ -184,7 +184,7 @@ form {
     div.item {
         height: 80%;
 
-        input.price {
+        input[type="number"] {
             width: 4em;
         }
 
@@ -210,7 +210,7 @@ form {
                 }
             }
 
-            &.artifact,&.equipment,&.cypher {
+            &.artifact,&.equipment,&.cypher,&.weapon {
                 display: flex;
                 flex-direction: column;;
 
