@@ -18,6 +18,7 @@ const toBundle = [
     "templates/item/equipmentSheet.html",
     "templates/item/odditySheet.html",
     "templates/item/weaponSheet.html",
+    "LICENSE"
 ];
 
 export default [{

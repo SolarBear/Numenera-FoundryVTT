@@ -1,23 +1,22 @@
 <form class="{{cssClass}}" autocomplete="off">
-    <div class="flexrow">
-        <div>
-            {{#if data.img}}
+    <h1><input type="text" name="name" value="{{item.name}}"  placeholder="Item Name" /></h1>
+    <div class="flexrow item">
+        <div class="img">
             <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
-            {{/if}}
         </div>
-        <div>
-            <h1>
-                <input type="text" name="name" value="{{item.name}}"  placeholder="Item Name" />
-            </h1>
-            <p>Weight: <select name="data.weight">
+
+        <div class="weapon">
+            <label>Weight
+                <select name="data.weight">
                 {{#select data.weight}}
                 {{#each weights}}
                     <option value="{{this}}">{{this}}</option>
                 {{/each}}
                 {{/select}}
                 </select>
-            </p>
-            <p>Type:
+            </label>
+
+            <label>Type
                 <select name="data.weaponType">
                 {{#select data.weaponType}}
                 {{#each weaponTypes}}
@@ -27,11 +26,13 @@
                 {{/each}}
                 {{/select}}
                 </select>
-            </p>
-            <p>
-                Damage: <input type="number" name="data.damage" value="{{data.damage}}" />
-            </p>
-            <p>Range:
+            </label>
+
+            <label>Damage
+                <input type="number" name="data.damage" value="{{data.damage}}" />
+            </label>
+
+            <label>Range
                 <select name="data.range">
                 {{#select data.range}}
                     {{#each ranges}}
@@ -41,13 +42,14 @@
                     {{/each}}
                 {{/select}}
                 </select>
-            </p>
-            <p>
-                Price: <input type="number" name="data.price" value="{{data.price}}" />
-            </p>
-            <p>
-                Notes: <textarea name="data.notes">{{data.notes}}</textarea>
-            </p>
+            </label>
+
+            <label>Price
+                <input type="number" name="data.price" value="{{data.price}}" data-dtype="Number" />
+            </label>
+
+            <label>Notes</label>
+            <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>
 </form>

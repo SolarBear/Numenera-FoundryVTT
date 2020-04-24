@@ -1,4 +1,4 @@
-<form class="{{cssClass}} flexcol " autocomplete="off">
+<form class="{{cssClass}} flexcol pc" autocomplete="off">
     <div class="flexrow header">
         <div class="picture">
             <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
@@ -22,7 +22,7 @@
             <div class="flexrow">
                 {{#each data.stats as |stat id|}}
                 <div class="stats" data-stat="{{id}}">
-                    <h2>{{id}}</h2 >
+                    <h2 class="stat">{{id}}</h2 >
                     <span>
                         <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
                         /
@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <div class="flexrow">
+    <div class="flexrow pc-info">
         <div class="flexcol">
             <h2>Damage track</h2>
             <p>
@@ -292,7 +292,14 @@
         <textarea name="data.numenera.cyphers">{{data.numenera.cyphers}}</textarea>
 
         <h3>Oddities</h3>
-        <textarea name="data.numenera.oddities">{{data.numenera.oddities}}</textarea>
+        <ul>
+            {{#each data.numenera.oddities}}
+            <li data-id="{{this.id}}">
+                <input type="text" name="data.numenera.oddities.{{this.id}}.description" value="{{this.description}}" />
+            </li>>
+            {{/each}}
+        </ul>
+        <!-- <textarea name="data.numenera.oddities">{{data.numenera.oddities}}</textarea> -->
     </div>
     <div>
         <h2>Background</h2>

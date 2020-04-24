@@ -16,14 +16,18 @@ li {
     list-style-type: none;
 }
 
+h1 > input[type="text"] {
+    height: auto;
+    margin-bottom: 0.25em;
+}
+
 h2 {
     border: none;
     padding-top: 0.5em;
-    margin-left: 1em;
-}
 
-input[data-dtype="Number"] {
-    width: 2em;
+    &:not(.stat) {
+        margin-left: 1em;
+    }
 }
 
 p.description {
@@ -38,8 +42,14 @@ table {
     margin: 0 0.5em 0 0.5em;
 }
 
-form.flexcol {
+form {
     overflow: scroll;
+
+    &.pc {
+        input[data-dtype="Number"] {
+            width: 2em;
+        }
+    }
 
     div.header {
         border-bottom: 0;
@@ -99,8 +109,13 @@ form.flexcol {
     }
 
     div {
-        div:not(:first-child) {
+        //Ca sert dans la feuille de PC...
+        &:not(.item) div:not(:first-of-type) {
             border-left: 1px solid $border-color;
+        }
+
+        &.pc-info {
+            border: 0;
         }
 
         &.numenera {
@@ -164,5 +179,59 @@ form.flexcol {
 
     div.flexrow:not(:last-child) {
         border-bottom: 2px solid $border-color;
+    }
+
+    div.item {
+        height: 80%;
+
+        input[type="number"] {
+            width: 4em;
+        }
+
+        div {
+            display: inline-block;
+            display: flex;
+            flex-direction: column;;
+
+            textarea {
+                flex: 1;
+            }
+
+            &.img {
+                flex: 0.5;
+                margin-right: 0.5em;
+            }
+
+            &.description {
+                height: 95%;
+                vertical-align: top;
+            }
+
+            // &.armor {
+            //     vertical-align: top;
+            //     height: 100%;
+
+            //     textarea {
+            //         height: 60%; //TODO fix this, this is a hack
+            //     }
+            // }
+
+            // &.armor,&.artifact,&.equipment,&.cypher,&.weapon {
+
+            // }
+        }
+
+        textarea {
+            width: auto;
+            height: 100%; 
+            box-sizing: border-box;
+            margin: 0 0.5em 0 0.5em;
+        }
+
+        label {
+            clear: both;
+            display: block;
+            margin: 0.25em 0.5em 0 0.5em;
+        }
     }
 }

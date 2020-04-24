@@ -46,7 +46,22 @@ If you'd like something added or prioritized, just drop me a line! You can easil
 * NPC sheets
 * Items sheets
 
-### 0.4 Keep on (dice) rollin', baby
+### 0.4 I've got the powers
+
+* Abilities and skills as Items for inclusion in compendiums
+* Use of powers (eg. Esoteries, Tricks of the Trade, etc.)
+    * Subtract cost from pool, taking Edge and Effort into account
+    * Take range into account
+    * Enable training and specialization of powers, just like any other skill
+
+### 0.5 Numenera's numenera
+
+* Add numenera (oddities + cyphers + artifacts) as items
+* Cypher consumption upon use
+* Automatic artifact depletion
+* Rollable tables for numenera
+
+### 0.6 Keep on (dice) rollin', baby
 
 * **Data stability arrives here**
 * Initiative tracking (players + NPCs)
@@ -66,7 +81,7 @@ If you'd like something added or prioritized, just drop me a line! You can easil
         * Out of combat: minor (19) and major (20) effects
         * In combat: damage bonus on 17+ OR effect selection for 19-20
 
-### 0.5 Wanna fight me, bro?
+### 0.7 Wanna fight me, bro?
 
 * Full (well, mostly full) combat system integration
     * Combat-specific skills
@@ -93,25 +108,12 @@ If you'd like something added or prioritized, just drop me a line! You can easil
         * Enable multiple, stackable armor (figure out a means!)
         * On damage inflicted, select applicable armor(s), if any
 
-### 0.6 I've got the powers
-
-* Abilities and skills as Items for inclusion in compendiums
-* Use of powers (eg. Esoteries, Tricks of the Trade, etc.)
-    * Subtract cost from pool, taking Edge and Effort into account
-    * Take range into account
-    * Enable training and specialization of powers, just like any other skill
-
-### 0.7 Numenera's numenera
-
-* Add numenera (oddities + cyphers + artifacts) as items
-* Cypher consumption upon use
-* Automatic artifact depletion
-* Rollable tables for numenera
-
 ### 0.8 QoL
 
 * Fancy recovery roll dialog
     * Allow spreading of recovered pool points
+* Rerolls from XP spending
+    * Allow spending XP from another player
 * In-game support for GM intrusions
     * Intrusion dialog
         * Refuse: -1 XP

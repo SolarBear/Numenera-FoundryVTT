@@ -9,7 +9,6 @@ export class NumeneraOddityItem extends Item {
         const itemData = this.data.data;
 
         itemData.name = this.data.name || "New Oddity";
-        itemData.price = itemData.price || 0;
         itemData.notes = itemData.notes || "";
     }
 }
