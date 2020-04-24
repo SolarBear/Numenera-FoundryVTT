@@ -210,7 +210,7 @@ form {
                 }
             }
 
-            &.artifact,&.equipment {
+            &.artifact,&.equipment,&.cypher {
                 display: flex;
                 flex-direction: column;;
 
@@ -221,9 +221,10 @@ form {
         }
 
         textarea {
-            width: 100%;
+            width: auto;
             height: 100%; 
             box-sizing: border-box;
+            margin: 0 0.5em 0 0.5em;
         }
 
         label {
