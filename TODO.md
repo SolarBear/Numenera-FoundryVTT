@@ -40,6 +40,8 @@
   * Roll for skill
   * Effort
   * Equipment effects (eg. light weapons)
+  * Rerolls from XP spending
+    * Allow spending XP from another player
 * Manage artifact depletion on use
 * Increase tier when 4 advances have been achieved
 * Pools
@@ -55,6 +57,9 @@
 ## Other nice things
 
 * Character creation
+  * Types, foci and descriptors as Items
+* XP cards
+  * Great for intrusions! (from @Cheldog)
 
 ## Wild ideas
 
