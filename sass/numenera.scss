@@ -190,6 +190,12 @@ form {
 
         div {
             display: inline-block;
+            display: flex;
+            flex-direction: column;;
+
+            textarea {
+                flex: 1;
+            }
 
             &.img {
                 flex: 0.5;
@@ -201,23 +207,18 @@ form {
                 vertical-align: top;
             }
 
-            &.armor {
-                vertical-align: top;
-                height: 100%;
+            // &.armor {
+            //     vertical-align: top;
+            //     height: 100%;
 
-                textarea {
-                    height: 60%; //TODO fix this, this is a hack
-                }
-            }
+            //     textarea {
+            //         height: 60%; //TODO fix this, this is a hack
+            //     }
+            // }
 
-            &.artifact,&.equipment,&.cypher,&.weapon {
-                display: flex;
-                flex-direction: column;;
+            // &.armor,&.artifact,&.equipment,&.cypher,&.weapon {
 
-                textarea {
-                    flex: 1;
-                }
-            }
+            // }
         }
 
         textarea {
