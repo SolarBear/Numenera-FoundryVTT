@@ -30,10 +30,6 @@ h2 {
     }
 }
 
-input[data-dtype="Number"] {
-    width: 2em;
-}
-
 p.description {
     font-style: italic;
 }
@@ -48,6 +44,12 @@ table {
 
 form {
     overflow: scroll;
+
+    &.pc {
+        input[data-dtype="Number"] {
+            width: 2em;
+        }
+    }
 
     div.header {
         border-bottom: 0;
@@ -182,6 +184,10 @@ form {
     div.item {
         height: 80%;
 
+        input.price {
+            width: 4em;
+        }
+
         div {
             display: inline-block;
 
@@ -204,7 +210,7 @@ form {
                 }
             }
 
-            &.artifact {
+            &.artifact,&.equipment {
                 display: flex;
                 flex-direction: column;;
 
@@ -215,7 +221,6 @@ form {
         }
 
         textarea {
-            //height: inherit;
             width: 100%;
             height: 100%; 
             box-sizing: border-box;
