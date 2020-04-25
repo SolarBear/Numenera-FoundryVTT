@@ -1,49 +1,49 @@
 $border-color: #782e22;
 
-/* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
-.flewrow {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-}
-
-.flewcol {
-    display: flex;
-    flex-flow: column nowrap;
-}
-
-li {
-    list-style-type: none;
-}
-
-h1 > input[type="text"] {
-    height: auto;
-    margin-bottom: 0.25em;
-}
-
-h2 {
-    border: none;
-    padding-top: 0.5em;
-
-    &:not(.stat) {
-        margin-left: 1em;
-    }
-}
-
-p.description {
-    font-style: italic;
-}
-
-label {
-    margin: 0 0.5em 0 0.5em;
-}
-
-table {
-    margin: 0 0.5em 0 0.5em;
-}
-
-form.flexcol {
+form.numenera {
     overflow: scroll;
+
+    /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
+    .flewrow {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+    }
+
+    .flewcol {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    h1 > input[type="text"] {
+        height: auto;
+        margin-bottom: 0.25em;
+    }
+
+    h2 {
+        border: none;
+        padding-top: 0.5em;
+
+        &:not(.stat) {
+            margin-left: 1em;
+        }
+    }
+
+    p.description {
+        font-style: italic;
+    }
+
+    label {
+        margin: 0 0.5em 0 0.5em;
+    }
+
+    // table {
+    //     margin: 0.25em 0.5em 0 0.5em;
+    // }
 
     &.pc {
         input[data-dtype="Number"] {
@@ -71,6 +71,11 @@ form.flexcol {
 
         div > div.npc-info {
             flex: 0.25;
+
+            input.level {
+                width: 2ch;
+                align-content: center;
+            }
         }
 
         div > div.npc-stats {
