@@ -60,6 +60,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
+      scrollY: [
+        "form.numenera table.weapons",
+        "form.numenera table.skills",
+        "form.numenera table.abilities",
+      ],
       width: 900,
       height: 1000,
     });

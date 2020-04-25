@@ -1,15 +1,14 @@
-<form class="{{cssClass}} flexcol" autocomplete="off">
+<form class="{{cssClass}} numenera npc flexcol" autocomplete="off">
     <div class="flexrow header">
         <div class="picture">
-            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100"
-                width="100" />
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
         </div>
         <div class="flexcol">
             <div class="flexrow npc-info">
                 <h1 class="character">
                     <input type="text" name="name" value="{{actor.name}}" class="charname" />
                     <label for="data.level">Level</label>
-                    <input type="text" name="data.level" value="{{data.level}}" data-dtype="Number" />
+                    <input type="text" name="data.level" value="{{data.level}}" class="level" data-dtype="Number" />
                 </h1>
 
             </div>

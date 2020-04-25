@@ -34,7 +34,20 @@ Hooks.once("init", function() {
     Items.registerSheet("numenera", NumeneraOddityItemSheet, { types: ["oddity"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
 
-
     // Preload Handlebars Templates
     preloadHandlebarsTemplates();
+});
+  
+  /*
+  Display an NPC's difficulty between parentheses in the Actors list
+  */
+  Hooks.on('renderActorDirectory', (app, html, options) => {
+    const found = html.find(".entity-name");
+    
+    app.entities
+        .filter(actor => actor.data.type === 'npc')
+        .forEach(actor => {
+            found.filter((i, elem) => elem.innerText === actor.data.name)
+                 .each((i, elem) => elem.innerText += ` (${actor.data.data.level * 3})`);
+        })
 });
