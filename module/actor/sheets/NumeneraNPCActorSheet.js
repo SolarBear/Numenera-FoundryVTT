@@ -12,7 +12,6 @@ export class NumeneraNPCActorSheet extends ActorSheet {
    */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["numenera"],
       width: 750,
       height: 700,
     });
