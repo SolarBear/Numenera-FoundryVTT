@@ -126,8 +126,6 @@ export class NumeneraPCActor extends Actor {
         };
       });
     }
-
-    actorData.effort = actorData.tier + actorData.advances.effort ? 1 : 0;
   }
 
   getEffortCostFromStat(event) {
