@@ -1,4 +1,5 @@
 import { NUMENERA } from '../config.js';
+import { numeneraRoll } from '../apps/NumeneraRoll.js'
 
 const effortObject = {
   cost: 0,
@@ -10,6 +11,19 @@ const effortObject = {
  * Extend the base Actor class to implement additional logic specialized for Numenera.
  */
 export class NumeneraPCActor extends Actor {
+
+  getInitiativeFormula() {
+    //Check for an initiative skill
+    const initSkill = 3 * this.getSkillLevel("Initiative");
+    
+    //TODO possible assets, effort on init roll
+    let formula = "1d20"
+    if (initSkill !== 0) {
+      formula += `+${initSkill}`;
+    }
+
+    return formula;
+  }
 
   get effort() {
     const data = this.data.data;
@@ -39,13 +53,18 @@ export class NumeneraPCActor extends Actor {
    * @memberof ActorNumeneraPC
    */
   getSkillLevel(skillId) {
-    const skills = this.data.data.skills || {};
+    const skill = this.data.data.skills[skillId];
 
-    if (skills.hasOwnProperty(skillId)) {
-      return skills[skillId].level;
+    let level = 0;
+    
+    if (skill) {
+      if (skill.inability) level--;
+
+      if (skill.specialized) level + 2;
+      else if (skill.trained) level++;
     }
 
-    return 0; //defauklt skill level, aka unskilled
+    return level; //defauklt skill level, aka unskilled
   }
 
   /**

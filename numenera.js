@@ -21,6 +21,9 @@ Hooks.once("init", function() {
     CONFIG.Actor.entityClass = NumeneraActor;
     CONFIG.Item.entityClass = NumeneraItem;
 
+    //Each type of Actor will provide its own personal, free-range, bio, nut-free formula.
+    Combat.prototype._getInitiativeFormula = combatant => combatant.actor.getInitiativeFormula();
+
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
     Actors.registerSheet("numenera", NumeneraNPCActorSheet, { types: ["npc"], makeDefault: true });
