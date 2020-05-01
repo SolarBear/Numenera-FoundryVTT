@@ -24,9 +24,6 @@
   * Linked stat
   * Pool spending
 
-## NPC sheet
-* Integration to initiative tracker
-
 ## Game features and mechanics
 
 * Set armor from equipment
