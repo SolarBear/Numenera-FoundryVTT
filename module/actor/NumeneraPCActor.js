@@ -1,5 +1,4 @@
 import { NUMENERA } from '../config.js';
-import { numeneraRoll } from '../apps/NumeneraRoll.js'
 
 const effortObject = {
   cost: 0,
