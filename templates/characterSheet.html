@@ -295,12 +295,22 @@
         <textarea name="data.numenera.artifacts">{{data.numenera.artifacts}}</textarea>
 
         <h3>Cyphers</h3>
-        <textarea name="data.numenera.cyphers">{{data.numenera.cyphers}}</textarea>
+        <ul class="cyphers">
+            {{#each data.items.cyphers as |cypher|}}
+            <li class="cypher" data-item-id={{cypher._id}}>
+                <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                <h4>{{cypher.name}}</h4>
+                <p><span>Level</span> {{cypher.data.level}}</p>
+                <p><span>Form</span> {{cypher.data.form}}</p>
+                <p><span>Effect</span> {{cypher.data.effect}}</p>
+            </li>
+            {{/each}}
+        </ul>
 
         <h3>Oddities</h3>
         <ul class="oddities">
             {{#each data.items.oddities as |oddity|}}
-            <li data-item-id={{oddity._id}}>
+            <li class="oddity" data-item-id={{oddity._id}}>
                 <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                 <h4>{{oddity.name}}</h4>
                 <span>{{oddity.data.notes}}</span>

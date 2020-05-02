@@ -136,7 +136,7 @@ form.numenera {
                 overflow: scroll;
             }
 
-            ul.oddities {
+            ul {
                 padding: 0 0.75em 0 0.75em;
 
                 & > li {
@@ -146,10 +146,15 @@ form.numenera {
                     border-radius: 0.25em;
 
                     & > h4 {
+                        font-size: large;
                         font-weight: bold;
                     }
 
-                    & > a.oddity-delete {
+                    & > p > span {
+                        font-weight: bold;
+                    }
+
+                    & > a {
                         float: right;
                     }
                 }
@@ -230,19 +235,6 @@ form.numenera {
                 height: 95%;
                 vertical-align: top;
             }
-
-            // &.armor {
-            //     vertical-align: top;
-            //     height: 100%;
-
-            //     textarea {
-            //         height: 60%; //TODO fix this, this is a hack
-            //     }
-            // }
-
-            // &.armor,&.artifact,&.equipment,&.cypher,&.weapon {
-
-            // }
         }
 
         textarea {

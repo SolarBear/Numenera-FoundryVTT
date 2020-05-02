@@ -92,6 +92,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onClickSkillControl = onClickControlGenerator("skill");
     this.onClickAbilityControl = onClickControlGenerator("ability");
 
+    this.onCypherDelete = onItemDeleteGenerator(".cypher");
     this.onOddityDelete = onItemDeleteGenerator(".oddity");
     this.onWeaponDelete = onItemDeleteGenerator(".weapon");
   }
@@ -185,10 +186,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.items = sheetData.actor.items || {};
 
     const items = sheetData.data.items;
-    if (!sheetData.data.items.weapons)
-      sheetData.data.items.weapons = items.filter(i => i.type === "weapon");
+    if (!sheetData.data.items.cyphers)
+      sheetData.data.items.cyphers = items.filter(i => i.type === "cypher");
     if (!sheetData.data.items.oddities)
       sheetData.data.items.oddities = items.filter(i => i.type === "oddity");
+    if (!sheetData.data.items.weapons)
+      sheetData.data.items.weapons = items.filter(i => i.type === "weapon");
 
     return sheetData;
   }
@@ -231,8 +234,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       this.onAbilityNameChange.bind(this)
     );
 
-    const oddities = html.find("ul.oddities");
-    oddities.on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+    html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
+    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
   }
 
   onWeaponCreate(event) {
