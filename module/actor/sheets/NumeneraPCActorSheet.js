@@ -237,7 +237,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       this.onAbilityNameChange.bind(this)
     );
 
-    html.find("ul.artifacts").on("click", ".cypher-delete", this.onArtifactDelete.bind(this));
+    html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
     html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
   }
