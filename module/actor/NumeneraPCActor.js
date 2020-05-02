@@ -59,8 +59,8 @@ export class NumeneraPCActor extends Actor {
     if (skill) {
       if (skill.inability) level--;
 
-      if (skill.specialized) level + 2;
-      else if (skill.trained) level++;
+      if (skill.specialized) level += 2;
+      else if (skill.trained) level += 1;
     }
 
     return level; //defauklt skill level, aka unskilled
