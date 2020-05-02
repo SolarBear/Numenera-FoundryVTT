@@ -326,7 +326,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   async _updateObject(event, formData) {
     //TODO this works A-OK but it's ugly... find a cleaner way to handle this
-    if (event.currentTarget && event.currentTarget.closest(".weapon")) {
+    if (event.currentTarget &&
+      (
+        event.currentTarget.closest(".weapon")
+        || event.currentTarget.closest(".artifact"))
+      ) {
       return;
     }
 

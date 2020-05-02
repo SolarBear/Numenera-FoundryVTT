@@ -3,7 +3,7 @@ export class NumeneraArtifactItem extends Item {
         return "artifact";
     }
 
-    prepareData() {
+    async prepareData() {
         super.prepareData();
 
         const itemData = this.data.data;
@@ -11,11 +11,8 @@ export class NumeneraArtifactItem extends Item {
         itemData.name = this.data.name || "New Cypher";
         itemData.price = itemData.price || 0;
         itemData.notes = itemData.notes || "";
-
-        itemData.level = itemData.level || 1;
         itemData.form = itemData.form || "";
         itemData.effect = itemData.effect || "";
-
         itemData.range = itemData.range || "";
 
         itemData.depletion = itemData.depletion || {
@@ -23,5 +20,8 @@ export class NumeneraArtifactItem extends Item {
             die: "d6",
             threshold: 1
         };
+
+        itemData.levelDie = itemData.levelDie || "";
+        itemData.level = itemData.level || "";
     }
 }

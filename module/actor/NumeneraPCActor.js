@@ -125,27 +125,6 @@ export class NumeneraPCActor extends Actor {
     return this.data.data.skills.filter(id => id == statId);
   }
 
-  /**
-   * Augment the basic actor data with additional dynamic data.
-   *
-   * @memberof ActorNumeneraPC
-   */
-  prepareData() {
-    super.prepareData();
-
-    const actorData = this.data.data;
-
-    if (actorData.version === undefined || actorData.version < 1)
-    {
-      Object.entries(actorData.stats).forEach((stat, i) => {
-        return {
-          ...stat,
-          name: NUMENERA.stats[i[0]]
-        };
-      });
-    }
-  }
-
   getEffortCostFromStat(event) {
     //Return value, copy from template object
     const value = {...effortObject};
@@ -181,5 +160,65 @@ export class NumeneraPCActor extends Actor {
     value.warning = warning;
 
     return value;
+  }
+
+  /**
+   * BASE CLASS OVERRIDES
+   */
+
+  /**
+   * @override
+   */
+  async createEmbeddedEntity(...args) {
+    const [_, data] = args;
+
+    //Prepare numenera items by rolling their level, if they don't have one already
+    if (data.data && ['artifact', 'cypher'].indexOf(data.type) !== -1) {
+      const itemData = data.data;
+
+      if (!itemData.level && itemData.levelDie) {  
+        try {
+            //Try the formula as is first
+            itemData.level = new Roll(itemData.levelDie).roll().total;
+            await this.update({
+                _id: this._id,
+                "data.level": itemData.level,
+            });
+        }
+        catch (Error) {
+            try {
+                itemData.level = parseInt(itemData.level)
+            }
+            catch (Error) {
+                //Leave it as it is
+            }
+        }
+      } else {
+          itemData.level = itemData.level || null;
+      }
+    }
+
+    return super.createEmbeddedEntity(...args);
+  }
+
+    /**
+   * Augment the basic actor data with additional dynamic data.
+   *
+   * @memberof ActorNumeneraPC
+   */
+  prepareData() {
+    super.prepareData();
+
+    const actorData = this.data.data;
+
+    if (actorData.version === undefined || actorData.version < 1)
+    {
+      Object.entries(actorData.stats).forEach((stat, i) => {
+        return {
+          ...stat,
+          name: NUMENERA.stats[i[0]]
+        };
+      });
+    }
   }
 }

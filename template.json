@@ -82,10 +82,12 @@
                 "name": "",
                 "price": 0,
                 "notes": "",
-                "version": 1
+                "version": 2
             },
             "numenera": {
-                "level": 1,
+                "identified": false,
+                "level": null,
+                "levelDie": "",
                 "form": "",
                 "effect": ""
             },
