@@ -21,7 +21,7 @@ export class NumeneraArtifactItem extends Item {
         itemData.depletion = itemData.depletion || {
             isDepleting: true,
             die: "d6",
-            threashold: 1
+            threshold: 1
         };
     }
 }

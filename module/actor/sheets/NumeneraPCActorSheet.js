@@ -92,6 +92,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onClickSkillControl = onClickControlGenerator("skill");
     this.onClickAbilityControl = onClickControlGenerator("ability");
 
+    this.onArtifactDelete = onItemDeleteGenerator(".artifact");
     this.onCypherDelete = onItemDeleteGenerator(".cypher");
     this.onOddityDelete = onItemDeleteGenerator(".oddity");
     this.onWeaponDelete = onItemDeleteGenerator(".weapon");
@@ -186,6 +187,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.items = sheetData.actor.items || {};
 
     const items = sheetData.data.items;
+    if (!sheetData.data.items.artifacts)
+      sheetData.data.items.artifacts = items.filter(i => i.type === "artifact");
     if (!sheetData.data.items.cyphers)
       sheetData.data.items.cyphers = items.filter(i => i.type === "cypher");
     if (!sheetData.data.items.oddities)
@@ -234,6 +237,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       this.onAbilityNameChange.bind(this)
     );
 
+    html.find("ul.artifacts").on("click", ".cypher-delete", this.onArtifactDelete.bind(this));
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
     html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
   }

@@ -292,7 +292,20 @@
         <h2>Numenera</h2>
 
         <h3>Artifacts</h3>
-        <textarea name="data.numenera.artifacts">{{data.numenera.artifacts}}</textarea>
+        <ul class="artifacts">
+            {{#each data.items.artifacts as |artifact|}}
+            <li class="artifact" data-item-id={{artifact._id}}>
+                <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                <h4>{{artifact.name}}</h4>
+                <p><span>Level</span> {{artifact.data.level}}</p>
+                <p><span>Form</span> {{artifact.data.form}}</p>
+                <p><span>Effect</span> {{artifact.data.effect}}</p>
+                {{#if artifact.data.depletion.isDepleting }}
+                <p><span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}</p>
+                {{/if}}
+            </li>
+            {{/each}}
+        </ul>
 
         <h3>Cyphers</h3>
         <ul class="cyphers">
