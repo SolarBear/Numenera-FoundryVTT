@@ -296,12 +296,35 @@
             {{#each data.items.artifacts as |artifact|}}
             <li class="artifact" data-item-id={{artifact._id}}>
                 <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
-                <h4>{{artifact.name}}</h4>
-                <p><span>Level</span> {{artifact.data.level}}</p>
-                <p><span>Form</span> {{artifact.data.form}}</p>
-                <p><span>Effect</span> {{artifact.data.effect}}</p>
+                <h4>
+                    {{artifact.name}}
+                </h4>
+                {{#if artifact.editable}}
+                <p>
+                    <label>Identified? 
+                        <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" {{checked artifact.data.identified}} />
+                    </label>
+                </p>
+                {{/if}}
+                <p>
+                    {{#if artifact.editable}}
+                    <label>Level
+                        <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" value="{{artifact.data.level}}" />
+                    </label>
+                    {{else}}
+                    <span>Level</span> {{artifact.data.level}}
+                    {{/if}}
+                </p>
+                <p>
+                    <span>Form</span> {{artifact.data.form}}
+                </p>
+                <p>
+                    <span>Effect</span> {{artifact.data.effect}}
+                </p>
                 {{#if artifact.data.depletion.isDepleting }}
-                <p><span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}</p>
+                <p>
+                    <span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}
+                </p>
                 {{/if}}
             </li>
             {{/each}}
@@ -312,10 +335,31 @@
             {{#each data.items.cyphers as |cypher|}}
             <li class="cypher" data-item-id={{cypher._id}}>
                 <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
-                <h4>{{cypher.name}}</h4>
-                <p><span>Level</span> {{cypher.data.level}}</p>
-                <p><span>Form</span> {{cypher.data.form}}</p>
-                <p><span>Effect</span> {{cypher.data.effect}}</p>
+                <h4>
+                    {{cypher.name}}
+                </h4>
+                {{#if cypher.editable}}
+                <p>
+                    <label>Identified? 
+                        <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" {{checked cypher.data.identified}} />
+                    </label>
+                </p>
+                {{/if}}
+                <p>
+                    {{#if cypher.editable}}
+                    <label>Level
+                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" />
+                    </label>
+                    {{else}}
+                    <span>Level</span> {{cypher.data.level}}
+                    {{/if}}
+                </p>
+                <p>
+                    <span>Form</span> {{cypher.data.form}}
+                </p>
+                <p>
+                    <span>Effect</span> {{cypher.data.effect}}
+                </p>
             </li>
             {{/each}}
         </ul>
@@ -325,8 +369,12 @@
             {{#each data.items.oddities as |oddity|}}
             <li class="oddity" data-item-id={{oddity._id}}>
                 <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
-                <h4>{{oddity.name}}</h4>
-                <span>{{oddity.data.notes}}</span>
+                <h4>
+                    {{oddity.name}}
+                </h4>
+                <span>
+                    {{oddity.data.notes}}
+                </span>
             </li>
             {{/each}}
         </ul>
