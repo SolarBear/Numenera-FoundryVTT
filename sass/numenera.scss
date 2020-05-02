@@ -135,6 +135,25 @@ form.numenera {
             textarea {
                 overflow: scroll;
             }
+
+            ul.oddities {
+                padding: 0 0.75em 0 0.75em;
+
+                & > li {
+                    padding: 0.15em;
+                    margin-top : 0.75em;
+                    border: 1px solid darkgrey;
+                    border-radius: 0.25em;
+
+                    & > h4 {
+                        font-weight: bold;
+                    }
+
+                    & > a.oddity-delete {
+                        float: right;
+                    }
+                }
+            }
         }
 
         div.advances, div.recovery {

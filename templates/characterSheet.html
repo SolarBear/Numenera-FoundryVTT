@@ -292,7 +292,15 @@
         <textarea name="data.numenera.cyphers">{{data.numenera.cyphers}}</textarea>
 
         <h3>Oddities</h3>
-        <textarea name="data.numenera.oddities">{{data.numenera.oddities}}</textarea>
+        <ul class="oddities">
+            {{#each data.items.oddities as |oddity|}}
+            <li data-item-id={{oddity._id}}>
+                <h4>{{oddity.name}}</h4>
+                <span>{{oddity.data.notes}}</span>
+                <a class="oddity-delete" data-action="delete"><i class="fas fa-trash"></i></a>
+            </li>
+            {{/each}}
+        </ul>
     </div>
     <div>
         <h2>Background</h2>

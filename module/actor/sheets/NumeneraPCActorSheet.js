@@ -48,6 +48,16 @@ function onClickControlGenerator(control) {
   };
 }
 
+function onItemDeleteGenerator(deleteClass) {
+  return function (event) {
+    event.preventDefault();
+  
+    const elem = event.currentTarget.closest(deleteClass);
+    const itemId = elem.dataset.itemId;
+    this.actor.deleteOwnedItem(itemId);
+  }
+}
+
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
  *
@@ -64,6 +74,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera table.weapons",
         "form.numenera table.skills",
         "form.numenera table.abilities",
+        "form.numenera ul.oddities",
       ],
       width: 900,
       height: 1000,
@@ -80,6 +91,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Call generator function to assign table event handlers
     this.onClickSkillControl = onClickControlGenerator("skill");
     this.onClickAbilityControl = onClickControlGenerator("ability");
+
+    this.onOddityDelete = onItemDeleteGenerator(".oddity");
+    this.onWeaponDelete = onItemDeleteGenerator(".weapon");
   }
 
   /* -------------------------------------------- */
@@ -173,6 +187,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const items = sheetData.data.items;
     if (!sheetData.data.items.weapons)
       sheetData.data.items.weapons = items.filter(i => i.type === "weapon");
+    if (!sheetData.data.items.oddities)
+      sheetData.data.items.oddities = items.filter(i => i.type === "oddity");
 
     return sheetData;
   }
@@ -213,7 +229,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "blur",
       "tbody input,select,textarea",
       this.onAbilityNameChange.bind(this)
-    ); 
+    );
+
+    const oddities = html.find("ul.oddities");
+    oddities.on("click", ".oddity-delete", this.onOddityDelete.bind(this));
   }
 
   onWeaponCreate(event) {
@@ -229,13 +248,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     };
 
     return this.actor.createOwnedItem(weaponData);
-  }
-
-  onWeaponDelete(event) {
-    event.preventDefault();
-
-    const tr = event.currentTarget.closest(".weapon");
-    this.actor.deleteOwnedItem(tr.dataset.itemId);
   }
 
   async onWeaponEdit(event) {
