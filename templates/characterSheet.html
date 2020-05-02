@@ -103,7 +103,7 @@
                     <td class="skill-inability"><input type="checkbox" /></td>
                     <td class="skill-trained"><input type="checkbox" /></td>
                     <td class="skill-specialized"><input type="checkbox"/></td>
-                    <td><a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a></td>
+                    <td><a class="skill-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a></td>
                 </tr>  
             </template>
             <thead>
@@ -113,7 +113,7 @@
                     <td class="skill-inability">Inability</td>
                     <td class="skill-trained">Trained</td>
                     <td class="skill-specialized">Specialized</td>
-                    <td><a class="skill-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                    <td><a class="skill-control" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
                 </tr>
             </thead>
             <tbody>
@@ -144,7 +144,7 @@
                         <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized" {{checked skill.specialized}} />
                     </td>
                     <td>
-                        <a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="skill-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {{/each}}
@@ -166,7 +166,7 @@
                 <td>Damage</td>
                 <td>Range</td>
                 <td>Notes</td>
-                <td><a class="weapon-create"><i class="fas fa-plus"></i></a></td>
+                <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
             </thead>
             <tbody>
             {{#each data.items.weapons as |weapon|}}
@@ -211,7 +211,7 @@
                         <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.data.notes}}" />
                     </td>
                     <td>
-                        <a class="weapon-delete" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="weapon-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {{else}}
@@ -248,7 +248,7 @@
                         <textarea></textarea>
                     </td>
                     <td>
-                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="ability-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>  
             </template>
@@ -257,7 +257,7 @@
                     <td class="ability-name">Name</td>
                     <td class="ability-cost">Cost</td>
                     <td class="ability-description">Description</td>
-                    <td><a class="ability-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                    <td><a class="ability-control" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
                 </tr>
             </thead>
             <tbody>
@@ -280,7 +280,7 @@
                         <textarea name="data.abilities.{{ability.name}}.description">{{ability.description}}</textarea>
                     </td>
                     <td>
-                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="ability-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {{/each}}
@@ -301,9 +301,9 @@
         <ul class="oddities">
             {{#each data.items.oddities as |oddity|}}
             <li data-item-id={{oddity._id}}>
+                <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                 <h4>{{oddity.name}}</h4>
                 <span>{{oddity.data.notes}}</span>
-                <a class="oddity-delete" data-action="delete"><i class="fas fa-trash"></i></a>
             </li>
             {{/each}}
         </ul>
