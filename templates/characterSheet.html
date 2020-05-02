@@ -214,6 +214,12 @@
                         <a class="weapon-delete" data-action="delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
+            {{else}}
+            <tr>
+                <td colspan="6">
+                    No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                </td>
+            </tr>
             {{/each}}
             </tbody>
         </table>
