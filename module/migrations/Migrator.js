@@ -1,34 +1,78 @@
+/*
+Behold... THE ALL-MIGHTY Migrator OBJECT
 
+Its job is to take a single Entity object (Actor, Item, etc.) and upgrade it. It assumes that
+every monitored object has a "version" field whose value is an integer whose value is >= 0.
+
+To keep things simple, you need simply expose a single object: each Migrator can have a link
+to the previous one and the Migrator will take care of calling the previous Migrator if it's
+aware of it.
+
+Version numbers MUST NOT be updated inside the function, the Migrator itself will handle
+the process. 
+
+Migration functions receive a copy of the original so don't worry about mutating
+*/
+
+//All of these properties are mandatory
 export const Migrator = {
-  forVersion: 0,
-  forType: null,
-  previousMigrator: null,
-  migrationFunction: null,
-  migrate: object => {
-    debugger;
+  //Target version: will only handle migrating from (forVersion - 1) to forVersion
+  forVersion: null,
 
-    //Sanity check
+  //Type to be handled, as specified in template.json
+  forType: null,
+
+  //Optional: previous Migrator object so they can chained together
+  previousMigrator: null,
+  
+  //Function that performs the actual migration from version N-1 to N
+  migrationFunction: null,
+
+  //Migrate function: will take an object and migrate it
+  migrate: function (obj) {
+
+    //Sanity checks
     if (!this.forVersion)
       throw new Error("No forVersion specified");
     else if (!this.forType)
-      throw new Error("No forObject specified");
+      throw new Error("No forType specified");
     else if (!this.migrationFunction)
       throw new Error("No migrationFunction specified");
 
-    if (object.type !== this.forType) {
+    //If there is a previous migration...
+    if (this.previousMigrator !== null) {
+      //Ensure the previous migration handles the previous version number
+      if (this.forVersion - 1 !== this.previousMigrator.forVersion)
+      {
+        console.log(this.forVersion);
+        console.log(this.previousMigrator.forVersion);
+        throw new Error("Previous migrator does not have the preceding wrong version number");
+      }
+      //Ensure the previous migration handles the same type of object
+      else if (this.forType !== this.previousMigrator.forType)
+        throw new Error("Previous migrator has the wrong type");
+    }
+
+    if (obj.type !== this.forType) 
       throw new Error("Wrong migrator type for object");
     
-    if(object.version >= this.forVersion)
-      return object;
+    //Migration already performed?
+    if (obj.version >= this.forVersion)
+      return obj;
 
-    if (object.version < this.forVersion - 1) {
-      if (this.previousMigrator) {
-        object = this.previousMigrator.migrate(object);
+    //Make sure there weren't previous migrations to perform
+    if (obj.version < this.forVersion - 1) {
+      if (this.previousMigrator && this.previousMigrator.forVersion < this.forVersion) {
+        obj = this.previousMigrator.migrate(obj);
       } else {
-        console.warn(`No migration found for ${this.forType} version ${this.forVersion}`);
+        console.log(`No migration found for ${this.forType} version ${this.forVersion}`);
       }
     }
 
-    return this.migrationFunction(object);
+    //TODO deep copy of the object
+    const updatedObject = this.migrationFunction(Object.assign({}, obj));
+    updatedObject.version++;
+
+    return updatedObject;
   }
 };

@@ -4,7 +4,9 @@
   "description": "Support for the Numenera role playing game for the Foundry virtual tabletop",
   "dependencies": {},
   "devDependencies": {
+    "ava": "^3.8.1",
     "eslint": "^6.8.0",
+    "esm": "^3.2.25",
     "gulp": "^4.0.2",
     "gulp-sass": "^4.1.0",
     "npm-run-all": "^4.1.5",
@@ -22,7 +24,13 @@
     "_clear": "rimraf dist/** *.zip",
     "_make-bundle": "npx rollup -c",
     "build": "run-s _clear _css _make-bundle",
-    "watch": "gulp"
+    "watch": "gulp",
+    "test": "ava"
+  },
+  "ava": {
+    "require": [
+        "esm"
+    ]
   },
   "repository": {
     "type": "git",
