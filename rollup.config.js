@@ -12,7 +12,7 @@ const toBundle = [
     'numenera.css',
     "templates/characterSheet.html",
     "templates/npcSheet.html",
-    "templates/item/abilitySheet.html",
+    //"templates/item/abilitySheet.html",
     "templates/item/armorSheet.html",
     "templates/item/artifactSheet.html",
     "templates/item/cypherSheet.html",
