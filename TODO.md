@@ -6,8 +6,6 @@
   * Abilities
   * Skills (?)
 * Dynamic lists (Items)
-  * Cyphers
-  * Artifacts
   * Armor
   * make them all draggable
 * Recovery
@@ -40,6 +38,7 @@
   * Rerolls from XP spending
     * Allow spending XP from another player
 * Manage artifact depletion on use
+  * Roll from sheet?
 * Increase tier when 4 advances have been achieved
 * Pools
   * Manage pool expenses for powers, taking Edge into account

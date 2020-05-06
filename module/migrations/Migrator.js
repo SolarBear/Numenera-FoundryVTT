@@ -29,8 +29,7 @@ export const Migrator = {
   migrationFunction: null,
 
   //Migrate function: will take an object and migrate it
-  migrate: function (obj) {
-
+  migrate: async function (obj) {
     //Sanity checks
     if (!this.forVersion)
       throw new Error("No forVersion specified");
@@ -43,25 +42,21 @@ export const Migrator = {
     if (this.previousMigrator !== null) {
       //Ensure the previous migration handles the previous version number
       if (this.forVersion - 1 !== this.previousMigrator.forVersion)
-      {
-        console.log(this.forVersion);
-        console.log(this.previousMigrator.forVersion);
         throw new Error("Previous migrator does not have the preceding wrong version number");
-      }
       //Ensure the previous migration handles the same type of object
       else if (this.forType !== this.previousMigrator.forType)
         throw new Error("Previous migrator has the wrong type");
     }
 
-    if (obj.type !== this.forType) 
+    if (obj.data.type !== this.forType) 
       throw new Error("Wrong migrator type for object");
     
     //Migration already performed?
-    if (obj.version >= this.forVersion)
+    if (obj.data.data.version >= this.forVersion)
       return obj;
 
     //Make sure there weren't previous migrations to perform
-    if (obj.version < this.forVersion - 1) {
+    if (obj.data.data.version < this.forVersion - 1) {
       if (this.previousMigrator && this.previousMigrator.forVersion < this.forVersion) {
         obj = this.previousMigrator.migrate(obj);
       } else {
@@ -70,8 +65,9 @@ export const Migrator = {
     }
 
     //TODO deep copy of the object
-    const updatedObject = this.migrationFunction(Object.assign({}, obj));
-    updatedObject.version++;
+    const updatedObject = await this.migrationFunction(obj);
+    console.log(updatedObject);
+    updatedObject.data.data.version++;
 
     return updatedObject;
   }

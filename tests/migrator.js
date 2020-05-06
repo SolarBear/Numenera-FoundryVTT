@@ -51,7 +51,12 @@ test("A Migrator with a diferent type than the object it receives throws an exce
     migrator.migrationFunction = () => {};
 
     const o = {
-      type: "bar"
+      data: {
+        type: "bar",
+        data: {
+          version: 1,
+        },
+      },
     };
   
     migrator.migrate(o);
@@ -64,16 +69,20 @@ test("A Migrator for a version that is the same as the object returns the same o
   const migrator = Object.assign({}, Migrator);
   migrator.forVersion = 1;
   migrator.forType = "foo";
-  migrator.migrationFunction = () => {};
+  migrator.migrationFunction = (obj) => obj;
 
   const o = {
-    type: "foo",
-    version: 1,
+    data: {
+      type: "foo",
+      data: {
+        version: 1,
+      },
+    },
   };
 
   const migrated = migrator.migrate(o);
 
-  t.true(o === migrated);
+  t.is(o, migrated);
 });
 
 test("A Migrator will apply its migration function to the object", t => {
@@ -81,22 +90,26 @@ test("A Migrator will apply its migration function to the object", t => {
   migrator.forVersion = 2;
   migrator.forType = "foo";
   migrator.migrationFunction = obj => {
-    delete obj.bar;
-    obj.spam = "eggs";
+    delete obj.data.data.bar;
+    obj.data.data.spam = "eggs";
     return obj;
   };
 
   const o = {
-    type: "foo",
-    bar: "baz",
-    version: 1,
+    data: {
+      type: "foo",
+      data: {
+        bar: "baz",
+        version: 1,
+      },
+    },
   };
 
   const migrated = migrator.migrate(o);
 
   t.true(o !== migrated); //Should be an object copy
-  t.false(migrated.hasOwnProperty("bar"));
-  t.is(migrated.spam, "eggs");
+  t.false(migrated.data.data.hasOwnProperty("bar"));
+  t.is(migrated.data.data.spam, "eggs");
   
 });
 
@@ -104,18 +117,21 @@ test("A Migrator will set its new version number to the object", t => {
   const migrator = Object.assign({}, Migrator);
   migrator.forVersion = 2;
   migrator.forType = "foo";
-  migrator.migrationFunction = obj => {
-    return obj;
-  };
+  migrator.migrationFunction = (obj) => obj;
 
   const o = {
-    type: "foo",
-    version: 1,
+    data: {
+      type: "foo",
+      data: {
+        version: 1,
+      }
+      
+    }
   };
 
   const migrated = migrator.migrate(o);
 
-  t.is(migrated.version, 2);
+  t.is(migrated.data.data.version, 2);
 });
 
 test("A Migrator with an embedded Migrator with a different type throws an exception", t => {
@@ -171,7 +187,7 @@ test("A Migrator with an embedded Migrator will apply its previous Migrator firs
   migrator1.forVersion = 2;
   migrator1.forType = "foo";
   migrator1.migrationFunction = obj => {
-    obj.prop = 2;
+    obj.data.data.prop = 2;
     return obj;
   };
 
@@ -180,20 +196,25 @@ test("A Migrator with an embedded Migrator will apply its previous Migrator firs
   migrator2.forType = "foo";
   migrator2.previousMigrator = migrator1;
   migrator2.migrationFunction = obj => {
-    obj.prop = 3;
+    obj.data.data.prop = 3;
     return obj;
   };
 
   const o = {
-    prop: 1,
-    type: "foo",
-    version: 1,
+    data: {
+      type: "foo",
+      data: {
+        prop: "",
+        version: 1,
+      },
+    },
   };
+
 
   const migrated = migrator2.migrate(o);
 
-  t.is(migrated.prop, 3);
-  t.is(migrated.version, 3);
+  t.is(migrated.data.data.prop, 3);
+  t.is(migrated.data.data.version, 3);
 });
 
 test("Multiple migrations will be handled in ascending version order", t => {
@@ -201,7 +222,7 @@ test("Multiple migrations will be handled in ascending version order", t => {
   migrator1.forVersion = 2;
   migrator1.forType = "foo";
   migrator1.migrationFunction = obj => {
-    obj.prop += "a";
+    obj.data.data.prop += "a";
     return obj;
   };
 
@@ -210,7 +231,7 @@ test("Multiple migrations will be handled in ascending version order", t => {
   migrator2.forType = "foo";
   migrator2.previousMigrator = migrator1;
   migrator2.migrationFunction = obj => {
-    obj.prop += "b";
+    obj.data.data.prop += "b";
     return obj;
   };
 
@@ -219,7 +240,7 @@ test("Multiple migrations will be handled in ascending version order", t => {
   migrator3.forType = "foo";
   migrator3.previousMigrator = migrator2;
   migrator3.migrationFunction = obj => {
-    obj.prop += "c";
+    obj.data.data.prop += "c";
     return obj;
   };
 
@@ -228,18 +249,22 @@ test("Multiple migrations will be handled in ascending version order", t => {
   migrator4.forType = "foo";
   migrator4.previousMigrator = migrator3;
   migrator4.migrationFunction = obj => {
-    obj.prop += "d";
+    obj.data.data.prop += "d";
     return obj;
   };
 
   const o = {
-    prop: "",
-    type: "foo",
-    version: 1,
+    data: {
+      type: "foo",
+      data: {
+        prop: "",
+        version: 1,
+      },
+    },
   };
 
   const migrated = migrator4.migrate(o);
 
-  t.is(migrated.version, 5);
-  t.is(migrated.prop, "abcd");
+  t.is(migrated.data.data.version, 5);
+  t.is(migrated.data.data.prop, "abcd");
 });
