@@ -16,11 +16,6 @@
             "descriptor": "",
             "effort": 1,
             "focus": "",
-            "numenera": {
-                "artifacts": "",
-                "cyphers": "",
-                "oddities": ""
-            },
             "recovery": 1,
             "stats": {
                 "might": {
@@ -54,7 +49,7 @@
             "skills": {},
             "shins": 0,
             "tier": 1,
-            "version": 1,
+            "version": 2,
             "xp": 0
         },
         "npc": {
@@ -87,10 +82,12 @@
                 "name": "",
                 "price": 0,
                 "notes": "",
-                "version": 1
+                "version": 2
             },
             "numenera": {
-                "level": 1,
+                "identified": false,
+                "level": null,
+                "levelDie": "",
                 "form": "",
                 "effect": ""
             },

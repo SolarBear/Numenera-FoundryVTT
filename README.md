@@ -6,9 +6,9 @@ This repository is the beginning of support for the [Numenera role playing game]
 
 ## How do I use it?
 
-First, a word of warning: this system is in an alpha state, so you're more than welcome to try it out but you WILL experience problems.
+First, a word of warning: this system is in active development so basic features are in place and the system is absolutely usable but you might experience some missing features and hiccups.
 
-Still, if you're willing to try it out, simply go to the _Game Systems_ tab of the _Configuration and Setup_ screen, click the _Install System_ button and enter this URL: https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json
+To install, simply go to the _Game Systems_ tab of the _Configuration and Setup_ screen, click the _Install System_ button on the lower left; scroll down to _Numenera_ and click Install.
 
 Foundry will download the current bundle and afterwards you only need to create a new world using that system. Easy as pie!
 
@@ -45,13 +45,13 @@ If you want to use the code as is - unminified, without tree-shaking, etc. - fol
 1. Ensure the Foundry server is installed on your machine.
 1. Clone the repo to a directory of your liking using your git client of choice. 
 1. Open a console and move to that directory.
-1. Run `npm install --save-dev` there. Wait for it to finish.
-1. Go to your foundry data folder (LINK HERE PLZ) and either move your git repo clone into the `worlds/` subdirectory or create a symlink to that directory.
-1. Start the foundry server.
+1. Run `npm install` there. Wait for it to finish.
+1. Go to your Foundry data folder and either move your git repo clone into the `worlds/` subdirectory or create a symlink to that directory.
+1. Start the Foundry server.
 1. Connect to it using your favorite browser.
 1. Enjoy.
 
-During developement, just run `npm run watch` to have sass watch over your .sass files and convert them to CSS on the fly.
+During developement, just run `npm run watch` to have sass watch over your .sass files and convert them to CSS on the fly. If you mess with the migrations system, make sure to run `npm test` to run the tests.
 
 #### Method 2: deploy an optimized version
 
@@ -61,6 +61,6 @@ Once you've bundled up the whole thing, unzip the contents of that archive into 
 
 ### How do I bundle up the whole thing?
 
-Just run `npm run build`: it uses rollup.js to bundle up everything inside a nice ZIP archive with minified and tree-shaked JS, with all the required JSON, CSS and HTML.
+Just run `npm run build`: it uses rollup.js to bundle up everything inside a nice ZIP archive with minified and tree-shaken JS, with all the required JSON, CSS and HTML.
 
 If you add new files that _should_ be added to the bundle (eg. a new HTML template), make sure to add it to the list of files inside rollup.config.js, otherwise it will not be bundled; note this is not necessary for .js files.

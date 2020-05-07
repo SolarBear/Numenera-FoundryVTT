@@ -103,7 +103,7 @@
                     <td class="skill-inability"><input type="checkbox" /></td>
                     <td class="skill-trained"><input type="checkbox" /></td>
                     <td class="skill-specialized"><input type="checkbox"/></td>
-                    <td><a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a></td>
+                    <td><a class="skill-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a></td>
                 </tr>  
             </template>
             <thead>
@@ -113,7 +113,7 @@
                     <td class="skill-inability">Inability</td>
                     <td class="skill-trained">Trained</td>
                     <td class="skill-specialized">Specialized</td>
-                    <td><a class="skill-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                    <td><a class="skill-control" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
                 </tr>
             </thead>
             <tbody>
@@ -144,7 +144,7 @@
                         <input class="skill-specialized" type="checkbox" name="data.skills.{{skill.name}}.specialized" {{checked skill.specialized}} />
                     </td>
                     <td>
-                        <a class="skill-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="skill-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {{/each}}
@@ -166,7 +166,7 @@
                 <td>Damage</td>
                 <td>Range</td>
                 <td>Notes</td>
-                <td><a class="weapon-create"><i class="fas fa-plus"></i></a></td>
+                <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
             </thead>
             <tbody>
             {{#each data.items.weapons as |weapon|}}
@@ -211,16 +211,22 @@
                         <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.data.notes}}" />
                     </td>
                     <td>
-                        <a class="weapon-delete" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="weapon-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
+            {{else}}
+            <tr>
+                <td colspan="6">
+                    No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                </td>
+            </tr>
             {{/each}}
             </tbody>
         </table>
     </div>
     
     <div>
-        <h2>{{abilitiesName}}</h2>
+        <h2>Special Abilities</h2>
 
         <table class="abilities">
             <template>
@@ -242,7 +248,7 @@
                         <textarea></textarea>
                     </td>
                     <td>
-                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="ability-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>  
             </template>
@@ -251,7 +257,7 @@
                     <td class="ability-name">Name</td>
                     <td class="ability-cost">Cost</td>
                     <td class="ability-description">Description</td>
-                    <td><a class="ability-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                    <td><a class="ability-control" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
                 </tr>
             </thead>
             <tbody>
@@ -274,7 +280,7 @@
                         <textarea name="data.abilities.{{ability.name}}.description">{{ability.description}}</textarea>
                     </td>
                     <td>
-                        <a class="ability-control" data-action="delete"><i class="fas fa-trash"></i></a>
+                        <a class="ability-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             {{/each}}
@@ -286,13 +292,92 @@
         <h2>Numenera</h2>
 
         <h3>Artifacts</h3>
-        <textarea name="data.numenera.artifacts">{{data.numenera.artifacts}}</textarea>
+        <ul class="artifacts">
+            {{#each data.items.artifacts as |artifact|}}
+            <li class="artifact" data-item-id={{artifact._id}}>
+                <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                <h4>
+                    {{artifact.name}}
+                </h4>
+                {{#if artifact.editable}}
+                <p>
+                    <label>Identified? 
+                        <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" {{checked artifact.data.identified}} />
+                    </label>
+                </p>
+                {{/if}}
+                <p>
+                    {{#if artifact.editable}}
+                    <label>Level
+                        <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" value="{{artifact.data.level}}" />
+                    </label>
+                    {{else}}
+                    <span>Level</span> {{artifact.data.level}}
+                    {{/if}}
+                </p>
+                <p>
+                    <span>Form</span> {{artifact.data.form}}
+                </p>
+                <p>
+                    <span>Effect</span> {{artifact.data.effect}}
+                </p>
+                {{#if artifact.data.depletion.isDepleting }}
+                <p>
+                    <span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}
+                </p>
+                {{/if}}
+            </li>
+            {{/each}}
+        </ul>
 
         <h3>Cyphers</h3>
-        <textarea name="data.numenera.cyphers">{{data.numenera.cyphers}}</textarea>
+        <ul class="cyphers">
+            {{#each data.items.cyphers as |cypher|}}
+            <li class="cypher" data-item-id={{cypher._id}}>
+                <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                <h4>
+                    {{cypher.name}}
+                </h4>
+                {{#if cypher.editable}}
+                <p>
+                    <label>Identified? 
+                        <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" {{checked cypher.data.identified}} />
+                    </label>
+                </p>
+                {{/if}}
+                <p>
+                    {{#if cypher.editable}}
+                    <label>Level
+                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" />
+                    </label>
+                    {{else}}
+                    <span>Level</span> {{cypher.data.level}}
+                    {{/if}}
+                </p>
+                <p>
+                    <span>Form</span> {{cypher.data.form}}
+                </p>
+                <p>
+                    <span>Effect</span> {{cypher.data.effect}}
+                </p>
+            </li>
+            {{/each}}
+        </ul>
 
         <h3>Oddities</h3>
-        <textarea name="data.numenera.oddities">{{data.numenera.oddities}}</textarea>
+        <ul class="oddities">
+            {{#each data.items.oddities as |oddity|}}
+            <li class="oddity" data-item-id={{oddity._id}}>
+                <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                <h4>
+                    {{oddity.name}}
+                </h4>
+                <span>
+                    {{oddity.data.notes}}
+                </span>
+            </li>
+            {{/each}}
+        </ul>
     </div>
     <div>
         <h2>Background</h2>

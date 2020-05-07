@@ -15,6 +15,8 @@ import { NumeneraEquipmentItemSheet } from './module/item/sheets/NumeneraEquipme
 import { NumeneraOddityItemSheet } from './module/item/sheets/NumeneraOddityItemSheet.js';
 import { NumeneraWeaponItemSheet } from './module/item/sheets/NumeneraWeaponItemSheet.js';
 
+import { migrateWorld } from './module/migrations/migrate.js';
+
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
 
@@ -61,11 +63,14 @@ Hooks.on('renderActorDirectory', (app, html, options) => {
 
 Hooks.on("renderChatMessage", (app, html, data) => {
     //Here, "app" is the ChatMessage object
-    if (app.roll.dice[0].faces === 20)
+
+    //Don't apply ChatMessage enhancement to recovery rolls
+    if (app.roll && app.roll.dice[0].faces === 20)
     {
         const dieRoll = app.roll.dice[0].rolls[0].roll;
         const special = rollText(dieRoll);
 
+        //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
         if (!special)
             return;
 
@@ -77,4 +82,8 @@ Hooks.on("renderChatMessage", (app, html, data) => {
         $(newContent).insertBefore(dt);
     }
 });
-  
+
+/**
+ * Once the entire VTT framework is initialized, check to see if we should perform a data migration
+ */
+Hooks.once("ready", migrateWorld);

@@ -1,3 +1,4 @@
+import { NumeneraAbilityItem } from "./NumeneraAbilityItem.js";
 import { NumeneraArtifactItem } from "./NumeneraArtifactItem.js";
 import { NumeneraArmorItem } from "./NumeneraArmorItem.js";
 import { NumeneraCypherItem } from "./NumeneraCypherItem.js";
@@ -24,6 +25,8 @@ export const NumeneraItem = new Proxy(function () {}, {
   construct: function (target, args) {
     const [data] = args;
     switch (data.type) {
+      case "ability":
+        return new NumeneraAbilityItem(...args);
       case "armor":
         return new NumeneraArmorItem(...args);
       case "artifact":
@@ -45,6 +48,8 @@ export const NumeneraItem = new Proxy(function () {}, {
         //Calling the class' create() static function
         return function (data, options) {
           switch (data.type) {
+            case "ability":
+              return NumeneraAbilityItem.create(data, options);
             case "armor":
               return NumeneraArmorItem.create(data, options);
             case "artifact":
@@ -64,6 +69,7 @@ export const NumeneraItem = new Proxy(function () {}, {
         //Applying the "instanceof" operator on the instance object
         return function (instance) {
           return (
+            instance instanceof NumeneraAbilityItem ||
             instance instanceof NumeneraArmorItem ||
             instance instanceof NumeneraArtifactItem ||
             instance instanceof NumeneraCypherItem ||
@@ -72,6 +78,7 @@ export const NumeneraItem = new Proxy(function () {}, {
             instance instanceof NumeneraWeaponItem
           );
         };
+
       default:
         //Just forward any requested properties to the base Actor class
         return Item[prop];

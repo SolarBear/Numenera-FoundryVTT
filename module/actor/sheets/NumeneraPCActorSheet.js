@@ -48,6 +48,46 @@ function onClickControlGenerator(control) {
   };
 }
 
+function onItemEditGenerator(editClass) {
+  return async function (event) {
+    event.preventDefault();
+
+    const elem = event.currentTarget.closest(editClass);
+
+    if (!elem)
+      throw new Error(`Missing ${editClass} class element`);
+    else if (!elem.dataset.itemId)
+      throw new Error(`No itemID on ${editClass} element`);
+
+    const item = this.actor.getOwnedItem(elem.dataset.itemId);
+
+    if (!item)
+      throw new Error(`No such item ID ${elem.dataset.itemId}`)
+
+    const updated = duplicate(item.data);
+
+    const name = event.currentTarget.name.split(".").pop();
+    //The "name" property is not at the same hierarchy levels as "regular" properties
+    if (name === "name")
+      updated.name = event.currentTarget.value
+    else
+      updated.data[name] = event.currentTarget.value;
+
+    await this.actor.updateEmbeddedEntity("OwnedItem", updated);
+    this.actor.render();
+  }
+}
+
+function onItemDeleteGenerator(deleteClass) {
+  return function (event) {
+    event.preventDefault();
+  
+    const elem = event.currentTarget.closest(deleteClass);
+    const itemId = elem.dataset.itemId;
+    this.actor.deleteOwnedItem(itemId);
+  }
+}
+
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
  *
@@ -64,6 +104,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera table.weapons",
         "form.numenera table.skills",
         "form.numenera table.abilities",
+        "form.numenera ul.artifacts",
+        "form.numenera ul.cyphers",
+        "form.numenera ul.oddities",
       ],
       width: 900,
       height: 1000,
@@ -80,6 +123,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Call generator function to assign table event handlers
     this.onClickSkillControl = onClickControlGenerator("skill");
     this.onClickAbilityControl = onClickControlGenerator("ability");
+
+    //Edit event handlers
+    this.onArtifactEdit = onItemEditGenerator(".artifact");
+    this.onCypherEdit = onItemEditGenerator(".cypher");
+    this.onWeaponEdit = onItemEditGenerator(".weapon");
+
+    //Delete event handlers
+    this.onArtifactDelete = onItemDeleteGenerator(".artifact");
+    this.onCypherDelete = onItemDeleteGenerator(".cypher");
+    this.onOddityDelete = onItemDeleteGenerator(".oddity");
+    this.onWeaponDelete = onItemDeleteGenerator(".weapon");
   }
 
   /* -------------------------------------------- */
@@ -171,8 +225,39 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.items = sheetData.actor.items || {};
 
     const items = sheetData.data.items;
+    if (!sheetData.data.items.artifacts)
+      sheetData.data.items.artifacts = items.filter(i => i.type === "artifact");
+    if (!sheetData.data.items.cyphers)
+      sheetData.data.items.cyphers = items.filter(i => i.type === "cypher");
+    if (!sheetData.data.items.oddities)
+      sheetData.data.items.oddities = items.filter(i => i.type === "oddity");
     if (!sheetData.data.items.weapons)
       sheetData.data.items.weapons = items.filter(i => i.type === "weapon");
+
+    //Make it so that unidentified artifacts and cyphers appear as blank items
+    //TODO extract this in the Item class if possible (perhaps as a static method?)
+    sheetData.data.items.artifacts = sheetData.data.items.artifacts.map(artifact => {
+      if (game.user.isGM) {
+        artifact.editable = true;
+      } else if (!artifact.data.identified) {
+        artifact.name = "Unidentified Artifact";
+        artifact.data.level = "Unknown";
+        artifact.data.effect = "Unknown";
+        artifact.data.depletion = null;
+      }
+      return artifact;
+    });
+
+    sheetData.data.items.cyphers = sheetData.data.items.cyphers.map(cypher => {
+      if (game.user.isGM) {
+        cypher.editable = true;
+      } else if (!cypher.data.identified) {
+        cypher.name = "Unidentified Cypher";
+        cypher.data.level = "Unknown";
+        cypher.data.effect = "Unknown";
+      }
+      return cypher;
+    });
 
     return sheetData;
   }
@@ -213,7 +298,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "blur",
       "tbody input,select,textarea",
       this.onAbilityNameChange.bind(this)
-    ); 
+    );
+
+    html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
+    html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
+
+    if (game.user.isGM) {
+      html.find("ul.artifacts").on("change", "input", this.onArtifactEdit.bind(this));
+      html.find("ul.cyphers").on("change", "input", this.onCypherEdit.bind(this));
+    }
+    
+    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
   }
 
   onWeaponCreate(event) {
@@ -229,31 +324,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     };
 
     return this.actor.createOwnedItem(weaponData);
-  }
-
-  onWeaponDelete(event) {
-    event.preventDefault();
-
-    const tr = event.currentTarget.closest(".weapon");
-    this.actor.deleteOwnedItem(tr.dataset.itemId);
-  }
-
-  async onWeaponEdit(event) {
-    event.preventDefault();
-
-    const row = event.currentTarget.closest(".weapon");
-    const item = this.actor.getOwnedItem(row.dataset.itemId);
-    const updated = duplicate(item.data); //duplicate item
-
-    const name = event.currentTarget.name.split(".").pop();
-    //The "name" property is not at the same hierarchy levels as "regular" properties
-    if (name === "name")
-      updated.name = event.currentTarget.value
-    else
-      updated.data[name] = event.currentTarget.value;
-
-    await this.actor.updateEmbeddedEntity("OwnedItem", updated);
-    this.actor.render();
   }
 
   /**
@@ -307,7 +377,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   async _updateObject(event, formData) {
     //TODO this works A-OK but it's ugly... find a cleaner way to handle this
-    if (event.currentTarget && event.currentTarget.closest(".weapon")) {
+    if (event.currentTarget &&
+      (
+        event.currentTarget.closest(".weapon")
+        || event.currentTarget.closest(".artifact")
+        || event.currentTarget.closest(".cypher"))
+      ) {
       return;
     }
 
