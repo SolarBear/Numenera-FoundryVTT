@@ -55,19 +55,19 @@ export const Migrator = {
     if (obj.data.data.version >= this.forVersion)
       return obj;
 
+    let data = {};
+
     //Make sure there weren't previous migrations to perform
     if (obj.data.data.version < this.forVersion - 1) {
       if (this.previousMigrator && this.previousMigrator.forVersion < this.forVersion) {
-        obj = this.previousMigrator.migrate(obj);
+        data = this.previousMigrator.migrate(actor);
       } else {
         console.log(`No migration found for ${this.forType} version ${this.forVersion}`);
       }
     }
 
-    //TODO deep copy of the object
-    const updatedObject = await this.migrationFunction(obj);
-    console.log(updatedObject);
-    updatedObject.data.data.version++;
+    const updatedObject = await this.migrationFunction(obj, data);
+    updatedObject["data.version"] = this.forVersion;
 
     return updatedObject;
   }

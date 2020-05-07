@@ -1,5 +1,4 @@
 import { Migrator } from "./Migrator.js";
-import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 import { NumeneraItem } from "../item/NumeneraItem.js";
 
 //Keep migrators in order: v1 to v2, v2 to v3, etc.
@@ -16,7 +15,8 @@ PCActorv1ToV2Migrator.forType = "pc";
   - the effort property has been added, it was previously computed from existing
     but right now I want to avoid automating too much stuff
 */
-PCActorv1ToV2Migrator.migrationFunction = async function(actor) {
+PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
   
   if (actor.data.data.numenera) {
     if (actor.data.data.numenera.oddities) {
@@ -102,19 +102,18 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor) {
       }
     }
 
-    //We can now remove the old Actor property
-    delete actor.data.data.numenera;
+    //We can now remove the old property
+    newData["data.-=numenera"] = null;
   }
 
   //Add an Effort property if one does not exist, it's computed automatically
   if (!actor.data.data.hasOwnProperty("effort"))
-    actor.data.data.effort = 1;
+    newData["data.effort"] = 1;
 
-  await NumeneraPCActor.update(actor.data);
+  newData["data.version"] = this.forVersion;
     
-  return actor;
+  return newData;
 };
-
 
 //Only export the latest migrator
 export const PCActorMigrator = PCActorv1ToV2Migrator;

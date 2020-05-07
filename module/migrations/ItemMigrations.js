@@ -14,23 +14,26 @@ Itemv1ToV2Migrator.forObject = "Item";
    to a player but only have it identified later
 */
 Itemv1ToV2Migrator.migrationFunction = async function(item) {
-debugger;
+  const newData = {
+    _id: item._id,
+  };
+
   if (["artifact", "cypher"].indexOf(item.type) !== -1) {
 
     if (!item.data.data.hasProperty("identified")) {
       //Current artifacts and cyphers could only have been identified
       //for unowned ones, it's irrelevant
-      item.data.data.identified = item.data.data.isOwned;
+      data["data.identified"] = item.data.data.isOwned;
     }
 
     if (!item.data.data.isOwned) {
       //Use current level as "level die" as string
-      item.data.data.levelDie = "" + item.data.data.level;
+      data["data.levelDie"] = "" + item.data.data.level;
     }
     //Owned numenera may keep their level and don't need a level die
   }
 
-  await NumeneraItem.update(item);
+  newData["data.version"] = this.forVersion;
 
   return item;
 };
