@@ -332,7 +332,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //to Dragula seems to work
     const drakes = [];
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
 
     drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("ul.cyphers")], Object.assign({}, dragulaOptions)));
