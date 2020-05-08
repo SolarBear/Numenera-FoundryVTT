@@ -82,6 +82,8 @@ function onItemEditGenerator(editClass) {
     //The "name" property is not at the same hierarchy levels as "regular" properties
     if (name === "name")
       updated.name = event.currentTarget.value
+    else if (event.target.dataset.dtype === "Boolean")
+      updated.data[name] = event.currentTarget.checked;
     else
       updated.data[name] = event.currentTarget.value;
 

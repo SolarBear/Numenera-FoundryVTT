@@ -307,14 +307,14 @@
                 {{#if artifact.editable}}
                 <p>
                     <label>Identified? 
-                        <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" {{checked artifact.data.identified}} />
+                        <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" data-dtype="Boolean" {{checked artifact.data.identified}} />
                     </label>
                 </p>
                 {{/if}}
                 <p>
                     {{#if artifact.editable}}
                     <label>Level
-                        <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" value="{{artifact.data.level}}" />
+                        <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" data-dtype="Number" value="{{artifact.data.level}}" />
                     </label>
                     {{else}}
                     <span>Level</span> {{artifact.data.level}}
@@ -347,14 +347,14 @@
                 {{#if cypher.editable}}
                 <p>
                     <label>Identified? 
-                        <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" {{checked cypher.data.identified}} />
+                        <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" data-dtype="Boolean" {{checked cypher.data.identified}} />
                     </label>
                 </p>
                 {{/if}}
                 <p>
                     {{#if cypher.editable}}
                     <label>Level
-                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" />
+                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" data-dtype="Number" />
                     </label>
                     {{else}}
                     <span>Level</span> {{cypher.data.level}}
