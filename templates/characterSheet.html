@@ -92,7 +92,10 @@
         <table class="skills">
             <template>
                 <tr class="skill">
-                    <td class="skill-name"><input type="text" value="" class="skill-name-input" /></td>
+                    <td class="skill-name">
+                        <a><i class="fas fa-grip-vertical handle"></i></a>
+                        <input type="text" value="" class="skill-name-input" />
+                    </td>
                     <td class="skill-stat">
                         <select>
                         {{#each stats}}
@@ -170,8 +173,9 @@
             </thead>
             <tbody>
             {{#each data.items.weapons as |weapon|}}
-                <tr class="weapon" data-item-id="{{weapon._id}}">
+                <tr class="weapon" data-item-id="{{weapon._id}}" data-prder="{{weapon.data.order}}">
                     <td class="weapon-name">
+                        <a><i class="fas fa-grip-vertical handle"></i></a>
                         <input type="text" name="data.items.weapons.{{weapon.name}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
                     </td>
                     <td class="weapon-weight-type">
@@ -208,7 +212,7 @@
                         </select>
                     </td>
                     <td class="weapon-notes">
-                        <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.data.notes}}" />
+                        <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.data.notes}}" title="{{weapon.data.notes}}" />
                     </td>
                     <td>
                         <a class="weapon-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
@@ -294,9 +298,10 @@
         <h3>Artifacts</h3>
         <ul class="artifacts">
             {{#each data.items.artifacts as |artifact|}}
-            <li class="artifact" data-item-id={{artifact._id}}>
+            <li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.order}}>
                 <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                 <h4>
+                    <a><i class="fas fa-grip-vertical handle"></i></a>
                     {{artifact.name}}
                 </h4>
                 {{#if artifact.editable}}
@@ -333,9 +338,10 @@
         <h3>Cyphers</h3>
         <ul class="cyphers">
             {{#each data.items.cyphers as |cypher|}}
-            <li class="cypher" data-item-id={{cypher._id}}>
+            <li class="cypher" data-item-id={{cypher._id}}  data-order={{cypher.data.order}}>
                 <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                 <h4>
+                    <a><i class="fas fa-grip-vertical handle"></i></a>
                     {{cypher.name}}
                 </h4>
                 {{#if cypher.editable}}
@@ -367,9 +373,10 @@
         <h3>Oddities</h3>
         <ul class="oddities">
             {{#each data.items.oddities as |oddity|}}
-            <li class="oddity" data-item-id={{oddity._id}}>
+            <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
                 <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                 <h4>
+                    <a><i class="fas fa-grip-vertical handle"></i></a>
                     {{oddity.name}}
                 </h4>
                 <span>

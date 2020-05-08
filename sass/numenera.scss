@@ -1,4 +1,5 @@
 $border-color: #782e22;
+$font-stack: Ogirema;
 
 span.numenera-message-special {
     font-weight: bold;
@@ -7,6 +8,11 @@ span.numenera-message-special {
 
 form.numenera {
     overflow: scroll;
+    font-family: $font-stack;
+
+    a i.handle {
+        cursor: move;
+    }
 
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
     .flewrow {
@@ -187,6 +193,17 @@ form.numenera {
             }
         }
 
+        table.weapons {
+            td {
+                padding: 5px;
+                margin: 5px 0;
+            }
+
+            input.weapon-name-input {
+                width: auto;
+            }
+        }
+
         table.skills {
             background-color: transparent;
 
@@ -202,6 +219,10 @@ form.numenera {
             tbody td input[type="text"] {
                 text-align: left;
                 width: 100%;
+
+                &.skill-name-input {
+                    width: 95%; //HACK! find a better way plz
+                }
             }
         }
     }

@@ -16,6 +16,7 @@ Itemv1ToV2Migrator.forObject = "Item";
 Itemv1ToV2Migrator.migrationFunction = async function(item) {
   const newData = {
     _id: item._id,
+    order: -1,
   };
 
   if (["artifact", "cypher"].indexOf(item.type) !== -1) {

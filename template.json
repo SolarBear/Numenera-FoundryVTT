@@ -82,6 +82,7 @@
                 "name": "",
                 "price": 0,
                 "notes": "",
+                "order": -1,
                 "version": 2
             },
             "numenera": {
