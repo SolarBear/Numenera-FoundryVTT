@@ -1,6 +1,18 @@
 import { NUMENERA } from "../../config.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 
+import  "../../../lib/dragula/dragula.js";
+
+//Common Dragula options
+const dragulaOptions = {
+  moves: function (el, container, handle) {
+    return handle.classList.contains('handle');
+  }
+};
+
+//Sort function for order
+const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
+
 /**
  * Function generator for handling click controls. Will handle dynamic tables
  * row creation and deletion. Just call it with the required name and assign
@@ -211,7 +223,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Skills section
     sheetData.skills = Object.values(sheetData.actor.data.skills).forEach(
-      (skill) => {
+      (skill, index) => {
+        if (!skill.hasOwnProperty("data.order"))
+          skill.data = { order: index};
+
         skill.stats = NUMENERA.stats.map((stat) => {
           return {
             label: stat,
@@ -220,19 +235,22 @@ export class NumeneraPCActorSheet extends ActorSheet {
         });
       }
     );
+    
+    if (sheetData.skills)
+      sheetData.skills.sort(sortFunction);
 
     //Weapons section
     sheetData.data.items = sheetData.actor.items || {};
 
     const items = sheetData.data.items;
     if (!sheetData.data.items.artifacts)
-      sheetData.data.items.artifacts = items.filter(i => i.type === "artifact");
+      sheetData.data.items.artifacts = items.filter(i => i.type === "artifact").sort(sortFunction);
     if (!sheetData.data.items.cyphers)
-      sheetData.data.items.cyphers = items.filter(i => i.type === "cypher");
+      sheetData.data.items.cyphers = items.filter(i => i.type === "cypher").sort(sortFunction);
     if (!sheetData.data.items.oddities)
-      sheetData.data.items.oddities = items.filter(i => i.type === "oddity");
+      sheetData.data.items.oddities = items.filter(i => i.type === "oddity").sort(sortFunction);
     if (!sheetData.data.items.weapons)
-      sheetData.data.items.weapons = items.filter(i => i.type === "weapon");
+      sheetData.data.items.weapons = items.filter(i => i.type === "weapon").sort(sortFunction);
 
     //Make it so that unidentified artifacts and cyphers appear as blank items
     //TODO extract this in the Item class if possible (perhaps as a static method?)
@@ -309,6 +327,36 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
     
     html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+
+    //Make sure to make a copy of the options object, otherwise only the first call
+    //to Dragula seems to work
+    const drakes = [];
+    drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
+
+    drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("ul.cyphers")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("ul.oddities")], Object.assign({}, dragulaOptions)));
+
+    //Handle reordering on all these nice draggable elements
+    //Assumes they all have a "order" property: should be the case since it's defined in the template.json
+    drakes.map(drake => drake.on("drop", this.reorderElements.bind(this)));
+  }
+
+  async reorderElements(el, target, source, sibling) {
+    const update = [];
+
+    for (let i = 0; i < source.children.length; i++) {
+      source.children[i].dataset.order = i;
+
+      //In case we're dealing with plain objects, they won't have an ID
+      if (source.children[i].dataset.itemId)
+        update.push({_id: source.children[i].dataset.itemId, "data.order": i});
+    }
+
+    //updateManyEmbeddedEntities is deprecated now and this function now accepts an array of data
+    if (update.length > 0)
+      await this.object.updateEmbeddedEntity("OwnedItem", update);
   }
 
   onWeaponCreate(event) {
