@@ -172,7 +172,7 @@
                         <input type="text" name="data.items.weapons.{{weapon.name}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
                     </td>
                     <td class="weapon-weight-type">
-                        <select name="data.items.weapons.{{weapon.name}}.weight">
+                        <select name="data.items.weapons.{{weapon.name}}.weight" class="weapon-weight">
                         {{#select weapon.data.weight}}
                         {{#each ../weights}}
                             <option value="{{this}}">{{this}}</option>
@@ -191,7 +191,7 @@
                         </select>
                     </td>
                     <td class="weapon-damage">
-                        <input type="number" name="data.items.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.data.damage}}" />
+                        <input type="number" name="data.items.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.data.damage}}" class="weapon-damage" />
                     </td>
                     <td class="weapon-range">
                         <select name="data.items.weapons.{{weapon.name}}.range">

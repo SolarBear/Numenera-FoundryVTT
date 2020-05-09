@@ -205,6 +205,14 @@ form.numenera {
             input.weapon-name-input {
                 width: auto;
             }
+
+            select.weapon-weight {
+                margin-right: 0.5em
+            }
+
+            input.weapon-damage {
+                width: 3em;
+            }
         }
 
         table.skills {
