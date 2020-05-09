@@ -8,16 +8,9 @@
                 <input type="text" name="name" value="{{actor.name}}" class="charname" />
                 is a
                 <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
-                <select name="data.characterType" class="characterType" data-type="String">
-                    {{#select data.characterType}}
-                    <option value="" />
-                    {{#each types}}
-                    <option value="{{abbrev}}" 
-                    >{{name}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
-                who&nbsp;<input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
+                <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" data-type="String">
+                <br/>
+                who <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
             </h1>
             <div class="flexrow">
                 {{#each data.stats as |stat id|}}
@@ -158,7 +151,7 @@
     <div>
         <h2>Combat</h2>
         <h3>Armor
-            <input type="number" name="data.armor" value="{{data.armor}}" min="0" />
+            <input type="number" name="data.armor" value="{{data.armor}}" class="armor" min="0" />
         </h3>
 
         <h3>Weapons</h3>
@@ -314,7 +307,7 @@
                 <p>
                     {{#if artifact.editable}}
                     <label>Level
-                        <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" data-dtype="Number" value="{{artifact.data.level}}" />
+                        <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1" value="{{artifact.data.level}}" />
                     </label>
                     {{else}}
                     <span>Level</span> {{artifact.data.level}}
@@ -354,7 +347,7 @@
                 <p>
                     {{#if cypher.editable}}
                     <label>Level
-                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" data-dtype="Number" />
+                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" min="1" data-dtype="Number" />
                     </label>
                     {{else}}
                     <span>Level</span> {{cypher.data.level}}

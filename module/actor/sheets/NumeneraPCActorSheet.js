@@ -324,8 +324,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
     if (game.user.isGM) {
-      html.find("ul.artifacts").on("change", "input", this.onArtifactEdit.bind(this));
-      html.find("ul.cyphers").on("change", "input", this.onCypherEdit.bind(this));
+      html.find("ul.artifacts").on("blur", "input", this.onArtifactEdit.bind(this));
+      html.find("ul.cyphers").on("blur", "input", this.onCypherEdit.bind(this));
     }
     
     html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
@@ -430,8 +430,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
       (
         event.currentTarget.closest(".weapon")
         || event.currentTarget.closest(".artifact")
-        || event.currentTarget.closest(".cypher"))
-      ) {
+        || event.currentTarget.closest(".cypher")
+        || event.currentTarget.closest(".abilities")
+        || event.currentTarget.closest(".armor")
+      )) {
       return;
     }
 

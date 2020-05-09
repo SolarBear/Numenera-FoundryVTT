@@ -92,29 +92,28 @@ form.numenera {
             font-size: 24px;
             border-bottom: 1px solid $border-color;
             margin-bottom: 0;
+            padding-left: 0.5em;
 
             input {
-                margin: 0 0.5em 0.5em 0.5em;
+                margin-top: 0.5em;
                 height: auto;
 
                 &.charname {
                     font-weight: bold;
-                    width: 20ch;
+                    width: 18ch;
                 }
     
                 &.descriptor {
-                    width: 15ch;
+                    width: 12ch;
                 }
-        
-                &.focus {
-                    width: 30ch;
-                }
-            }
 
-            select.characterType {
-                font-size: 24px;
-                height: auto;
-                margin: 0 0.5em 0.5em 0.5em;
+                &.characterType {
+                    width: 8ch;
+                }
+
+                &.focus {
+                    width: 25ch;
+                }
             }
         }
     }
@@ -162,6 +161,10 @@ form.numenera {
 
                     & > a {
                         float: right;
+                    }
+
+                    & input[type="number"] {
+                        width: 3em;
                     }
                 }
             }
