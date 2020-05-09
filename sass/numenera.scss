@@ -21,7 +21,7 @@ form.numenera {
         justify-content: flex-start;
     }
 
-    .flewcol {
+    .flexcol {
         display: flex;
         flex-flow: column nowrap;
     }
@@ -30,8 +30,38 @@ form.numenera {
         list-style-type: none;
     }
 
-    h1 > input[type="text"] {
+    h1.character {
+        font-size: 24px;
+        margin: 0;
+        border: 0;
+        padding-bottom: 0.25em;
+
+        input {
+            margin-top: 0.5em;
+            height: auto;
+
+            &.charname {
+                font-weight: bold;
+                width: 18ch;
+            }
+
+            &.descriptor {
+                width: 12ch;
+            }
+
+            &.characterType {
+                width: 8ch;
+            }
+
+            &.focus {
+                width: 25ch;
+            }
+        }
+    }
+
+    h1 input[type="text"] {
         height: auto;
+        width: auto;
         margin-bottom: 0.25em;
     }
 
@@ -55,19 +85,35 @@ form.numenera {
     &.pc {
         input[data-dtype="Number"] {
             width: 2em;
+
+            &.tier {
+                width: 1ch;
+            }
         }
     }
 
     div.header {
-        border-bottom: 0;
+        border: 1px solid $border-color;
+
+        h2,h3 {
+            font-weight: bold;
+        }
+
+        h3 {
+            margin-top: 0.25em;
+        }
+
+        div.contents > div > div:not(:last-child) {
+            border-right: 1px solid $border-color;
+        }
 
         div.picture {
-            padding-bottom: 1em;
-            padding-right: 1em;
-            margin-right: 1em;
+            border-right: 1px solid $border-color;
+            padding: 0.25em 0.25em 0.25em 0.25em;
             flex: 0.4;
 
             img.profile-img {
+                border: none;
                 width: inherit;
                 max-width: 250px;
                 max-height: 400px;
@@ -88,41 +134,16 @@ form.numenera {
             flex: 0.5;
         }
 
-        h1.character {
-            font-size: 24px;
-            border-bottom: 1px solid $border-color;
-            margin-bottom: 0;
-            padding-left: 0.5em;
+        ul {
+            text-align: left;
 
-            input {
-                margin-top: 0.5em;
-                height: auto;
-
-                &.charname {
-                    font-weight: bold;
-                    width: 18ch;
-                }
-    
-                &.descriptor {
-                    width: 12ch;
-                }
-
-                &.characterType {
-                    width: 8ch;
-                }
-
-                &.focus {
-                    width: 25ch;
-                }
+            li input {
+                height: 12px;
             }
         }
     }
 
     div {
-        //Ca sert dans la feuille de PC...
-        &:not(.item) div:not(:first-of-type) {
-            border-left: 1px solid $border-color;
-        }
 
         &.pc-info {
             border: 0;
@@ -174,16 +195,11 @@ form.numenera {
             input[type="checkbox"] {
                 display: inline-block;
             }
-
-            ul {
-                column-count: 2;
-            }
         }
 
         div.stats {
-            padding-top: 1em;
+            padding: 0.3em 0 0.3em 0;
             text-align: center;
-            padding-bottom: 1em;
 
             h2 {
                 text-transform: capitalize;
@@ -239,7 +255,7 @@ form.numenera {
     }
 
     div.flexrow:not(:last-child) {
-        border-bottom: 2px solid $border-color;
+        border-bottom: 1px solid $border-color;
     }
 
     div.item {

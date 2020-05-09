@@ -13,6 +13,7 @@
             "armor": 0,
             "background": "",
             "characterType": "",
+            "damageTrack": 0,
             "descriptor": "",
             "effort": 1,
             "focus": "",
@@ -49,7 +50,7 @@
             "skills": {},
             "shins": 0,
             "tier": 1,
-            "version": 2,
+            "version": 3,
             "xp": 0
         },
         "npc": {

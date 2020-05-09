@@ -115,5 +115,23 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
+const PCActorv2ToV3Migrator = Object.create(Migrator);
+
+PCActorv2ToV3Migrator.forVersion = 3;
+PCActorv2ToV3Migrator.forType = "pc";
+
+/* Summary of changes:
+* - added "damage track" property to PC actors
+*/
+PCActorv2ToV3Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
+
+  newData["data.damageTrack"] = 0;
+  newData["data.version"] = this.forVersion;
+    
+  return newData;
+};
+
+
 //Only export the latest migrator
-export const PCActorMigrator = PCActorv1ToV2Migrator;
+export const PCActorMigrator = PCActorv2ToV3Migrator;

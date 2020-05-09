@@ -124,6 +124,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ],
       width: 900,
       height: 1000,
+      tabs: [
+        {
+          navSelector: ".tabs",
+          contentSelector: "#pc-sheet-body",
+          initial: "features"
+        },
+      ],
     });
   }
 
@@ -200,18 +207,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       }
     );
 
-    const currentDamageTrack = this.actor.damageTrackLevel();
-    sheetData.damageTrackData = Object.values(NUMENERA.damageTrack).map(
-      (trackLevel) => {
-        return {
-          ...trackLevel,
-          checked: trackLevel.index === currentDamageTrack,
-        };
-      }
-    );
-    sheetData.damageTrackDescription = sheetData.damageTrackData.filter(
-      (d) => d.checked
-    )[0].description;
+    sheetData.damageTrackData = NUMENERA.damageTrack;
+    sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
     sheetData.recoveriesData = Object.entries(
       sheetData.actor.data.recoveries
@@ -299,7 +296,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     );
     skillsTable.on(
       "blur",
-      "tbody input,select,textarea",
+      "tbody input.skill-name-input",
       this.onSkillNameChange.bind(this)
     );
 
@@ -389,7 +386,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //TODO Hello! I'm a hack. Please obliterate me as violently as possible! Thank you! :)
     const row = event.currentTarget.closest(".ability");
-    row.children[0].children[0].name = `data.abilities.${input.value}.name`;
+    row.children[0].children[1].name = `data.abilities.${input.value}.name`;
     row.children[1].children[0].name = `data.abilities.${input.value}.cost.amount`;
     row.children[1].children[1].name = `data.abilities.${input.value}.cost.pool`;
     row.children[2].children[0].name = `data.abilities.${input.value}.description`;
@@ -409,11 +406,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //TODO Hello! I'm a hack. Please obliterate me as violently as possible! Thank you! :)
     const row = event.currentTarget.closest(".skill");
-    row.children[0].children[0].name = `data.skills.${input.value}.name`;
-    row.children[1].children[0].name = `data.skills.${input.value}.stat`;
-    row.children[2].children[0].name = `data.skills.${input.value}.inability`;
-    row.children[3].children[0].name = `data.skills.${input.value}.trained`;
-    row.children[4].children[0].name = `data.skills.${input.value}.specialized`;
+    row.children[1].children[0].name = `data.skills.${input.value}.name`;
+    row.children[2].children[0].name = `data.skills.${input.value}.stat`;
+    row.children[3].children[0].name = `data.skills.${input.value}.inability`;
+    row.children[4].children[0].name = `data.skills.${input.value}.trained`;
+    row.children[5].children[0].name = `data.skills.${input.value}.specialized`;
   }
 
   /**
