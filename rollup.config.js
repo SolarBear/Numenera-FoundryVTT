@@ -11,7 +11,7 @@ const toBundle = [
     'system.json',
     'numenera.css',
     "fonts/ogirema.ttf",
-    "font/source.txt",
+    "fonts/source.txt",
     "lib/dragula/dragula.min.css",
     "lib/dragula/dragula.min.js",
     "templates/characterSheet.html",
