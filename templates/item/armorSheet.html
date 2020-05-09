@@ -8,7 +8,7 @@
             <label>Weight
                 <select name="data.weightClass">
                     {{#select data.weightClass}}
-                    {{#each ranges}}
+                    {{#each weightClasses}}
                     <option value="{{this}}">{{this}}</option>
                     {{/each}}
                     {{/select}}
