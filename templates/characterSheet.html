@@ -90,12 +90,10 @@
 
     <section id="pc-sheet-body">
         <div class="tab skills" data-group="primary" data-tab="skills">
-            <h2>Skills</h2>
             <table class="skills">
                 <template>
                     <tr class="skill">
                         <td class="skill-name">
-                            <a><i class="fas fa-grip-vertical handle"></i></a>
                             <input type="text" value="" class="skill-name-input" />
                         </td>
                         <td class="skill-stat">
@@ -158,8 +156,6 @@
         </div>
 
         <div class="tab abilities" data-grou="primary" data-tab="abilities">
-            <h2>Special Abilities</h2>
-    
             <table class="abilities">
                 <template>
                     <tr class="ability">
@@ -220,10 +216,43 @@
             </table>
         </div>
 
-
         <div class="tab numenera" data-group="primary" data-tab="numenera">
-            <h2>Numenera</h2>
-            <h3>Artifacts</h3>
+            <h2>Cyphers</h2>
+            <ul class="cyphers">
+                {{#each data.items.cyphers as |cypher|}}
+                <li class="cypher" data-item-id={{cypher._id}}  data-order={{cypher.data.order}}>
+                    <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                    <h4>
+                        <a><i class="fas fa-grip-vertical handle"></i></a>
+                        {{cypher.name}}
+                    </h4>
+                    <p>
+                        {{#if cypher.editable}}
+                        <label>Identified? 
+                            <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" data-dtype="Boolean" {{checked cypher.data.identified}} />
+                        </label>
+                        <label>Level
+                            <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" min="1" data-dtype="Number" />
+                        </label>
+                        {{else}}
+                        <span>Level</span> {{cypher.data.level}}
+                        {{/if}}
+                    </p>
+                    <p>
+                        <span>Form</span> {{cypher.data.form}}
+                    </p>
+                    <p>
+                        <span>Effect</span> {{cypher.data.effect}}
+                    </p>
+                </li>
+                {{else}}
+                No cyphers.
+                {{/each}}
+            </ul>
+
+            <hr class="sheet-one" />
+
+            <h2>Artifacts</h2>
             <ul class="artifacts">
                 {{#each data.items.artifacts as |artifact|}}
                 <li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.order}}>
@@ -232,15 +261,11 @@
                         <a><i class="fas fa-grip-vertical handle"></i></a>
                         {{artifact.name}}
                     </h4>
-                    {{#if artifact.editable}}
                     <p>
+                        {{#if artifact.editable}}
                         <label>Identified? 
                             <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" data-dtype="Boolean" {{checked artifact.data.identified}} />
                         </label>
-                    </p>
-                    {{/if}}
-                    <p>
-                        {{#if artifact.editable}}
                         <label>Level
                             <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1" value="{{artifact.data.level}}" />
                         </label>
@@ -260,45 +285,14 @@
                     </p>
                     {{/if}}
                 </li>
+                {{else}}
+                No artifacts.
                 {{/each}}
             </ul>
+
+            <hr class="sheet-one" />
     
-            <h3>Cyphers</h3>
-            <ul class="cyphers">
-                {{#each data.items.cyphers as |cypher|}}
-                <li class="cypher" data-item-id={{cypher._id}}  data-order={{cypher.data.order}}>
-                    <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
-                    <h4>
-                        <a><i class="fas fa-grip-vertical handle"></i></a>
-                        {{cypher.name}}
-                    </h4>
-                    {{#if cypher.editable}}
-                    <p>
-                        <label>Identified? 
-                            <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" data-dtype="Boolean" {{checked cypher.data.identified}} />
-                        </label>
-                    </p>
-                    {{/if}}
-                    <p>
-                        {{#if cypher.editable}}
-                        <label>Level
-                            <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" min="1" data-dtype="Number" />
-                        </label>
-                        {{else}}
-                        <span>Level</span> {{cypher.data.level}}
-                        {{/if}}
-                    </p>
-                    <p>
-                        <span>Form</span> {{cypher.data.form}}
-                    </p>
-                    <p>
-                        <span>Effect</span> {{cypher.data.effect}}
-                    </p>
-                </li>
-                {{/each}}
-            </ul>
-    
-            <h3>Oddities</h3>
+            <h2>Oddities</h2>
             <ul class="oddities">
                 {{#each data.items.oddities as |oddity|}}
                 <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
@@ -311,13 +305,14 @@
                         {{oddity.data.notes}}
                     </span>
                 </li>
+                {{else}}
+                No oddities.
                 {{/each}}
             </ul>
         </div>
     
         <div class="tab equipment" data-group="primary" data-tab="equipment">
             <div>
-                <h2>Weapons</h2>
                 <table class="weapons">
                     <thead>
                         <td>Name</td>
@@ -387,7 +382,6 @@
         </div>
     
         <div class="tab description" data-group="primary" data-tab="bio">
-            <h2>Background</h2>
             <textarea name="data.background">{{data.background}}</textarea>
         </div>
     </section>

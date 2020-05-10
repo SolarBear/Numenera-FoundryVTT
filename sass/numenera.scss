@@ -1,4 +1,4 @@
-$border-color: #782e22;
+$border-color: #325d6d;
 $font-stack: Ogirema;
 
 span.numenera-message-special {
@@ -151,11 +151,9 @@ form.numenera {
 
         &.numenera {
             h2 {
+                margin: 0;
                 flex: 0;
-            }
-
-            h3 {
-                flex: 0;
+                font-weight: bold;
             }
 
             textarea {
@@ -167,8 +165,7 @@ form.numenera {
 
                 & > li {
                     padding: 0.15em;
-                    margin-top : 0.75em;
-                    border: 1px solid darkgrey;
+                    border: 1px solid darkslategrey;
                     border-radius: 0.25em;
 
                     & > h4 {
@@ -258,6 +255,10 @@ form.numenera {
         border-bottom: 1px solid $border-color;
     }
 
+    div.description > textarea {
+        height: 400px;
+    }
+
     div.item {
         height: 80%;
 
@@ -297,5 +298,65 @@ form.numenera {
             display: block;
             margin: 0.25em 0.5em 0 0.5em;
         }
+    }
+
+    //Tabs
+    nav {
+        margin: 0.5em 0 0.5em 0;
+        border: 1px solid black;
+        border-radius: 8px;
+    }
+
+    a.item {
+        font-size: 22px;
+        font-weight: bold;
+    }
+    
+    //Separators, borrowed from https://github.com/Roll20/roll20-character-sheets/blob/master/Numenera/Numenera.css
+    hr.sheet-one {
+        margin: 0;
+        height: 20px;
+        border-style: solid;
+        border-color: #056da1;
+        border-width: 1px 1px 0 0;
+        border-radius: 20px;
+    }
+
+    hr.sheet-one:before {
+        display: block;
+        content: "";
+        height: 20px;
+        margin-top: -21px;    
+        border-style: solid;
+        border-color: #056da1;
+        border-width: 0 0 1px 1px;
+        border-radius: 20px;
+    }
+
+    hr.sheet-two {
+        border: 0;
+        height: 1px;
+        background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+        background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+        background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+        background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+    }
+    
+    hr.sheet-three {
+        height: 20px;
+        border-style: solid;
+        border-color: $border-color;
+        border-width: 1px 0px 0px 1px;
+        border-radius: 20px;
+    }
+    hr.sheet-three:before { /* Not really supposed to work, but does */
+        display: block;
+        content: "";
+        height: 20px;
+        margin-top: -21px;    
+        border-style: solid;
+        border-color: $border-color;
+        border-width: 0px 1px 1px 0px;
+        border-radius: 20px;
     }
 }
