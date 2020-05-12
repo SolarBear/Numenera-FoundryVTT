@@ -209,6 +209,12 @@ form.numenera {
             }
         }
 
+        table.abilities {
+            input[type="number"] {
+                width: 3em;
+            }
+        }
+
         table.weapons {
             td {
                 padding: 5px;
@@ -228,7 +234,7 @@ form.numenera {
             }
         }
 
-        table.skills {
+        table.skills, table.abilities {
             background-color: transparent;
 
             td {
@@ -244,7 +250,7 @@ form.numenera {
                 text-align: left;
                 width: 100%;
 
-                &.skill-name-input {
+                &.skill-name-input, &.ability-name-input {
                     width: 95%; //HACK! find a better way plz
                 }
             }

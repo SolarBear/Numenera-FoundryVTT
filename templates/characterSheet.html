@@ -106,16 +106,16 @@
                     <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
                         <td class="skill-name">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
-                            <input type="text" name="data.items.skills.{{skill._id}}.name" value="{{skill.name}}" class="skill-name-input" />
+                            <input type="text" name="data.items.skills.{{skill._id}}.name" placeholder="Skill Name" value="{{skill.name}}" class="skill-name-input" />
                         </td>
                         <td class="skill-stat">
                             <select name="data.items.skills.{{skill._id}}.data.stat">
                             {{#select skill.data.stat}}
                             {{#each stats}}
                                 <option value="{{this}}">{{this}}</option>
-                                {{/each}}
+                            {{/each}}
                             {{/select}}
-                                </select>
+                            </select>
                         </td>
                         <td class="skill-inability">
                             <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
@@ -135,60 +135,38 @@
             </table>
         </div>
 
-        <div class="tab abilities" data-grou="primary" data-tab="abilities">
+        <div class="tab abilities" data-group="primary" data-tab="abilities">
             <table class="abilities">
-                <template>
-                    <tr class="ability">
-                        <td class="ability-name">
-                            <input type="text" class="ability-name-input" />
-                        </td>
-                        <td class="ability-cost">
-                            <input type="number" />
-                            <select>
-                            {{#each stats}}
-                                <option value="{{this}}"
-                                >{{this}}
-                                </option>
-                            {{/each}}
-                            </select>
-                        </td>
-                        <td class="ability-description">
-                            <textarea></textarea>
-                        </td>
-                        <td>
-                            <a class="ability-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>  
-                </template>
                 <thead>
                     <tr>
                         <td class="ability-name">Name</td>
                         <td class="ability-cost">Cost</td>
                         <td class="ability-description">Description</td>
-                        <td><a class="ability-control" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
+                        <td><a class="ability-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
                 <tbody>
-                {{#each data.abilities as |ability| }}
-                    <tr class="ability">
+                {{#each data.items.abilities as |ability| }}
+                    <tr class="ability" data-item-id="{{ability._id}}" data-prder="{{ability.data.order}}">
                         <td class="ability-name">
-                            <input type="text" name="data.abilities.{{ability.name}}.name" value="{{ability.name}}" class="ability-name-input" />
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                            <input type="text" name="data.items.abilities.{{ability._id}}.name" placeholder="Ability Name" value="{{ability.name}}" class="ability-name-input" />
                         </td>
                         <td class="ability-cost">
-                            <input type="number" name="data.abilities.{{ability.name}}.cost.amount" value="{{ability.cost.amount}}" />
-                            <select name="data.abilities.{{ability.name}}.cost.pool">
-                                {{#select ability.cost.pool}}
-                                {{#each ../stats}}
+                            <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" data-dtype="Number" value="{{ability.data.cost.amount}}" />
+                            <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
+                                {{#select ability.data.cost.pool}}
+                                {{#each stats}}
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                                 {{/select}}
                             </select>
                         </td>
                         <td class="ability-description">
-                            <textarea name="data.abilities.{{ability.name}}.description">{{ability.description}}</textarea>
+                            <textarea name="data.items.abilities.{{ability._id}}.data.description">{{ability.data.description}}</textarea>
                         </td>
                         <td>
-                            <a class="ability-control" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                            <a class="ability-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 {{/each}}

@@ -101,3 +101,8 @@ NUMENERA.ranges = [
   'Long',
   'Very Long'
 ];
+
+NUMENERA.abilityTypes = [
+  'Action',
+  'Enabler',
+];

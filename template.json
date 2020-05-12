@@ -50,7 +50,7 @@
             "skills": {},
             "shins": 0,
             "tier": 1,
-            "version": 3,
+            "version": 4,
             "xp": 0
         },
         "npc": {
@@ -77,14 +77,12 @@
         }
     },
     "Item": {
-        "types": ["armor", "artifact", "cypher", "equipment", "oddity", "weapon"],
+        "types": ["ability", "armor", "artifact", "cypher", "equipment", "oddity", "skill", "weapon"],
         "templates": {
             "common": {
-                "name": "",
-                "price": 0,
                 "notes": "",
                 "order": -1,
-                "version": 2
+                "version": 3
             },
             "numenera": {
                 "identified": false,
@@ -96,17 +94,33 @@
             "ranged": {
                 "range": "Immediate"
             },
+            "sellable": {
+                "price": 0
+            },
             "weight": {
                 "weight": "Light"
             }
         },
+        "ability": {
+            "templates": ["common"],
+            "category": "",
+            "characterType": "",
+            "cost": {
+                "amount": 0,
+                "pool": ""
+            },
+            "isAction": false,
+            "range": "",
+            "stat": "",
+            "tier": ""
+        },
         "armor": {
-            "templates": ["common", "weight"],
+            "templates": ["common", "sellable", "weight"],
             "armor": 0,
             "additionalSpeedEffortCost": 1
         },
         "artifact": {
-            "templates": ["common", "numenera"],
+            "templates": ["carriable", "common", "numenera"],
             "depletion": {
                 "isDepleting": true,
                 "die": "d6",
@@ -114,18 +128,25 @@
             }
         },
         "cypher": {
-            "templates": ["common", "numenera"]
+            "templates": ["carriable", "common", "numenera"]
         },
         "equipment": {
-            "templates": ["common"]
+            "templates": ["common", "sellable"]
         },
         "oddity": {
-            "templates": ["common"]
+            "templates": ["carriable", "common"]
+        },
+        "skill": {
+            "templates": ["common"],
+            "stat": "",
+            "inability": false,
+            "trained": false,
+            "specialization": false
         },
         "weapon": {
-            "templates": ["common", "range", "weight"],
+            "templates": ["common", "range", "sellable", "weight"],
             "damage": 0,
-            "weaponType": "Bashing"
+            "weaponType": ""
         }
     }
 }

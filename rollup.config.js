@@ -16,12 +16,13 @@ const toBundle = [
     "lib/dragula/dragula.min.js",
     "templates/characterSheet.html",
     "templates/npcSheet.html",
-    //"templates/item/abilitySheet.html",
+    "templates/item/abilitySheet.html",
     "templates/item/armorSheet.html",
     "templates/item/artifactSheet.html",
     "templates/item/cypherSheet.html",
     "templates/item/equipmentSheet.html",
     "templates/item/odditySheet.html",
+    "templates/item/skillSheet.html",
     "templates/item/weaponSheet.html",
     "LICENSE"
 ];

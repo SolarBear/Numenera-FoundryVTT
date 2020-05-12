@@ -132,6 +132,78 @@ PCActorv2ToV3Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
+const PCActorv3ToV4Migrator = Object.create(Migrator);
+
+PCActorv3ToV4Migrator.forVersion = 4;
+PCActorv3ToV4Migrator.forType = "pc";
+
+/* Summary of changes:
+* - abilities and skills are now full-blown items so create skill Items
+    from existing POJOs and then delete the properties
+*/
+PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
+
+  for (let [name, ability] of Object.entries(actor.data.data.abilities)) {
+    const data = {
+      cost: ability.cost,
+      notes: ability.description,
+      version: 3, //this is an Item version
+    };
+
+    await actor.createOwnedItem({
+        name,
+        type: "ability",
+        data
+    });
+
+    //Create an Item skill if none already exists with the same name
+    const existingAbility = actor.getEmbeddedCollection("OwnedItem").find(i => i.name === name);
+
+    if (!existingAbility) {
+      await NumeneraItem.create({
+        name,
+        type: "ability",
+        data
+      });
+    }
+  }
+
+  for (let [name, skill] of Object.entries(actor.data.data.skills)) {
+    await actor.createOwnedItem({
+        name,
+        type: "skill",
+        data: {
+          stat: skill.stat,
+          inability: skill.inability,
+          trained: skill.trained,
+          specialized: skill.specialized,
+        }
+    });
+
+    //Create an Item skill if none already exists with the same name
+    const existingSkill = actor.getEmbeddedCollection("OwnedItem").find(i => i.name === name);
+
+    if (!existingSkill) {
+      await NumeneraItem.create({
+        name,
+        type: "skill",
+        data: {
+          stat: skill.stat,
+          inability: skill.inability,
+          trained: skill.trained,
+          specialized: skill.specialized,
+        }
+      });
+    }
+  }
+  
+  newData["data.-=abilities"] = null;
+  newData["data.-=skills"] = null;
+  newData["data.version"] = this.forVersion;
+    
+  return newData;
+};
 
 //Only export the latest migrator
-export const PCActorMigrator = PCActorv2ToV3Migrator;
+export const PCActorMigrator = PCActorv3ToV4Migrator;

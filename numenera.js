@@ -8,11 +8,13 @@ import { rollText } from './module/roll.js';
 import { preloadHandlebarsTemplates } from './module/templates.js';
 
 import { NumeneraItem } from './module/item/NumeneraItem.js';
+import { NumeneraAbilityItemSheet } from './module/item/sheets/NumeneraAbilityItemSheet.js';
 import { NumeneraArmorItemSheet } from './module/item/sheets/NumeneraArmorItemSheet.js';
 import { NumeneraArtifactItemSheet } from './module/item/sheets/NumeneraArtifactItemSheet.js';
 import { NumeneraCypherItemSheet } from './module/item/sheets/NumeneraCypherItemSheet.js';
 import { NumeneraEquipmentItemSheet } from './module/item/sheets/NumeneraEquipmentItemSheet.js';
 import { NumeneraOddityItemSheet } from './module/item/sheets/NumeneraOddityItemSheet.js';
+import { NumeneraSkillItemSheet } from './module/item/sheets/NumeneraSkillItemSheet.js';
 import { NumeneraWeaponItemSheet } from './module/item/sheets/NumeneraWeaponItemSheet.js';
 
 import { migrateWorld } from './module/migrations/migrate.js';
@@ -37,12 +39,13 @@ Hooks.once("init", function() {
     Actors.registerSheet("numenera", NumeneraPCActorSheet, { types: ["pc"], makeDefault: true });
 
     Items.unregisterSheet("core", ItemSheet);
+    Items.registerSheet("numenera", NumeneraAbilityItemSheet, { types: ["ability"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraArmorItemSheet, { types: ["armor"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraArtifactItemSheet, { types: ["artifact"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraCypherItemSheet, { types: ["cypher"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraEquipmentItemSheet, { types: ["equipment"], makeDefault: true });
-    Items.registerSheet("numenera", NumeneraSkillItemSheet, { types: ["skill"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraOddityItemSheet, { types: ["oddity"], makeDefault: true });
+    Items.registerSheet("numenera", NumeneraSkillItemSheet, { types: ["skill"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
 
     preloadHandlebarsTemplates();

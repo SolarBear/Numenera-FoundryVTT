@@ -35,6 +35,9 @@ export class NumeneraItemSheet extends ItemSheet {
             case "oddity":
                 object = new NumeneraOddityItemSheet(data, options);
                 break;
+            case "skill":
+                object = new NumeneraSkillItemSheet(data, options);
+                break;
             case "weapon":
                 object = new NumeneraWeaponItemSheet(data, options);
                 break;
