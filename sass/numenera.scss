@@ -262,6 +262,10 @@ form.numenera {
     div.item {
         height: 80%;
 
+        label {
+            font-weight: bold;
+        }
+
         input[type="number"] {
             width: 4em;
         }

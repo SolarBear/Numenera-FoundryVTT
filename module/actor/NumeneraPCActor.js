@@ -200,25 +200,4 @@ export class NumeneraPCActor extends Actor {
 
     return super.createEmbeddedEntity(...args);
   }
-
-    /**
-   * Augment the basic actor data with additional dynamic data.
-   *
-   * @memberof ActorNumeneraPC
-   */
-  prepareData() {
-    super.prepareData();
-
-    const actorData = this.data.data;
-
-    if (actorData.version === undefined || actorData.version < 1)
-    {
-      Object.entries(actorData.stats).forEach((stat, i) => {
-        return {
-          ...stat,
-          name: NUMENERA.stats[i[0]]
-        };
-      });
-    }
-  }
 }
