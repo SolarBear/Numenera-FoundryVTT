@@ -9,7 +9,8 @@ export class NumeneraCypherItem extends Item {
         const itemData = this.data.data;
 
         itemData.name = this.data.name || "New Cypher";
-        itemData.level = itemData.level || 1;
+        itemData.level = itemData.level || null;
+        itemData.levelDie = itemData.levelDie || "";
         itemData.form = itemData.form || "";
         itemData.range = itemData.range || "Immediate";
         itemData.effect = itemData.effect || "";

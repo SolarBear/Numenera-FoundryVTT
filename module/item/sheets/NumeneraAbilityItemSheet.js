@@ -1,14 +1,14 @@
 import { NUMENERA } from "../../config.js";
 
-export class NumeneraArmorItemSheet extends ItemSheet {
+export class NumeneraAbilityItemSheet extends ItemSheet {
     /**
      * Define default rendering options for the weapon sheet
      * @return {Object}
      */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            width: 600,
-            height: 450
+            width: 550,
+            height: 500
         });
     }
 
@@ -21,14 +21,15 @@ export class NumeneraArmorItemSheet extends ItemSheet {
      * @type {String}
      */
     get template() {
-        return "systems/numenera/templates/item/armorSheet.html";
+        return "systems/numenera/templates/item/abilitySheet.html";
     }
 
     getData() {
-        const data = super.getData();
+        const sheetData = super.getData();
 
-        data.weightClasses = NUMENERA.weightClasses;
-        
-        return data;
+        sheetData.data.ranges = NUMENERA.optionalRanges;
+        sheetData.data.stats = NUMENERA.stats;
+
+        return sheetData;
     }
 }

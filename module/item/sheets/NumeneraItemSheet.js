@@ -1,3 +1,4 @@
+import { NumeneraAbilityItemSheet } from "./NumeneraAbilityItemSheet.js";
 import { NumeneraArtifactItemSheet } from "./NumeneraArtifactItemSheet.js";
 import { NumeneraArmorItemSheet } from "./NumeneraArmorItemSheet.js";
 import { NumeneraCypherItemSheet } from "./NumeneraCypherItemSheet.js";
@@ -16,6 +17,9 @@ export class NumeneraItemSheet extends ItemSheet {
         //First, create an object of the appropriate type...
         let object = null;
         switch (type) {
+            case "ability":
+                object = new NumeneraAbilityItemSheet(data, options);
+                break;
             case "armor":
                 object = new NumeneraArmorItemSheet(data, options);
                 break;
@@ -30,6 +34,9 @@ export class NumeneraItemSheet extends ItemSheet {
                 break;
             case "oddity":
                 object = new NumeneraOddityItemSheet(data, options);
+                break;
+            case "skill":
+                object = new NumeneraSkillItemSheet(data, options);
                 break;
             case "weapon":
                 object = new NumeneraWeaponItemSheet(data, options);

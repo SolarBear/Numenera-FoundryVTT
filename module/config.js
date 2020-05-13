@@ -61,28 +61,24 @@ NUMENERA.typePowers = {
   'w': 'Inspired Techniques',
 };
 
-NUMENERA.damageTrack = {
-  hale: {
-    index: 0,
+NUMENERA.damageTrack = [
+  {
     label: 'Hale',
     description: 'Normal state for a character.'
   },
-  impaired: {
-    index: 1,
+  {
     label: 'Impaired',
     description: 'In a wounded or injured state. Applying Effort costs 1 extra point per effort level applied.'
   },
-  debilitated: {
-    index: 2,
+  {
     label: 'Debilitated',
     description: 'In a critically injured state. The character can do no other action than to crawl an immediate distance; if their Speed pool is 0, they cannot move at all.'
   },
-  dead: {
-    index: 3,
+  {
     label: 'Dead',
     description: 'The character is dead.'
   }
-};
+];
 
 NUMENERA.recoveries = {
   'action': '1 Action',
@@ -104,4 +100,11 @@ NUMENERA.ranges = [
   'Short',
   'Long',
   'Very Long'
+];
+
+NUMENERA.optionalRanges = ["N/A"].concat(NUMENERA.ranges);
+
+NUMENERA.abilityTypes = [
+  'Action',
+  'Enabler',
 ];

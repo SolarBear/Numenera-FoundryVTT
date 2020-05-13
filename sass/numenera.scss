@@ -1,59 +1,121 @@
-$border-color: #782e22;
+$border-color: #325d6d;
+$font-stack: Ogirema;
 
-/* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
-.flewrow {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
+span.numenera-message-special {
+    font-weight: bold;
+    font-size: large;
 }
 
-.flewcol {
-    display: flex;
-    flex-flow: column nowrap;
-}
-
-li {
-    list-style-type: none;
-}
-
-h2 {
-    border: none;
-    padding-top: 0.5em;
-    margin-left: 1em;
-}
-
-input[data-dtype="Number"] {
-    width: 2em;
-}
-
-p.description {
-    font-style: italic;
-}
-
-label {
-    margin: 0 0.5em 0 0.5em;
-}
-
-table {
-    margin: 0 0.5em 0 0.5em;
-}
-
-form.flexcol {
+form.numenera {
     overflow: scroll;
+    font-family: $font-stack;
+
+    a i.handle {
+        cursor: move;
+    }
+
+    /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
+    .flewrow {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+    }
+
+    .flexcol {
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    li {
+        list-style-type: none;
+    }
+
+    h1.character {
+        font-size: 24px;
+        margin: 0;
+        border: 0;
+        padding-bottom: 0.25em;
+
+        input {
+            margin-top: 0.5em;
+            height: auto;
+
+            &.charname {
+                font-weight: bold;
+                width: 18ch;
+            }
+
+            &.descriptor {
+                width: 12ch;
+            }
+
+            &.characterType {
+                width: 8ch;
+            }
+
+            &.focus {
+                width: 25ch;
+            }
+        }
+    }
+
+    h1 input[type="text"] {
+        height: auto;
+        width: auto;
+        margin-bottom: 0.25em;
+    }
+
+    h2 {
+        border: none;
+        padding-top: 0.5em;
+
+        &:not(.stat) {
+            margin-left: 1em;
+        }
+    }
+
+    p.description {
+        font-style: italic;
+    }
+
+    label {
+        margin: 0 0.5em 0 0.5em;
+    }
+
+    &.pc {
+        input[data-dtype="Number"] {
+            width: 2em;
+
+            &.tier {
+                width: 1ch;
+            }
+        }
+    }
 
     div.header {
-        border-bottom: 0;
+        border: 1px solid $border-color;
+
+        h2,h3 {
+            font-weight: bold;
+        }
+
+        h3 {
+            margin-top: 0.25em;
+        }
+
+        div.contents > div > div:not(:last-child) {
+            border-right: 1px solid $border-color;
+        }
 
         div.picture {
-            padding-bottom: 1em;
-            padding-right: 1em;
-            margin-right: 1em;
+            border-right: 1px solid $border-color;
+            padding: 0.25em 0.25em 0.25em 0.25em;
             flex: 0.4;
 
             img.profile-img {
-                width: 100%;
-                height: 100%;
-                max-width: 200px;
+                border: none;
+                width: inherit;
+                max-width: 250px;
                 max-height: 400px;
                 margin-bottom: 1em;
             }
@@ -61,59 +123,68 @@ form.flexcol {
 
         div > div.npc-info {
             flex: 0.25;
+
+            input.levelDie {
+                width: 2ch;
+                align-content: center;
+            }
         }
 
         div > div.npc-stats {
             flex: 0.5;
         }
 
-        h1.character {
-            font-size: 24px;
-            border-bottom: 1px solid $border-color;
-            margin-bottom: 0;
+        ul {
+            text-align: left;
 
-            input {
-                margin: 0 0.5em 0.5em 0.5em;
-                height: max-content;
-
-                &.charname {
-                    font-weight: bold;
-                    width: 20ch;
-                }
-    
-                &.descriptor {
-                    width: 15ch;
-                }
-        
-                &.focus {
-                    width: 30ch;
-                }
-            }
-
-            select.characterType {
-                font-size: 24px;
-                height: max-content;
-                margin: 0 0.5em 0.5em 0.5em;
+            li input {
+                height: 12px;
             }
         }
     }
 
     div {
-        div:not(:first-child) {
-            border-left: 1px solid $border-color;
+
+        &.pc-info {
+            border: 0;
         }
 
         &.numenera {
             h2 {
+                margin: 0;
                 flex: 0;
-            }
-
-            h3 {
-                flex: 0;
+                font-weight: bold;
             }
 
             textarea {
                 overflow: scroll;
+            }
+
+            ul {
+                padding: 0 0.75em 0 0.75em;
+
+                & > li {
+                    padding: 0.15em;
+                    border: 1px solid darkslategrey;
+                    border-radius: 0.25em;
+
+                    & > h4 {
+                        font-size: large;
+                        font-weight: bold;
+                    }
+
+                    & > p > span,label {
+                        font-weight: bold;
+                    }
+
+                    & > a {
+                        float: right;
+                    }
+
+                    & input[type="number"] {
+                        width: 3em;
+                    }
+                }
             }
         }
 
@@ -121,16 +192,11 @@ form.flexcol {
             input[type="checkbox"] {
                 display: inline-block;
             }
-
-            ul {
-                column-count: 2;
-            }
         }
 
         div.stats {
-            padding-top: 1em;
+            padding: 0.3em 0 0.3em 0;
             text-align: center;
-            padding-bottom: 1em;
 
             h2 {
                 text-transform: capitalize;
@@ -143,8 +209,32 @@ form.flexcol {
             }
         }
 
-        table.skills {
-            border: 0;
+        table.abilities {
+            input[type="number"] {
+                width: 3em;
+            }
+        }
+
+        table.weapons {
+            td {
+                padding: 5px;
+                margin: 5px 0;
+            }
+
+            input.weapon-name-input {
+                width: auto;
+            }
+
+            select.weapon-weight {
+                margin-right: 0.5em
+            }
+
+            input.weapon-damage {
+                width: 3em;
+            }
+        }
+
+        table.skills, table.abilities {
             background-color: transparent;
 
             td {
@@ -158,12 +248,125 @@ form.flexcol {
 
             tbody td input[type="text"] {
                 text-align: left;
-                width: 30ch;
+                width: 100%;
+
+                &.skill-name-input, &.ability-name-input {
+                    width: 95%; //HACK! find a better way plz
+                }
             }
         }
     }
 
     div.flexrow:not(:last-child) {
-        border-bottom: 2px solid $border-color;
+        border-bottom: 1px solid $border-color;
+    }
+
+    div.description > textarea {
+        height: 400px;
+    }
+
+    div.item {
+        height: 80%;
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            width: 4em;
+        }
+
+        div {
+            display: inline-block;
+            display: flex;
+            flex-direction: column;;
+
+            textarea {
+                flex: 1;
+            }
+
+            &.img {
+                flex: 0.5;
+                margin-right: 0.5em;
+            }
+
+            &.description {
+                height: 95%;
+                vertical-align: top;
+            }
+        }
+
+        textarea {
+            width: auto;
+            height: 100%; 
+            box-sizing: border-box;
+            margin: 0 0.5em 0 0.5em;
+        }
+
+        label {
+            clear: both;
+            display: block;
+            margin: 0.25em 0.5em 0 0.5em;
+        }
+    }
+
+    //Tabs
+    nav {
+        margin: 0.5em 0 0.5em 0;
+        border: 1px solid black;
+        border-radius: 8px;
+    }
+
+    a.item {
+        font-size: 22px;
+        font-weight: bold;
+    }
+    
+    //Separators, borrowed from https://github.com/Roll20/roll20-character-sheets/blob/master/Numenera/Numenera.css
+    hr.sheet-one {
+        margin: 0;
+        height: 20px;
+        border-style: solid;
+        border-color: #056da1;
+        border-width: 1px 1px 0 0;
+        border-radius: 20px;
+    }
+
+    hr.sheet-one:before {
+        display: block;
+        content: "";
+        height: 20px;
+        margin-top: -21px;    
+        border-style: solid;
+        border-color: #056da1;
+        border-width: 0 0 1px 1px;
+        border-radius: 20px;
+    }
+
+    hr.sheet-two {
+        border: 0;
+        height: 1px;
+        background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+        background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+        background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+        background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+    }
+    
+    hr.sheet-three {
+        height: 20px;
+        border-style: solid;
+        border-color: $border-color;
+        border-width: 1px 0px 0px 1px;
+        border-radius: 20px;
+    }
+    hr.sheet-three:before { /* Not really supposed to work, but does */
+        display: block;
+        content: "";
+        height: 20px;
+        margin-top: -21px;    
+        border-style: solid;
+        border-color: $border-color;
+        border-width: 0px 1px 1px 0px;
+        border-radius: 20px;
     }
 }

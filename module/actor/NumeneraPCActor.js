@@ -11,6 +11,19 @@ const effortObject = {
  */
 export class NumeneraPCActor extends Actor {
 
+  getInitiativeFormula() {
+    //Check for an initiative skill
+    const initSkill = 3 * this.getSkillLevel("Initiative");
+    
+    //TODO possible assets, effort on init roll
+    let formula = "1d20"
+    if (initSkill !== 0) {
+      formula += `+${initSkill}`;
+    }
+
+    return formula;
+  }
+
   get effort() {
     const data = this.data.data;
 
@@ -39,13 +52,18 @@ export class NumeneraPCActor extends Actor {
    * @memberof ActorNumeneraPC
    */
   getSkillLevel(skillId) {
-    const skills = this.data.data.skills || {};
+    const skill = this.data.data.skills[skillId];
 
-    if (skills.hasOwnProperty(skillId)) {
-      return skills[skillId].level;
+    let level = 0;
+    
+    if (skill) {
+      if (skill.inability) level--;
+
+      if (skill.specialized) level += 2;
+      else if (skill.trained) level += 1;
     }
 
-    return 0; //defauklt skill level, aka unskilled
+    return level; //defauklt skill level, aka unskilled
   }
 
   /**
@@ -107,29 +125,6 @@ export class NumeneraPCActor extends Actor {
     return this.data.data.skills.filter(id => id == statId);
   }
 
-  /**
-   * Augment the basic actor data with additional dynamic data.
-   *
-   * @memberof ActorNumeneraPC
-   */
-  prepareData() {
-    super.prepareData();
-
-    const actorData = this.data.data;
-
-    if (actorData.version === undefined || actorData.version < 1)
-    {
-      Object.entries(actorData.stats).forEach((stat, i) => {
-        return {
-          ...stat,
-          name: NUMENERA.stats[i[0]]
-        };
-      });
-    }
-
-    actorData.effort = actorData.tier + actorData.advances.effort ? 1 : 0;
-  }
-
   getEffortCostFromStat(event) {
     //Return value, copy from template object
     const value = {...effortObject};
@@ -165,5 +160,44 @@ export class NumeneraPCActor extends Actor {
     value.warning = warning;
 
     return value;
+  }
+
+  /**
+   * BASE CLASS OVERRIDES
+   */
+
+  /**
+   * @override
+   */
+  async createEmbeddedEntity(...args) {
+    const [_, data] = args;
+
+    //Prepare numenera items by rolling their level, if they don't have one already
+    if (data.data && ['artifact', 'cypher'].indexOf(data.type) !== -1) {
+      const itemData = data.data;
+
+      if (!itemData.level && itemData.levelDie) {  
+        try {
+            //Try the formula as is first
+            itemData.level = new Roll(itemData.levelDie).roll().total;
+            await this.update({
+                _id: this._id,
+                "data.level": itemData.level,
+            });
+        }
+        catch (Error) {
+            try {
+                itemData.level = parseInt(itemData.level)
+            }
+            catch (Error) {
+                //Leave it as it is
+            }
+        }
+      } else {
+          itemData.level = itemData.level || null;
+      }
+    }
+
+    return super.createEmbeddedEntity(...args);
   }
 }

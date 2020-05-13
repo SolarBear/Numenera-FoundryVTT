@@ -1,8 +1,10 @@
+import { NumeneraAbilityItem } from "./NumeneraAbilityItem.js";
 import { NumeneraArtifactItem } from "./NumeneraArtifactItem.js";
 import { NumeneraArmorItem } from "./NumeneraArmorItem.js";
 import { NumeneraCypherItem } from "./NumeneraCypherItem.js";
 import { NumeneraEquipmentItem } from "./NumeneraEquipmentItem.js";
 import { NumeneraOddityItem } from "./NumeneraOddityItem.js";
+import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "./NumeneraWeaponItem.js";
 
 /**
@@ -24,6 +26,8 @@ export const NumeneraItem = new Proxy(function () {}, {
   construct: function (target, args) {
     const [data] = args;
     switch (data.type) {
+      case "ability":
+        return new NumeneraAbilityItem(...args);
       case "armor":
         return new NumeneraArmorItem(...args);
       case "artifact":
@@ -34,6 +38,8 @@ export const NumeneraItem = new Proxy(function () {}, {
         return new NumeneraEquipmentItem(...args);
       case "oddity":
         return new NumeneraOddityItem(...args);
+      case "skill":
+        return new NumeneraSkillItem(...args);
       case "weapon":
         return new NumeneraWeaponItem(...args);
     }
@@ -45,6 +51,8 @@ export const NumeneraItem = new Proxy(function () {}, {
         //Calling the class' create() static function
         return function (data, options) {
           switch (data.type) {
+            case "ability":
+              return NumeneraAbilityItem.create(data, options);
             case "armor":
               return NumeneraArmorItem.create(data, options);
             case "artifact":
@@ -55,6 +63,8 @@ export const NumeneraItem = new Proxy(function () {}, {
               return NumeneraEquipmentItem.create(data, options);
             case "oddity":
               return NumeneraOddityItem.create(data, options);
+            case "skill":
+              return NumeneraSkillItem.create(data, options);
             case "weapon":
               return NumeneraWeaponItem.create(data, options);
           }
@@ -64,14 +74,17 @@ export const NumeneraItem = new Proxy(function () {}, {
         //Applying the "instanceof" operator on the instance object
         return function (instance) {
           return (
+            instance instanceof NumeneraAbilityItem ||
             instance instanceof NumeneraArmorItem ||
             instance instanceof NumeneraArtifactItem ||
             instance instanceof NumeneraCypherItem ||
             instance instanceof NumeneraEquipmentItem ||
             instance instanceof NumeneraOddityItem ||
+            instance instanceof NumeneraSkillItem ||
             instance instanceof NumeneraWeaponItem
           );
         };
+
       default:
         //Just forward any requested properties to the base Actor class
         return Item[prop];

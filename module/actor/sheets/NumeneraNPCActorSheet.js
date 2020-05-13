@@ -75,7 +75,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
         const id =
           Math.max(
             ...[...body.children].map((c) => c.children[0].children[0].value || 0)
-          ) + 1;
+          ) + 1 + "";
 
         const newRow = template.content.cloneNode(true);
         body.appendChild(newRow);

@@ -1,15 +1,15 @@
-<form class="{{cssClass}}" autocomplete="off">
+<form class="{{cssClass}} numenera" autocomplete="off">
     <h1><input type="text" name="data.name" value="{{data.name}}" /></h1>
-    <div class="flexrow">
-
-        <div>
-            {{#if data.img}}
-            <img src="{{data.img}}" />
-            {{/if}}
+    <div class="flexrow item">
+        <div class="img">
+            <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
         </div>
-        <div>
-            <p>Price: <input type="number" name="data.price" value="{{data.price}}" /></p>
-            <p>Notes: <textarea name="data.notes">{{data.notes}}</textarea></p>
+        <div class="equipment">
+            <label>Price
+                <input type="number" name="data.price" value="{{data.price}}" class="price" data-dtype="Number" />
+            </label>
+            <label>Notes</label>
+            <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>
 </form>

@@ -10,14 +10,21 @@ const toBundle = [
     'template.json',
     'system.json',
     'numenera.css',
+    "fonts/ogirema.ttf",
+    "fonts/source.txt",
+    "lib/dragula/dragula.min.css",
+    "lib/dragula/dragula.min.js",
     "templates/characterSheet.html",
     "templates/npcSheet.html",
+    "templates/item/abilitySheet.html",
     "templates/item/armorSheet.html",
     "templates/item/artifactSheet.html",
     "templates/item/cypherSheet.html",
     "templates/item/equipmentSheet.html",
     "templates/item/odditySheet.html",
+    "templates/item/skillSheet.html",
     "templates/item/weaponSheet.html",
+    "LICENSE"
 ];
 
 export default [{
