@@ -9,11 +9,13 @@ export class NumeneraAbilityItem extends Item {
       const itemData = this.data.data;
 
       itemData.name = this.data.name || "New Ability";
-      itemData.pcType = itemData.pcType || "";
-      itemData.pcFocus = itemData.pcFocus || "";
-      itemData.isAction = itemData.isAction || true;
+      itemData.category = itemData.category || "";
+      itemData.categoryValue = itemData.categoryValue || "";
+      itemData.isAction = itemData.isAction || false;
       itemData.cost = itemData.cost || {};
-      itemData.level = itemData.level || 1;
-      itemData.description = itemData.description || "";
+      itemData.tier = itemData.tier || 1;
+      itemData.range = itemData.range || "";
+      itemData.stat = itemData.stat || "";
+      itemData.notes = itemData.notes || "";
   }
 }

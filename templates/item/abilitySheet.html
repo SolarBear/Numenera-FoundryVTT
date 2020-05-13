@@ -1,0 +1,54 @@
+<form class="{{cssClass}} numenera" autocomplete="off">
+    <h1><input type="text" name="name" value="{{item.name}}"  placeholder="Item Name" /></h1>
+    <div class="flexrow item">
+        <div class="img">
+            <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
+        </div>
+
+        <div class="ability">
+            <label>
+                <select name="data.isAction" data-dtype="Boolean">
+                    {{#select data.isAction}}
+                    <option value="true" >This ability is an Action</option>
+                    <option value="false" >This ability is an Enabler</option>
+                    {{/select}}
+                </select>
+            </label>
+
+            {{#if data.isAction}}
+            <label>Cost
+                <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="1" data-dtype="Number" />
+                <select name="data.cost.pool" data-dtype="String">
+                    {{#select data.cost.pool}}
+                    {{#each data.stats}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+            {{/if}}
+
+            <label>Category
+                <input type="text" name="data.category" value="{{data.category}}" placeholder="Category (eg. Type, Focus, etc.)" />
+                <input type="text" name="data.categoryValue" value="{{data.categoryValue}}" placeholder="Category Value (eg. Nano, Jack, Masters Weaponry, etc.)" />
+            </label>
+
+            <label>Tier
+                <input type="text" name="data.tier" value="{{data.tier}}" data-dtype="Number" />
+            </label>
+
+            <label>Range
+                <select name="data.range" data-dtype="String">
+                    {{#select data.range}}
+                    {{#each data.ranges}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </label>
+
+            <label>Description</label>
+            <textarea name="data.notes">{{data.notes}}</textarea>
+        </div>
+    </div>
+</form>

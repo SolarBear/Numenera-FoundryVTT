@@ -56,8 +56,10 @@ function onItemEditGenerator(editClass) {
 
       if (i === parts.length - 1) {
         //Last part, the actual property
-        if (event.target.dataset.dtype === "Boolean") {
+        if (event.target.hasOwnProperty("checkbox")) {
           previous[name] = event.currentTarget.checked;
+        } else if (event.target.dataset.dtype === "Boolean") {
+          previous[name] = (event.currentTarget.value === "true");
         } else {
           previous[name] = event.currentTarget.value;
         }
@@ -232,6 +234,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
+      ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
       return ability;
     });
@@ -257,7 +260,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     abilitiesTable.find("*").off("change"); //TODO remove this brutal thing when transition to 0.5.6+ is done
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
-    abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
+    abilitiesTable.on("change", "input,select,textarea", this.onAbilityEdit.bind(this));
 
     const skillsTable = html.find("table.skills");
     skillsTable.on("click", ".skill-create", this.onSkillCreate.bind(this));

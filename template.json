@@ -102,16 +102,14 @@
             }
         },
         "ability": {
-            "templates": ["common"],
+            "templates": ["common", "ranged"],
             "category": "",
-            "characterType": "",
+            "categoryValue": "",
             "cost": {
                 "amount": 0,
                 "pool": ""
             },
             "isAction": false,
-            "range": "",
-            "stat": "",
             "tier": ""
         },
         "armor": {
@@ -144,7 +142,7 @@
             "specialization": false
         },
         "weapon": {
-            "templates": ["common", "range", "sellable", "weight"],
+            "templates": ["common", "ranged", "sellable", "weight"],
             "damage": 0,
             "weaponType": ""
         }

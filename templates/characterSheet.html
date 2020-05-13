@@ -141,6 +141,7 @@
                     <tr>
                         <td class="ability-name">Name</td>
                         <td class="ability-cost">Cost</td>
+                        <td class="ability-range">Range</td>
                         <td class="ability-description">Description</td>
                         <td><a class="ability-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
                     </tr>
@@ -153,6 +154,15 @@
                             <input type="text" name="data.items.abilities.{{ability._id}}.name" placeholder="Ability Name" value="{{ability.name}}" class="ability-name-input" />
                         </td>
                         <td class="ability-cost">
+                            <select name="data.items.abilities.{{ability._id}}.data.isAction" data-dtype="Boolean">
+                                {{#select ability.data.isAction}}
+                                <option value="true">Action</option>
+                                <option value="false">Enabler</option>
+                                {{/select}}
+                            </select>
+                            <br/>
+
+                            {{#if ability.data.isAction}}
                             <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" data-dtype="Number" value="{{ability.data.cost.amount}}" />
                             <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
                                 {{#select ability.data.cost.pool}}
@@ -160,6 +170,20 @@
                                 <option value="{{this}}">{{this}}</option>
                                 {{/each}}
                                 {{/select}}
+                            </select>
+                            {{else}}
+                            No cost
+                            {{/if}}
+                        </td>
+                        <td class="ability-range">
+                            <select name="data.items.abilities.{{ability._id}}.data.range">
+                            {{#select ability.data.range}}
+                            {{#each ability.ranges}}
+                                <option value="{{this}}">
+                                    {{this}}
+                                </option>
+                            {{/each}}
+                            {{/select}}
                             </select>
                         </td>
                         <td class="ability-description">
