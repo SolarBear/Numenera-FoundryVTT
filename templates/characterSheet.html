@@ -162,7 +162,6 @@
                             </select>
                             <br/>
 
-                            {{#if ability.data.isAction}}
                             <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" data-dtype="Number" value="{{ability.data.cost.amount}}" />
                             <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
                                 {{#select ability.data.cost.pool}}
@@ -171,9 +170,6 @@
                                 {{/each}}
                                 {{/select}}
                             </select>
-                            {{else}}
-                            No cost
-                            {{/if}}
                         </td>
                         <td class="ability-range">
                             <select name="data.items.abilities.{{ability._id}}.data.range">
