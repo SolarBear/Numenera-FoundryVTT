@@ -41,7 +41,7 @@ function onItemEditGenerator(editClass) {
       throw new Error(`No itemID on ${editClass} element`);
       
     const updated = {_id: elem.dataset.itemId};
-
+    
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
@@ -56,7 +56,7 @@ function onItemEditGenerator(editClass) {
 
       if (i === parts.length - 1) {
         //Last part, the actual property
-        if (event.target.hasOwnProperty("checkbox")) {
+        if (event.target.type === "checkbox") {
           previous[name] = event.currentTarget.checked;
         } else if (event.target.dataset.dtype === "Boolean") {
           previous[name] = (event.currentTarget.value === "true");
