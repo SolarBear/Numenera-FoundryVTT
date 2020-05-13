@@ -200,6 +200,7 @@
 
         <div class="tab numenera" data-group="primary" data-tab="numenera">
             <h2>Cyphers</h2>
+            <h3>Cypher Limit <input type="text" name="data.cypherLimit" value="{{data.cypherLimit}}" class="cypher-limit" data-dtype="Number" /></h3>
             <ul class="cyphers">
                 {{#each data.items.cyphers as |cypher|}}
                 <li class="cypher" data-item-id={{cypher._id}}  data-order={{cypher.data.order}}>

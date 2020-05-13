@@ -13,6 +13,7 @@
             "armor": 0,
             "background": "",
             "characterType": "",
+            "cypherLimit": 1,
             "damageTrack": 0,
             "descriptor": "",
             "effort": 1,
