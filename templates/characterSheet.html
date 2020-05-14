@@ -168,13 +168,13 @@
 
                             <div {{#if ability.nocost}}class="nocost"{{/if}}>
                                 <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
-                            <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
-                                {{#select ability.data.cost.pool}}
-                                {{#each stats}}
-                                <option value="{{this}}">{{this}}</option>
-                                {{/each}}
-                                {{/select}}
-                            </select>
+                                <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
+                                    {{#select ability.data.cost.pool}}
+                                    {{#each stats}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                    {{/select}}
+                                </select>
                             </div>
                         </td>
                         <td class="ability-range">
@@ -363,7 +363,58 @@
                     {{/each}}
                     </tbody>
                 </table>
-            </div>
+
+            <table class="armors">
+                <thead>
+                    <td>Name</td>
+                    <td>Type</td>
+                    <td>Damage</td>
+                    <td>Range</td>
+                    <td>Notes</td>
+                    <td><a class="armor-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                </thead>
+                <tbody>
+                {{#each data.items.armor as |armor|}}
+                    <tr class="armor" data-item-id="{{armor._id}}" data-prder="{{armor.data.order}}">
+                        <td class="armor-name">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                            <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}" />
+                        </td>
+                        <td class="armor-weight-type">
+                            <select name="data.items.armor.{{armor._id}}.weight" class="armor-weight">
+                            {{#select armor.data.weight}}
+                            {{#each ../optionalWeights}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+    
+                            <select name="data.items.armors.{{armor._id}}.armorType">
+                            {{#select armor.data.armorType}}
+                            {{#each ../armorTypes}}
+                                <option value="{{this}}">
+                                    {{this}}
+                                </option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td class="armor-notes">
+                            <input type="text" name="data.items.armors.{{armor._id}}.notes" value="{{armor.data.notes}}" title="{{armor.data.notes}}" />
+                        </td>
+                        <td>
+                            <a class="armor-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">
+                        No armor yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
         </div>
     
         <div class="tab description" data-group="primary" data-tab="bio">

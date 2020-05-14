@@ -1,5 +1,6 @@
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
+import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 
@@ -124,11 +125,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Creation event handlers
     this.onAbilityCreate = onItemCreate("ability", NumeneraAbilityItem);
+    this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
+    this.onArmorEdit = onItemEditGenerator(".armor");
     this.onArtifactEdit = onItemEditGenerator(".artifact");
     this.onCypherEdit = onItemEditGenerator(".cypher");
     this.onSkillEdit = onItemEditGenerator(".skill");
@@ -136,6 +139,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Delete event handlers
     this.onAbilityDelete = onItemDeleteGenerator(".ability");
+    this.onArmorDelete = onItemDeleteGenerator(".armor");
     this.onArtifactDelete = onItemDeleteGenerator(".artifact");
     this.onCypherDelete = onItemDeleteGenerator(".cypher");
     this.onOddityDelete = onItemDeleteGenerator(".oddity");
@@ -167,6 +171,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.stats = NUMENERA.stats;
     sheetData.weaponTypes = NUMENERA.weaponTypes;
     sheetData.weights = NUMENERA.weightClasses;
+    sheetData.optionalWeights = NUMENERA.optionalWeightClasses;
 
     sheetData.advances = Object.entries(sheetData.actor.data.advances).map(
       ([key, value]) => {
@@ -194,9 +199,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Weapons section
     sheetData.data.items = sheetData.actor.items || {};
 
+    //TODO repetition! kill it FOR GREAT JUSTICE
     const items = sheetData.data.items;
     if (!sheetData.data.items.abilities)
       sheetData.data.items.abilities = items.filter(i => i.type === "ability").sort(sortFunction);
+    if (!sheetData.data.items.armor)
+      sheetData.data.items.armor = items.filter(i => i.type === "armor").sort(sortFunction);
     if (!sheetData.data.items.artifacts)
       sheetData.data.items.artifacts = items.filter(i => i.type === "artifact").sort(sortFunction);
     if (!sheetData.data.items.cyphers)
@@ -233,6 +241,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return cypher;
     });
 
+    //TODO put ranges, stats, etc. as globally available data for the sheet instead of repeating
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
