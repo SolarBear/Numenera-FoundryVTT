@@ -96,6 +96,7 @@
                         <td class="skill-name">Name</td>
                         <td class="skill-stat">Stat</td>
                         <td class="skill-inability">Inability</td>
+                        <td class="skill-untrained">Untrained</td>
                         <td class="skill-trained">Trained</td>
                         <td class="skill-specialized">Specialized</td>
                         <td><a class="skill-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
@@ -119,6 +120,9 @@
                         </td>
                         <td class="skill-inability">
                             <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
+                        </td>
+                        <td class="skill-untrained">
+                            <input class="skill-untrained" type="checkbox" name="data.items.skills.{{skill._id}}.data.untrained" {{checked skill.data.untrained}} data-dtype="Boolean" />
                         </td>
                         <td class="skill-trained">
                             <input class="skill-trained" type="checkbox" name="data.items.skills.{{skill._id}}.data.trained" {{checked skill.data.trained}} data-dtype="Boolean" />

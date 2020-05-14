@@ -139,6 +139,7 @@
             "templates": ["common"],
             "stat": "",
             "inability": false,
+            "untrained": true,
             "trained": false,
             "specialization": false
         },
