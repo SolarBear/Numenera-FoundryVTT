@@ -27,7 +27,7 @@ export class NumeneraSkillItemSheet extends ItemSheet {
     getData() {
         const sheetData = super.getData();
 
-        sheetData.data.stats = [""].concat(NUMENERA.stats);
+        sheetData.stats = [""].concat(NUMENERA.stats);
 
         return sheetData;
     }
