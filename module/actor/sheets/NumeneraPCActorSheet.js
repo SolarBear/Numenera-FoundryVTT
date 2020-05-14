@@ -234,6 +234,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
+      ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
       return ability;

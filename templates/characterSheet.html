@@ -166,7 +166,8 @@
                             </select>
                             <br/>
 
-                            <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" data-dtype="Number" value="{{ability.data.cost.amount}}" />
+                            <div {{#if ability.nocost}}class="nocost"{{/if}}>
+                                <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
                             <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
                                 {{#select ability.data.cost.pool}}
                                 {{#each stats}}
@@ -174,6 +175,7 @@
                                 {{/each}}
                                 {{/select}}
                             </select>
+                            </div>
                         </td>
                         <td class="ability-range">
                             <select name="data.items.abilities.{{ability._id}}.data.range">
