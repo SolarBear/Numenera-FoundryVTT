@@ -6,6 +6,7 @@ import { NUMENERA } from './module/config.js';
 import { getInitiativeFormula, rollInitiative } from './module/combat.js';
 import { rollText } from './module/roll.js';
 import { preloadHandlebarsTemplates } from './module/templates.js';
+import { registerSystemSettings } from './module/settings.js';
 
 import { NumeneraItem } from './module/item/NumeneraItem.js';
 import { NumeneraAbilityItemSheet } from './module/item/sheets/NumeneraAbilityItemSheet.js';
@@ -48,6 +49,7 @@ Hooks.once("init", function() {
     Items.registerSheet("numenera", NumeneraSkillItemSheet, { types: ["skill"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
 
+    registerSystemSettings();
     preloadHandlebarsTemplates();
 });
   
