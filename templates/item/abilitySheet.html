@@ -15,7 +15,6 @@
                 </select>
             </label>
 
-            {{#if data.isAction}}
             <label>Cost
                 <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="1" data-dtype="Number" />
                 <select name="data.cost.pool" data-dtype="String">
@@ -26,7 +25,6 @@
                     {{/select}}
                 </select>
             </label>
-            {{/if}}
 
             <label>Category
                 <input type="text" name="data.category" value="{{data.category}}" placeholder="Category (eg. Type, Focus, etc.)" />

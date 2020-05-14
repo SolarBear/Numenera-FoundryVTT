@@ -210,6 +210,11 @@ form.numenera {
         }
 
         table.abilities {
+            //Gray out ability cost controls when value is 0 or undefined 
+            div.nocost {
+                opacity: 0.6;
+            }
+
             input[type="number"] {
                 width: 3em;
             }

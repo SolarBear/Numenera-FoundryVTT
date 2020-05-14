@@ -96,6 +96,7 @@
                         <td class="skill-name">Name</td>
                         <td class="skill-stat">Stat</td>
                         <td class="skill-inability">Inability</td>
+                        <td class="skill-untrained">Untrained</td>
                         <td class="skill-trained">Trained</td>
                         <td class="skill-specialized">Specialized</td>
                         <td><a class="skill-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
@@ -119,6 +120,9 @@
                         </td>
                         <td class="skill-inability">
                             <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
+                        </td>
+                        <td class="skill-untrained">
+                            <input class="skill-untrained" type="checkbox" name="data.items.skills.{{skill._id}}.data.untrained" {{checked skill.data.untrained}} data-dtype="Boolean" />
                         </td>
                         <td class="skill-trained">
                             <input class="skill-trained" type="checkbox" name="data.items.skills.{{skill._id}}.data.trained" {{checked skill.data.trained}} data-dtype="Boolean" />
@@ -162,8 +166,8 @@
                             </select>
                             <br/>
 
-                            {{#if ability.data.isAction}}
-                            <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" data-dtype="Number" value="{{ability.data.cost.amount}}" />
+                            <div {{#if ability.nocost}}class="nocost"{{/if}}>
+                                <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
                             <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
                                 {{#select ability.data.cost.pool}}
                                 {{#each stats}}
@@ -171,9 +175,7 @@
                                 {{/each}}
                                 {{/select}}
                             </select>
-                            {{else}}
-                            No cost
-                            {{/if}}
+                            </div>
                         </td>
                         <td class="ability-range">
                             <select name="data.items.abilities.{{ability._id}}.data.range">
@@ -187,7 +189,7 @@
                             </select>
                         </td>
                         <td class="ability-description">
-                            <textarea name="data.items.abilities.{{ability._id}}.data.description">{{ability.data.description}}</textarea>
+                            <textarea name="data.items.abilities.{{ability._id}}.data.notes">{{ability.data.notes}}</textarea>
                         </td>
                         <td>
                             <a class="ability-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
@@ -200,6 +202,7 @@
 
         <div class="tab numenera" data-group="primary" data-tab="numenera">
             <h2>Cyphers</h2>
+            <h3>Cypher Limit <input type="text" name="data.cypherLimit" value="{{data.cypherLimit}}" class="cypher-limit" data-dtype="Number" /></h3>
             <ul class="cyphers">
                 {{#each data.items.cyphers as |cypher|}}
                 <li class="cypher" data-item-id={{cypher._id}}  data-order={{cypher.data.order}}>
