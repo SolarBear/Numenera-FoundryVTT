@@ -98,6 +98,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     return mergeObject(super.defaultOptions, {
       scrollY: [
         "form.numenera table.weapons",
+        "form.numenera table.armor",
         "form.numenera table.skills",
         "form.numenera table.abilities",
         "form.numenera ul.artifacts",
@@ -196,7 +197,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
       };
     });
 
-    //Weapons section
     sheetData.data.items = sheetData.actor.items || {};
 
     //TODO repetition! kill it FOR GREAT JUSTICE
@@ -270,7 +270,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     abilitiesTable.find("*").off("change"); //TODO remove this brutal thing when transition to 0.5.6+ is done
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
-    abilitiesTable.on("change", "input,select,textarea", this.onAbilityEdit.bind(this));
+    abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
+
+    const armorTable = html.find("table.armor");
+    armorTable.on("click", ".armor-create", this.onArmorCreate.bind(this));
+    armorTable.on("click", ".armor-delete", this.onArmorDelete.bind(this));
+    armorTable.on("blur", "input,select", this.onArmorEdit.bind(this));
 
     const skillsTable = html.find("table.skills");
     skillsTable.on("click", ".skill-create", this.onSkillCreate.bind(this));
@@ -296,6 +301,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //to Dragula seems to work
     const drakes = [];
     drakes.push(dragula([document.querySelector("table.abilities > tbody")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("table.armor > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
 
@@ -322,5 +328,24 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //updateManyEmbeddedEntities is deprecated now and this function now accepts an array of data
     if (update.length > 0)
       await this.object.updateEmbeddedEntity("OwnedItem", update);
+  }
+
+  /*
+  Override the base method to handle some of the values ourselves
+  */
+  _onChangeInput(event) {
+    const abilities = window.document.querySelector("table.abilities");
+    if (abilities && abilities.contains(event.target))
+      return;
+
+    const armor = window.document.querySelector("table.armor");
+    if (armor && armor.contains(event.target))
+      return;
+
+    const weapons = window.document.querySelector("table.weapons");
+    if (weapons && weapons.contains(event.target))
+      return;
+    
+    super._onChangeInput(event);
   }
 }
