@@ -4,9 +4,15 @@
 
 This repository is the beginning of support for the [Numenera role playing game](http://numenera.com/) for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop). Check them out!
 
-## How do I use it?
+## Features
 
-First, a word of warning: this system is in active development so basic features are in place and the system is absolutely usable but you might experience some missing features and hiccups.
+* Sheets for PCs, NPCs, skills, cyphers... anything under the 9th World's sun!
+* Unidentified numenera items so your players don't know what you've given them!
+* Numenera items can either have a fixed level or a randomly-generated one from a formula (eg. 1d6+2). Once given to a PC, that level is determined randomly, but the GM may override that value if they wish.
+* Players can create their own items or use pre-made ones
+* Dice rolls explicitly tell you about minor and major effects, as well as free GM intrusions
+
+## How do I use it?
 
 To install, simply go to the _Game Systems_ tab of the _Configuration and Setup_ screen, click the _Install System_ button on the lower left; scroll down to _Numenera_ and click Install.
 
