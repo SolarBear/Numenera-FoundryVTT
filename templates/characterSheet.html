@@ -212,16 +212,30 @@
                         {{cypher.name}}
                     </h4>
                     <p>
-                        {{#if cypher.editable}}
+                    {{#if cypher.editable}}
                         <label>Identified? 
                             <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" data-dtype="Boolean" {{checked cypher.data.identified}} />
                         </label>
                         <label>Level
                             <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" min="1" data-dtype="Number" />
                         </label>
-                        {{else}}
-                        <span>Level</span> {{cypher.data.level}}
+                        {{#if ../displayCypherType}}
+                        <label>Type
+                            <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String" class="cypher-type">
+                                {{#select cypher.data.cypherType}}
+                                {{#each ../cypherTypes}}
+                                <option value="{{this}}">{{this}}</option>
+                                {{/each}}
+                                {{/select}}
+                            </select>
+                        </label>
                         {{/if}}
+                    {{else}}
+                        <span>Level</span> {{cypher.data.level}}
+                        {{#if displayCypherTyper}}
+                        <span>Type {{cypher.cypherType}}</span>
+                        {{/if}}
+                    {{/if}}
                     </p>
                     <p>
                         <span>Form</span> {{cypher.data.form}}

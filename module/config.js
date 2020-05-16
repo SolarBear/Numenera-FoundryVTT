@@ -12,7 +12,7 @@ NUMENERA.weaponTypes = [
   'Bashing',
   'Bladed',
   'Ranged',
-]
+];
 
 NUMENERA.stats = [
   'Might',
@@ -109,4 +109,9 @@ NUMENERA.optionalRanges = ["N/A"].concat(NUMENERA.ranges);
 NUMENERA.abilityTypes = [
   'Action',
   'Enabler',
+];
+
+NUMENERA.cypherTypes = [
+  "Anoetic",
+  "Occultic",
 ];

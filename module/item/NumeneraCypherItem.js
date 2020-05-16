@@ -14,5 +14,8 @@ export class NumeneraCypherItem extends Item {
         itemData.form = itemData.form || "";
         itemData.range = itemData.range || "Immediate";
         itemData.effect = itemData.effect || "";
+
+        //For v1 players
+        itemData.cypherType = itemData.cypherType || "Anoetic";
     }
 }

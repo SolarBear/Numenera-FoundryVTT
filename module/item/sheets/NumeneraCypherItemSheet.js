@@ -1,3 +1,5 @@
+import { NUMENERA } from "../../config.js";
+
 export class NumeneraCypherItemSheet extends ItemSheet {
     /**
      * Define default rendering options for the weapon sheet
@@ -24,5 +26,18 @@ export class NumeneraCypherItemSheet extends ItemSheet {
 
     get type() {
         return "cypher";
+    }
+
+    getData() {
+        const sheetData = super.getData();
+
+        const useCypherTypes = (game.settings.get("numenera", "systemVersion") === 1);
+        sheetData.useCypherTypes = useCypherTypes;
+
+        if (useCypherTypes) {
+            sheetData.cypherTypes = NUMENERA.cypherTypes;
+        }
+
+        return sheetData;
     }
 }

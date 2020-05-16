@@ -127,7 +127,8 @@
             }
         },
         "cypher": {
-            "templates": ["carriable", "common", "numenera"]
+            "templates": ["carriable", "common", "numenera"],
+            "cypherType": "anoetic"
         },
         "equipment": {
             "templates": ["common", "sellable"],
