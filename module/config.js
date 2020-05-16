@@ -6,6 +6,8 @@ NUMENERA.weightClasses = [
   'Heavy'
 ];
 
+NUMENERA.optionalWeightClasses = ["N/A"].concat(NUMENERA.weightClasses);
+
 NUMENERA.weaponTypes = [
   'Bashing',
   'Bladed',

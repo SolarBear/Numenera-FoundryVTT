@@ -1,5 +1,7 @@
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
+import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
+import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 
@@ -89,6 +91,16 @@ function onItemDeleteGenerator(deleteClass) {
  * @type {ActorSheet}
  */
 export class NumeneraPCActorSheet extends ActorSheet {
+  static get inputsToIntercept() {
+    return [
+      "table.abilities",
+      "table.armor",
+      "table.equipment",
+      "table.skills",
+      "table.weapons",
+    ];
+  }
+
   /**
    * Define default rendering options for the NPC sheet
    * @return {Object}
@@ -96,9 +108,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       scrollY: [
-        "form.numenera table.weapons",
-        "form.numenera table.skills",
         "form.numenera table.abilities",
+        "form.numenera table.armor",
+        "form.numenera table.equipment",
+        "form.numenera table.skills",
+        "form.numenera table.weapons",
         "form.numenera ul.artifacts",
         "form.numenera ul.cyphers",
         "form.numenera ul.oddities",
@@ -124,20 +138,26 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Creation event handlers
     this.onAbilityCreate = onItemCreate("ability", NumeneraAbilityItem);
+    this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem);
+    this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
+    this.onArmorEdit = onItemEditGenerator(".armor");
     this.onArtifactEdit = onItemEditGenerator(".artifact");
     this.onCypherEdit = onItemEditGenerator(".cypher");
+    this.onEquipmentEdit = onItemEditGenerator(".equipment");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
 
     //Delete event handlers
     this.onAbilityDelete = onItemDeleteGenerator(".ability");
+    this.onArmorDelete = onItemDeleteGenerator(".armor");
     this.onArtifactDelete = onItemDeleteGenerator(".artifact");
     this.onCypherDelete = onItemDeleteGenerator(".cypher");
+    this.onEquipmentDelete = onItemDeleteGenerator(".equipment");
     this.onOddityDelete = onItemDeleteGenerator(".oddity");
     this.onSkillDelete = onItemDeleteGenerator(".skill");
     this.onWeaponDelete = onItemDeleteGenerator(".weapon");
@@ -167,6 +187,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.stats = NUMENERA.stats;
     sheetData.weaponTypes = NUMENERA.weaponTypes;
     sheetData.weights = NUMENERA.weightClasses;
+    sheetData.optionalWeights = NUMENERA.optionalWeightClasses;
 
     sheetData.advances = Object.entries(sheetData.actor.data.advances).map(
       ([key, value]) => {
@@ -191,16 +212,21 @@ export class NumeneraPCActorSheet extends ActorSheet {
       };
     });
 
-    //Weapons section
     sheetData.data.items = sheetData.actor.items || {};
 
+    //TODO repetition! kill it FOR GREAT JUSTICE
+    //TODO use ItemClass.getType()
     const items = sheetData.data.items;
     if (!sheetData.data.items.abilities)
       sheetData.data.items.abilities = items.filter(i => i.type === "ability").sort(sortFunction);
+    if (!sheetData.data.items.armor)
+      sheetData.data.items.armor = items.filter(i => i.type === "armor").sort(sortFunction);
     if (!sheetData.data.items.artifacts)
       sheetData.data.items.artifacts = items.filter(i => i.type === "artifact").sort(sortFunction);
     if (!sheetData.data.items.cyphers)
       sheetData.data.items.cyphers = items.filter(i => i.type === "cypher").sort(sortFunction);
+    if (!sheetData.data.items.equipment)
+      sheetData.data.items.equipment = items.filter(i => i.type === "equipment").sort(sortFunction);
     if (!sheetData.data.items.oddities)
       sheetData.data.items.oddities = items.filter(i => i.type === "oddity").sort(sortFunction);
     if (!sheetData.data.items.skills)
@@ -233,6 +259,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return cypher;
     });
 
+    //TODO put ranges, stats, etc. as globally available data for the sheet instead of repeating
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
@@ -261,7 +288,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
     abilitiesTable.find("*").off("change"); //TODO remove this brutal thing when transition to 0.5.6+ is done
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
-    abilitiesTable.on("change", "input,select,textarea", this.onAbilityEdit.bind(this));
+    abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
+
+    const armorTable = html.find("table.armor");
+    armorTable.on("click", ".armor-create", this.onArmorCreate.bind(this));
+    armorTable.on("click", ".armor-delete", this.onArmorDelete.bind(this));
+    armorTable.on("blur", "input,select", this.onArmorEdit.bind(this));
+
+    const equipmentTable = html.find("table.equipment");
+    equipmentTable.on("click", ".equipment-create", this.onEquipmentCreate.bind(this));
+    equipmentTable.on("click", ".equipment-delete", this.onEquipmentDelete.bind(this));
+    equipmentTable.on("blur", "input,select", this.onEquipmentEdit.bind(this));
 
     const skillsTable = html.find("table.skills");
     skillsTable.on("click", ".skill-create", this.onSkillCreate.bind(this));
@@ -287,6 +324,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //to Dragula seems to work
     const drakes = [];
     drakes.push(dragula([document.querySelector("table.abilities > tbody")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("table.armor > tbody")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
 
@@ -313,5 +352,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //updateManyEmbeddedEntities is deprecated now and this function now accepts an array of data
     if (update.length > 0)
       await this.object.updateEmbeddedEntity("OwnedItem", update);
+  }
+
+  /*
+  Override the base method to handle some of the values ourselves
+  */
+  _onChangeInput(event) {
+    for (let container of NumeneraPCActorSheet.inputsToIntercept) {
+      const element = window.document.querySelector(container);
+      if (element && element.contains(event.target))
+        return;
+    }
+    
+    super._onChangeInput(event);
   }
 }

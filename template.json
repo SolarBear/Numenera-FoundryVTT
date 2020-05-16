@@ -130,7 +130,8 @@
             "templates": ["carriable", "common", "numenera"]
         },
         "equipment": {
-            "templates": ["common", "sellable"]
+            "templates": ["common", "sellable"],
+            "quantity": 0
         },
         "oddity": {
             "templates": ["carriable", "common"]

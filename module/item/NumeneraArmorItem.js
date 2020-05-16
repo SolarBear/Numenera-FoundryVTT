@@ -6,9 +6,9 @@ export class NumeneraArmorItem extends Item {
     prepareData() {
         super.prepareData();
 
-        const itemData = this.data.data;
+        const itemData = this.data.data || {};
 
-        itemData.name = this.data.name || "New Armor";
+        itemData.name = this.data ? this.data.name : "New Armor";
         itemData.armor = itemData.armor || 0;
         itemData.weight = itemData.weight || "Light";
         itemData.effect = itemData.price || 0;

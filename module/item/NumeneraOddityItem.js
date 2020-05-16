@@ -6,7 +6,7 @@ export class NumeneraOddityItem extends Item {
     prepareData() {
         super.prepareData();
 
-        const itemData = this.data.data;
+        const itemData = this.data.data || {};
 
         itemData.name = this.data.name || "New Oddity";
         itemData.notes = itemData.notes || "";

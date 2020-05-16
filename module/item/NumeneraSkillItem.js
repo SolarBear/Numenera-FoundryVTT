@@ -1,6 +1,6 @@
 export class NumeneraSkillItem extends Item {
   get type() {
-      return "equipment";
+      return "skill";
   }
 
   prepareData() {

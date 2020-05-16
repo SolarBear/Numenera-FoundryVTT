@@ -60,7 +60,7 @@
                     <div class="stats recovery">
                         <h2>Recovery</h2>
                         <h3>
-                            1d6 + <input type="text" name="data.recovery" value="{{data.recovery}}" data-dtype="Number" />
+                            1d6 + <input type="text" value="{{data.tier}}" data-dtype="Number" disabled="disabled" />
                         </h3>
         
                         <ul>
@@ -168,13 +168,13 @@
 
                             <div {{#if ability.nocost}}class="nocost"{{/if}}>
                                 <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
-                            <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
-                                {{#select ability.data.cost.pool}}
-                                {{#each stats}}
-                                <option value="{{this}}">{{this}}</option>
-                                {{/each}}
-                                {{/select}}
-                            </select>
+                                <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
+                                    {{#select ability.data.cost.pool}}
+                                    {{#each stats}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                    {{/select}}
+                                </select>
                             </div>
                         </td>
                         <td class="ability-range">
@@ -297,73 +297,156 @@
         </div>
     
         <div class="tab equipment" data-group="primary" data-tab="equipment">
-            <div>
-                <table class="weapons">
-                    <thead>
-                        <td>Name</td>
-                        <td>Type</td>
-                        <td>Damage</td>
-                        <td>Range</td>
-                        <td>Notes</td>
-                        <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
-                    </thead>
-                    <tbody>
-                    {{#each data.items.weapons as |weapon|}}
-                        <tr class="weapon" data-item-id="{{weapon._id}}" data-prder="{{weapon.data.order}}">
-                            <td class="weapon-name">
-                                <a><i class="fas fa-grip-vertical handle"></i></a>
-                                <input type="text" name="data.items.weapons.{{weapon.name}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
-                            </td>
-                            <td class="weapon-weight-type">
-                                <select name="data.items.weapons.{{weapon.name}}.weight" class="weapon-weight">
-                                {{#select weapon.data.weight}}
-                                {{#each ../weights}}
-                                    <option value="{{this}}">{{this}}</option>
-                                {{/each}}
-                                {{/select}}
-                                </select>
-        
-                                <select name="data.items.weapons.{{weapon.name}}.weaponType">
-                                {{#select weapon.data.weaponType}}
-                                {{#each ../weaponTypes}}
-                                    <option value="{{this}}">
-                                        {{this}}
-                                    </option>
-                                {{/each}}
-                                {{/select}}
-                                </select>
-                            </td>
-                            <td class="weapon-damage">
-                                <input type="number" name="data.items.weapons.{{weapon.name}}.damage" min="1" value="{{weapon.data.damage}}" class="weapon-damage" />
-                            </td>
-                            <td class="weapon-range">
-                                <select name="data.items.weapons.{{weapon.name}}.range">
-                                {{#select weapon.data.range}}
-                                {{#each ../ranges}}
-                                    <option value="{{this}}">
-                                        {{this}}
-                                    </option>
-                                {{/each}}
-                                {{/select}}
-                                </select>
-                            </td>
-                            <td class="weapon-notes">
-                                <input type="text" name="data.items.weapons.{{weapon.name}}.notes" value="{{weapon.data.notes}}" title="{{weapon.data.notes}}" />
-                            </td>
-                            <td>
-                                <a class="weapon-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
-                            </td>
-                        </tr>
-                    {{else}}
-                    <tr>
-                        <td colspan="6">
-                            No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+            <h2>Weapons</h2>
+            <table class="weapons">
+                <thead>
+                    <td>Name</td>
+                    <td>Type</td>
+                    <td>Damage</td>
+                    <td>Range</td>
+                    <td>Notes</td>
+                    <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                </thead>
+                <tbody>
+                {{#each data.items.weapons as |weapon|}}
+                    <tr class="weapon" data-item-id="{{weapon._id}}" data-prder="{{weapon.data.order}}">
+                        <td class="weapon-name">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                            <input type="text" name="data.items.weapons.{{weapon._id}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
+                        </td>
+                        <td class="weapon-weight-type">
+                            <select name="data.items.weapons.{{weapon._id}}.data.weight" class="weapon-weight">
+                            {{#select weapon.data.weight}}
+                            {{#each ../weights}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+    
+                            <select name="data.items.weapons.{{weapon._id}}.data.weaponType">
+                            {{#select weapon.data.weaponType}}
+                            {{#each ../weaponTypes}}
+                                <option value="{{this}}">
+                                    {{this}}
+                                </option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td class="weapon-damage">
+                            <input type="number" name="data.items.weapons.{{weapon._id}}.data.damage" min="1" value="{{weapon.data.damage}}" class="weapon-damage" />
+                        </td>
+                        <td class="weapon-range">
+                            <select name="data.items.weapons.{{weapon._id}}.data.range">
+                            {{#select weapon.data.range}}
+                            {{#each ../ranges}}
+                                <option value="{{this}}">
+                                    {{this}}
+                                </option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td class="weapon-notes">
+                            <input type="text" name="data.items.weapons.{{weapon._id}}.data.notes" value="{{weapon.data.notes}}" title="{{weapon.data.notes}}" />
+                        </td>
+                        <td>
+                            <a class="weapon-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
-                    {{/each}}
-                    </tbody>
-                </table>
-            </div>
+                {{else}}
+                <tr>
+                    <td colspan="6">
+                        No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+
+            <h2>Armor</h2>
+            <table class="armor">
+                <thead>
+                    <td>Name</td>
+                    <td>Armor Value</td>
+                    <td>Type</td>
+                    <td>Effort Cost</td>
+                    <td>Notes</td>
+                    <td><a class="armor-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                </thead>
+                <tbody>
+                {{#each data.items.armor as |armor|}}
+                    <tr class="armor" data-item-id="{{armor._id}}" data-prder="{{armor.data.order}}">
+                        <td class="armor-name">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                            <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}" />
+                        </td>
+                        <td class="armor-value">
+                            <input type="number" name="data.items.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" class="armor-value" data-dtype="Number" />
+                        </td>
+                        <td class="armor-weight-type">
+                            <select name="data.items.armor.{{armor._id}}.data.weight" class="armor-weight">
+                            {{#select armor.data.weight}}
+                            {{#each ../optionalWeights}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" name="data.items.armor.{{armor._id}}.data.additionalSpeedEffortCost" value="{{armor.data.additionalSpeedEffortCost}}" min="0" class="armor-effort-cost" data-dtype="Number" />
+                        </td>
+                        <td class="armor-notes">
+                            <input type="text" name="data.items.armor.{{armor._id}}.data.notes" value="{{armor.data.notes}}" title="{{armor.data.notes}}" />
+                        </td>
+                        <td>
+                            <a class="armor-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">
+                        No armor yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+
+            <h2>Other Items</h2>
+            <table class="equipment">
+                <thead>
+                    <td>Name</td>
+                    <td>Quantity</td>
+                    <td>Description</td>
+                    <td><a class="equipment-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                </thead>
+                <tbody>
+                {{#each data.items.equipment as |equipment|}}
+                    <tr class="equipment" data-item-id="{{equipment._id}}" data-prder="{{equipment.data.order}}">
+                        <td class="equipment-name">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                            <input type="text" name="data.items.equipment.{{equipment._id}}.name" placeholder="Item Name" class="equipment-name-input" value="{{equipment.name}}" />
+                        </td>
+                        <td class="equipment-quantity">
+                            <input type="number" name="data.items.equipment.{{equipment._id}}.data.quantity" value="{{equipment.data.quantity}}" min="0" class="equipment-quantity" data-dtype="Number" />
+                        </td>
+                        <td class="equipment-notes">
+                            <input type="text" name="data.items.equipment.{{equipment._id}}.data.notes" value="{{equipment.data.notes}}" title="{{equipment.data.notes}}" />
+                        </td>
+                        <td>
+                            <a class="equipment-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                <tr>
+                    <td colspan="4">
+                        No items yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
         </div>
     
         <div class="tab description" data-group="primary" data-tab="bio">
