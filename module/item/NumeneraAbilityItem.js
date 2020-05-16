@@ -6,7 +6,7 @@ export class NumeneraAbilityItem extends Item {
   prepareData() {
       super.prepareData();
 
-      const itemData = this.data.data;
+      const itemData = this.data.data || {};
 
       itemData.name = this.data.name || "New Ability";
       itemData.category = itemData.category || "";

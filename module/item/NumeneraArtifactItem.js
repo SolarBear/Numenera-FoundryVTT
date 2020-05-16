@@ -6,7 +6,7 @@ export class NumeneraArtifactItem extends Item {
     async prepareData() {
         super.prepareData();
 
-        const itemData = this.data.data;
+        const itemData = this.data.data || {};
 
         itemData.name = this.data.name || "New Cypher";
         itemData.price = itemData.price || 0;
