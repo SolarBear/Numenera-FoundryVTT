@@ -1,3 +1,4 @@
+import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
@@ -75,13 +76,15 @@ function onItemEditGenerator(editClass) {
   }
 }
 
-function onItemDeleteGenerator(deleteClass) {
-  return function (event) {
+function onItemDeleteGenerator(deleteType) {
+  return async function (event) {
     event.preventDefault();
-  
-    const elem = event.currentTarget.closest(deleteClass);
-    const itemId = elem.dataset.itemId;
-    this.actor.deleteOwnedItem(itemId);
+
+    if (await confirmDeletion(deleteType)) {
+      const elem = event.currentTarget.closest("." + deleteType);
+      const itemId = elem.dataset.itemId;
+      this.actor.deleteOwnedItem(itemId);
+    }
   }
 }
 
@@ -153,14 +156,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onWeaponEdit = onItemEditGenerator(".weapon");
 
     //Delete event handlers
-    this.onAbilityDelete = onItemDeleteGenerator(".ability");
-    this.onArmorDelete = onItemDeleteGenerator(".armor");
-    this.onArtifactDelete = onItemDeleteGenerator(".artifact");
-    this.onCypherDelete = onItemDeleteGenerator(".cypher");
-    this.onEquipmentDelete = onItemDeleteGenerator(".equipment");
-    this.onOddityDelete = onItemDeleteGenerator(".oddity");
-    this.onSkillDelete = onItemDeleteGenerator(".skill");
-    this.onWeaponDelete = onItemDeleteGenerator(".weapon");
+    this.onAbilityDelete = onItemDeleteGenerator("ability");
+    this.onArmorDelete = onItemDeleteGenerator("armor");
+    this.onArtifactDelete = onItemDeleteGenerator("artifact");
+    this.onCypherDelete = onItemDeleteGenerator("cypher");
+    this.onEquipmentDelete = onItemDeleteGenerator("equipment");
+    this.onOddityDelete = onItemDeleteGenerator("oddity");
+    this.onSkillDelete = onItemDeleteGenerator("skill");
+    this.onWeaponDelete = onItemDeleteGenerator("weapon");
   }
 
   /* -------------------------------------------- */
