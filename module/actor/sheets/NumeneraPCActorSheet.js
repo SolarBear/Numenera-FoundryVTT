@@ -1,6 +1,7 @@
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
+import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 
@@ -90,6 +91,16 @@ function onItemDeleteGenerator(deleteClass) {
  * @type {ActorSheet}
  */
 export class NumeneraPCActorSheet extends ActorSheet {
+  static get inputsToIntercept() {
+    return [
+      "table.abilities",
+      "table.armor",
+      "table.equipment",
+      "table.skills",
+      "table.weapons",
+    ];
+  }
+
   /**
    * Define default rendering options for the NPC sheet
    * @return {Object}
@@ -97,10 +108,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       scrollY: [
-        "form.numenera table.weapons",
-        "form.numenera table.armor",
-        "form.numenera table.skills",
         "form.numenera table.abilities",
+        "form.numenera table.armor",
+        "form.numenera table.equipment",
+        "form.numenera table.skills",
+        "form.numenera table.weapons",
         "form.numenera ul.artifacts",
         "form.numenera ul.cyphers",
         "form.numenera ul.oddities",
@@ -127,6 +139,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Creation event handlers
     this.onAbilityCreate = onItemCreate("ability", NumeneraAbilityItem);
     this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem);
+    this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
 
@@ -135,6 +148,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onArmorEdit = onItemEditGenerator(".armor");
     this.onArtifactEdit = onItemEditGenerator(".artifact");
     this.onCypherEdit = onItemEditGenerator(".cypher");
+    this.onEquipmentEdit = onItemEditGenerator(".equipment");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
 
@@ -143,6 +157,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onArmorDelete = onItemDeleteGenerator(".armor");
     this.onArtifactDelete = onItemDeleteGenerator(".artifact");
     this.onCypherDelete = onItemDeleteGenerator(".cypher");
+    this.onEquipmentDelete = onItemDeleteGenerator(".equipment");
     this.onOddityDelete = onItemDeleteGenerator(".oddity");
     this.onSkillDelete = onItemDeleteGenerator(".skill");
     this.onWeaponDelete = onItemDeleteGenerator(".weapon");
@@ -200,6 +215,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.items = sheetData.actor.items || {};
 
     //TODO repetition! kill it FOR GREAT JUSTICE
+    //TODO use ItemClass.getType()
     const items = sheetData.data.items;
     if (!sheetData.data.items.abilities)
       sheetData.data.items.abilities = items.filter(i => i.type === "ability").sort(sortFunction);
@@ -209,6 +225,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.data.items.artifacts = items.filter(i => i.type === "artifact").sort(sortFunction);
     if (!sheetData.data.items.cyphers)
       sheetData.data.items.cyphers = items.filter(i => i.type === "cypher").sort(sortFunction);
+    if (!sheetData.data.items.equipment)
+      sheetData.data.items.equipment = items.filter(i => i.type === "equipment").sort(sortFunction);
     if (!sheetData.data.items.oddities)
       sheetData.data.items.oddities = items.filter(i => i.type === "oddity").sort(sortFunction);
     if (!sheetData.data.items.skills)
@@ -277,6 +295,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
     armorTable.on("click", ".armor-delete", this.onArmorDelete.bind(this));
     armorTable.on("blur", "input,select", this.onArmorEdit.bind(this));
 
+    const equipmentTable = html.find("table.equipment");
+    equipmentTable.on("click", ".equipment-create", this.onEquipmentCreate.bind(this));
+    equipmentTable.on("click", ".equipment-delete", this.onEquipmentDelete.bind(this));
+    equipmentTable.on("blur", "input,select", this.onEquipmentEdit.bind(this));
+
     const skillsTable = html.find("table.skills");
     skillsTable.on("click", ".skill-create", this.onSkillCreate.bind(this));
     skillsTable.on("click", ".skill-delete", this.onSkillDelete.bind(this));
@@ -302,6 +325,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const drakes = [];
     drakes.push(dragula([document.querySelector("table.abilities > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.armor > tbody")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
 
@@ -334,17 +358,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
   Override the base method to handle some of the values ourselves
   */
   _onChangeInput(event) {
-    const abilities = window.document.querySelector("table.abilities");
-    if (abilities && abilities.contains(event.target))
-      return;
-
-    const armor = window.document.querySelector("table.armor");
-    if (armor && armor.contains(event.target))
-      return;
-
-    const weapons = window.document.querySelector("table.weapons");
-    if (weapons && weapons.contains(event.target))
-      return;
+    for (let container of NumeneraPCActorSheet.inputsToIntercept) {
+      const element = window.document.querySelector(container);
+      if (element && element.contains(event.target))
+        return;
+    }
     
     super._onChangeInput(event);
   }
