@@ -1,3 +1,4 @@
+import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
@@ -75,13 +76,15 @@ function onItemEditGenerator(editClass) {
   }
 }
 
-function onItemDeleteGenerator(deleteClass) {
-  return function (event) {
+function onItemDeleteGenerator(deleteType) {
+  return async function (event) {
     event.preventDefault();
-  
-    const elem = event.currentTarget.closest(deleteClass);
-    const itemId = elem.dataset.itemId;
-    this.actor.deleteOwnedItem(itemId);
+
+    if (await confirmDeletion(deleteType)) {
+      const elem = event.currentTarget.closest("." + deleteType);
+      const itemId = elem.dataset.itemId;
+      this.actor.deleteOwnedItem(itemId);
+    }
   }
 }
 
@@ -98,6 +101,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.equipment",
       "table.skills",
       "table.weapons",
+      "ul.cyphers",
+      "ul.artifacts",
     ];
   }
 
@@ -153,14 +158,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onWeaponEdit = onItemEditGenerator(".weapon");
 
     //Delete event handlers
-    this.onAbilityDelete = onItemDeleteGenerator(".ability");
-    this.onArmorDelete = onItemDeleteGenerator(".armor");
-    this.onArtifactDelete = onItemDeleteGenerator(".artifact");
-    this.onCypherDelete = onItemDeleteGenerator(".cypher");
-    this.onEquipmentDelete = onItemDeleteGenerator(".equipment");
-    this.onOddityDelete = onItemDeleteGenerator(".oddity");
-    this.onSkillDelete = onItemDeleteGenerator(".skill");
-    this.onWeaponDelete = onItemDeleteGenerator(".weapon");
+    this.onAbilityDelete = onItemDeleteGenerator("ability");
+    this.onArmorDelete = onItemDeleteGenerator("armor");
+    this.onArtifactDelete = onItemDeleteGenerator("artifact");
+    this.onCypherDelete = onItemDeleteGenerator("cypher");
+    this.onEquipmentDelete = onItemDeleteGenerator("equipment");
+    this.onOddityDelete = onItemDeleteGenerator("oddity");
+    this.onSkillDelete = onItemDeleteGenerator("skill");
+    this.onWeaponDelete = onItemDeleteGenerator("weapon");
   }
 
   /* -------------------------------------------- */
@@ -182,12 +187,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
+    const useCypherTypes = (game.settings.get("numenera", "systemVersion") === 1);
+    sheetData.displayCypherType = useCypherTypes;
+
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges;
     sheetData.stats = NUMENERA.stats;
     sheetData.weaponTypes = NUMENERA.weaponTypes;
     sheetData.weights = NUMENERA.weightClasses;
     sheetData.optionalWeights = NUMENERA.optionalWeightClasses;
+
+    if (useCypherTypes)
+      sheetData.cypherTypes = NUMENERA.cypherTypes;
 
     sheetData.advances = Object.entries(sheetData.actor.data.advances).map(
       ([key, value]) => {
@@ -255,7 +266,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
         cypher.name = "Unidentified Cypher";
         cypher.data.level = "Unknown";
         cypher.data.effect = "Unknown";
+
+        if (useCypherTypes) {
+          cypher.data.cypherType = "Unknown";
+        }
       }
+
       return cypher;
     });
 
@@ -310,15 +326,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("click", ".weapon-delete", this.onWeaponDelete.bind(this));
     weaponsTable.on("blur", "input,select", this.onWeaponEdit.bind(this));
 
+    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+
+    const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
+
+    const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
     if (game.user.isGM) {
-      html.find("ul.artifacts").on("blur", "input", this.onArtifactEdit.bind(this));
-      html.find("ul.cyphers").on("blur", "input", this.onCypherEdit.bind(this));
+      artifactsList.on("blur", "input", this.onArtifactEdit.bind(this));
+      cyphersList.on("blur", "input,select", this.onCypherEdit.bind(this));
     }
-    
-    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
 
     //Make sure to make a copy of the options object, otherwise only the first call
     //to Dragula seems to work

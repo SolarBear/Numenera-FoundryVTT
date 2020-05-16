@@ -1,50 +1,66 @@
 import test from 'ava';
 import { Migrator } from '../module/migrations/Migrator.js';
 
-test("A Migrator with no version throws an exception", t => {
-  const error = t.throws(() => {
+test("A Migrator with no version throws an exception", async t => {
+  let error = null;
+  try {
     const migrator = Object.assign({}, Migrator);
     migrator.forType = "foo";
     migrator.migrationFunction = () => {};
 
     const o = {};
   
-    migrator.migrate(o);
-  });
+    await migrator.migrate(o);
+    t.fail(); //should throw
+  }
+  catch (e) {
+    error = e;
+  }
 
   t.is(error.message, "No forVersion specified");
 });
 
-test("A Migrator with no type throws an exception", t => {
-  const error = t.throws(() => {
+test("A Migrator with no type throws an exception", async t => {
+  let error = null;
+  try {
     const migrator = Object.assign({}, Migrator);
     migrator.forVersion = 1;
     migrator.migrationFunction = () => {};
 
     const o = {};
   
-    migrator.migrate(o);
-  });
+    await migrator.migrate(o);
+    t.fail(); //should throw
+  }
+  catch (e) {
+    error = e;
+  }
 
   t.is(error.message, "No forType specified");
 });
 
-test("A Migrator with no migration function throws an exception", t => {
-  const error = t.throws(() => {
+test("A Migrator with no migration function throws an exception", async t => {
+  let error = null;
+  try {
     const migrator = Object.assign({}, Migrator);
     migrator.forVersion = 1;
     migrator.forType = "foo";
 
     const o = {};
   
-    migrator.migrate(o);
-  });
+    await migrator.migrate(o);
+    t.fail(); //should throw
+  }
+  catch (e) {
+    error = e;
+  }
 
   t.is(error.message, "No migrationFunction specified");
 });
 
-test("A Migrator with a diferent type than the object it receives throws an exception", t => {
-  const error = t.throws(() => {
+test("A Migrator with a diferent type than the object it receives throws an exception", async t => {
+  let error = null;
+  try {
     const migrator = Object.assign({}, Migrator);
     migrator.forVersion = 1;
     migrator.forType = "foo";
@@ -59,13 +75,17 @@ test("A Migrator with a diferent type than the object it receives throws an exce
       },
     };
   
-    migrator.migrate(o);
-  });
+    await migrator.migrate(o);
+    t.fail(); //should throw
+  }
+  catch (e) {
+    error = e;
+  }
 
   t.is(error.message, "Wrong migrator type for object");
 });
 
-test("A Migrator for a version that is the same as the object returns the same object", t => {
+test("A Migrator for a version that is the same as the object returns the same object", async t => {
   const migrator = Object.assign({}, Migrator);
   migrator.forVersion = 1;
   migrator.forType = "foo";
@@ -80,12 +100,12 @@ test("A Migrator for a version that is the same as the object returns the same o
     },
   };
 
-  const migrated = migrator.migrate(o);
+  const migrated = await migrator.migrate(o);
 
   t.is(o, migrated);
 });
 
-test("A Migrator will apply its migration function to the object", t => {
+test("A Migrator will apply its migration function to the object", async t => {
   const migrator = Object.assign({}, Migrator);
   migrator.forVersion = 2;
   migrator.forType = "foo";
@@ -104,16 +124,15 @@ test("A Migrator will apply its migration function to the object", t => {
       },
     },
   };
+  
+  const migrated = await migrator.migrate(o);
 
-  const migrated = migrator.migrate(o);
-
-  t.true(o !== migrated); //Should be an object copy
+  t.true(o === migrated); //Should be an object copy
   t.false(migrated.data.data.hasOwnProperty("bar"));
   t.is(migrated.data.data.spam, "eggs");
-  
 });
 
-test("A Migrator will set its new version number to the object", t => {
+test("A Migrator will set its new version number to the object", async t => {
   const migrator = Object.assign({}, Migrator);
   migrator.forVersion = 2;
   migrator.forType = "foo";
@@ -129,13 +148,14 @@ test("A Migrator will set its new version number to the object", t => {
     }
   };
 
-  const migrated = migrator.migrate(o);
+  const migrated = await migrator.migrate(o);
 
   t.is(migrated.data.data.version, 2);
 });
 
-test("A Migrator with an embedded Migrator with a different type throws an exception", t => {
-  const error = t.throws(() => {
+test("A Migrator with an embedded Migrator with a different type throws an exception", async t => {
+  let error = null;
+  try {
     const migrator1 = Object.assign({}, Migrator);
     migrator1.forVersion = 2;
     migrator1.forType = "foo";
@@ -152,14 +172,19 @@ test("A Migrator with an embedded Migrator with a different type throws an excep
       version: 1,
     };
   
-    migrator2.migrate(o);
-  });
+    await migrator2.migrate(o);
+    t.fail(); //should throw
+  }
+  catch (e) {
+    error = e;
+  }
 
   t.is(error.message, "Previous migrator has the wrong type");
 });
 
-test("A Migrator with an embedded Migrator with a version that is not the preceding one throws an exception", t => {
-  const error = t.throws(() => {
+test("A Migrator with an embedded Migrator with a version that is not the preceding one throws an exception", async t => {
+  let error = null;
+  try {
     const migrator1 = Object.assign({}, Migrator);
     migrator1.forVersion = 2;
     migrator1.forType = "foo";
@@ -176,13 +201,17 @@ test("A Migrator with an embedded Migrator with a version that is not the preced
       version: 1,
     };
   
-    const migrated = migrator2.migrate(o);
-  });
+    await migrator2.migrate(o);
+    t.fail(); //should throw
+  }
+  catch (e) {
+    error = e;
+  }
 
   t.is(error.message, "Previous migrator does not have the preceding wrong version number");
 });
 
-test("A Migrator with an embedded Migrator will apply its previous Migrator first", t => {
+test("A Migrator with an embedded Migrator will apply its previous Migrator first", async t => {
   const migrator1 = Object.assign({}, Migrator);
   migrator1.forVersion = 2;
   migrator1.forType = "foo";
@@ -210,14 +239,13 @@ test("A Migrator with an embedded Migrator will apply its previous Migrator firs
     },
   };
 
-
-  const migrated = migrator2.migrate(o);
+  const migrated = await migrator2.migrate(o);
 
   t.is(migrated.data.data.prop, 3);
   t.is(migrated.data.data.version, 3);
 });
 
-test("Multiple migrations will be handled in ascending version order", t => {
+test("Multiple migrations will be handled in ascending version order", async t => {
   const migrator1 = Object.assign({}, Migrator);
   migrator1.forVersion = 2;
   migrator1.forType = "foo";
@@ -263,7 +291,7 @@ test("Multiple migrations will be handled in ascending version order", t => {
     },
   };
 
-  const migrated = migrator4.migrate(o);
+  const migrated = await migrator4.migrate(o);
 
   t.is(migrated.data.data.version, 5);
   t.is(migrated.data.data.prop, "abcd");
