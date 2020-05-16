@@ -101,6 +101,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.equipment",
       "table.skills",
       "table.weapons",
+      "ul.cyphers",
+      "ul.artifacts",
     ];
   }
 
@@ -186,6 +188,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const sheetData = super.getData();
 
     const useCypherTypes = (game.settings.get("numenera", "systemVersion") === 1);
+    sheetData.displayCypherType = useCypherTypes;
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges;
@@ -263,9 +266,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
         cypher.name = "Unidentified Cypher";
         cypher.data.level = "Unknown";
         cypher.data.effect = "Unknown";
+
+        if (useCypherTypes) {
+          cypher.data.cypherType = "Unknown";
+        }
       }
-      
-      sheetData.displayCypherType = useCypherTypes;
 
       return cypher;
     });
@@ -321,15 +326,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("click", ".weapon-delete", this.onWeaponDelete.bind(this));
     weaponsTable.on("blur", "input,select", this.onWeaponEdit.bind(this));
 
+    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+
+    const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
+
+    const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
     if (game.user.isGM) {
-      html.find("ul.artifacts").on("blur", "input", this.onArtifactEdit.bind(this));
-      html.find("ul.cyphers").on("blur", "input", this.onCypherEdit.bind(this));
+      artifactsList.on("blur", "input", this.onArtifactEdit.bind(this));
+      cyphersList.on("blur", "input,select", this.onCypherEdit.bind(this));
     }
-    
-    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
 
     //Make sure to make a copy of the options object, otherwise only the first call
     //to Dragula seems to work
