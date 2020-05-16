@@ -60,14 +60,14 @@ export const Migrator = {
     //Make sure there weren't previous migrations to perform
     if (obj.data.data.version < this.forVersion - 1) {
       if (this.previousMigrator && this.previousMigrator.forVersion < this.forVersion) {
-        data = this.previousMigrator.migrate(actor);
+        data = this.previousMigrator.migrate(obj);
       } else {
         console.log(`No migration found for ${this.forType} version ${this.forVersion}`);
       }
     }
 
     const updatedObject = await this.migrationFunction(obj, data);
-    updatedObject["data.version"] = this.forVersion;
+    updatedObject.data.data.version = this.forVersion;
 
     return updatedObject;
   }
