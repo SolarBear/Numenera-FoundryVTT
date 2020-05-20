@@ -177,7 +177,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
-    return "systems/numenera/templates/characterSheet.html";
+    return "systems/cypher/templates/characterSheet.html";
   }
 
   /**
@@ -187,8 +187,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
-    const useCypherTypes = (game.settings.get("numenera", "systemVersion") === 1);
+    const useCypherTypes = (game.settings.get("cypher", "systemVersion") === 1);
     sheetData.displayCypherType = useCypherTypes;
+	
+	// Add relevant data from system settings
+	sheetData.settings = { 
+		icons: {} 
+	};
+	// TODO: Ideally we should use these settings here to prevent rendering of DOM elements if the ability icons are not required, but I can't seem to get it to work well.
+	sheetData.settings.icons.abilities = game.settings.get("cypher", "showAbilityIcons");
+	sheetData.settings.icons.skills = game.settings.get("cypher", "showSkillIcons");
+
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges;
@@ -280,11 +289,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
+	  ability.showIcon = ability.img && sheetData.settings.icons.abilities;
       return ability;
     });
 
     sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
       skill.stats = NUMENERA.stats;
+	  skill.showIcon = skill.img && sheetData.settings.icons.skills;
       return skill;
     });
 

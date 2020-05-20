@@ -93,6 +93,10 @@
             <table class="skills">
                 <thead>
                     <tr>
+						<td class="">
+							<!-- Extra empty table data for handle to properly center if we're showing icons--> 
+						</td>
+						<td class="skill-icon"></td>
                         <td class="skill-name">Name</td>
                         <td class="skill-stat">Stat</td>
                         <td class="skill-inability">Inability</td>
@@ -105,8 +109,18 @@
                 <tbody>
                 {{#each data.items.skills as |skill| }}
                     <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
+					
+					<td class="handle">
+						<a><i class="fas fa-grip-vertical handle"></i></a>
+					</td>
+					
+					{{#if skill.showIcon}}
+					<td class="item-icon">
+						<img src="{{skill.img}}" />
+					</td>
+					{{/if}}
+					
                         <td class="skill-name">
-                            <a><i class="fas fa-grip-vertical handle"></i></a>
                             <input type="text" name="data.items.skills.{{skill._id}}.name" placeholder="Skill Name" value="{{skill.name}}" class="skill-name-input" />
                         </td>
                         <td class="skill-stat">
@@ -143,6 +157,10 @@
             <table class="abilities">
                 <thead>
                     <tr>
+						<td class="">
+							<!-- Extra empty table data for handle to properly center if we're showing icons--> 
+						</td>
+						<td class="ability-icon"></td>
                         <td class="ability-name">Name</td>
                         <td class="ability-cost">Cost</td>
                         <td class="ability-range">Range</td>
@@ -153,8 +171,18 @@
                 <tbody>
                 {{#each data.items.abilities as |ability| }}
                     <tr class="ability" data-item-id="{{ability._id}}" data-prder="{{ability.data.order}}">
+					
+					<td class="handle">
+						<a><i class="fas fa-grip-vertical handle"></i></a>
+					</td>
+					
+					{{#if ability.showIcon}}
+					<td class="item-icon">
+						<img src="{{ability.img}}" />
+					</td>
+					{{/if}}
+					
                         <td class="ability-name">
-                            <a><i class="fas fa-grip-vertical handle"></i></a>
                             <input type="text" name="data.items.abilities.{{ability._id}}.name" placeholder="Ability Name" value="{{ability.name}}" class="ability-name-input" />
                         </td>
                         <td class="ability-cost">

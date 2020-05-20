@@ -413,4 +413,16 @@ form.numenera {
         border-width: 0px 1px 1px 0px;
         border-radius: 20px;
     }
+	
+	#pc-sheet-body .item-icon {
+	    padding-left: 0px;
+		padding-right: 0px;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+	
+	#pc-sheet-body img {
+		max-width: 42px;
+		border: none;
+	}
 }
