@@ -276,53 +276,59 @@
                                     <img src="{{cypher.img}}" />
                                     {{/if}}
                                 </td>
-                                <td style="width:100%; text-align:left;">
+                                <td style="text-align:left;">
                                     <h4><strong>{{cypher.name}}</strong></h4>
                                 </td>
                                 <td>
-                                    <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                    {{#if cypher.editable}}
+                                    <label>Identified?
+                                        <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified"
+                                            data-dtype="Boolean" {{checked cypher.data.identified}} />
+                                    </label>
+                                </td>
+                                <td>
+                                    <label>Level
+                                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level"
+                                            value="{{cypher.data.level}}" min="1" data-dtype="Number" />
+                                    </label>
+                                    {{#if ../displayCypherType}}
+
+                                    <label>Type
+                                        <select name="data.items.cyphers.{{cypher._id}}.data.cypherType"
+                                            data-dtype="String" class="cypher-type">
+                                            {{#select cypher.data.cypherType}}
+                                            {{#each ../cypherTypes}}
+                                            <option value="{{this}}">{{this}}</option>
+                                            {{/each}}
+                                            {{/select}}
+                                        </select>
+                                    </label>
+                                    {{/if}}
+                                    {{else}}
+                                    <span>Level</span> {{cypher.data.level}}
+                                    {{#if ../displayCypherType}}
+                                    <span>Type</span> {{cypher.data.cypherType}}
+                                    {{/if}}
+                                    {{/if}}
+                                </td>
+                                <td style="width:50%;text-align:left;">
+                                    <p>
+                                        <span><strong>Form:</strong></span> {{cypher.data.form}}
+                                    </p>
+                                    <p>
+                                        <span><strong>Effect:</strong></span> {{cypher.data.effect}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <a class="cypher-delete" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                     <p>
-                        {{#if cypher.editable}}
-                        <label>Identified?
-                            <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified"
-                                data-dtype="Boolean" {{checked cypher.data.identified}} />
-                        </label>
-                        <label>Level
-                            <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level"
-                                value="{{cypher.data.level}}" min="1" data-dtype="Number" />
-                        </label>
-                        {{#if ../displayCypherType}}
 
-                        <label>Type
-                            <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String"
-                                class="cypher-type">
-                                {{#select cypher.data.cypherType}}
-                                {{#each ../cypherTypes}}
-                                <option value="{{this}}">{{this}}</option>
-                                {{/each}}
-                                {{/select}}
-                            </select>
-                        </label>
-                        {{/if}}
-                        {{else}}
-                        <span>Level</span> {{cypher.data.level}}
-                        {{#if ../displayCypherType}}
-                        <span>Type</span> {{cypher.data.cypherType}}
-                        {{/if}}
-                        {{/if}}
                     </p>
-                    <div style="display:inline-block">
-                        <p>
-                            <span><strong>Form:</strong></span> {{cypher.data.form}}
-                        </p>
-                        <p>
-                            <span><strong>Effect:</strong></span> {{cypher.data.effect}}
-                        </p>
-                    </div>
                 </li>
                 {{else}}
                 No cyphers.
@@ -335,6 +341,60 @@
             <ul class="artifacts">
                 {{#each data.items.artifacts as |artifact|}}
                 <li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.order}}>
+                    <table class="artifact-header-table">
+<tbody>
+    <td>
+        <h4>
+            <a><i class="fas fa-grip-vertical handle"></i></a>
+            {{artifact.name}}
+        </h4>
+    </td>
+    <td class="ability-icon">
+        {{#if artifact.showIcon}}
+        <img src="{{artifact.img}}" />
+        {{/if}}
+    </td>
+    <td style="text-align:left;">
+        <h4><strong>{{artifact.name}}</strong></h4>
+    </td>
+    <td>
+        {{#if artifact.editable}}
+                        <label>Identified?
+                            <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified"
+                                data-dtype="Boolean" {{checked artifact.data.identified}} />
+                        </label>
+                    </td>
+                    <td>
+                        <label>Level
+                            <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1"
+                                value="{{artifact.data.level}}" />
+                        </label>
+                        {{else}}
+                        <span>Level</span> {{artifact.data.level}}
+                        {{/if}}
+                        
+                    {{/if}}
+    </td>
+    
+    <td style="width:50%;">
+        <p>
+            <span>Form</span> {{artifact.data.form}}
+        </p>
+        <p>
+            <span>Effect</span> {{artifact.data.effect}}
+        </p>
+        {{#if artifact.data.depletion.isDepleting }}
+        <p>
+            <span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}
+        </p>
+        {{/if}}
+    </td>
+</tbody>
+</table>
+
+<!--
+
+                    </table>
                     <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     <h4>
                         <a><i class="fas fa-grip-vertical handle"></i></a>
@@ -354,17 +414,8 @@
                         <span>Level</span> {{artifact.data.level}}
                         {{/if}}
                     </p>
-                    <p>
-                        <span>Form</span> {{artifact.data.form}}
-                    </p>
-                    <p>
-                        <span>Effect</span> {{artifact.data.effect}}
-                    </p>
-                    {{#if artifact.data.depletion.isDepleting }}
-                    <p>
-                        <span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}
-                    </p>
-                    {{/if}}
+                    
+                    {{/if}}-->
                 </li>
                 {{else}}
                 No artifacts.

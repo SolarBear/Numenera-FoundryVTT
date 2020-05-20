@@ -430,7 +430,7 @@ form.numenera {
         width: 42px !important; 
     }
 
-    table.cypher-header-table, table.artifact-header--table, table.oddity-header-table {
+    table.cypher-header-table, table.artifact-header-table, table.oddity-header-table {
         background-color: transparent;
         border:none;
         padding-bottom:0px;
@@ -438,9 +438,18 @@ form.numenera {
 
         td {
             padding: 0px;
-            margin: 0px 0;
+            margin: 0px;
+            padding-left: 4px;
+            padding-right: 4px;
+            font-weight:normal;
+            font-size:1em;
             text-align: center;
             vertical-align: center;
+        }
+
+        td h4 {
+            font-weight: bold;
+            font-size: 1.3em !important;
         }
 
         td.ability-icon {
