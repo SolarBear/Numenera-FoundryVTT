@@ -342,6 +342,8 @@
             <h2>Weapons</h2>
             <table class="weapons">
                 <thead>
+					<td><!-- Extra empty table data for handle to properly center if we're showing icons--></td>
+					<td><!-- Extra empty table data for icon--></td>
                     <td>Name</td>
                     <td>Type</td>
                     <td>Damage</td>
@@ -352,8 +354,18 @@
                 <tbody>
                 {{#each data.items.weapons as |weapon|}}
                     <tr class="weapon" data-item-id="{{weapon._id}}" data-prder="{{weapon.data.order}}">
+					
+					<td class="handle">
+						<a><i class="fas fa-grip-vertical handle"></i></a>
+					</td>
+					
+					{{#if weapon.showIcon}}
+					<td class="item-icon">
+						<img src="{{weapon.img}}" />
+					</td>
+					{{/if}}
+					
                         <td class="weapon-name">
-                            <a><i class="fas fa-grip-vertical handle"></i></a>
                             <input type="text" name="data.items.weapons.{{weapon._id}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}" />
                         </td>
                         <td class="weapon-weight-type">
@@ -409,6 +421,8 @@
             <h2>Armor</h2>
             <table class="armor">
                 <thead>
+					<td><!-- Extra empty table data for handle to properly center if we're showing icons--></td>
+					<td><!-- Extra empty table data for icon--></td>
                     <td>Name</td>
                     <td>Armor Value</td>
                     <td>Type</td>
@@ -419,8 +433,18 @@
                 <tbody>
                 {{#each data.items.armor as |armor|}}
                     <tr class="armor" data-item-id="{{armor._id}}" data-prder="{{armor.data.order}}">
+					
+					<td class="handle">
+						<a><i class="fas fa-grip-vertical handle"></i></a>
+					</td>
+					
+					{{#if armor.showIcon}}
+					<td class="item-icon">
+						<img src="{{armor.img}}" />
+					</td>
+					{{/if}}
+					
                         <td class="armor-name">
-                            <a><i class="fas fa-grip-vertical handle"></i></a>
                             <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}" />
                         </td>
                         <td class="armor-value">
@@ -458,6 +482,8 @@
             <h2>Other Items</h2>
             <table class="equipment">
                 <thead>
+					<td><!-- Extra empty table data for handle to properly center if we're showing icons--></td>
+					<td><!-- Extra empty table data for icon--></td>
                     <td>Name</td>
                     <td>Quantity</td>
                     <td>Description</td>
@@ -466,8 +492,18 @@
                 <tbody>
                 {{#each data.items.equipment as |equipment|}}
                     <tr class="equipment" data-item-id="{{equipment._id}}" data-prder="{{equipment.data.order}}">
+					
+					<td class="handle">
+						<a><i class="fas fa-grip-vertical handle"></i></a>
+					</td>
+					
+					{{#if equipment.showIcon}}
+					<td class="item-icon">
+						<img src="{{equipment.img}}" />
+					</td>
+					{{/if}}
+					
                         <td class="equipment-name">
-                            <a><i class="fas fa-grip-vertical handle"></i></a>
                             <input type="text" name="data.items.equipment.{{equipment._id}}.name" placeholder="Item Name" class="equipment-name-input" value="{{equipment.name}}" />
                         </td>
                         <td class="equipment-quantity">

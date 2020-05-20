@@ -197,6 +197,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
 	// TODO: Ideally we should use these settings here to prevent rendering of DOM elements if the ability icons are not required, but I can't seem to get it to work well.
 	sheetData.settings.icons.abilities = game.settings.get("cypher", "showAbilityIcons");
 	sheetData.settings.icons.skills = game.settings.get("cypher", "showSkillIcons");
+	sheetData.settings.icons.numenera = game.settings.get("cypher", "showNumeneraIcons");
+	sheetData.settings.icons.equipment = game.settings.get("cypher", "showEquipmentIcons");
 
 
     //Copy labels to be used as is
@@ -280,6 +282,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
           cypher.data.cypherType = "Unknown";
         }
       }
+	  cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
 
       return cypher;
     });
@@ -297,6 +300,19 @@ export class NumeneraPCActorSheet extends ActorSheet {
       skill.stats = NUMENERA.stats;
 	  skill.showIcon = skill.img && sheetData.settings.icons.skills;
       return skill;
+    });
+	
+	sheetData.data.items.weapons = sheetData.data.items.weapons.map(weapon => {
+      weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
+      return weapon;
+    });
+	sheetData.data.items.armor = sheetData.data.items.armor.map(armor => {
+      armor.showIcon = armor.img && sheetData.settings.icons.equipment;
+      return armor;
+    });
+	sheetData.data.items.equipment = sheetData.data.items.equipment.map(equipment => {
+      equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
+      return equipment;
     });
 
     return sheetData;

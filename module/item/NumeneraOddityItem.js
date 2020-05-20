@@ -4,6 +4,8 @@ export class NumeneraOddityItem extends Item {
     }
 
     prepareData() {
+		// Override common default icon
+	    if (!this.data.img) this.data.img = 'icons/svg/sun.svg';
         super.prepareData();
 
         const itemData = this.data.data || {};

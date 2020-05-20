@@ -25,7 +25,7 @@ export const registerSystemSettings = function() {
     scope: "world",
     config: true,
     type: Boolean,
-    default: false
+    default: true
   });
   
   /**
@@ -40,5 +40,27 @@ export const registerSystemSettings = function() {
     default: true
   });
   
+  /**
+   * Configure whether or not to show numenera icons
+   */
+  game.settings.register("cypher", "showNumeneraIcons", {
+    name: "Numenera Icons",
+    hint: "Enable to show cypher, artifact, and oddity icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
   
+  /**
+   * Configure whether or not to show numenera icons
+   */
+  game.settings.register("cypher", "showEquipmentIcons", {
+    name: "Equipment Icons",
+    hint: "Enable to show weapon, armor, and miscellaneous item icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
 }

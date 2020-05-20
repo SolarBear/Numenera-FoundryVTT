@@ -4,6 +4,9 @@ export class NumeneraAbilityItem extends Item {
   }
 
   prepareData() {
+	  // Override common default icon
+	  if (!this.data.img) this.data.img = 'icons/svg/lightning.svg';
+	  
       super.prepareData();
 
       const itemData = this.data.data || {};
