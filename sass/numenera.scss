@@ -316,8 +316,12 @@ form.numenera {
         border-bottom: 1px solid $border-color;
     }
 
-    div.description > textarea {
+    div.description  {
         height: 450px;
+        
+        .editor {
+            height: 100%;
+          }
     }
 
     div.item {
