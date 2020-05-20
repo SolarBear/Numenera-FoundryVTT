@@ -1,5 +1,6 @@
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
+import { numeneraRoll } from "../../roll.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
 import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
@@ -320,6 +321,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     skillsTable.on("click", ".skill-create", this.onSkillCreate.bind(this));
     skillsTable.on("click", ".skill-delete", this.onSkillDelete.bind(this));
     skillsTable.on("change", "input,select", this.onSkillEdit.bind(this));
+    skillsTable.on("click", "a.rollable", this.onSkillUse.bind(this));
 
     const weaponsTable = html.find("table.weapons");
     weaponsTable.on("click", ".weapon-create", this.onWeaponCreate.bind(this));
@@ -371,6 +373,24 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //updateManyEmbeddedEntities is deprecated now and this function now accepts an array of data
     if (update.length > 0)
       await this.object.updateEmbeddedEntity("OwnedItem", update);
+  }
+
+  async onSkillUse(event) {
+    event.preventDefault();
+    const skillId = event.target.closest(".skill").dataset.itemId;
+  
+    if (!skillId)
+      return;
+
+    const skill = this.actor.getOwnedItem(skillId);
+    const skillLevel = this.actor.getSkillLevel(skill);
+
+    const roll = numeneraRoll(skillLevel);
+
+    roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: `Rolling ${skill.name}`,
+    });
   }
 
   /*

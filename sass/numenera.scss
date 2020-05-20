@@ -19,6 +19,17 @@ form.numenera {
         cursor: move;
     }
 
+    a.rollable {
+        height: auto;
+        width: auto;
+        
+        & > img {
+            border: 0;
+            height: 24px;
+            width: 24px;
+        }
+    }
+
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
     .flewrow {
         display: flex;

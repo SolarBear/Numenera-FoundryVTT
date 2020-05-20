@@ -1,14 +1,12 @@
 /* Dice roll for Numenera
 
-Rolls a d20 and then determines your success level. Handles 1s, 19s and 20s too.
+Rolls a d20 and then determines your success level.
 */
-export function numeneraRoll(levelModifier = 0) {
-  const d20 = new Roll("d20").roll();
+export function numeneraRoll(level = 0) {
+  let formula = "d20";
+  if (level) formula += "+" + 3 * level;
 
-  d20.level = Math.floor(d20.total / 3) + levelModifier;
-
-
-  return d20;
+  return new Roll(formula).roll();
 }
 
 export function rollText(dieRoll) {
