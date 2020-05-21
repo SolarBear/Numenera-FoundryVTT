@@ -71,7 +71,7 @@
                             </li>
                         {{/each}}
                         </ul>
-                        <h2>Armor&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" />
+                        <h2>Armor&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
                         </h2>
                     </div>
                 </div>
@@ -398,7 +398,7 @@
                             <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}" />
                         </td>
                         <td class="armor-value">
-                            <input type="number" name="data.items.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" class="armor-value" data-dtype="Number" />
+                            <input type="number" name="data.items.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" min="0" class="armor-value" data-dtype="Number" />
                         </td>
                         <td class="armor-weight-type">
                             <select name="data.items.armor.{{armor._id}}.data.weight" class="armor-weight">

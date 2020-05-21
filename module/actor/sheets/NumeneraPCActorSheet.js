@@ -153,14 +153,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Creation event handlers
     this.onAbilityCreate = onItemCreate("ability", NumeneraAbilityItem);
-    this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem);
+    this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem, this.onArmorUpdated.bind(this));
     this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
-    this.onArmorEdit = onItemEditGenerator(".armor");
+    this.onArmorEdit = onItemEditGenerator(".armor", this.onArmorUpdated.bind(this));
     this.onArtifactEdit = onItemEditGenerator(".artifact");
     this.onCypherEdit = onItemEditGenerator(".cypher");
     this.onEquipmentEdit = onItemEditGenerator(".equipment");
@@ -169,7 +169,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Delete event handlers
     this.onAbilityDelete = onItemDeleteGenerator("ability");
-    this.onArmorDelete = onItemDeleteGenerator("armor");
+    this.onArmorDelete = onItemDeleteGenerator("armor", this.onArmorUpdated.bind(this));
     this.onArtifactDelete = onItemDeleteGenerator("artifact");
     this.onCypherDelete = onItemDeleteGenerator("cypher");
     this.onEquipmentDelete = onItemDeleteGenerator("equipment");
@@ -422,6 +422,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       flavor: `Rolling ${artifact.name} artifact depletion<br/>Threshold: ${depletion.threshold}`,
     });
+  }
+
+  onArmorUpdated(armor) {
+      const newTotal = this.actor.getTotalArmor();
+
+      if (newTotal !== this.actor.data.armor) {
+        this.actor.update({"data.armor": newTotal});
+      }
   }
 
   /*

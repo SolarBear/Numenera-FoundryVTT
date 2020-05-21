@@ -117,6 +117,11 @@ export class NumeneraPCActor extends Actor {
     return value;
   }
 
+  getTotalArmor() {
+    return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "armor")
+      .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
+  }
+
   /**
    * BASE CLASS OVERRIDES
    */
