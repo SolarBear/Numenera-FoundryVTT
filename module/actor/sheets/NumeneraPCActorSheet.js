@@ -19,8 +19,8 @@ const dragulaOptions = {
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
 
-function onItemCreate(itemName, itemClass) {
-  return function() {
+function onItemCreate(itemName, itemClass, callback = null) {
+  return async function() {
     event.preventDefault();
 
     const itemData = {
@@ -29,11 +29,15 @@ function onItemCreate(itemName, itemClass) {
       data: new itemClass({}),
     };
 
-    return this.actor.createOwnedItem(itemData);
+    const newItem = await this.actor.createOwnedItem(itemData);
+    if (callback)
+      callback(newItem);
+
+    return newItem;
   }
 }
 
-function onItemEditGenerator(editClass) {
+function onItemEditGenerator(editClass, callback = null) {
   return async function (event) {
     event.preventDefault();
 
@@ -73,11 +77,13 @@ function onItemEditGenerator(editClass) {
       }
     }
 
-    await this.actor.updateEmbeddedEntity("OwnedItem", updated);
+    const updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated);
+    if (callback)
+      callback(updatedItem);
   }
 }
 
-function onItemDeleteGenerator(deleteType) {
+function onItemDeleteGenerator(deleteType, callback = null) {
   return async function (event) {
     event.preventDefault();
 
@@ -85,6 +91,9 @@ function onItemDeleteGenerator(deleteType) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
       this.actor.deleteOwnedItem(itemId);
+
+      if (callback)
+        callback();
     }
   }
 }
