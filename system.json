@@ -2,16 +2,16 @@
     "name": "numenera",
     "title": "Numenera",
     "description": "Simple support for Numenera for the Fountry Virtual TableTop.",
-    "version": "0.6.3",
+    "version": "0.7.0",
     "author": "SolarBear",
     "scripts": ["lib/dragula/dragula.min.js"],
     "esmodules": ["numenera.js"],
     "styles": ["numenera.css", "lib/dragula/dragula.min.css"],
     "packs": [],
     "languages": ["en"],
-    "compatibleCoreVersion": "0.5.6",
+    "compatibleCoreVersion": "0.5.7",
     "minimumCoreVersion" : "0.5.5",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",
     "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json",
-    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/0.6.3/numenera-foundryvtt-0.6.3.zip"
+    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/0.7.0/numenera-foundryvtt-0.7.0.zip"
 }

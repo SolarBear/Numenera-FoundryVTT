@@ -19,6 +19,17 @@ form.numenera {
         cursor: move;
     }
 
+    a.rollable {
+        height: auto;
+        width: auto;
+        
+        & > img {
+            border: 0;
+            height: 24px;
+            width: 24px;
+        }
+    }
+
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
     .flewrow {
         display: flex;
@@ -189,6 +200,11 @@ form.numenera {
                     & input[type="number"] {
                         width: 3em;
                     }
+
+                    & button.artifact-depletion-roll {
+                        width: auto;
+                        font-size: 12px;
+                    }
                 }
             }
 
@@ -305,8 +321,12 @@ form.numenera {
         border-bottom: 1px solid $border-color;
     }
 
-    div.description > textarea {
+    div.description  {
         height: 450px;
+        
+        .editor {
+            height: 100%;
+          }
     }
 
     div.item {

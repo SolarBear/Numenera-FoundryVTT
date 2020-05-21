@@ -1,6 +1,6 @@
 <form class="{{cssClass}} numenera pc" autocomplete="off">
     <h1 class="character">
-        <input type="text" name="name" value="{{actor.name}}" class="charname" />
+        <input type="text" name="name" value="{{actor.name}}" class="charname" placeholder="Type" />
         is a
         <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
         <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" data-type="String">
@@ -71,7 +71,7 @@
                             </li>
                         {{/each}}
                         </ul>
-                        <h2>Armor&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" />
+                        <h2>Armor&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
                         </h2>
                     </div>
                 </div>
@@ -131,6 +131,7 @@
                             <input class="skill-specialized" type="checkbox" name="data.items.skills.{{skill._id}}.data.specialized" {{checked skill.data.specialized}} data-dtype="Boolean" />
                         </td>
                         <td>
+                            <a class="rollable"><img src="/icons/svg/d20-grey.svg" alt="d20" /></a>
                             <a class="skill-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
@@ -281,6 +282,7 @@
                     {{#if artifact.data.depletion.isDepleting }}
                     <p>
                         <span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}
+                        <button class="artifact-depletion-roll">Roll</button>
                     </p>
                     {{/if}}
                 </li>
@@ -396,7 +398,7 @@
                             <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}" />
                         </td>
                         <td class="armor-value">
-                            <input type="number" name="data.items.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" class="armor-value" data-dtype="Number" />
+                            <input type="number" name="data.items.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" min="0" class="armor-value" data-dtype="Number" />
                         </td>
                         <td class="armor-weight-type">
                             <select name="data.items.armor.{{armor._id}}.data.weight" class="armor-weight">
@@ -464,7 +466,7 @@
         </div>
     
         <div class="tab description" data-group="primary" data-tab="bio">
-            <textarea name="data.background">{{data.background}}</textarea>
+            {{editor content=data.background target="data.background" button=true editable=editable}}
         </div>
     </section>
 </form>

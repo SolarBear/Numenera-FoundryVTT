@@ -68,24 +68,38 @@ Hooks.on('renderActorDirectory', (app, html, options) => {
 });
 
 Hooks.on("renderChatMessage", (app, html, data) => {
-    //Here, "app" is the ChatMessage object
+    const roll = JSON.parse(data.message.roll);
 
     //Don't apply ChatMessage enhancement to recovery rolls
-    if (app.roll && app.roll.dice[0].faces === 20)
+    if (roll && roll.dice[0].faces === 20)
     {
-        const dieRoll = app.roll.dice[0].rolls[0].roll;
-        const special = rollText(dieRoll);
+        const special = rollText(roll.total);
+        const dt = html.find("h4.dice-total")[0];
 
         //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
-        if (!special)
-            return;
+        if (special) {
+            const { text, color } = special;
+            const newContent = `<span class="numenera-message-special">${text}</span>`;
 
-        const { text, color } = special;
+            $(newContent).insertBefore(dt);
+        }
 
-        const newContent = `<span class="numenera-message-special">${text}</span>`;
+        if (game.settings.get("numenera", "d20Rolling") === "taskLevels") {
+            const rolled = roll.dice[0].rolls[0].roll;
+            const taskLevel = Math.floor(rolled / 3);
+            const skillLevel = (roll.total - rolled) / 3;
+            const sum = taskLevel + skillLevel;
 
-        const dt = html.find("h4.dice-total");
-        $(newContent).insertBefore(dt);
+            let text = `Success Level ${sum}`;
+
+            if (skillLevel !== 0) {
+                const sign = sum > 0 ? "+" : "-";
+                text += ` (${taskLevel}${sign}${skillLevel})`;
+            }
+
+            dt.textContent = text;
+        }
+
     }
 });
 
