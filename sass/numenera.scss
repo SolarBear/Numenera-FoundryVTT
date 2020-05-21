@@ -200,6 +200,11 @@ form.numenera {
                     & input[type="number"] {
                         width: 3em;
                     }
+
+                    & button.artifact-depletion-roll {
+                        width: auto;
+                        font-size: 12px;
+                    }
                 }
             }
 

@@ -332,6 +332,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
+    html.find("ul.artifacts").on("click", ".artifact-depletion-roll", this.onArtifactDepletionRoll.bind(this));
 
     const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
@@ -390,6 +391,27 @@ export class NumeneraPCActorSheet extends ActorSheet {
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       flavor: `Rolling ${skill.name}`,
+    });
+  }
+
+  onArtifactDepletionRoll(event) {
+    event.preventDefault();
+    const artifactId = event.target.closest(".artifact").dataset.itemId;
+
+    if (!artifactId)
+      return;
+
+    const artifact = this.actor.getOwnedItem(artifactId);
+    const depletion = artifact.data.data.depletion;
+    if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
+      return;
+
+    const roll = new Roll(depletion.die).roll();
+    const depleted = (roll.total <= depletion.threshold);
+
+    roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: `Rolling ${artifact.name} artifact depletion<br/>Threshold: ${depletion.threshold}`,
     });
   }
 
