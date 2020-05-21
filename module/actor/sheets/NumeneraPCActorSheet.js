@@ -267,6 +267,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         artifact.data.effect = "Unknown";
         artifact.data.depletion = null;
       }
+      artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
       return artifact;
     });
 
@@ -282,9 +283,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
           cypher.data.cypherType = "Unknown";
         }
       }
-	  cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
-
+	    cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
       return cypher;
+    });
+
+    sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+	    oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
+      return oddity;
     });
 
     //TODO put ranges, stats, etc. as globally available data for the sheet instead of repeating
@@ -292,13 +297,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
-	  ability.showIcon = ability.img && sheetData.settings.icons.abilities;
+	    ability.showIcon = ability.img && sheetData.settings.icons.abilities;
       return ability;
     });
 
     sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
       skill.stats = NUMENERA.stats;
-	  skill.showIcon = skill.img && sheetData.settings.icons.skills;
+	    skill.showIcon = skill.img && sheetData.settings.icons.skills;
       return skill;
     });
 	

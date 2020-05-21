@@ -108,7 +108,9 @@
                         <td class="">
                             <!-- Extra empty table data for handle to properly center if we're showing icons-->
                         </td>
+                        {{#if settings.icons.skills}}
                         <td class="skill-icon"></td>
+                        {{/if}}
                         <td class="skill-name">Name</td>
                         <td class="skill-stat">Stat</td>
                         <td class="skill-inability">Inability</td>
@@ -181,7 +183,9 @@
                         <td class="">
                             <!-- Extra empty table data for handle to properly center if we're showing icons-->
                         </td>
+                        {{#if settings.icons.abilities}}
                         <td class="ability-icon"></td>
+                        {{/if}}
                         <td class="ability-name">Name</td>
                         <td class="ability-cost">Cost</td>
                         <td class="ability-range">Range</td>
@@ -262,31 +266,28 @@
                 {{#each data.items.cyphers as |cypher|}}
                 <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.order}}>
                     <table class="cypher-header-table">
-                        <!-- TODO Copy the CSS to a new class if it works-->
                         <tbody>
                             <tr class="cypher-header">
-                                <!-- TODO Copy the CSS to a new class if it works-->
                                 <td>
                                     <h4>
                                         <a><i class="fas fa-grip-vertical handle"></i></a>
                                     </h4>
                                 </td>
+                                {{#if cypher.showIcon}}
                                 <td class="ability-icon">
-                                    {{#if cypher.showIcon}}
                                     <img src="{{cypher.img}}" />
-                                    {{/if}}
                                 </td>
-                                <td style="text-align:left;">
+                                {{/if}}
+                                <td class="cypher-name">
                                     <h4><strong>{{cypher.name}}</strong></h4>
                                 </td>
-                                <td>
+                                <td class="cypher-level">
                                     {{#if cypher.editable}}
                                     <label>Identified?
                                         <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified"
                                             data-dtype="Boolean" {{checked cypher.data.identified}} />
                                     </label>
-                                </td>
-                                <td>
+                                    <br />
                                     <label>Level
                                         <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level"
                                             value="{{cypher.data.level}}" min="1" data-dtype="Number" />
@@ -311,7 +312,7 @@
                                     {{/if}}
                                     {{/if}}
                                 </td>
-                                <td style="width:50%;text-align:left;">
+                                <td class="cypher-description">
                                     <p>
                                         <span><strong>Form:</strong></span> {{cypher.data.form}}
                                     </p>
@@ -327,8 +328,6 @@
                         </tbody>
                     </table>
                     <p>
-
-                    </p>
                 </li>
                 {{else}}
                 No cyphers.
@@ -342,80 +341,57 @@
                 {{#each data.items.artifacts as |artifact|}}
                 <li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.order}}>
                     <table class="artifact-header-table">
-<tbody>
-    <td>
-        <h4>
-            <a><i class="fas fa-grip-vertical handle"></i></a>
-            {{artifact.name}}
-        </h4>
-    </td>
-    <td class="ability-icon">
-        {{#if artifact.showIcon}}
-        <img src="{{artifact.img}}" />
-        {{/if}}
-    </td>
-    <td style="text-align:left;">
-        <h4><strong>{{artifact.name}}</strong></h4>
-    </td>
-    <td>
-        {{#if artifact.editable}}
-                        <label>Identified?
-                            <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified"
-                                data-dtype="Boolean" {{checked artifact.data.identified}} />
-                        </label>
-                    </td>
-                    <td>
-                        <label>Level
-                            <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1"
-                                value="{{artifact.data.level}}" />
-                        </label>
-                        {{else}}
-                        <span>Level</span> {{artifact.data.level}}
-                        {{/if}}
-                        
-                    {{/if}}
-    </td>
-    
-    <td style="width:50%;">
-        <p>
-            <span>Form</span> {{artifact.data.form}}
-        </p>
-        <p>
-            <span>Effect</span> {{artifact.data.effect}}
-        </p>
-        {{#if artifact.data.depletion.isDepleting }}
-        <p>
-            <span>Depletion</span> {{artifact.data.depletion.threshold}} in {{artifact.data.depletion.die}}
-        </p>
-        {{/if}}
-    </td>
-</tbody>
-</table>
+                        <tbody>
+                            <td>
+                                <h4>
+                                    <a><i class="fas fa-grip-vertical handle"></i></a>
+                                </h4>
+                            </td>
+                            
+                            {{#if artifact.showIcon}}
+                            <td class="ability-icon">
+                                <img src="{{artifact.img}}" />
+                            </td>
+                            {{/if}}
+                            <td class="artifact-name">
+                                <h4><strong>{{artifact.name}}</strong></h4>
+                            </td>
+                            <td class="artifact-level">
+                                {{#if artifact.editable}}
+                                <label>Identified?
+                                    <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified"
+                                        data-dtype="Boolean" {{checked artifact.data.identified}} />
+                                </label>
+                                <br />
+                                <label>Level
+                                    <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1"
+                                        value="{{artifact.data.level}}" />
+                                </label>
+                                {{else}}
+                                <span>Level</span> {{artifact.data.level}}
+                                {{/if}}
+                            </td>
 
-<!--
-
+                            <td class="artifact-description">
+                                <p>
+                                    <span><strong>Form:</strong></span> {{artifact.data.form}}
+                                </p>
+                                <p>
+                                    <span><strong>Effect:</strong></span> {{artifact.data.effect}}
+                                </p>
+                                {{#if artifact.data.depletion.isDepleting}}
+                                <p>
+                                    <span><strong>Depletion: </strong></span> {{artifact.data.depletion.threshold}} in
+                                    {{artifact.data.depletion.die}}
+                                </p>
+                                {{/if}}
+                            </td>
+                            <td>
+                                <a class="artifact-delete" data-action="delete" title="Delete"><i
+                                        class="fas fa-trash"></i></a>
+                            </td>
+                        </tbody>
                     </table>
-                    <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
-                    <h4>
-                        <a><i class="fas fa-grip-vertical handle"></i></a>
-                        {{artifact.name}}
-                    </h4>
-                    <p>
-                        {{#if artifact.editable}}
-                        <label>Identified?
-                            <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified"
-                                data-dtype="Boolean" {{checked artifact.data.identified}} />
-                        </label>
-                        <label>Level
-                            <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1"
-                                value="{{artifact.data.level}}" />
-                        </label>
-                        {{else}}
-                        <span>Level</span> {{artifact.data.level}}
-                        {{/if}}
-                    </p>
-                    
-                    {{/if}}-->
                 </li>
                 {{else}}
                 No artifacts.
@@ -428,6 +404,44 @@
             <ul class="oddities">
                 {{#each data.items.oddities as |oddity|}}
                 <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
+                    <table class="oddity-header-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4>
+                                        <a><i class="fas fa-grip-vertical handle"></i></a>
+                                    </h4>
+                                </td>
+                                
+                                {{#if oddity.showIcon}}
+                                <td class="oddity-icon">
+                                    <img src="{{oddity.img}}" />
+                                </td>
+                                {{/if}}
+
+                                <td class="oddity-name">
+                                    <h4><strong>{{oddity.name}}</strong></h4>
+                                </td>
+                                <td class="oddity-description">
+                                    <span>
+                                        {{oddity.data.notes}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a class="oddity-delete" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+
+
+                    <!--
+
+
                     <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                     <h4>
                         <a><i class="fas fa-grip-vertical handle"></i></a>
@@ -436,6 +450,7 @@
                     <span>
                         {{oddity.data.notes}}
                     </span>
+                    -->
                 </li>
                 {{else}}
                 No oddities.
@@ -450,9 +465,11 @@
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
                     </td>
+                    {{#if settings.icons.equipment}}
                     <td>
                         <!-- Extra empty table data for icon-->
                     </td>
+                    {{/if}}
                     <td>Name</td>
                     <td>Type</td>
                     <td>Damage</td>

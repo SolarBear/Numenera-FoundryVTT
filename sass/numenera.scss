@@ -435,8 +435,10 @@ form.numenera {
         border:none;
         padding-bottom:0px;
         margin-bottom:0px;
+        width: 100%;
 
         td {
+            width: 0%;
             padding: 0px;
             margin: 0px;
             padding-left: 4px;
@@ -455,6 +457,31 @@ form.numenera {
         td.ability-icon {
             padding-left:8px;
             padding-right:8px;
+        }
+
+        td.cypher-name, td.artifact-name {
+            width: 15%;
+            text-align: center;
+        }
+
+        td.oddity-name {
+            width: 25%;
+            text-align: center;
+        }
+
+        td.cypher-level, td.artifact-level {
+            width: 25%;
+            text-align: center;
+        }
+
+        td.cypher-description, td.artifact-description {
+            width: 60%;
+            text-align: left;
+        }
+
+        td.oddity-description {
+            width: 75%;
+            text-align: left;
         }
     }
 }
