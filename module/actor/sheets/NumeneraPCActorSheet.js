@@ -420,7 +420,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `Rolling ${artifact.name} artifact depletion<br/>Threshold: ${depletion.threshold}`,
+      flavor: `Depletion roll for ${artifact.name}<br/>Threshold: ${depletion.threshold}`,
     });
   }
 
