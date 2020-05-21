@@ -15,6 +15,22 @@ export const registerSystemSettings = function() {
       2: "Version 2",
     },
   });
+
+  /**
+   * Configure d20-rolling options
+   */
+  game.settings.register("numenera", "d20Rolling", {
+    name: "d20 rolling",
+    hint: "Select the behavior of d20 rolls in your game",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "taskLevels",
+    choices: {
+      "taskLevels": "Output task level success instead of numbers",
+      "straightNumbers": "Output numbers and modifiers as is",
+    },
+  });
   
   /**
    * Configure whether or not to show skill icons
@@ -55,7 +71,7 @@ export const registerSystemSettings = function() {
   /**
    * Configure whether or not to show numenera icons
    */
-  game.settings.register("cypnumeneraher", "showEquipmentIcons", {
+  game.settings.register("numenera", "showEquipmentIcons", {
     name: "Equipment Icons",
     hint: "Enable to show weapon, armor, and miscellaneous item icons in player character sheets",
     scope: "world",
