@@ -193,8 +193,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
 	// Add relevant data from system settings
 	sheetData.settings = { 
 		icons: {} 
-	};
-	// TODO: Ideally we should use these settings here to prevent rendering of DOM elements if the ability icons are not required, but I can't seem to get it to work well.
+  };
+  
 	sheetData.settings.icons.abilities = game.settings.get("cypher", "showAbilityIcons");
 	sheetData.settings.icons.skills = game.settings.get("cypher", "showSkillIcons");
 	sheetData.settings.icons.numenera = game.settings.get("cypher", "showNumeneraIcons");
