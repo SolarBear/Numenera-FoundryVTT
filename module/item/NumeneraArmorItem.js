@@ -4,9 +4,9 @@ export class NumeneraArmorItem extends Item {
     }
 
     prepareData() {
-	    // Override common default icon
-	    if (!this.data.img) this.data.img = 'icons/svg/statue.svg';
-		
+        // Override common default icon
+        if (!this.data.img) this.data.img = 'icons/svg/statue.svg';
+
         super.prepareData();
 
         const itemData = this.data.data || {};
