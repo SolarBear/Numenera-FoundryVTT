@@ -473,7 +473,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (element && element.contains(event.target))
         return;
     }
-
+    
     super._onChangeInput(event);
   }
 }

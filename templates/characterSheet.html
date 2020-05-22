@@ -2,10 +2,8 @@
     <h1 class="character">
         <input type="text" name="name" value="{{actor.name}}" class="charname" placeholder="Type" />
         is a
-        <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor"
-            placeholder="Descriptor" />
-        <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType"
-            data-type="String">
+        <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
+        <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" data-type="String">
         who <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
     </h1>
     <div class="flexcol">
@@ -19,33 +17,28 @@
                     <div class="stats" data-stat="{{id}}">
                         <h2 class="stat">{{id}}</h2>
                         <h3>
-                            Current <input name="data.stats.{{id}}.pool.current" type="text"
-                                value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                            Current <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
                             /
-                            Pool <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}"
-                                class="stats" data-dtype="Number" placeholder="0" />
+                            Pool <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
                         </h3>
 
-                        <h3>Edge <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats"
-                                data-dtype="Number" placeholder="0" /></h3>
+                        <h3>Edge <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats data-dtype="Number" placeholder="0" /></h3>
                     </div>
                     {{/each}}
                 </div>
                 <div class="flexrow">
                     <div class="stats">
-                        <h2>Tier <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1"
-                                max="6" data-dtype="Number" class="tier" />
-                            Effort <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1"
-                                data-dtype="Number" class="tier" />
+                        <h2>Tier <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
+                            Effort <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
                         </h2>
                         <h2>Damage track</h2>
                         <p>
                             <select name="data.damageTrack">
-                                {{#select data.damageTrack}}
-                                {{#each damageTrackData as |track id|}}
+                            {{#select data.damageTrack}}
+                            {{#each damageTrackData as |track id|}}
                                 <option value="{{id}}" data-dtype="Number">{{this.label}}</option>
-                                {{/each}}
-                                {{/select}}
+                            {{/each}}
+                            {{/select}}
                             </select>
                         </p>
                         <p class="description">{{damageTrackDescription}}</p>
@@ -53,15 +46,12 @@
                     <div class="stats advances">
                         <h2>Advancement</h2>
                         <h3>
-                            <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0"
-                                data-dtype="Number" /> XP
+                            <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> XP
                         </h3>
                         <ul>
                             {{#each advances as |advance|}}
                             <li>
-                                <input type="checkbox" name="data.advances.{{advance.name}}"
-                                    id="data.advances.{{advance.name}}" data-dtype="Boolean"
-                                    {{checked advance.isChecked}} />
+                                <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean" {{checked advance.isChecked}} />
                                 <label for="data.advances.{{advance.name}}">{{advance.label}}</label>
                             </li>
                             {{/each}}
@@ -76,8 +66,7 @@
                         <ul>
                             {{#each recoveriesData as |recovery|}}
                             <li>
-                                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}"
-                                    {{checked recovery.checked}} />
+                                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}" {{checked recovery.checked}} />
                                 <label for="recoveries.action">{{recovery.label}}</label>
                             </li>
                             {{/each}}
