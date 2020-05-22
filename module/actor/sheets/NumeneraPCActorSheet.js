@@ -48,8 +48,8 @@ function onItemEditGenerator(editClass, callback = null) {
     else if (!elem.dataset.itemId)
       throw new Error(`No itemID on ${editClass} element`);
 
+    const updated = {_id: elem.dataset.itemId};
 
-    const updated = { _id: elem.dataset.itemId };
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
@@ -441,7 +441,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     if (!artifactId)
       return;
-
+    
     const artifact = this.actor.getOwnedItem(artifactId);
     const depletion = artifact.data.data.depletion;
     if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
