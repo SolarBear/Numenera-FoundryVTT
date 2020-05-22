@@ -20,7 +20,7 @@ const dragulaOptions = {
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
 
 function onItemCreate(itemName, itemClass, callback = null) {
-  return async function () {
+  return async function() {
     event.preventDefault();
 
     const itemData = {
@@ -208,7 +208,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
     sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
-
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges;
@@ -408,7 +407,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       //In case we're dealing with plain objects, they won't have an ID
       if (source.children[i].dataset.itemId)
-        update.push({ _id: source.children[i].dataset.itemId, "data.order": i });
+        update.push({_id: source.children[i].dataset.itemId, "data.order": i});
     }
 
     //updateManyEmbeddedEntities is deprecated now and this function now accepts an array of data
@@ -419,7 +418,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
   async onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
-
     if (!skillId)
       return;
 
@@ -459,7 +457,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const newTotal = this.actor.getTotalArmor();
 
     if (newTotal !== this.actor.data.armor) {
-      this.actor.update({ "data.armor": newTotal });
+      this.actor.update({"data.armor": newTotal});
     }
   }
 
@@ -472,7 +470,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (element && element.contains(event.target))
         return;
     }
-
     super._onChangeInput(event);
   }
 }
