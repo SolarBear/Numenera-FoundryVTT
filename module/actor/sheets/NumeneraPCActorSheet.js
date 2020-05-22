@@ -7,7 +7,7 @@ import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 
-import "../../../lib/dragula/dragula.js";
+import  "../../../lib/dragula/dragula.js";
 
 //Common Dragula options
 const dragulaOptions = {
@@ -418,6 +418,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   async onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
+
     if (!skillId)
       return;
 
@@ -454,11 +455,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   onArmorUpdated(armor) {
-    const newTotal = this.actor.getTotalArmor();
+      const newTotal = this.actor.getTotalArmor();
 
-    if (newTotal !== this.actor.data.armor) {
-      this.actor.update({"data.armor": newTotal});
-    }
+      if (newTotal !== this.actor.data.armor) {
+        this.actor.update({"data.armor": newTotal});
+      }
   }
 
   /*
@@ -470,6 +471,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (element && element.contains(event.target))
         return;
     }
+    
     super._onChangeInput(event);
   }
 }
