@@ -48,6 +48,7 @@ function onItemEditGenerator(editClass, callback = null) {
     else if (!elem.dataset.itemId)
       throw new Error(`No itemID on ${editClass} element`);
 
+
     const updated = { _id: elem.dataset.itemId };
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
@@ -291,6 +292,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
           cypher.data.cypherType = "Unknown";
         }
       }
+
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
       return cypher;
     });
@@ -418,7 +420,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   async onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
-
+  
     if (!skillId)
       return;
 
@@ -471,7 +473,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (element && element.contains(event.target))
         return;
     }
-    
+
     super._onChangeInput(event);
   }
 }
