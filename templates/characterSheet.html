@@ -472,11 +472,11 @@
                         </td>
                     </tr>
                 {{else}}
-            <tr>
-                <td colspan="6">
-                    No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
-                </td>
-            </tr>
+                <tr>
+                    <td colspan="6">
+                        No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
                 {{/each}}
                 </tbody>
             </table>
@@ -534,11 +534,11 @@
                         </td>
                     </tr>
                 {{else}}
-            <tr>
-                <td colspan="6">
-                    No armor yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
-                </td>
-            </tr>
+                <tr>
+                    <td colspan="6">
+                        No armor yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
                 {{/each}}
                 </tbody>
             </table>
@@ -563,13 +563,11 @@
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
                         </td>
-
                     {{#if equipment.showIcon}}
                         <td class="item-icon">
                             <img src="{{equipment.img}}" />
                         </td>
                     {{/if}}
-
                         <td class="equipment-name">
                             <input type="text" name="data.items.equipment.{{equipment._id}}.name" placeholder="Item Name" class="equipment-name-input" value="{{equipment.name}}" />
                         </td>
