@@ -233,6 +233,7 @@
             {{#if displayCypherLimitWarning}}
             <h3 class="cypher-limit-warning">You are over your cypher limit!</h3>
             {{/if}}
+
             <ul class="cyphers">
             {{#each data.items.cyphers as |cypher|}}
                 <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.order}}>
@@ -476,7 +477,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    <td colspan="6">
+                    <td colspan="8">
                         No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
                     </td>
                 </tr>
@@ -538,7 +539,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    <td colspan="6">
+                    <td colspan="8">
                         No armor yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
                     </td>
                 </tr>
@@ -586,7 +587,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    <td colspan="4">
+                    <td colspan="6">
                         No items yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
                     </td>
                 </tr>
