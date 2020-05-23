@@ -9,6 +9,13 @@ const effortObject = {
  */
 export class NumeneraPCActor extends Actor {
 
+  prepareData() {
+    super.prepareData();
+
+    //Armor would sometimes get desynchronized with the armor items, this fixes it
+    this.data.data.armor = this.getTotalArmor();
+  }
+
   getInitiativeFormula() {
     //Check for an initiative skill
     const initSkill = 3 * this.getSkillLevel("Initiative");

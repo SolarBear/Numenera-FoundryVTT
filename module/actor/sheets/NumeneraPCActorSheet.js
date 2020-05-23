@@ -458,12 +458,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
   }
 
-  onArmorUpdated(armor) {
-      const newTotal = this.actor.getTotalArmor();
+  async onArmorUpdated() {
+    const newTotal = this.actor.getTotalArmor();
 
-      if (newTotal !== this.actor.data.armor) {
-        this.actor.update({"data.armor": newTotal});
-      }
+    if (newTotal !== this.actor.data.armor) {
+      await this.actor.update({"data.armor": newTotal});
+      this.render();
+    }
   }
 
   /*
@@ -477,5 +478,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
     
     super._onChangeInput(event);
+  }
+
+  _onDrop(event) {
+    super._onDrop(event);
+    
+    //Necessary because dropping a new armor from the directory would not update the Armor field
+    this.onArmorUpdated();
   }
 }
