@@ -200,6 +200,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const useCypherTypes = (game.settings.get("numenera", "systemVersion") === 1);
     sheetData.displayCypherType = useCypherTypes;
 
+    // Add relevant data from system settings
+    sheetData.settings = {
+      icons: {}
+    };
+
+    sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
+    sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
+    sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
+    sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
+
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges;
     sheetData.stats = NUMENERA.stats;
@@ -266,6 +276,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         artifact.data.effect = "Unknown";
         artifact.data.depletion = null;
       }
+      artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
       return artifact;
     });
 
@@ -282,7 +293,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
         }
       }
 
+      cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
       return cypher;
+    });
+
+    sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+      oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
+      return oddity;
     });
 
     //TODO put ranges, stats, etc. as globally available data for the sheet instead of repeating
@@ -290,12 +307,27 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
+      ability.showIcon = ability.img && sheetData.settings.icons.abilities;
       return ability;
     });
 
     sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
       skill.stats = NUMENERA.stats;
+      skill.showIcon = skill.img && sheetData.settings.icons.skills;
       return skill;
+    });
+
+    sheetData.data.items.weapons = sheetData.data.items.weapons.map(weapon => {
+      weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
+      return weapon;
+    });
+    sheetData.data.items.armor = sheetData.data.items.armor.map(armor => {
+      armor.showIcon = armor.img && sheetData.settings.icons.equipment;
+      return armor;
+    });
+    sheetData.data.items.equipment = sheetData.data.items.equipment.map(equipment => {
+      equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
+      return equipment;
     });
 
     return sheetData;

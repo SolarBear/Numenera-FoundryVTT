@@ -31,4 +31,52 @@ export const registerSystemSettings = function() {
       "straightNumbers": "Output numbers and modifiers as is",
     },
   });
+  
+  /**
+   * Configure whether or not to show skill icons
+   */
+  game.settings.register("numenera", "showSkillIcons", {
+    name: "Skill Icons",
+    hint: "Enable to show skill icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+  
+  /**
+   * Configure whether or not to show ability icons
+   */
+  game.settings.register("numenera", "showAbilityIcons", {
+    name: "Ability Icons",
+    hint: "Enable to show ability icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+  
+  /**
+   * Configure whether or not to show numenera icons
+   */
+  game.settings.register("numenera", "showNumeneraIcons", {
+    name: "Numenera Icons",
+    hint: "Enable to show cypher, artifact, and oddity icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+  
+  /**
+   * Configure whether or not to show numenera icons
+   */
+  game.settings.register("numenera", "showEquipmentIcons", {
+    name: "Equipment Icons",
+    hint: "Enable to show weapon, armor, and miscellaneous item icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
 }
