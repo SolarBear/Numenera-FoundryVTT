@@ -302,6 +302,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return oddity;
     });
 
+    sheetData.displayCypherLimitWarning = this.actor.isOverCypherLimit();
+
     //TODO put ranges, stats, etc. as globally available data for the sheet instead of repeating
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
       ability.nocost = (ability.data.cost.amount <= 0);
