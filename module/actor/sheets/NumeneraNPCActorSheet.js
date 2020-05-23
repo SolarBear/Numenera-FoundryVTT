@@ -172,5 +172,8 @@ export class NumeneraNPCActorSheet extends ActorSheet {
 
     // Update the Actor
     await this.object.update(formData);
+
+    //In case the NPC level changed, re-render the ActorDirectory
+    ui.actors.render();
   }
 }

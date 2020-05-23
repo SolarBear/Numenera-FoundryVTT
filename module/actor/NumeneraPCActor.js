@@ -9,6 +9,13 @@ const effortObject = {
  */
 export class NumeneraPCActor extends Actor {
 
+  prepareData() {
+    super.prepareData();
+
+    //Armor would sometimes get desynchronized with the armor items, this fixes it
+    this.data.data.armor = this.getTotalArmor();
+  }
+
   getInitiativeFormula() {
     //Check for an initiative skill
     const initSkill = 3 * this.getSkillLevel("Initiative");
@@ -120,6 +127,32 @@ export class NumeneraPCActor extends Actor {
   getTotalArmor() {
     return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "armor")
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
+  }
+
+  isOverCypherLimit() {
+    const cyphers = this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "cypher");
+
+    switch (game.settings.get("numenera", "systemVersion")) {
+      case 1:
+        return this._isOverCypherLimitv1(cyphers);
+
+      case 2:
+        return this._isOverCypherLimitv2(cyphers);
+
+      default:
+        throw new Error("Unhandled version");
+    }
+  }
+
+  _isOverCypherLimitv1(cyphers) {
+    //In v1 parlance, occultic cyphers count as 2
+    return this.data.data.cypherLimit < cyphers.reduce((acc, cypher) =>
+      acc + (cypher.data.cypherType === "Occultic" ?  2 : 1)
+    , 0);
+  }
+
+  _isOverCypherLimitv2(cyphers) {
+    return this.data.data.cypherLimit < cyphers.length;
   }
 
   /**

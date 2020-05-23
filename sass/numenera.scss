@@ -208,6 +208,10 @@ form.numenera {
                 }
             }
 
+            h3.cypher-limit-warning {
+                font-weight: bold;
+            }
+
             input.cypher-type {
                 width: auto;
             }
@@ -229,7 +233,6 @@ form.numenera {
 
                 button.roll {
                     margin-left: 1em;
-                    background-image: url("/icons/svg/d20-grey.svg"); //!important
                 }
             }
         }
@@ -432,5 +435,76 @@ form.numenera {
         border-color: $border-color;
         border-width: 0px 1px 1px 0px;
         border-radius: 20px;
+    }
+	
+	#pc-sheet-body .item-icon {
+	    padding-left: 0px;
+		padding-right: 0px;
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+	
+	#pc-sheet-body img {
+		max-width: 42px;
+		border: none;
+    }
+    
+    .gu-mirror .item-icon img {
+        width: 42px !important; 
+    }
+
+    table.cypher-header-table, table.artifact-header-table, table.oddity-header-table {
+        background-color: transparent;
+        border:none;
+        padding-bottom:0px;
+        margin-bottom:0px;
+        width: 100%;
+
+        td {
+            width: 0%;
+            padding: 0px;
+            margin: 0px;
+            padding-left: 4px;
+            padding-right: 4px;
+            font-weight:normal;
+            font-size:1em;
+            text-align: center;
+            vertical-align: center;
+        }
+
+        td h4 {
+            font-weight: bold;
+            font-size: 1.3em !important;
+        }
+
+        td.ability-icon {
+            padding-left:8px;
+            padding-right:8px;
+        }
+
+        td.cypher-name, td.artifact-name {
+            width: 15%;
+            text-align: center;
+        }
+
+        td.oddity-name {
+            width: 25%;
+            text-align: center;
+        }
+
+        td.cypher-level, td.artifact-level {
+            width: 25%;
+            text-align: center;
+        }
+
+        td.cypher-description, td.artifact-description {
+            width: 60%;
+            text-align: left;
+        }
+
+        td.oddity-description {
+            width: 75%;
+            text-align: left;
+        }
     }
 }
