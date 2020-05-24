@@ -450,7 +450,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
 
     const roll = new Roll(depletion.die).roll();
-    const depleted = (roll.total <= depletion.threshold);
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
