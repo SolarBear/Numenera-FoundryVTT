@@ -9,6 +9,7 @@
     "styles": ["numenera.css", "lib/dragula/dragula.min.css"],
     "packs": [],
     "languages": ["en"],
+    "socket": true,
     "compatibleCoreVersion": "0.6.0",
     "minimumCoreVersion" : "0.5.5",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",

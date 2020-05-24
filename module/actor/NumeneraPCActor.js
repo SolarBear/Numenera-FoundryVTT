@@ -129,6 +129,28 @@ export class NumeneraPCActor extends Actor {
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
   }
 
+  async onGMIntrusion(accepted) {
+    let xp = this.data.data.xp;
+    let choiceVerb;
+
+    if (accepted) {
+      xp++;
+      choiceVerb = "accepts";
+    } else {
+      xp--;
+      choiceVerb = "refuses";
+    }
+
+    this.update({
+      _id: this._id,
+      "data.xp": xp,
+    });
+
+    ChatMessage.create({
+      content: `<h2>GM Intrusion</h2><br/>${this.data.name} ${choiceVerb} the intrusion`,
+    });
+  }
+
   isOverCypherLimit() {
     const cyphers = this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "cypher");
 
