@@ -3,12 +3,6 @@ import { NumeneraNPCActor } from './module/actor/NumeneraNPCActor.js';
 import { NumeneraNPCActorSheet } from './module/actor/sheets/NumeneraNPCActorSheet.js';
 import { NumeneraPCActorSheet } from './module/actor/sheets/NumeneraPCActorSheet.js';
 
-import { NUMENERA } from './module/config.js';
-import { getInitiativeFormula, rollInitiative } from './module/combat.js';
-import { rollText } from './module/roll.js';
-import { preloadHandlebarsTemplates } from './module/templates.js';
-import { registerSystemSettings } from './module/settings.js';
-
 import { NumeneraItem } from './module/item/NumeneraItem.js';
 import { NumeneraAbilityItemSheet } from './module/item/sheets/NumeneraAbilityItemSheet.js';
 import { NumeneraArmorItemSheet } from './module/item/sheets/NumeneraArmorItemSheet.js';
@@ -19,7 +13,14 @@ import { NumeneraOddityItemSheet } from './module/item/sheets/NumeneraOddityItem
 import { NumeneraSkillItemSheet } from './module/item/sheets/NumeneraSkillItemSheet.js';
 import { NumeneraWeaponItemSheet } from './module/item/sheets/NumeneraWeaponItemSheet.js';
 
+
+import { NUMENERA } from './module/config.js';
+import { getInitiativeFormula, rollInitiative } from './module/combat.js';
+import { rollText } from './module/roll.js';
+import { preloadHandlebarsTemplates } from './module/templates.js';
+import { registerSystemSettings } from './module/settings.js';
 import { migrateWorld } from './module/migrations/migrate.js';
+import { numeneraSocketListeners } from './module/socket.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -53,6 +54,8 @@ Hooks.once("init", function() {
     registerSystemSettings();
     preloadHandlebarsTemplates();
 });
+
+//TODO cleanup the functions here, it's gonna get messy real quick
   
 /*
 Display an NPC's difficulty between parentheses in the Actors list
@@ -84,6 +87,9 @@ Hooks.on('renderCompendium', async (app, html, options) => {
 });
 
 Hooks.on("renderChatMessage", (app, html, data) => {
+    if (!data.message.roll)
+        return;
+
     const roll = JSON.parse(data.message.roll);
 
     //Don't apply ChatMessage enhancement to recovery rolls
@@ -120,6 +126,45 @@ Hooks.on("renderChatMessage", (app, html, data) => {
 });
 
 /**
+ * Add additional system-specific sidebar directory context menu options for D&D5e Actor entities
+ * @param {jQuery} html         The sidebar HTML
+ * @param {Array} entryOptions  The default array of context menu options
+ */
+Hooks.on("getActorDirectoryEntryContext", (html, entryOptions) => {
+    entryOptions.push({
+        name: "GM Intrusion",
+        icon: '<i class="fas fa-exclamation-circle"></i>',
+        callback: li => {
+            const actor = game.actors.get(li.data("entityId"));
+            const ownerIds = Object.entries(actor.data.permission)
+                .filter(entry => {
+                    const [id, permissionLevel] = entry;
+                    return permissionLevel >= ENTITY_PERMISSIONS.OWNER
+                        && id !== game.user.id
+                })
+                .map(usersPermissions => usersPermissions[0]);
+
+            game.socket.emit("system.numenera", {type: "gmIntrusion", data: {
+                userIds: ownerIds,
+                actorId: actor.data._id,
+            }});
+
+            ChatMessage.create({
+                content: `<h2>GM Intrusion</h2><br/>The GM offers an intrusion to ${actor.data.name}`,
+            });
+        },
+        condition: li => {
+            if (!game.user.isGM)
+                return false;
+
+            const actor = game.actors.get(li.data("entityId"));
+            return actor && actor.data.type === "pc";
+        }
+    });
+});
+
+/**
  * Once the entire VTT framework is initialized, check to see if we should perform a data migration
  */
 Hooks.once("ready", migrateWorld);
+Hooks.once("ready", numeneraSocketListeners);
