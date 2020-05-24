@@ -87,6 +87,9 @@ Hooks.on('renderCompendium', async (app, html, options) => {
 });
 
 Hooks.on("renderChatMessage", (app, html, data) => {
+    if (!data.message.roll)
+        return;
+
     const roll = JSON.parse(data.message.roll);
 
     //Don't apply ChatMessage enhancement to recovery rolls
