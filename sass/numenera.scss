@@ -325,11 +325,15 @@ form.numenera {
     }
 
     div.description  {
-        height: 450px;
+        height: 425px;
         
         .editor {
             height: 100%;
-          }
+        }
+
+        button#save-bio {
+            width: 99%;
+        }
     }
 
     div.item {
