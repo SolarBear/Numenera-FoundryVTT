@@ -139,6 +139,7 @@
         },
         "skill": {
             "templates": ["common"],
+            "relatedAbilityId": null,
             "stat": "",
             "inability": false,
             "untrained": true,

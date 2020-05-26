@@ -1,6 +1,5 @@
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
-import { numeneraRoll } from "../../roll.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
 import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
@@ -349,6 +348,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
+    abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
 
     const armorTable = html.find("table.armor");
     armorTable.on("click", ".armor-create", this.onArmorCreate.bind(this));
@@ -419,22 +419,28 @@ export class NumeneraPCActorSheet extends ActorSheet {
       await this.object.updateEmbeddedEntity("OwnedItem", update);
   }
 
-  async onSkillUse(event) {
+  onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
   
-    if (!skillId)
+    return this.actor.rollSkill(skillId);
+  }
+
+  onAbilityUse(event) {
+    event.preventDefault();
+    const abilityId = event.target.closest(".ability").dataset.itemId;
+  
+    if (!abilityId)
       return;
 
-    const skill = this.actor.getOwnedItem(skillId);
-    const skillLevel = this.actor.getSkillLevel(skill);
+    //Get related skill
+    const skill = this.actor.data.items.find(i => i.data.relatedAbilityId === abilityId);
+    if (!skill) {
+      ui.notifications.warn("No skill related to that ability");
+      return;
+    }
 
-    const roll = numeneraRoll(skillLevel);
-
-    roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `Rolling ${skill.name}`,
-    });
+    return this.actor.rollSkill(skill._id);
   }
 
   onArtifactDepletionRoll(event) {
