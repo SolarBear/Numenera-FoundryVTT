@@ -163,6 +163,29 @@ Hooks.on("getActorDirectoryEntryContext", (html, entryOptions) => {
     });
 });
 
+
+Hooks.on("renderToken", (app, html, options, options2, options3) => {
+    console.log("renderToken");
+});
+
+/*
+Hooks.on("createToken", (app, html, options, options2, options3) => {
+    console.log("createToken");
+});
+
+Hooks.on("preCreateToken", (app, html, options, options2, options3) => {
+    console.log("preCreateToken");
+});
+*/
+
+Hooks.on("preUpdateToken", (scene, token, options) => {
+    console.log("preUpdateToken");
+});
+
+Hooks.on("updateToken", (scene, token, options) => {
+    console.log("updateToken");
+});
+
 /**
  * Once the entire VTT framework is initialized, check to see if we should perform a data migration
  */
