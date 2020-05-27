@@ -440,7 +440,7 @@
                             <select name="data.items.weapons.{{weapon._id}}.data.weight" class="weapon-weight">
                             {{#select weapon.data.weight}}
                             {{#each ../weights}}
-                                <option value="{{this}}">{{this}}</option>
+                                <option value="{{this}}">{{localize this}}</option>
                             {{/each}}
                             {{/select}}
                             </select>
@@ -449,7 +449,7 @@
                             {{#select weapon.data.weaponType}}
                             {{#each ../weaponTypes}}
                                 <option value="{{this}}">
-                                    {{this}}
+                                    {{localize this}}
                                 </option>
                             {{/each}}
                             {{/select}}
