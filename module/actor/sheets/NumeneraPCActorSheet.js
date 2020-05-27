@@ -89,10 +89,11 @@ function onItemDeleteGenerator(deleteType, callback = null) {
     if (await confirmDeletion(deleteType)) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
+      const toDelete = this.actor.data.items.find(i => i._id === itemId);
       this.actor.deleteOwnedItem(itemId);
 
       if (callback)
-        callback();
+        callback(toDelete);
     }
   }
 }
@@ -167,13 +168,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onWeaponEdit = onItemEditGenerator(".weapon");
 
     //Delete event handlers
-    this.onAbilityDelete = onItemDeleteGenerator("ability");
+    this.onAbilityDelete = onItemDeleteGenerator("ability", this.onAbilityDeleted.bind(this));
     this.onArmorDelete = onItemDeleteGenerator("armor", this.onArmorUpdated.bind(this));
     this.onArtifactDelete = onItemDeleteGenerator("artifact");
     this.onCypherDelete = onItemDeleteGenerator("cypher");
     this.onEquipmentDelete = onItemDeleteGenerator("equipment");
     this.onOddityDelete = onItemDeleteGenerator("oddity");
-    this.onSkillDelete = onItemDeleteGenerator("skill");
+    this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon");
   }
 
@@ -470,6 +471,24 @@ export class NumeneraPCActorSheet extends ActorSheet {
       await this.actor.update({"data.armor": newTotal});
       this.render();
     }
+  }
+
+  onAbilityDeleted(ability) {
+    if (
+      ability &&
+      this.actor.data.items.find(i => i.type === "skill" &&
+      i.data.relatedAbilityId === ability._id)
+    )
+      ui.notifications.warn("A Skill with the same name also exists: delete it if required");
+  }
+
+  onSkillDeleted(skill) {
+    if (
+      skill &&
+      skill.data.relatedAbilityId &&
+      this.actor.data.items.find(i => i._id === skill.data.relatedAbilityId)
+    )
+      ui.notifications.warn("An Ability with the same name also exists: delete it if required");
   }
 
   /*

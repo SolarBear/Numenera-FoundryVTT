@@ -242,7 +242,6 @@ rollSkill(skillId) {
 
     const newItem = await super.createEmbeddedEntity(...args);
 
-    //Prepare numenera items by rolling their level, if they don't have one already
     switch (data.type) {
       case "ability":
         const actorAbility = newItem;
@@ -278,7 +277,6 @@ rollSkill(skillId) {
             relatedAbilityId: actorAbility._id,
           };
 
-          //TODO ca, ca fonctionne juste pas (skill cree mais pas de stat, pas de related)
           const itemData = {
             name: actorAbility.name,
             type: "skill",
@@ -297,12 +295,18 @@ rollSkill(skillId) {
     return newItem;
   }
 
-  async updateEmbeddedEntity(...args) {
-    const updated = await super.updateEmbeddedEntity(...args);
+  async updateEmbeddedEntity(embeddedName, data, options={}) {
+    const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
+
     const updatedItem = this.getOwnedItem(updated._id);
 
     if (!updatedItem)
       return;
+
+    //TODO I AM A HACK PLEASE DESTROY ME I DO NOT DESERVE TO EXIST THANK U :)
+    //... or maybe not. It's not elegant but it works well to avoid recursing
+    if (options.fromActorUpdateEmbeddedEntity)
+      return updated;
 
     switch (updatedItem.type) {
       case "ability":
@@ -314,7 +318,10 @@ rollSkill(skillId) {
         if (!ability)
           break;
 
-        ability.updateRelatedSkill(relatedSkill);
+        if (!options.fromActorUpdateEmbeddedEntity)
+          options.fromActorUpdateEmbeddedEntity = "ability";
+
+        ability.updateRelatedSkill(relatedSkill, options);
         break;
 
       case "skill":
@@ -329,7 +336,10 @@ rollSkill(skillId) {
         if (!relatedAbility)
           break;
 
-        skill.updateRelatedAbility(relatedAbility);
+        if (!options.fromActorUpdateEmbeddedEntity)
+          options.fromActorUpdateEmbeddedEntity = "skill";
+
+        skill.updateRelatedAbility(relatedAbility, options);
         break;
     }
   }

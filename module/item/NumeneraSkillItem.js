@@ -19,16 +19,23 @@ export class NumeneraSkillItem extends Item {
       itemData.specialized = itemData.specialized || false;
   }
 
-  async updateRelatedAbility(ability) {
+  async updateRelatedAbility(ability, options = {}) {
     //If it is not owned by an Actor, it has no related skill
     if (!this.actor || !ability)
+      return;
+
+    if (
+      ability.data.data.cost.pool === this.data.data.stat &&
+      ability.data.name === this.data.name
+    )
       return;
 
     const updated = await ability.update({
       _id: ability._id,
       name: this.name,
-      "data.data.cost.pool": this.data.stat,
-    });
+      "data.cost.pool": this.data.data.stat,
+    },
+    options);
 
     ui.notifications.info("Related ability information updated");
 

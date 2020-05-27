@@ -23,9 +23,15 @@ export class NumeneraAbilityItem extends Item {
       itemData.notes = itemData.notes || "";
   }
 
-  async updateRelatedSkill(skill) {
+  async updateRelatedSkill(skill, options = {}) {
     //If it is not owned by an Actor, it has no related skill
     if (!this.actor || !skill)
+      return;
+
+    if (
+      skill.data.data.stat === this.data.data.cost.pool &&
+      skill.data.name === this.data.name
+    ) 
       return;
 
     const updated = await skill.update({
@@ -33,7 +39,8 @@ export class NumeneraAbilityItem extends Item {
       name: this.name,
       "data.relatedAbilityId": this._id,
       "data.stat": this.data.data.cost.pool,
-    });
+    },
+    options);
 
     ui.notifications.info("Related skill information updated");
 
