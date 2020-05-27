@@ -1,3 +1,5 @@
+/// <reference path="foundry.js">
+
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
@@ -5,7 +7,6 @@ import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
 import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
-import { CypherPCToken } from "../CypherPCToken.js";
 
 import  "../../../lib/dragula/dragula.js";
 
@@ -528,23 +529,5 @@ export class NumeneraPCActorSheet extends ActorSheet {
         this.onArmorUpdated();
         return;
     }
-  }
-
-  _onConfigureToken(event) {
-    // TODO: Okay, so here is where the token is actually created. So here we need to make sure we instantiate a custom class instead of the default
-    // Custom class will fix all the drawing crap.
-    console.log("HECK YEAH");
-
-    event.preventDefault();
-
-    // Determine the Token for which to configure
-    const token = this.token || new CypherPCToken(this.actor.data.token);
-
-    // Render the Token Config application
-    new TokenConfig(token, {
-      left: Math.max(this.position.left - 560 - 10, 10),
-      top: this.position.top,
-      configureDefault: !this.token
-    }).render(true);
   }
 }
