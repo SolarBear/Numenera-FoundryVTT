@@ -33,7 +33,7 @@
                         </h2>
                         <h2>Damage track</h2>
                         <p>
-                            <select name="data.damageTrack">
+                            <select name="data.damageTrack" data-dtype="Number">
                             {{#select data.damageTrack}}
                             {{#each damageTrackData as |track id|}}
                                 <option value="{{id}}" data-dtype="Number">{{this.label}}</option>

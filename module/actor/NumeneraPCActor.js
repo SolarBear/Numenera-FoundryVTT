@@ -50,7 +50,7 @@ export class NumeneraPCActor extends Actor {
       return stat.pool.current === 0;
     }).length;
   }
-  
+
   /**
    * Given a skill ID, fetch the skill level bonus and roll a d20, adding the skill
    * bonus.
@@ -62,6 +62,16 @@ export class NumeneraPCActor extends Actor {
   rollSkill(skillId) {
     if (!skillId)
       return;
+
+    switch (this.data.data.damageTrack) {
+      case 2:
+        ui.notifications.warn("Cannot attempt roll: your character is Debilitated.");
+        return;
+
+      case 3:
+        ui.notifications.warn("Cannot attempt roll: your character is Dead.");
+        return;
+    }
   
     const skill = this.getOwnedItem(skillId);
     const skillLevel = this.getSkillLevel(skill);
