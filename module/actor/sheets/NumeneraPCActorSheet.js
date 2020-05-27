@@ -18,13 +18,22 @@ const dragulaOptions = {
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
 
-function onItemCreate(itemName, itemClass, callback = null) {
-  return async function() {
+/**
+ * Higher order function that generates an item creation handler.
+ *
+ * @param {String} itemType The type of the Item (eg. 'ability', 'cypher', etc.)
+ * @param {*} itemClass 
+ * @param {*} [callback=null]
+ * @returns
+ */
+function onItemCreate(itemType, itemClass, callback = null) {
+  return async function(event = null) {
+    if (event)
     event.preventDefault();
 
     const itemData = {
-      name: `New ${itemName.capitalize()}`,
-      type: itemName,
+      name: `New ${itemType.capitalize()}`,
+      type: itemType,
       data: new itemClass({}),
     };
 
@@ -138,7 +147,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
         {
           navSelector: ".tabs",
           contentSelector: "#pc-sheet-body",
-          initial: "features"
         },
       ],
     });
@@ -415,7 +423,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
         update.push({_id: source.children[i].dataset.itemId, "data.order": i});
     }
 
-    //updateManyEmbeddedEntities is deprecated now and this function now accepts an array of data
     if (update.length > 0)
       await this.object.updateEmbeddedEntity("OwnedItem", update);
   }
@@ -423,7 +430,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
-  
+
     return this.actor.rollSkill(skillId);
   }
 
@@ -507,7 +514,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
   _onDrop(event) {
     super._onDrop(event);
     
-    //Necessary because dropping a new armor from the directory would not update the Armor field
-    this.onArmorUpdated();
+    const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
+
+    if (type !== "Item")
+      return;
+
+    const item = Item.collection.entities.find(i => i._id == id)
+
+    switch (item.data.type) {
+      case "armor":
+        //Necessary because dropping a new armor from the directory would not update the Armor field
+        this.onArmorUpdated();
+        return;
+    }
   }
 }

@@ -144,7 +144,7 @@
             "inability": false,
             "untrained": true,
             "trained": false,
-            "specialization": false
+            "specialized": false
         },
         "weapon": {
             "templates": ["common", "ranged", "sellable", "weight"],

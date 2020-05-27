@@ -50,15 +50,16 @@ export class NumeneraPCActor extends Actor {
       return stat.pool.current === 0;
     }).length;
   }
-/**
- * Given a skill ID, fetch the skill level bonus and roll a d20, adding the skill
- * bonus.
- *
- * @param {String} skillId
- * @returns
- * @memberof NumeneraPCActor
- */
-rollSkill(skillId) {
+  
+  /**
+   * Given a skill ID, fetch the skill level bonus and roll a d20, adding the skill
+   * bonus.
+   *
+   * @param {String} skillId
+   * @returns
+   * @memberof NumeneraPCActor
+   */
+  rollSkill(skillId) {
     if (!skillId)
       return;
   
