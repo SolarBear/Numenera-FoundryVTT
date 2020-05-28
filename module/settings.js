@@ -13,6 +13,7 @@ export const registerSystemSettings = function() {
     choices: {
       1: "Version 1",
       2: "Version 2",
+      3: "The Strange",
     },
   });
 
