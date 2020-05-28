@@ -1,3 +1,5 @@
+import { numeneraRoll } from "../roll.js";
+
 const effortObject = {
   cost: 0,
   effortLevel: 0,
@@ -48,7 +50,40 @@ export class NumeneraPCActor extends Actor {
       return stat.pool.current === 0;
     }).length;
   }
+
+  /**
+   * Given a skill ID, fetch the skill level bonus and roll a d20, adding the skill
+   * bonus.
+   *
+   * @param {String} skillId
+   * @returns
+   * @memberof NumeneraPCActor
+   */
+  rollSkill(skillId) {
+    if (!skillId)
+      return;
+
+    switch (this.data.data.damageTrack) {
+      case 2:
+        ui.notifications.warn("Cannot attempt roll: your character is Debilitated.");
+        return;
+
+      case 3:
+        ui.notifications.warn("Cannot attempt roll: your character is Dead.");
+        return;
+    }
   
+    const skill = this.getOwnedItem(skillId);
+    const skillLevel = this.getSkillLevel(skill);
+
+    const roll = numeneraRoll(skillLevel);
+
+    roll.toMessage({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor: `Rolling ${skill.name}`,
+    });
+  }
+
   /**
    * Given a skill ID, return this skill's modifier as a a numeric value.
    *
@@ -187,8 +222,12 @@ export class NumeneraPCActor extends Actor {
   async createEmbeddedEntity(...args) {
     const [_, data] = args;
 
+    if (!data.data) return;
+
     //Prepare numenera items by rolling their level, if they don't have one already
-    if (data.data && ['artifact', 'cypher'].indexOf(data.type) !== -1) {
+    switch (data.type) {
+      case "artifact":
+      case "cypher":
       const itemData = data.data;
 
       if (!itemData.level && itemData.levelDie) {  
@@ -199,20 +238,120 @@ export class NumeneraPCActor extends Actor {
                 _id: this._id,
                 "data.level": itemData.level,
             });
-        }
-        catch (Error) {
+          } catch (Error) {
             try {
-                itemData.level = parseInt(itemData.level)
-            }
-            catch (Error) {
+              itemData.level = parseInt(itemData.level);
+            } catch (Error) {
                 //Leave it as it is
             }
         }
       } else {
           itemData.level = itemData.level || null;
       }
+        break;
     }
 
-    return super.createEmbeddedEntity(...args);
+    const newItem = await super.createEmbeddedEntity(...args);
+
+    switch (data.type) {
+      case "ability":
+        const actorAbility = newItem;
+
+        if (!actorAbility) throw new Error("No related ability exists");
+
+        //Now check if a skill with the same name already exists
+        const relatedSkill = this.items.find(
+          (i) => i.data.type === "skill" && i.data.name === actorAbility.name
+        );
+
+        if (relatedSkill) {
+          if (relatedSkill.relatedAbilityId)
+            throw new Error(
+              "Skill related to new abiltiy already has a skill linked to it"
+            );
+
+          //A skil already has the same name as the ability
+          //This is certainly the matching skill, no need to create a new one
+          const updated = {
+            _id: relatedSkill.data._id,
+            "data.relatedAbilityId": actorAbility._id,
+          };
+          await this.updateEmbeddedEntity("OwnedItem", updated);
+
+          ui.notifications.info(
+            `The ability had been linked to the skill bearing the same name`
+          );
+        } else {
+          //Create a related skill if one does not already exist
+          const skillData = {
+            stat: actorAbility.data.cost.pool,
+            relatedAbilityId: actorAbility._id,
+          };
+
+          const itemData = {
+            name: actorAbility.name,
+            type: "skill",
+            data: skillData,
+          };
+
+          await this.createOwnedItem(itemData);
+
+          ui.notifications.info(
+            `A skill with the same name linked to this ability has also been created`
+          );
+        }
+        break;
+    }
+
+    return newItem;
+  }
+
+  async updateEmbeddedEntity(embeddedName, data, options={}) {
+    const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
+
+    const updatedItem = this.getOwnedItem(updated._id);
+
+    if (!updatedItem)
+      return;
+
+    //TODO I AM A HACK PLEASE DESTROY ME I DO NOT DESERVE TO EXIST THANK U :)
+    //... or maybe not. It's not elegant but it works well to avoid recursing
+    if (options.fromActorUpdateEmbeddedEntity)
+      return updated;
+
+    switch (updatedItem.type) {
+      case "ability":
+        const relatedSkill = this.items.find(i => i.data.data.relatedAbilityId === updatedItem._id);
+        if (!relatedSkill)
+          break;
+
+        const ability = this.getOwnedItem(relatedSkill.data.data.relatedAbilityId);
+        if (!ability)
+          break;
+
+        if (!options.fromActorUpdateEmbeddedEntity)
+          options.fromActorUpdateEmbeddedEntity = "ability";
+
+        ability.updateRelatedSkill(relatedSkill, options);
+        break;
+
+      case "skill":
+        if (!updatedItem.data.data.relatedAbilityId)
+          break;
+
+        const skill = this.getOwnedItem(updatedItem._id);
+        if (!skill)
+          break;
+
+        const relatedAbility = this.items.find(i => i.data._id === skill.data.data.relatedAbilityId);
+        if (!relatedAbility)
+          break;
+
+        if (!options.fromActorUpdateEmbeddedEntity)
+          options.fromActorUpdateEmbeddedEntity = "skill";
+
+        skill.updateRelatedAbility(relatedAbility, options);
+        break;
+    }
   }
 }

@@ -1,6 +1,5 @@
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
-import { numeneraRoll } from "../../roll.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
 import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
@@ -19,13 +18,22 @@ const dragulaOptions = {
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
 
-function onItemCreate(itemName, itemClass, callback = null) {
-  return async function() {
+/**
+ * Higher order function that generates an item creation handler.
+ *
+ * @param {String} itemType The type of the Item (eg. 'ability', 'cypher', etc.)
+ * @param {*} itemClass 
+ * @param {*} [callback=null]
+ * @returns
+ */
+function onItemCreate(itemType, itemClass, callback = null) {
+  return async function(event = null) {
+    if (event)
     event.preventDefault();
 
     const itemData = {
-      name: `New ${itemName.capitalize()}`,
-      type: itemName,
+      name: `New ${itemType.capitalize()}`,
+      type: itemType,
       data: new itemClass({}),
     };
 
@@ -90,10 +98,11 @@ function onItemDeleteGenerator(deleteType, callback = null) {
     if (await confirmDeletion(deleteType)) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
+      const toDelete = this.actor.data.items.find(i => i._id === itemId);
       this.actor.deleteOwnedItem(itemId);
 
       if (callback)
-        callback();
+        callback(toDelete);
     }
   }
 }
@@ -138,7 +147,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
         {
           navSelector: ".tabs",
           contentSelector: "#pc-sheet-body",
-          initial: "features"
         },
       ],
     });
@@ -168,13 +176,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onWeaponEdit = onItemEditGenerator(".weapon");
 
     //Delete event handlers
-    this.onAbilityDelete = onItemDeleteGenerator("ability");
+    this.onAbilityDelete = onItemDeleteGenerator("ability", this.onAbilityDeleted.bind(this));
     this.onArmorDelete = onItemDeleteGenerator("armor", this.onArmorUpdated.bind(this));
     this.onArtifactDelete = onItemDeleteGenerator("artifact");
     this.onCypherDelete = onItemDeleteGenerator("cypher");
     this.onEquipmentDelete = onItemDeleteGenerator("equipment");
     this.onOddityDelete = onItemDeleteGenerator("oddity");
-    this.onSkillDelete = onItemDeleteGenerator("skill");
+    this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon");
   }
 
@@ -349,6 +357,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
+    abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
 
     const armorTable = html.find("table.armor");
     armorTable.on("click", ".armor-create", this.onArmorCreate.bind(this));
@@ -414,27 +423,32 @@ export class NumeneraPCActorSheet extends ActorSheet {
         update.push({_id: source.children[i].dataset.itemId, "data.order": i});
     }
 
-    //updateManyEmbeddedEntities is deprecated now and this function now accepts an array of data
     if (update.length > 0)
       await this.object.updateEmbeddedEntity("OwnedItem", update);
   }
 
-  async onSkillUse(event) {
+  onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
+
+    return this.actor.rollSkill(skillId);
+  }
+
+  onAbilityUse(event) {
+    event.preventDefault();
+    const abilityId = event.target.closest(".ability").dataset.itemId;
   
-    if (!skillId)
+    if (!abilityId)
       return;
 
-    const skill = this.actor.getOwnedItem(skillId);
-    const skillLevel = this.actor.getSkillLevel(skill);
+    //Get related skill
+    const skill = this.actor.data.items.find(i => i.data.relatedAbilityId === abilityId);
+    if (!skill) {
+      ui.notifications.warn("No skill related to that ability");
+      return;
+    }
 
-    const roll = numeneraRoll(skillLevel);
-
-    roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `Rolling ${skill.name}`,
-    });
+    return this.actor.rollSkill(skill._id);
   }
 
   onArtifactDepletionRoll(event) {
@@ -466,6 +480,24 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
+  onAbilityDeleted(ability) {
+    if (
+      ability &&
+      this.actor.data.items.find(i => i.type === "skill" &&
+      i.data.relatedAbilityId === ability._id)
+    )
+      ui.notifications.warn("A Skill with the same name also exists: delete it if required");
+  }
+
+  onSkillDeleted(skill) {
+    if (
+      skill &&
+      skill.data.relatedAbilityId &&
+      this.actor.data.items.find(i => i._id === skill.data.relatedAbilityId)
+    )
+      ui.notifications.warn("An Ability with the same name also exists: delete it if required");
+  }
+
   /*
   Override the base method to handle some of the values ourselves
   */
@@ -482,7 +514,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
   _onDrop(event) {
     super._onDrop(event);
     
-    //Necessary because dropping a new armor from the directory would not update the Armor field
-    this.onArmorUpdated();
+    const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
+
+    if (type !== "Item")
+      return;
+
+    const item = Item.collection.entities.find(i => i._id == id)
+
+    switch (item.data.type) {
+      case "armor":
+        //Necessary because dropping a new armor from the directory would not update the Armor field
+        this.onArmorUpdated();
+        return;
+    }
   }
 }

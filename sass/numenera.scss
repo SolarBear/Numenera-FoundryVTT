@@ -274,11 +274,15 @@ form.numenera {
 
             &.equipment {
                 input.equipment-name-input {
-                    width: auto;
+                    width: 100%;
                 }
     
                 input.equipment-quantity {
                     width: 3em;
+                }
+
+                input.equipment-notes {
+                    width: 100%;
                 }
             }
 
