@@ -1,5 +1,3 @@
-/// <reference path="foundry.js">
-
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
