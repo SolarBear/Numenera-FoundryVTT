@@ -1,30 +1,30 @@
 export const NUMENERA = {};
 
-NUMENERA.weightClasses = [
-  "NUMENERA.weightClasses.Light",
-  "NUMENERA.weightClasses.Medium",
-  "NUMENERA.weightClasses.Heavy",
-];
+NUMENERA.weightClasses = {
+  "Light": "NUMENERA.weightClasses.Light",
+  "Medium": "NUMENERA.weightClasses.Medium",
+  "Heavy": "NUMENERA.weightClasses.Heavy",
+};
 
 NUMENERA.optionalWeightClasses = ["NUMENERA.N/A"].concat(NUMENERA.weightClasses);
 
-NUMENERA.weaponTypes = [
-  "NUMENERA.Bashing",
-  "NUMENERA.Bladed",
-  "NUMENERA.Ranged",
-];
+NUMENERA.weaponTypes = {
+  "Bashing": "NUMENERA.weaponTypes.Bashing",
+  "Bladed": "NUMENERA.weaponTypes.Bladed",
+  "Ranged": "NUMENERA.weaponTypes.Ranged",
+};
 
-NUMENERA.stats = [
-  "Might",
-  "Speed",
-  "Intellect",
-];
+NUMENERA.stats = {
+  "might": "NUMENERA.stats.might",
+  "speed": "NUMENERA.stats.speed",
+  "intellect" : "NUMENERA.stats.intellect",
+};
 
 NUMENERA.skillLevels = {
-  "i": "Inability",
-  "u": "Untrained",
-  "t": "Trained",
-  "s": "Specialized"
+  "i": "NUMENERA.skillLevels.Inability",
+  "u": "NUMENERA.skillLevels.Untrained",
+  "t": "NUMENERA.skillLevels.Trained",
+  "s": "NUMENERA.skillLevels.Specialized"
 };
 
 NUMENERA.types = [

@@ -1,9 +1,12 @@
 {
     "NUMENERA.N/A": "N/A",
+    "NUMENERA.stats.might": "Might",
+    "NUMENERA.stats.speed": "Speed",
+    "NUMENERA.stats.intellect": "Intellect",
     "NUMENERA.weightClasses.Light": "Light",
     "NUMENERA.weightClasses.Medium": "Medium",
     "NUMENERA.weightClasses.Heavy": "Heavy",
-    "NUMENERA.Bashing": "Bashing",
-    "NUMENERA.Bladed": "Bladed",
-    "NUMENERA.Ranged": "Ranged"
+    "NUMENERA.weaponTypes.Bashing": "Bashing",
+    "NUMENERA.weaponTypes.Bladed": "Bladed",
+    "NUMENERA.weaponTypes.Ranged": "Ranged"
 }

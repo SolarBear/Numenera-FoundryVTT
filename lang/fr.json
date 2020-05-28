@@ -1,9 +1,12 @@
 {
     "NUMENERA.N/A": "S/O",
+    "NUMENERA.stats.might": "Puissance",
+    "NUMENERA.stats.speed": "Célérité",
+    "NUMENERA.stats.intellect": "Intellect",
     "NUMENERA.weightClasses.Light": "Légère",
     "NUMENERA.weightClasses.Medium": "Moyenne",
     "NUMENERA.weightClasses.Heavy": "Lourde",
-    "NUMENERA.Bashing": "Contondante",
-    "NUMENERA.Bladed": "Tranchante",
-    "NUMENERA.Ranged": "Distante"
+    "NUMENERA.weaponTypes.Bashing": "Contondante",
+    "NUMENERA.weaponTypes.Bladed": "Tranchante",
+    "NUMENERA.weaponTypes.Ranged": "Distante"
 }

@@ -15,7 +15,7 @@
                 <div class="flexrow">
                     {{#each data.stats as |stat id|}}
                     <div class="stats" data-stat="{{id}}">
-                        <h2 class="stat">{{id}}</h2>
+                        <h2 class="stat">{{localize id}}</h2>
                         <h3>
                             Current <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
                             /
@@ -126,7 +126,7 @@
                             <select name="data.items.skills.{{skill._id}}.data.stat">
                             {{#select skill.data.stat}}
                             {{#each stats}}
-                                <option value="{{this}}">{{this}}</option>
+                                <option value="{{this}}">{{localize this}}</option>
                             {{/each}}
                             {{/select}}
                             </select>
@@ -198,7 +198,7 @@
                                 <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
                                     {{#select ability.data.cost.pool}}
                                     {{#each stats}}
-                                    <option value="{{this}}">{{this}}</option>
+                                    <option value="{{this}}">{{localize this}}</option>
                                     {{/each}}
                                     {{/select}}
                                 </select>

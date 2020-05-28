@@ -27,16 +27,20 @@ export class NumeneraWeaponItem extends Item {
 
         itemData.ranges = NUMENERA.ranges;
 
-        itemData.weightClasses = NUMENERA.weightClasses.map(weightClass => {
+        itemData.weightClasses = Object.entries(NUMENERA.weightClasses).map(entry => {
+            const [weightClass, label] = entry;
             return {
-                label: weightClass,
+                weightClass,
+                label,
                 checked: weightClass === itemData.weight,
             }
         });
 
-        itemData.weaponTypes = NUMENERA.weaponTypes.map(weaponType => {
+        itemData.weaponTypes = Object.entries(NUMENERA.weaponTypes).map(entry => {
+            const [weaponType, label] = entry;
             return {
-                label: weaponType,
+                weaponType,
+                label,
                 checked: weaponType === itemData.type,
             }
         });
