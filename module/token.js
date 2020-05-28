@@ -98,7 +98,6 @@ export function cypherToken() {
         }
     });
 
-    // TODO: We could just hide the config portion of the token config for players.
     TokenConfig.prototype.getData = (function () {
         const superFunction = TokenConfig.prototype.getData;
         return async function (options) {
@@ -158,12 +157,14 @@ function drawCypherBar(number, bar, data) {
     let h = Math.max((canvas.dimensions.size / 12), 8);
     if (this.data.height >= 2) h *= 1.6;  // Enlarge the bar for large tokens
 
+    // Stacked bars, all atop one another
     let yPositions = {
         0: this.h - (3 * h),
         1: this.h - (2 * h),
         2: this.h - h
     };
 
+    // Let's do at least one good thing by making these colors configurable
     let colors = {
         0: NUMENERA.attributeColors[0],
         1: NUMENERA.attributeColors[1],
@@ -176,7 +177,6 @@ function drawCypherBar(number, bar, data) {
         .beginFill(0x000000, 0.5)
         .lineStyle(2, 0x000000, 0.9)
         .drawRoundedRect(0, 0, this.w, h, 3)
-        //.beginFill(PIXI.utils.rgb2hex(color), 0.8)
         .beginFill(color, 0.8)
         .lineStyle(1, 0x000000, 0.8)
         .drawRoundedRect(1, 1, pct * (this.w - 2), h - 2, 2);
@@ -186,8 +186,7 @@ function drawCypherBar(number, bar, data) {
     bar.position.set(0, posY);
 }
 
-// I've had a hell of a time actually getting the third pool to save properly from the HUD, so we're just going to 
-// hard-code our PCs' bars to Might / Speed / Intellect. This is obviously sub-optimal.
+// Since the model for the Token config doesn't seem to want to cooperate, these stats are hard-coded to the 3 Cypher vitals
 function getCypherTokenBarAttribute(barName, { alternative } = {}) {
     let stat;
     if (barName === "bar1") {
