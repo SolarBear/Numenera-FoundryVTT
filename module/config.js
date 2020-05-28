@@ -52,6 +52,18 @@ NUMENERA.types = [
     abbrev: 'w',
     name: 'Wright',
   },
+  {
+    abbrev: 'p',
+    name: 'Paradox',
+  },
+  {
+    abbrev: 's',
+    name: 'Spinner',
+  },
+  {
+    abbrev: 'v',
+    name: 'Vector',
+  },
 ];
 
 NUMENERA.typePowers = {
@@ -61,6 +73,9 @@ NUMENERA.typePowers = {
   'a': 'Precepts',
   'd': 'Delve Lores',
   'w': 'Inspired Techniques',
+  'v': 'Moves',
+  'p': 'Revisions',
+  's': 'Twists',
 };
 
 NUMENERA.damageTrack = [
