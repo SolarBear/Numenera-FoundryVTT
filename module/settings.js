@@ -15,7 +15,10 @@ export const registerSystemSettings = function() {
       2: "Version 2",
     },
   });
-  game.settings.world("numenera", "worldSetting", {
+  /**
+    * Toggle for alnternate Cpyher System Settings
+    */
+  game.settings.register("numenera", "worldSetting", {
     name: "Alternate Cypher Setting",
     hint: "Choose an alternate Cypher System Setting",
     scope: "world",
