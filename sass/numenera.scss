@@ -516,3 +516,45 @@ form.numenera {
         }
     }
 }
+
+#token-hud {
+
+    #innerTokenHud {
+       height: 100%;
+    }
+
+    #cypherTokenStats {
+        margin: 0px;
+        padding: 0px;
+        position: absolute;
+        width: 300%;
+        top: -85px;
+        left: -100%;
+
+        div {
+            display: inline-block;
+        }
+
+        .attribute {
+            padding: 0px;
+            margin: 0px;
+            width: 30%;
+        }
+        .attribute.bar1 input {
+            border: 2px solid #ff443d !important;
+        }
+        .attribute.bar2 input {
+            border: 2px solid #87ff3d !important;
+        }
+        .attribute.bar3 input {
+            border: 2px solid #3ddbff !important;
+        }
+    }
+}
+
+#apologyBox {
+    display: block;
+    padding: 4px 12px 4px 12px;
+    margin: 8px;
+    border: 1px double #737373;
+}

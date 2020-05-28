@@ -56,6 +56,8 @@ Hooks.once("init", function() {
     preloadHandlebarsTemplates();
 });
 
+Hooks.once("init", cypherToken);
+
 //TODO cleanup the functions here, it's gonna get messy real quick
   
 /*
@@ -169,4 +171,3 @@ Hooks.on("getActorDirectoryEntryContext", (html, entryOptions) => {
  */
 Hooks.once("ready", migrateWorld);
 Hooks.once("ready", numeneraSocketListeners);
-Hooks.once("ready", cypherToken);
