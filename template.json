@@ -2,7 +2,6 @@
     "Actor": {
         "types": ["pc", "npc"],
         "pc": {
-            "abilities": {},
             "advances": {
                 "statPools": false,
                 "effort": false,
@@ -48,7 +47,6 @@
                 "oneHour": false,
                 "tenHours": false
             },
-            "skills": {},
             "shins": 0,
             "tier": 1,
             "version": 4,
