@@ -57,7 +57,7 @@ function onItemEditGenerator(editClass, callback = null) {
       throw new Error(`No itemID on ${editClass} element`);
       
     const updated = {_id: elem.dataset.itemId};
-
+    
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
