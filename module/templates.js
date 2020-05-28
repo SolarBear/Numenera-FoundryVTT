@@ -9,8 +9,8 @@ export const preloadHandlebarsTemplates = async() => {
     const templatePaths = [
 
         // Actor Sheets
-        "systems/numenera/templates/characterSheet.html",
-        "systems/numenera/templates/npcSheet.html",
+        "systems/numenera/templates/actor/characterSheet.html",
+        "systems/numenera/templates/actor/npcSheet.html",
 
         //Item sheets
         "systems/numenera/templates/item/abilitySheet.html",

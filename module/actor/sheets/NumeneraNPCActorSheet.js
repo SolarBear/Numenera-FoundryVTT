@@ -22,7 +22,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
-    return "systems/numenera/templates/npcSheet.html";
+    return "systems/numenera/templates/actor/npcSheet.html";
   }
 
   /**
