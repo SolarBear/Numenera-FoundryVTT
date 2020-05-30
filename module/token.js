@@ -64,7 +64,7 @@ export function cypherToken() {
     Object.defineProperty(TokenHUD, "defaultOptions", {
         get: function () {
             return mergeObject(defaultTokenHUDOptions, {
-                template: "systems/cypher/templates/hud/tokenHUD.html"
+                template: "systems/numenera/templates/hud/tokenHUD.html"
             });
         }
     });
@@ -93,7 +93,7 @@ export function cypherToken() {
     Object.defineProperty(TokenConfig, "defaultOptions", {
         get: function () {
             return mergeObject(defaultTokenConfigOptions, {
-                template: "systems/cypher/templates/scene/tokenConfig.html"
+                template: "systems/numenera/templates/scene/tokenConfig.html"
             });
         }
     });
