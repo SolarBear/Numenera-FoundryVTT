@@ -118,7 +118,7 @@ export class RecoveryDialog extends FormApplication {
   }
 
   _getFormula(n) {
-    if (n <= 0) {
+    if (typeof n !== "number" || n <= 0) {
       return false;
     }
 
