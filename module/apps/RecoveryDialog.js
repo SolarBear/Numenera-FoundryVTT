@@ -2,6 +2,9 @@ import { NUMENERA } from "../config.js";
 
 export class RecoveryDialog extends FormApplication {
 
+  /**
+   * @inheritdoc
+   */
   static get defaultOptions() {
 	  return mergeObject(super.defaultOptions, {
       classes: ["numenera"],
@@ -11,11 +14,14 @@ export class RecoveryDialog extends FormApplication {
       submitOnChange: true,
       submitOnClose: false,
       editable: true,
-      width: 520,
-      height: 400,
+      width: 480,
+      height: 360,
     });
   }
 
+  /**
+   * @inheritdoc
+   */
   constructor(actor, options = {}) {
     const pools = Object.entries(actor.data.data.stats)
     .map(([key, value]) => {
@@ -47,6 +53,9 @@ export class RecoveryDialog extends FormApplication {
     super(recoveryDialogObject, options);
   }
 
+  /**
+   * @inheritdoc
+   */
   getData() {
     const data = super.getData();
 
@@ -81,6 +90,9 @@ export class RecoveryDialog extends FormApplication {
     });
   }
 
+  /**
+   * @inheritdoc
+   */
   activateListeners(html) {
     super.activateListeners(html);
 
@@ -146,6 +158,13 @@ export class RecoveryDialog extends FormApplication {
     await this.render();
   }
 
+  /**
+   * Get the recovery formula used for `n` recoveries.
+   *
+   * @param {Number} n
+   * @returns {} false if no formula could be generated, a formula String otherwise
+   * @memberof RecoveryDialog
+   */
   _getFormula(n) {
     if (typeof n !== "number" || n <= 0) {
       return false;
@@ -155,6 +174,12 @@ export class RecoveryDialog extends FormApplication {
     return `${n}d6+${constant}`;
   }
 
+  /**
+   * Event handler for the "Accept" button. Applies the pool changes to the
+   * Actor.
+   *
+   * @memberof RecoveryDialog
+   */
   async _accept() {
     if (this.object.unspentRecoveryPoints < 0) {
       ui.notifications.error("You have spent more points than you rolled for");
@@ -164,8 +189,10 @@ export class RecoveryDialog extends FormApplication {
     //Apply new pool values to the Actor
     let data = null;
     const stats = this.object.actor.data.data.stats;
+
     for (let [stat, actorPool] of Object.entries(stats)) {
       const formPool = this.object.pools.find(p => p.name === stat);
+
       if (actorPool.pool.current !== formPool.current) {
         if (data === null)
           data = {};
@@ -174,6 +201,7 @@ export class RecoveryDialog extends FormApplication {
       }
     }
 
+    //Only update the actor if changes actually happened
     if (data !== null) {
       data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoints;
       await this.object.actor.update(data);
@@ -206,15 +234,6 @@ export class RecoveryDialog extends FormApplication {
 
     if (nbChecked !== this.object.recoveriesLeft) {
       this.object.recoveriesLeft = 4 - nbChecked;
-      // this.object.recoveriesData = Object.entries(NUMENERA.recoveries)
-      // .map(([key, value], idx) => {
-      //   return {
-      //     key,
-      //     label: value,
-      //     checked: idx < nbChecked,
-      //     disabled: idx < nbChecked,
-      //   };
-      // });
     }
 
     //Update remaining points and pools
@@ -223,6 +242,7 @@ export class RecoveryDialog extends FormApplication {
       pool.current = formData[`pools.${pool.name}.current`];
       poolsTotal += pool.current;
     }
+
     this.object.poolsTotal = poolsTotal;
     this.object.unspentRecoveryPoints = this.object.initialUnspentRecoveryPoints - poolsTotal + this.object.initialPoolsTotal;
 
