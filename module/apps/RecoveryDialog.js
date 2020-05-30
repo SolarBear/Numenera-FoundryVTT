@@ -34,10 +34,10 @@ export class RecoveryDialog extends FormApplication {
 
     const recoveryDialogObject = {
       actor,
-      initialUnspentRecoveryPoints: 0, //actor.data.data.unspentRecoveryPoints,
-      unspentRecoveryPoints: 0, //actor.data.data.unspentRecoveryPoints || null,
-      initialRecoveries: 2, //actor.data.data.recoveries,
-      recoveries: 2, //actor.data.data.recoveries,
+      initialUnspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
+      unspentRecoveryPoints: actor.data.data.unspentRecoveryPoints || null,
+      initialRecoveries: actor.data.data.recoveries,
+      recoveries: actor.data.data.recoveries,
       pools,
       poolsTotal,
       initialPoolsTotal: poolsTotal,
