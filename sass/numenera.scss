@@ -3,6 +3,7 @@
     src: url("/fonts/ogirema.ttf") format("ttf");
 }
 
+$foundry-border-color: #782e22;
 $border-color: #325d6d;
 $font-stack: Ogirema;
 
@@ -520,20 +521,39 @@ form.numenera {
 form.numenera-recovery {
     font-family: $font-stack;
 
+
+    h1 {
+        padding-bottom: 0.25em;
+        margin-bottom: 0;
+
+        button {
+            font-weight: bold;
+            font-size: 18px;
+            float: right;
+            width: 8em;
+        }
+    }
+
+    h2 {
+        font-weight: bold;
+        margin-top: 0.5em;
+        border: 0;
+    }
+
     & > div.columns {
 
         li {
             list-style-type: none;
         }
 
-        div {
+        & > div {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             align-items: center;
 
-            &:not(:first) {
-                border-left: 1px medium black;
+            &:first-child {
+                border-right: 2px solid $foundry-border-color;
             }
 
             &.disabled {
@@ -556,6 +576,13 @@ form.numenera-recovery {
             &.pools {
                 input[type="number"].pool {
                     width: 3em;
+                }
+
+                label {
+                    font-size: 16px;
+                    font-weight: bold;
+                    text-transform: capitalize;
+                    margin-right: 0.4em;
                 }
 
                 div.stats {

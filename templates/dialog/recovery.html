@@ -1,7 +1,7 @@
 <form class="{{cssClass}} numenera-recovery" autocomplete="off">
     <h1>Recovery <button id="reset-recoveries" {{disabled disallowReset}}>Reset</button></h1>
     <div class="flexrow columns">
-        <div class="recoveries">
+        <div class="recoveries{{#unless hasRecoveriesLeft}} disabled{{/unless}}">
             <h2>Recoveries</h2>
             <ul>
             {{#each recoveriesData as |recovery id|}}
@@ -16,17 +16,25 @@
             {{#if showFormula}}
             <p>Rolling {{formula}}</p>
             {{/if}}
-            <button id="roll-recovery-dice">Roll</button>
+            
         </div>
         <div class="pools{{#unless hasUnspentRecoveryPoints}} disabled{{/unless}}">
             <h2>Pools</h2>
             <h3>Points Remaining: {{unspentRecoveryPoints}}</h3>
             {{#each pools as |pool|}}
             <div class="stats">
-                <h3 class="stat">{{pool.name}}</h3>
+                <label class="stat">{{pool.name}}</label>
                 <input name="pools.{{pool.name}}.current" type="number" value="{{pool.current}}" min="{{pool.min}}" max="{{pool.max}}" class="pool" data-dtype="Number" />
             </div>
             {{/each}}
+            
+        </div>
+    </div>
+    <div class="flexrow columns">
+        <div>
+            <button id="roll-recovery-dice">Roll</button>
+        </div>
+        <div>
             <button id="apply-recovery-choices">Accept</button>
         </div>
     </div>
