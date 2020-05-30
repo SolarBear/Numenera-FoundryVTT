@@ -19,6 +19,8 @@ export class NumeneraPCActor extends Actor {
   }
 
   getInitiativeFormula() {
+    //TODO: use numeneraRoll() here instead of duplicating roll logic
+
     //Check for an initiative skill
     const initSkill = 3 * this.getSkillLevel("Initiative");
     

@@ -36,8 +36,8 @@ export class RecoveryDialog extends FormApplication {
       actor,
       initialUnspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
       unspentRecoveryPoints: actor.data.data.unspentRecoveryPoints || null,
-      initialRecoveries: actor.data.data.recoveries,
-      recoveries: actor.data.data.recoveries,
+      initialRecoveriesLeft: actor.data.data.recoveriesLeft,
+      recoveriesLeft: actor.data.data.recoveriesLeft,
       pools,
       poolsTotal,
       initialPoolsTotal: poolsTotal,
@@ -55,14 +55,14 @@ export class RecoveryDialog extends FormApplication {
         return {
           key,
           label: value,
-          checked: idx < this.object.recoveries,
-          disabled: idx < this.object.initialRecoveries,
+          checked: 4 - this.object.recoveriesLeft > idx,
+          disabled: 4 - this.object.initialRecoveriesLeft > idx,
         };
       });
 
-    const rollSelectionEnabled = this.object.recoveries < 4;
+    const rollSelectionEnabled = this.object.recoveriesLeft > 0;
     const pointAttributionEnabled = this.object.initialUnspentRecoveryPoints > 0;
-    const formula = this._getFormula(this.object.recoveries - this.object.initialRecoveries);
+    const formula = this._getFormula(this.object.initialRecoveriesLeft - this.object.recoveriesLeft);
 
     return mergeObject(data, {
       rollSelectionEnabled,
@@ -70,7 +70,7 @@ export class RecoveryDialog extends FormApplication {
       showFormula: formula !== false,
       formula,
       recoveriesData,
-      nbRecoveries: this.object.recoveries - this.object.initialRecoveries,
+      nbRecoveries: this.object.initialRecoveriesLeft - this.object.recoveriesLeft,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
       stats: NUMENERA.stats,
@@ -90,16 +90,11 @@ export class RecoveryDialog extends FormApplication {
     event.preventDefault();
 
     //Make sure the Actor has enough unspent recoveries in the first place
-    if (this.object.recoveries <= 0) {
-      throw new Error("No recoveries left");
-    }
-
-    const nbDice = this.object.recoveries - this.object.initialRecoveries;
-    if (nbDice <= 0) {
-      ui.notifications.warn("Please check at least one recovery period first");
+    const nbDice = this.object.initialRecoveriesLeft - this.object.recoveriesLeft;
+    if (this.object.initialRecoveriesLeft <= 0 || nbDice <= 0) {
+      ui.notifications.warn("No Recovery rolls left");
       return;
     }
-      
 
     const roll = new Roll(this._getFormula(nbDice)).roll();
 
@@ -114,14 +109,14 @@ export class RecoveryDialog extends FormApplication {
 
     this.object.unspentRecoveryPoints += roll.total;
     this.object.initialUnspentRecoveryPoints += roll.total;
-    this.object.initialRecoveries = this.object.recoveries;
+    this.object.initialRecoveriesLeft = this.object.recoveriesLeft;
 
     //Update the actor with its newly-found pool points to attribute and its new checked recoveries
     const actor = this.object.actor;
     actor.update({
       _id: actor.data._id,
       "data.unspentRecoveryPoints": this.object.unspentRecoveryPoints,
-      "data.recoveries": this.object.recoveries,
+      "data.recoveriesLeft": this.object.recoveriesLeft,
     });
 
     await this.render();
@@ -156,7 +151,8 @@ export class RecoveryDialog extends FormApplication {
     }
 
     if (data !== null) {
-      const success = await this.object.actor.update(data);
+      data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoints;
+      await this.object.actor.update(data);
 
       ui.notifications.info("Pool changes have been applied");
     }
@@ -167,7 +163,7 @@ export class RecoveryDialog extends FormApplication {
 
   _updateObject(event, formData) {
     //Update recovery checkboxes data
-    let nbChecked = this.object.recoveries;
+    let nbChecked = 4 - this.object.recoveriesLeft;
     switch (event.target.name) {
       case "recovery[action]":
         nbChecked = 1;
@@ -184,17 +180,17 @@ export class RecoveryDialog extends FormApplication {
       default:
     }
 
-    if (nbChecked !== this.object.recoveries) {
-      this.object.recoveries = nbChecked;
-      this.object.recoveriesData = Object.entries(NUMENERA.recoveries)
-      .map(([key, value], idx) => {
-        return {
-          key,
-          label: value,
-          checked: idx < nbChecked,
-          disabled: idx < nbChecked,
-        };
-      });
+    if (nbChecked !== this.object.recoveriesLeft) {
+      this.object.recoveriesLeft = 4 - nbChecked;
+      // this.object.recoveriesData = Object.entries(NUMENERA.recoveries)
+      // .map(([key, value], idx) => {
+      //   return {
+      //     key,
+      //     label: value,
+      //     checked: idx < nbChecked,
+      //     disabled: idx < nbChecked,
+      //   };
+      // });
     }
 
     //Update remaining points and pools
