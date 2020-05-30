@@ -1,0 +1,33 @@
+<form class="{{cssClass}} numenera-recovery" autocomplete="off">
+    <h1>Recovery</h1>
+    <div class="flexrow columns">
+        <div class="recoveries">
+            <h2>Recoveries</h2>
+            <ul>
+            {{#each recoveriesData as |recovery id|}}
+            <li>
+                <input type="checkbox" name="recovery[{{recovery.key}}]" data-recovery-id="{{id}}" 
+                    {{checked recovery.checked}} {{disabled recovery.disabled}} 
+                />
+                <label>{{recovery.label}}</label>
+            </li>
+            {{/each}}
+            </ul>
+            {{#if showFormula}}
+            <p>Rolling {{formula}}</p>
+            {{/if}}
+            <button id="roll-recovery-dice">Roll</button>
+        </div>
+        <div class="pools{{#unless hasUnspentRecoveryPoints}} disabled{{/unless}}">
+            <h2>Pools</h2>
+            <h3>Points Remaining: {{unspentRecoveryPoints}}</h3>
+            {{#each pools as |pool|}}
+            <div class="stats">
+                <h3 class="stat">{{pool.name}}</h3>
+                <input name="pools.{{pool.name}}.current" type="number" value="{{pool.current}}" min="{{pool.min}}" max="{{pool.max}}" class="pool" data-dtype="Number" />
+            </div>
+            {{/each}}
+            <button id="apply-recovery-choices">Accept</button>
+        </div>
+    </div>
+</form>

@@ -516,3 +516,53 @@ form.numenera {
         }
     }
 }
+
+form.numenera-recovery {
+    font-family: $font-stack;
+
+    & > div.columns {
+
+        li {
+            list-style-type: none;
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+
+            &:not(:first) {
+                border-left: 1px medium black;
+            }
+
+            &.disabled {
+                color: lightslategray;
+            }
+
+            button {
+                margin-top: 1em;
+                justify-self: flex-end;
+                width: 60%;
+            }
+
+            &.recoveries {
+                p {
+                    font-size: 16px;
+                    font-weight: bold;
+                }
+            }
+
+            &.pools {
+                input[type="number"].pool {
+                    width: 3em;
+                }
+
+                div.stats {
+                    display: block;
+                    margin-top: 0.5em;
+                }
+            }
+        }
+    }
+}

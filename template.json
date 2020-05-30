@@ -41,14 +41,10 @@
                     "edge": 0
                 }
             },
-            "recoveries": {
-                "action": false,
-                "tenMin": false,
-                "oneHour": false,
-                "tenHours": false
-            },
+            "recoveriesLeft": 4,
             "shins": 0,
             "tier": 1,
+            "unspentRecoveryPoints": 0,
             "version": 4,
             "xp": 0
         },
