@@ -242,13 +242,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
-    sheetData.recoveriesData = Object.entries(
-      sheetData.actor.data.recoveries
-    ).map(([key, value]) => {
+    sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
+    .map(([key, value], idx) => {
       return {
         key,
-        label: NUMENERA.recoveries[key],
-        checked: value,
+        label: value,
+        checked: idx < this.actor.data.data.recoveries
       };
     });
 
