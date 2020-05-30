@@ -71,6 +71,8 @@ export class RecoveryDialog extends FormApplication {
       formula,
       recoveriesData,
       nbRecoveries: this.object.initialRecoveriesLeft - this.object.recoveriesLeft,
+      hasRecoveriesLeft: this.object.recoveriesLeft > 0,
+      disallowReset: this.object.initialRecoveriesLeft >= 4,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
       stats: NUMENERA.stats,
@@ -82,10 +84,37 @@ export class RecoveryDialog extends FormApplication {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find("#reset-recoveries").click(this._reset.bind(this));
     html.find("#roll-recovery-dice").click(this._rollRecovery.bind(this));
     html.find("#apply-recovery-choices").click(this._accept.bind(this));
   }
 
+  async _reset() {
+    Dialog.confirm({
+      title: "Reset Recoveries",
+      content: "Really reset your Recoveries?",
+      yes: () => {
+        this.object.recoveriesLeft = 4;
+        this.object.initialRecoveriesLeft = 4;
+        this.object.actor.update({
+          //_id: this.object.actor.data._id,
+          "data.recoveriesLeft": 4,
+        });
+        ChatMessage.create({
+          content: `<h3>${this.object.actor.data.name} has reset their daily Recoveries</h3>`,
+        });
+        this.render();
+      }
+    });
+  }
+
+  /**
+   * Event handler for the "Roll" button. If any new recovery checkboxes have
+   * been checked, roll that many recovery dice. The Actor will be updated
+   * in that case.
+   * 
+   * @param {*} event 
+   */
   async _rollRecovery(event) {
     event.preventDefault();
 
