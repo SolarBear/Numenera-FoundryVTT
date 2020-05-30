@@ -205,5 +205,38 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
+const PCActorv4ToV5Migrator = Object.create(Migrator);
+
+PCActorv3ToV4Migrator.forVersion = 5;
+PCActorv3ToV4Migrator.forType = "pc";
+
+/* Summary of changes:
+  - recoveries change to an integer total instead of being individual boolean flags
+*/
+PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
+
+  if (actor.data.data.recoveries) {
+    let recoveriesLeft;
+    if (actor.data.data.recoveries.tenHours)
+      recoveriesLeft = 0;
+    else if (actor.data.data.recoveries.oneHour)
+      recoveriesLeft = 1;
+    else if (actor.data.data.recoveries.tenMin)
+      recoveriesLeft = 2;
+    else if (actor.data.data.recoveries.action)
+      recoveriesLeft = 3;
+    else
+      recoveriesLeft = 4;
+  
+    newData["data.recoveriesLeft"] = recoveriesLeft;
+  }
+
+  newData["data.-=recoveries"] = null;
+  newData["data.version"] = this.forVersion;
+    
+  return newData;
+};
+
 //Only export the latest migrator
-export const PCActorMigrator = PCActorv3ToV4Migrator;
+export const PCActorMigrator = PCActorv4ToV5Migrator;
