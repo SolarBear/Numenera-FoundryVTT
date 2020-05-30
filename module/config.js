@@ -130,3 +130,10 @@ NUMENERA.cypherTypes = [
   "Anoetic",
   "Occultic",
 ];
+
+// Note that these colors do not get propagated to the CSS; that would be neat, though
+NUMENERA.attributeColors = {
+  0: 0xff443d,    // Might
+  1: 0x87ff3d,    // Speed
+  2: 0x3ddbff     // Intellect
+};

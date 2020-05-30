@@ -23,6 +23,7 @@ import { migrateWorld } from './module/migrations/migrate.js';
 import { numeneraSocketListeners } from './module/socket.js';
 import { RecoveryDialog } from './module/apps/RecoveryDialog.js';
 import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
+import { cypherToken } from './module/token.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -63,6 +64,8 @@ Hooks.once("init", function() {
     registerHandlebarHelpers();
     preloadHandlebarsTemplates();
 });
+
+Hooks.once("init", cypherToken);
 
 //TODO cleanup the functions here, it's gonna get messy real quick
   
