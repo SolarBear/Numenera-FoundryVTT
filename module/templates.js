@@ -12,6 +12,9 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/actor/characterSheet.html",
         "systems/numenera/templates/actor/npcSheet.html",
 
+        // Dialog Sheets
+        "systems/numenera/templates/dialog/recovery.html",
+
         //Item sheets
         "systems/numenera/templates/item/abilitySheet.html",
         "systems/numenera/templates/item/armorSheet.html",
