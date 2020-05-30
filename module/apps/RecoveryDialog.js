@@ -27,15 +27,15 @@ export class RecoveryDialog extends FormApplication {
     .map(([key, value]) => {
       return {
         name: key,
-        current: value.pool.current,
-        max: value.pool.maximum,
-        min: value.pool.current,
+        current: value.pool.value,
+        max: value.pool.max,
+        min: value.pool.value,
       };
     });
 
     const poolsTotal = Object.entries(actor.data.data.stats)
     .reduce((sum, [key, value]) => 
-       sum + value.pool.current
+       sum + value.pool.value
     , 0);
 
     const recoveryDialogObject = {
@@ -193,11 +193,11 @@ export class RecoveryDialog extends FormApplication {
     for (let [stat, actorPool] of Object.entries(stats)) {
       const formPool = this.object.pools.find(p => p.name === stat);
 
-      if (actorPool.pool.current !== formPool.current) {
+      if (actorPool.pool.value !== formPool.value) {
         if (data === null)
           data = {};
 
-        data[`data.stats.${stat}.pool.current`] = formPool.current;
+        data[`data.stats.${stat}.pool.value`] = formPool.value;
       }
     }
 
@@ -239,8 +239,8 @@ export class RecoveryDialog extends FormApplication {
     //Update remaining points and pools
     let poolsTotal = 0;
     for (let pool of this.object.pools) {
-      pool.current = formData[`pools.${pool.name}.current`];
-      poolsTotal += pool.current;
+      pool.value = formData[`pools.${pool.name}.value`];
+      poolsTotal += pool.value;
     }
 
     this.object.poolsTotal = poolsTotal;
