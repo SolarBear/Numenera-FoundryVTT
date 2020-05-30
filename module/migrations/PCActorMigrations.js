@@ -230,10 +230,22 @@ PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
       recoveriesLeft = 4;
   
     newData["data.recoveriesLeft"] = recoveriesLeft;
+    newData["data.-=recoveries"] = null;
   }
 
-  newData["data.-=recoveries"] = null;
-  //newData["data.version"] = this.forVersion;
+  //These properties have been renamed
+  newData["data.stats.might.pool.value"] = actor.data.data.stats.might.pool.current;
+  newData["data.stats.might.pool.max"] = actor.data.data.stats.might.pool.maximum;
+  newData["data.stats.speed.pool.value"] = actor.data.data.stats.speed.pool.current;
+  newData["data.stats.speed.pool.max"] = actor.data.data.stats.speed.pool.maximum;
+  newData["data.stats.intellect.pool.value"] = actor.data.data.stats.intellect.pool.current;
+  newData["data.stats.intellect.pool.max"] = actor.data.data.stats.intellect.pool.maximum;
+  newData["data.-=stats.might.pool.current"] = null;
+  newData["data.-=stats.might.pool.maximum"] = null;
+  newData["data.-=stats.speed.pool.current"] = null;
+  newData["data.-=stats.speed.pool.maximum"] = null;
+  newData["data.-=stats.intellect.pool.current"] = null;
+  newData["data.-=stats.intellect.pool.maximum"] = null;
     
   return newData;
 };
