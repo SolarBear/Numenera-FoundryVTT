@@ -16,6 +16,15 @@ form.numenera {
     overflow: scroll;
     font-family: $font-stack;
 
+    button#recoveryRoll {
+        width: 75%;
+
+        h2 {
+            font-family: $font-stack;
+            margin: 0;
+        }
+    }
+
     a i.handle {
         cursor: move;
     }
@@ -520,7 +529,6 @@ form.numenera {
 
 form.numenera-recovery {
     font-family: $font-stack;
-
 
     h1 {
         padding-bottom: 0.25em;

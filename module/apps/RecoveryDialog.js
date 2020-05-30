@@ -15,7 +15,7 @@ export class RecoveryDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 480,
-      height: 360,
+      height: 340,
     });
   }
 
@@ -80,7 +80,7 @@ export class RecoveryDialog extends FormApplication {
       formula,
       recoveriesData,
       nbRecoveries: this.object.initialRecoveriesLeft - this.object.recoveriesLeft,
-      hasRecoveriesLeft: this.object.recoveriesLeft > 0,
+      hasRecoveriesLeft: this.object.initialRecoveriesLeft > 0,
       disallowReset: this.object.initialRecoveriesLeft >= 4,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
