@@ -47,7 +47,7 @@ export class NumeneraPCActor extends Actor {
 
     //Each stat pool whose value is 0 counts as being one step higher on the damage track
     return Object.values(stats).filter(stat => {
-      return stat.pool.current === 0;
+      return stat.pool.value === 0;
     }).length;
   }
 

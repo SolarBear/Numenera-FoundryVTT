@@ -21,6 +21,7 @@ import { preloadHandlebarsTemplates } from './module/templates.js';
 import { registerSystemSettings } from './module/settings.js';
 import { migrateWorld } from './module/migrations/migrate.js';
 import { numeneraSocketListeners } from './module/socket.js';
+import { cypherToken } from './module/token.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -54,6 +55,8 @@ Hooks.once("init", function() {
     registerSystemSettings();
     preloadHandlebarsTemplates();
 });
+
+Hooks.once("init", cypherToken);
 
 //TODO cleanup the functions here, it's gonna get messy real quick
   
