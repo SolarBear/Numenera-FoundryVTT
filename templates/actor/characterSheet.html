@@ -17,9 +17,9 @@
                     <div class="stats" data-stat="{{id}}">
                         <h2 class="stat">{{id}}</h2>
                         <h3>
-                            Current <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                            Current <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
                             /
-                            Pool <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
+                            Pool <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0" />
                         </h3>
             
                         <h3>Edge <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
@@ -58,16 +58,14 @@
                         </ul>
                     </div>
                     <div class="stats recovery">
-                        <h2>Recovery</h2>
-                        <h3>
-                            1d6 + <input type="text" value="{{data.tier}}" data-dtype="Number" disabled="disabled" />
-                        </h3>
-        
+                        <button id="recoveryRoll">
+                            <h2>Recovery</h2>
+                        </button>
                         <ul>
                         {{#each recoveriesData as |recovery|}}
                             <li>
-                                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}" {{checked recovery.checked}}/>
-                                <label for="recoveries.action">{{recovery.label}}</label>
+                                <input type="checkbox" id="{{recovery.label}}" {{checked recovery.checked}} disabled/>
+                                <label>{{recovery.label}}</label>
                             </li>
                         {{/each}}
                         </ul>
