@@ -1,0 +1,15 @@
+<form class="{{cssClass}} numenera" autocomplete="off">
+    <h1><input type="text" name="name" value="{{data.name}}" /></h1>
+    <div class="flexrow item">
+        <div class="img">
+            <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
+        </div>
+        <div class="equipment">
+            <label>Price
+                <input type="number" name="data.price" value="{{data.price}}" class="price" data-dtype="Number" />
+            </label>
+            <label>Notes</label>
+            <textarea name="data.notes">{{data.notes}}</textarea>
+        </div>
+    </div>
+</form>
