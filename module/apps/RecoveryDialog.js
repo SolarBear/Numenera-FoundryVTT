@@ -38,7 +38,6 @@ export class RecoveryDialog extends FormApplication {
        sum + value.pool.value
     , 0);
 
-    debugger;
     const recoveryDialogObject = {
       actor,
       initialUnspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
@@ -143,7 +142,6 @@ export class RecoveryDialog extends FormApplication {
       flavor: `${this.object.actor.data.name} rolls for Recovery`,
     });
 
-    debugger;
     this.object.unspentRecoveryPoints += roll.total;
     this.object.initialUnspentRecoveryPoints += roll.total;
     this.object.initialRecoveriesLeft = this.object.recoveriesLeft;
@@ -204,7 +202,7 @@ export class RecoveryDialog extends FormApplication {
 
     //Only update the actor if changes actually happened
     if (data !== null) {
-      data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoints;
+      data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoin
       await this.object.actor.update(data);
 
       ui.notifications.info("Pool changes have been applied");
@@ -238,7 +236,6 @@ export class RecoveryDialog extends FormApplication {
     }
 
     //Update remaining points and pools
-    debugger;
     let poolsTotal = 0;
     for (let pool of this.object.pools) {
       pool.value = formData[`pools.${pool.name}.value`] || 0;
