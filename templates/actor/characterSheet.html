@@ -245,10 +245,10 @@
         </div>
 
         <div class="tab numenera" data-group="primary" data-tab="numenera">
-            <h2>Cyphers</h2>
-            <h3>Cypher Limit <input type="text" name="data.cypherLimit" value="{{data.cypherLimit}}" class="cypher-limit" data-dtype="Number" /></h3>
+            <h2>{{localize "NUMENERA.pc.numenera.cypher.name"}}</h2>
+            <h3>{{localize "NUMENERA.pc.numenera.cypher.limit"}} <input type="text" name="data.cypherLimit" value="{{data.cypherLimit}}" class="cypher-limit" data-dtype="Number" /></h3>
             {{#if displayCypherLimitWarning}}
-            <h3 class="cypher-limit-warning">You are over your cypher limit!</h3>
+            <h3 class="cypher-limit-warning">{{localize "NUMENERA.pc.numenera.cypher.overLimit"}}</h3>
             {{/if}}
 
             <ul class="cyphers">
@@ -272,55 +272,54 @@
                                 </td>
                                 <td class="cypher-level">
                                 {{#if cypher.editable}}
-                                    <label>Identified?
+                                    <label>{{localize "NUMENERA.pc.numenera.identified"}}
                                         <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" data-dtype="Boolean" {{checked cypher.data.identified}}/>
                                     </label>
                                     <br />
-                                    <label>Level
+                                    <label>{{localize "NUMENERA.pc.numenera.level"}}
                                         <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" min="1" data-dtype="Number"/>
                                     </label>
                                 {{#if ../displayCypherType}}
-
-                                    <label>Type
+                                    <label>{{localize "NUMENERA.pc.numenera.cypher.type"}}
                                         <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String" class="cypher-type">
                                         {{#select cypher.data.cypherType}}
                                         {{#each ../cypherTypes}}
-                                            <option value="{{this}}">{{this}}</option>
+                                            <option value="{{this}}">{{localize this}}</option>
                                         {{/each}}
                                         {{/select}}
                                         </select>
                                     </label>
                                 {{/if}}
                                 {{else}}
-                                    <span>Level</span> {{cypher.data.level}}
+                                    <span>{{localize "NUMENERA.pc.numenera.level"}}</span> {{cypher.data.level}}
                                 {{#if ../displayCypherType}}
-                                    <span>Type</span> {{cypher.data.cypherType}}
+                                    <span>{{localize "NUMENERA.pc.numenera.type"}}</span> {{cypher.data.cypherType}}
                                 {{/if}}
                                 {{/if}}
                                 </td>
                                 <td class="cypher-description">
                                     <p>
-                                        <span><strong>Form:</strong></span> {{cypher.data.form}}
+                                        <span><strong>{{localize "NUMENERA.pc.numenera.form"}}:</strong></span> {{cypher.data.form}}
                                     </p>
                                     <p>
-                                        <span><strong>Effect:</strong></span> {{cypher.data.effect}}
+                                        <span><strong>{{localize "NUMENERA.pc.numenera.effect"}}:</strong></span> {{cypher.data.effect}}
                                     </p>
                                 </td>
                                 <td>
-                                    <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                    <a class="cypher-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.cypher.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </li>
                 {{else}}
-                No cyphers.
+                {{localize "NUMENERA.pc.numenera.cypher.none"}}
                 {{/each}}
             </ul>
 
             <hr class="sheet-one" />
 
-            <h2>Artifacts</h2>
+            <h2>{{localize "NUMENERA.pc.numenera.artifact.name"}}</h2>
             <ul class="artifacts">
                 {{#each data.items.artifacts as |artifact|}}
                 <li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.order}}>
@@ -341,11 +340,11 @@
                             </td>
                             <td class="artifact-level">
                             {{#if artifact.editable}}
-                                <label>Identified?
+                                <label>{{localize "NUMENERA.pc.numenera.identified"}}
                                     <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" data-dtype="Boolean" {{checked artifact.data.identified}}/>
                                 </label>
                                 <br />
-                                <label>Level
+                                <label>{{localize "NUMENERA.pc.numenera.level"}}
                                     <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1" value="{{artifact.data.level}}"/>
                                 </label>
                             {{else}}
@@ -355,33 +354,33 @@
 
                             <td class="artifact-description">
                                 <p>
-                                    <span><strong>Form:</strong></span> {{artifact.data.form}}
+                                    <span><strong>{{localize "NUMENERA.pc.numenera.form"}}:</strong></span> {{artifact.data.form}}
                                 </p>
                                 <p>
-                                    <span><strong>Effect:</strong></span> {{artifact.data.effect}}
+                                    <span><strong>{{localize "NUMENERA.pc.numenera.effect"}}:</strong></span> {{artifact.data.effect}}
                                 </p>
                             {{#if artifact.data.depletion.isDepleting}}
                                 <p>
-                                    <span><strong>Depletion: </strong></span> {{artifact.data.depletion.threshold}} in
+                                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.depletion"}}: </strong></span> {{artifact.data.depletion.threshold}} {{localize "NUMENERA.pc.numenera.artifact.in"}}
                                     {{artifact.data.depletion.die}}
-                                    <button class="artifact-depletion-roll">Roll</button>
+                                    <button class="artifact-depletion-roll">{{localize "NUMENERA.pc.numenera.artifact.roll"}}</button>
                                 </p>
                             {{/if}}
                             </td>
                             <td>
-                                <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                <a class="artifact-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                             </td>
                         </tbody>
                     </table>
                 </li>
                 {{else}}
-                No artifacts.
+                {{localize "NUMENERA.pc.numenera.artifact.none"}}
                 {{/each}}
             </ul>
 
             <hr class="sheet-one" />
     
-            <h2>Oddities</h2>
+            <h2>{{localize "NUMENERA.pc.numenera.oddity.name"}}</h2>
             <ul class="oddities">
                 {{#each data.items.oddities as |oddity|}}
                 <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
@@ -407,14 +406,14 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                    <a class="oddity-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </li>
                 {{else}}
-                No oddities.
+                {{localize "NUMENERA.pc.numenera.oddity.none"}}
                 {{/each}}
             </ul>
         </div>

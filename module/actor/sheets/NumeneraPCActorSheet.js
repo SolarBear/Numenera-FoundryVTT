@@ -142,7 +142,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera ul.cyphers",
         "form.numenera ul.oddities",
       ],
-      width: 900,
+      width: 925,
       height: 1000,
       tabs: [
         {

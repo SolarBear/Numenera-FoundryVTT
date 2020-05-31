@@ -46,6 +46,30 @@
     "NUMENERA.pc.damageTrack.dead.label": "Mort",
     "NUMENERA.pc.damageTrack.dead.description": "Le personnage est mort.",
     "NUMENERA.pc.effort": "Effort",
+
+    "NUMENERA.pc.numenera.identified": "Identifié?",
+    "NUMENERA.pc.numenera.deleteTooltip": "Supprimer",
+    "NUMENERA.pc.numenera.effect": "Effet",
+    "NUMENERA.pc.numenera.form": "Forme",
+    "NUMENERA.pc.numenera.level": "Niveau",
+
+    "NUMENERA.pc.numenera.artifact.depletion": "Déplétion",
+    "NUMENERA.pc.numenera.artifact.in": "sur",
+    "NUMENERA.pc.numenera.artifact.name": "Artefacts",
+    "NUMENERA.pc.numenera.artifact.none": "Pas d'artefacts",
+    "NUMENERA.pc.numenera.artifact.roll": "Jet",
+    
+    "NUMENERA.pc.numenera.cypher.limit": "Limite",
+    "NUMENERA.pc.numenera.cypher.name": "Cyphers",
+    "NUMENERA.pc.numenera.cypher.none": "Pas de cyphers",
+    "NUMENERA.pc.numenera.cypher.overLimit": "Vous avez dépassé votre limite de cyphers !",
+    "NUMENERA.pc.numenera.cypher.type.name": "Type",
+    "NUMENERA.pc.numenera.cypher.type.anoetic": "Anoëtique",
+    "NUMENERA.pc.numenera.cypher.type.occultic": "Occultique",
+
+    "NUMENERA.pc.numenera.oddity.name": "Curiosités",
+    "NUMENERA.pc.numenera.oddity.none": "Pas de curiosités",
+
     "NUMENERA.pc.recovery.name": "Récupération",
     "NUMENERA.pc.recovery.action": "1 Action",
     "NUMENERA.pc.recovery.tenMin": "10 min",

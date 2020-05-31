@@ -127,8 +127,8 @@ NUMENERA.abilityTypes = [
 ];
 
 NUMENERA.cypherTypes = [
-  "Anoetic",
-  "Occultic",
+  "NUMENERA.pc.numenera.cypher.type.anoetic",
+  "NUMENERA.pc.numenera.cypher.type.occultic",
 ];
 
 // Note that these colors do not get propagated to the CSS; that would be neat, though
