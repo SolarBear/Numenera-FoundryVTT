@@ -1,0 +1,88 @@
+<form class="{{cssClass}} numenera npc flexcol" autocomplete="off">
+    <div class="flexrow header">
+        <div class="picture">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+        </div>
+        <div class="flexcol">
+            <div class="flexrow npc-info">
+                <h1 class="character">
+                    <input type="text" name="name" value="{{actor.name}}" class="charname" />
+                    <label for="data.level">Level</label>
+                    <input type="text" name="data.level" value="{{data.level}}" class="level" data-dtype="Number" />
+                </h1>
+
+            </div>
+            <div class="flexrow npc-stats">
+                <div>
+                    <p>
+                        <label for="data.health.max">Health</label>
+                        <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" /></p>
+                    <p>
+                        <label for="data.movement">Movement</label>
+                        <select name="data.movement">
+                            {{#select data.movement}}
+                            {{#each ranges}}
+                            <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                        </select>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <label for="data.armor">Armor</label>      
+                        <input type="text" name="data.armor" value="{{data.armor}}" min="0" data-dtype="Number" /></p>
+                    <p>
+                        <label for="data.damage">Damage</label>
+                        <input type="text" name="data.damage" value="{{data.damage}}" min="0" data-dtype="Number" />
+                    </p>
+                </div>
+            </div>
+            <div>
+                <h2>Attacks</h2>
+                <table class="attacks">
+                    <template>
+                        <tr class="attack">
+                            <td class="attack-description">
+                                <input type="hidden" />
+                                <input type="text" />
+                            </td>
+                            <td><a class="attack-control" data-action="delete"><i class="fas fa-trash"></i></a></td>                        
+                        </tr>
+                    </template>
+                    <thead>
+                        <tr>
+                            <td>Description</td>
+                            <td><a class="attack-control" data-action="create"><i class="fas fa-plus"></i></a></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{#each data.attacks as |attack|}}
+                        <tr class="attack">
+                            <td class="attack-description">
+                                <input type="hidden" name="data.attacks.{{attack.id}}.id" value="{{attack.id}}" />
+                                <input type="text" name="data.attacks.{{attack.id}}.description" value="{{attack.description}}" placeholder="Attack Description" />
+                            </td>
+                            <td><a class="attack-control" data-action="delete"><i class="fas fa-trash"></i></a></td>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <label for="data.description">Description</label>
+        <textarea name="data.description">{{data.description}}</textarea>
+
+        <label for="data.use">Use</label>
+        <textarea name="data.use">{{data.use}}</textarea>
+
+        <label for="data.environment">Environment</label>
+        <textarea name="data.environment">{{data.environment}}</textarea>
+
+        <label for="data.loot">Loot</label>
+        <textarea name="data.loot">{{data.loot}}</textarea>
+    </div>
+</form>

@@ -1,0 +1,21 @@
+<form class="{{cssClass}} numenera" autocomplete="off">
+    <h1><input type="text" name="name" value="{{data.name}}" /></h1>
+    <div class="flexrow item">
+        <div class="img">
+            <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
+        </div>
+        <div class="recursion">
+            <label>Level
+                <input type="number" name="data.level" value="{{data.level}}" class="level" data-dtype="Level" />
+            </label>
+            <label>Laws</label>
+            <textarea name="data.laws">{{data.laws}}</textarea>
+            <label>Race</label>
+            <textarea name="data.race">{{data.race}}</textarea>
+            <label>Focus</label>
+            <textarea name="data.focus">{{data.focus}}</textarea>
+            <label>Focus Abilities</label>
+            <textarea name="data.focusAbilities">{{data.focusAbilities}}</textarea>
+        </div>
+    </div>
+</form>
