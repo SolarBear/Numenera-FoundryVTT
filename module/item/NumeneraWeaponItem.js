@@ -9,7 +9,7 @@ export class NumeneraWeaponItem extends Item {
     prepareData() {
 	    // Override common default icon
 	    if (!this.data.img) this.data.img = 'icons/svg/sword.svg';
-		
+
         super.prepareData();
 
         let itemData = this.data.data || {};

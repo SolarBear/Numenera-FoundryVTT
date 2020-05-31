@@ -3,7 +3,6 @@
     src: url("/fonts/ogirema.ttf") format("ttf");
 }
 
-$foundry-border-color: #782e22;
 $border-color: #325d6d;
 $font-stack: Ogirema;
 
@@ -15,15 +14,6 @@ span.numenera-message-special {
 form.numenera {
     overflow: scroll;
     font-family: $font-stack;
-
-    button#recoveryRoll {
-        width: 75%;
-
-        h2 {
-            font-family: $font-stack;
-            margin: 0;
-        }
-    }
 
     a i.handle {
         cursor: move;
@@ -525,120 +515,4 @@ form.numenera {
             text-align: left;
         }
     }
-}
-
-form.numenera-recovery {
-    font-family: $font-stack;
-
-    h1 {
-        padding-bottom: 0.25em;
-        margin-bottom: 0;
-
-        button {
-            font-weight: bold;
-            font-size: 18px;
-            float: right;
-            width: 8em;
-        }
-    }
-
-    h2 {
-        font-weight: bold;
-        margin-top: 0.5em;
-        border: 0;
-    }
-
-    & > div.columns {
-
-        li {
-            list-style-type: none;
-        }
-
-        & > div {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-
-            &:first-child {
-                border-right: 2px solid $foundry-border-color;
-            }
-
-            &.disabled {
-                color: lightslategray;
-            }
-
-            button {
-                margin-top: 1em;
-                justify-self: flex-end;
-                width: 60%;
-            }
-
-            &.recoveries {
-                p {
-                    font-size: 16px;
-                    font-weight: bold;
-                }
-            }
-
-            &.pools {
-                input[type="number"].pool {
-                    width: 3em;
-                }
-
-                label {
-                    font-size: 16px;
-                    font-weight: bold;
-                    text-transform: capitalize;
-                    margin-right: 0.4em;
-                }
-
-                div.stats {
-                    display: block;
-                    margin-top: 0.5em;
-                }
-            }
-        }
-    }
-}
-
-#token-hud {
-    #innerTokenHud {
-       height: 100%;
-    }
-
-    #cypherTokenStats {
-        margin: 0px;
-        padding: 0px;
-        position: absolute;
-        width: 300%;
-        top: -85px;
-        left: -100%;
-
-        div {
-            display: inline-block;
-        }
-
-        .attribute {
-            padding: 0px;
-            margin: 0px;
-            width: 30%;
-        }
-        .attribute.bar1 input {
-            border: 2px solid #ff443d !important;
-        }
-        .attribute.bar2 input {
-            border: 2px solid #87ff3d !important;
-        }
-        .attribute.bar3 input {
-            border: 2px solid #3ddbff !important;
-        }
-    }
-}
-
-#apologyBox {
-    display: block;
-    padding: 4px 12px 4px 12px;
-    margin: 8px;
-    border: 1px solid #737373;
 }
