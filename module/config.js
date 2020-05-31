@@ -52,15 +52,30 @@ NUMENERA.types = [
     abbrev: "w",
     name: "Wright",
   },
+  {
+    abbrev: 'p',
+    name: 'Paradox',
+  },
+  {
+    abbrev: 's',
+    name: 'Spinner',
+  },
+  {
+    abbrev: 'v',
+    name: 'Vector',
+  },
 ];
 
 NUMENERA.typePowers = {
-  "g": "Combat Maneuvers",
-  "j": "Tricks of the Trade",
-  "n": "Esoteries",
-  "a": "Precepts",
-  "d": "Delve Lores",
-  "w": "Inspired Techniques",
+  'g': 'Combat Maneuvers',
+  'j': 'Tricks of the Trade',
+  'n': 'Esoteries',
+  'a': 'Precepts',
+  'd': 'Delve Lores',
+  'w': 'Inspired Techniques',
+  'v': 'Moves',
+  'p': 'Revisions',
+  's': 'Twists',
 };
 
 NUMENERA.damageTrack = [
@@ -115,3 +130,10 @@ NUMENERA.cypherTypes = [
   "Anoetic",
   "Occultic",
 ];
+
+// Note that these colors do not get propagated to the CSS; that would be neat, though
+NUMENERA.attributeColors = {
+  0: 0xff443d,    // Might
+  1: 0x87ff3d,    // Speed
+  2: 0x3ddbff     // Intellect
+};
