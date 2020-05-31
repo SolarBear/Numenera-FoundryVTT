@@ -21,9 +21,18 @@ import { preloadHandlebarsTemplates } from './module/templates.js';
 import { registerSystemSettings } from './module/settings.js';
 import { migrateWorld } from './module/migrations/migrate.js';
 import { numeneraSocketListeners } from './module/socket.js';
+import { RecoveryDialog } from './module/apps/RecoveryDialog.js';
+import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
+import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
+
+    game.numenera = {
+        applications: {
+            RecoveryDialog,
+        },
+    };
 
     // Record Configuration Values
     CONFIG.NUMENERA = NUMENERA;
@@ -52,8 +61,12 @@ Hooks.once("init", function() {
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
     
     registerSystemSettings();
+    registerHandlebarHelpers();
     preloadHandlebarsTemplates();
 });
+
+Hooks.once("init", cypherToken);
+Hooks.once("ready", add3rdBarToPCTokens);
 
 //TODO cleanup the functions here, it's gonna get messy real quick
   
