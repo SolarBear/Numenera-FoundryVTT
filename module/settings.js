@@ -45,7 +45,7 @@ export const registerSystemSettings = function() {
       "straightNumbers": "Output numbers and modifiers as is",
     },
   });
-  
+
   /**
    * Configure whether or not to show skill icons
    */
@@ -57,7 +57,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show ability icons
    */
@@ -69,7 +69,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */
@@ -81,7 +81,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */

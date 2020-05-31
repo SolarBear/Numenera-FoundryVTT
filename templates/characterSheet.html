@@ -1,0 +1,605 @@
+<form class="{{cssClass}} numenera pc" autocomplete="off">
+    <h1 class="character">
+        <input type="text" name="name" value="{{actor.name}}" class="charname" placeholder="Type" />
+        is a
+        <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
+        <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" data-type="String">
+        who <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
+    </h1>
+    <div class="flexcol">
+        <div class="flexrow header">
+            <div class="picture">
+                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+            </div>
+            <div class="contents flexcol">
+                <div class="flexrow">
+                    {{#each data.stats as |stat id|}}
+                    <div class="stats" data-stat="{{id}}">
+                        <h2 class="stat">{{id}}</h2>
+                        <h3>
+                            Current <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                            /
+                            Pool <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
+                        </h3>
+
+                        <h3>Edge <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
+                    </div>
+                    {{/each}}
+                </div>
+                <div class="flexrow">
+                    <div class="stats">
+                        <h2>Tier <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
+                            Effort <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
+                        </h2>
+                        <h2>Damage track</h2>
+                        <p>
+                            <select name="data.damageTrack" data-dtype="Number">
+                            {{#select data.damageTrack}}
+                            {{#each damageTrackData as |track id|}}
+                                <option value="{{id}}" data-dtype="Number">{{this.label}}</option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </p>
+                        <p class="description">{{damageTrackDescription}}</p>
+                    </div>
+                    <div class="stats advances">
+                        <h2>Advancement</h2>
+                        <h3>
+                            <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> XP
+                        </h3>
+                        <ul>
+                            {{#each advances as |advance|}}
+                            <li>
+                                <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean" {{checked advance.isChecked}}/>
+                                <label for="data.advances.{{advance.name}}">{{advance.label}}</label>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    <div class="stats recovery">
+                        <h2>Recovery</h2>
+                        <h3>
+                            1d6 + <input type="text" value="{{data.tier}}" data-dtype="Number" disabled="disabled" />
+                        </h3>
+
+                        <ul>
+                        {{#each recoveriesData as |recovery|}}
+                            <li>
+                                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}" {{checked recovery.checked}}/>
+                                <label for="recoveries.action">{{recovery.label}}</label>
+                            </li>
+                        {{/each}}
+                        </ul>
+                        <h2>Armor&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="skills">Skills</a>
+        <a class="item" data-tab="abilities">Abilities</a>
+        <a class="item" data-tab="numenera">Numenera</a>
+        <a class="item" data-tab="equipment">Equipment</a>
+        <a class="item" data-tab="bio">Bio</a>
+    </nav>
+
+    <section id="pc-sheet-body">
+        <div class="tab skills" data-group="primary" data-tab="skills">
+            <table class="skills">
+                <thead>
+                    <tr>
+                        <td class="">
+                            <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                        </td>
+                    {{#if settings.icons.skills}}
+                        <td class="skill-icon"></td>
+                    {{/if}}
+                        <td class="skill-name">Name</td>
+                        <td class="skill-stat">Stat</td>
+                        <td class="skill-inability">Inability</td>
+                        <td class="skill-untrained">Untrained</td>
+                        <td class="skill-trained">Trained</td>
+                        <td class="skill-specialized">Specialized</td>
+                        <td><a class="skill-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each data.items.skills as |skill| }}
+                    <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
+                        <td class="handle">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                        </td>
+                    {{#if skill.showIcon}}
+                        <td class="item-icon">
+                            <img src="{{skill.img}}" />
+                        </td>
+                    {{/if}}
+                        <td class="skill-name">
+                            <input type="text" name="data.items.skills.{{skill._id}}.name" placeholder="Skill Name" value="{{skill.name}}" class="skill-name-input"/>
+                        </td>
+                        <td class="skill-stat">
+                            <select name="data.items.skills.{{skill._id}}.data.stat">
+                            {{#select skill.data.stat}}
+                            {{#each stats}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td class="skill-inability">
+                            <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
+                        </td>
+                        <td class="skill-untrained">
+                            <input class="skill-untrained" type="checkbox" name="data.items.skills.{{skill._id}}.data.untrained" {{checked skill.data.untrained}} data-dtype="Boolean" />
+                        </td>
+                        <td class="skill-trained">
+                            <input class="skill-trained" type="checkbox" name="data.items.skills.{{skill._id}}.data.trained" {{checked skill.data.trained}} data-dtype="Boolean" />
+                        </td>
+                        <td class="skill-specialized">
+                            <input class="skill-specialized" type="checkbox" name="data.items.skills.{{skill._id}}.data.specialized" {{checked skill.data.specialized}} data-dtype="Boolean" />
+                        </td>
+                        <td>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" alt="d20" /></a>
+                            <a class="skill-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab abilities" data-group="primary" data-tab="abilities">
+            <table class="abilities">
+                <thead>
+                    <tr>
+                        <td class="">
+                            <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                        </td>
+                    {{#if settings.icons.abilities}}
+                        <td class="ability-icon"></td>
+                    {{/if}}
+                        <td class="ability-name">Name</td>
+                        <td class="ability-cost">Cost</td>
+                        <td class="ability-range">Range</td>
+                        <td class="ability-description">Description</td>
+                        <td><a class="ability-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each data.items.abilities as |ability| }}
+                    <tr class="ability" data-item-id="{{ability._id}}" data-prder="{{ability.data.order}}">
+                        <td class="handle">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                        </td>
+                    {{#if ability.showIcon}}
+                        <td class="item-icon">
+                            <img src="{{ability.img}}" />
+                        </td>
+                    {{/if}}
+                        <td class="ability-name">
+                            <input type="text" name="data.items.abilities.{{ability._id}}.name" placeholder="Ability Name" value="{{ability.name}}" class="ability-name-input"/>
+                        </td>
+                        <td class="ability-cost">
+                            <select name="data.items.abilities.{{ability._id}}.data.isAction" data-dtype="Boolean">
+                                {{#select ability.data.isAction}}
+                                <option value="true">Action</option>
+                                <option value="false">Enabler</option>
+                                {{/select}}
+                            </select>
+                            <br/>
+
+                            <div {{#if ability.nocost}}class="nocost"{{/if}}>
+                                <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
+                                <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
+                                    {{#select ability.data.cost.pool}}
+                                    {{#each stats}}
+                                    <option value="{{this}}">{{this}}</option>
+                                    {{/each}}
+                                    {{/select}}
+                                </select>
+                            </div>
+                        </td>
+                        <td class="ability-range">
+                            <select name="data.items.abilities.{{ability._id}}.data.range">
+                            {{#select ability.data.range}}
+                            {{#each ability.ranges}}
+                                <option value="{{this}}">
+                                    {{this}}
+                                </option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td class="ability-description">
+                            <textarea name="data.items.abilities.{{ability._id}}.data.notes">{{ability.data.notes}}</textarea>
+                        </td>
+                        <td>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" alt="d20" /></a>
+                            <a class="ability-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab numenera" data-group="primary" data-tab="numenera">
+            <h2>Cyphers</h2>
+            <h3>Cypher Limit <input type="text" name="data.cypherLimit" value="{{data.cypherLimit}}" class="cypher-limit" data-dtype="Number" /></h3>
+            {{#if displayCypherLimitWarning}}
+            <h3 class="cypher-limit-warning">You are over your cypher limit!</h3>
+            {{/if}}
+
+            <ul class="cyphers">
+            {{#each data.items.cyphers as |cypher|}}
+                <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.order}}>
+                    <table class="cypher-header-table">
+                        <tbody>
+                            <tr class="cypher-header">
+                                <td>
+                                    <h4>
+                                        <a><i class="fas fa-grip-vertical handle"></i></a>
+                                    </h4>
+                                </td>
+                            {{#if cypher.showIcon}}
+                                <td class="ability-icon">
+                                    <img src="{{cypher.img}}" />
+                                </td>
+                            {{/if}}
+                                <td class="cypher-name">
+                                    <h4><strong>{{cypher.name}}</strong></h4>
+                                </td>
+                                <td class="cypher-level">
+                                {{#if cypher.editable}}
+                                    <label>Identified?
+                                        <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" data-dtype="Boolean" {{checked cypher.data.identified}}/>
+                                    </label>
+                                    <br />
+                                    <label>Level
+                                        <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" min="1" data-dtype="Number"/>
+                                    </label>
+                                {{#if ../displayCypherType}}
+
+                                    <label>Type
+                                        <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String" class="cypher-type">
+                                        {{#select cypher.data.cypherType}}
+                                        {{#each ../cypherTypes}}
+                                            <option value="{{this}}">{{this}}</option>
+                                        {{/each}}
+                                        {{/select}}
+                                        </select>
+                                    </label>
+                                {{/if}}
+                                {{else}}
+                                    <span>Level</span> {{cypher.data.level}}
+                                {{#if ../displayCypherType}}
+                                    <span>Type</span> {{cypher.data.cypherType}}
+                                {{/if}}
+                                {{/if}}
+                                </td>
+                                <td class="cypher-description">
+                                    <p>
+                                        <span><strong>Form:</strong></span> {{cypher.data.form}}
+                                    </p>
+                                    <p>
+                                        <span><strong>Effect:</strong></span> {{cypher.data.effect}}
+                                    </p>
+                                </td>
+                                <td>
+                                    <a class="cypher-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                {{else}}
+                No cyphers.
+                {{/each}}
+            </ul>
+
+            <hr class="sheet-one" />
+
+            <h2>Artifacts</h2>
+            <ul class="artifacts">
+                {{#each data.items.artifacts as |artifact|}}
+                <li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.order}}>
+                    <table class="artifact-header-table">
+                        <tbody>
+                            <td>
+                                <h4>
+                                    <a><i class="fas fa-grip-vertical handle"></i></a>
+                                </h4>
+                            </td>
+                        {{#if artifact.showIcon}}
+                            <td class="ability-icon">
+                                <img src="{{artifact.img}}" />
+                            </td>
+                        {{/if}}
+                            <td class="artifact-name">
+                                <h4><strong>{{artifact.name}}</strong></h4>
+                            </td>
+                            <td class="artifact-level">
+                            {{#if artifact.editable}}
+                                <label>Identified?
+                                    <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" data-dtype="Boolean" {{checked artifact.data.identified}}/>
+                                </label>
+                                <br />
+                                <label>Level
+                                    <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1" value="{{artifact.data.level}}"/>
+                                </label>
+                            {{else}}
+                                <span>Level</span> {{artifact.data.level}}
+                            {{/if}}
+                            </td>
+
+                            <td class="artifact-description">
+                                <p>
+                                    <span><strong>Form:</strong></span> {{artifact.data.form}}
+                                </p>
+                                <p>
+                                    <span><strong>Effect:</strong></span> {{artifact.data.effect}}
+                                </p>
+                            {{#if artifact.data.depletion.isDepleting}}
+                                <p>
+                                    <span><strong>Depletion: </strong></span> {{artifact.data.depletion.threshold}} in
+                                    {{artifact.data.depletion.die}}
+                                    <button class="artifact-depletion-roll">Roll</button>
+                                </p>
+                            {{/if}}
+                            </td>
+                            <td>
+                                <a class="artifact-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tbody>
+                    </table>
+                </li>
+                {{else}}
+                No artifacts.
+                {{/each}}
+            </ul>
+
+            <hr class="sheet-one" />
+
+            <h2>Oddities</h2>
+            <ul class="oddities">
+                {{#each data.items.oddities as |oddity|}}
+                <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
+                    <table class="oddity-header-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <h4>
+                                        <a><i class="fas fa-grip-vertical handle"></i></a>
+                                    </h4>
+                                </td>
+                            {{#if oddity.showIcon}}
+                                <td class="oddity-icon">
+                                    <img src="{{oddity.img}}" />
+                                </td>
+                            {{/if}}
+                                <td class="oddity-name">
+                                    <h4><strong>{{oddity.name}}</strong></h4>
+                                </td>
+                                <td class="oddity-description">
+                                    <span>
+                                        {{oddity.data.notes}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a class="oddity-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </li>
+                {{else}}
+                No oddities.
+                {{/each}}
+            </ul>
+        </div>
+
+        <div class="tab equipment" data-group="primary" data-tab="equipment">
+            <h2>Weapons</h2>
+            <table class="weapons">
+                <thead>
+                    <td>
+                        <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                    </td>
+                {{#if settings.icons.equipment}}
+                    <td>
+                        <!-- Extra empty table data for icon-->
+                    </td>
+                {{/if}}
+                    <td>Name</td>
+                    <td>Type</td>
+                    <td>Damage</td>
+                    <td>Range</td>
+                    <td>Notes</td>
+                    <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                </thead>
+                <tbody>
+                {{#each data.items.weapons as |weapon|}}
+                    <tr class="weapon" data-item-id="{{weapon._id}}" data-prder="{{weapon.data.order}}">
+                        <td class="handle">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                        </td>
+                    {{#if weapon.showIcon}}
+                        <td class="item-icon">
+                            <img src="{{weapon.img}}" />
+                        </td>
+                    {{/if}}
+                        <td class="weapon-name">
+                            <input type="text" name="data.items.weapons.{{weapon._id}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}"/>
+                        </td>
+                        <td class="weapon-weight-type">
+                            <select name="data.items.weapons.{{weapon._id}}.data.weight" class="weapon-weight">
+                            {{#select weapon.data.weight}}
+                            {{#each ../weights}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+
+                            <select name="data.items.weapons.{{weapon._id}}.data.weaponType">
+                            {{#select weapon.data.weaponType}}
+                            {{#each ../weaponTypes}}
+                                <option value="{{this}}">
+                                    {{this}}
+                                </option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td class="weapon-damage">
+                            <input type="number" name="data.items.weapons.{{weapon._id}}.data.damage" min="1" value="{{weapon.data.damage}}" class="weapon-damage" />
+                        </td>
+                        <td class="weapon-range">
+                            <select name="data.items.weapons.{{weapon._id}}.data.range">
+                            {{#select weapon.data.range}}
+                            {{#each ../ranges}}
+                                <option value="{{this}}">
+                                    {{this}}
+                                </option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td class="weapon-notes">
+                            <input type="text" name="data.items.weapons.{{weapon._id}}.data.notes" value="{{weapon.data.notes}}" title="{{weapon.data.notes}}" />
+                        </td>
+                        <td>
+                            <a class="weapon-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                <tr>
+                    <td colspan="8">
+                        No weapons yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+
+            <h2>Armor</h2>
+            <table class="armor">
+                <thead>
+                    <td>
+                        <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                    </td>
+                    <td>
+                        <!-- Extra empty table data for icon-->
+                    </td>
+                    <td>Name</td>
+                    <td>Armor Value</td>
+                    <td>Type</td>
+                    <td>Effort Cost</td>
+                    <td>Notes</td>
+                    <td><a class="armor-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                </thead>
+                <tbody>
+                {{#each data.items.armor as |armor|}}
+                    <tr class="armor" data-item-id="{{armor._id}}" data-prder="{{armor.data.order}}">
+                        <td class="handle">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                        </td>
+                    {{#if armor.showIcon}}
+                        <td class="item-icon">
+                            <img src="{{armor.img}}" />
+                        </td>
+                    {{/if}}
+                        <td class="armor-name">
+                            <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}"/>
+                        </td>
+                        <td class="armor-value">
+                            <input type="number" name="data.items.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" min="0" class="armor-value" data-dtype="Number" />
+                        </td>
+                        <td class="armor-weight-type">
+                            <select name="data.items.armor.{{armor._id}}.data.weight" class="armor-weight">
+                            {{#select armor.data.weight}}
+                            {{#each ../optionalWeights}}
+                                <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                            {{/select}}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" name="data.items.armor.{{armor._id}}.data.additionalSpeedEffortCost" value="{{armor.data.additionalSpeedEffortCost}}" min="0" class="armor-effort-cost" data-dtype="Number" />
+                        </td>
+                        <td class="armor-notes">
+                            <input type="text" name="data.items.armor.{{armor._id}}.data.notes" value="{{armor.data.notes}}" title="{{armor.data.notes}}" />
+                        </td>
+                        <td>
+                            <a class="armor-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                <tr>
+                    <td colspan="8">
+                        No armor yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+
+            <h2>Other Items</h2>
+            <table class="equipment">
+                <thead>
+                    <td>
+                        <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                    </td>
+                    <td>
+                        <!-- Extra empty table data for icon-->
+                    </td>
+                    <td>Name</td>
+                    <td>Quantity</td>
+                    <td>Description</td>
+                    <td><a class="equipment-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                </thead>
+                <tbody>
+                {{#each data.items.equipment as |equipment|}}
+                    <tr class="equipment" data-item-id="{{equipment._id}}" data-prder="{{equipment.data.order}}">
+                        <td class="handle">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                        </td>
+                    {{#if equipment.showIcon}}
+                        <td class="item-icon">
+                            <img src="{{equipment.img}}" />
+                        </td>
+                    {{/if}}
+                        <td class="equipment-name">
+                            <input type="text" name="data.items.equipment.{{equipment._id}}.name" placeholder="Item Name" class="equipment-name-input" value="{{equipment.name}}" />
+                        </td>
+                        <td class="equipment-quantity">
+                            <input type="number" name="data.items.equipment.{{equipment._id}}.data.quantity" value="{{equipment.data.quantity}}" min="0" class="equipment-quantity" data-dtype="Number" />
+                        </td>
+                        <td class="equipment-notes">
+                            <input type="text" name="data.items.equipment.{{equipment._id}}.data.notes" value="{{equipment.data.notes}}" title="{{equipment.data.notes}}" />
+                        </td>
+                        <td>
+                            <a class="equipment-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                <tr>
+                    <td colspan="6">
+                        No items yet. Create one by clicking the <a><i class="fas fa-plus"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.
+                    </td>
+                </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab description" data-group="primary" data-tab="bio">
+            {{editor content=data.background target="data.background" button=true editable=editable}}
+            <button type="submit" id="save-bio"><i class="fas fa-feather-alt"></i>Save Changes</button>
+        </div>
+    </section>
+</form>

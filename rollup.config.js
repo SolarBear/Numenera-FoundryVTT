@@ -14,10 +14,8 @@ const toBundle = [
     "fonts/source.txt",
     "lib/dragula/dragula.min.css",
     "lib/dragula/dragula.min.js",
-    "templates/actor/characterSheet.html",
-    "templates/actor/npcSheet.html",
-    "templates/dialog/recovery.html",
-    "templates/hud/tokenHUD.html",
+    "templates/characterSheet.html",
+    "templates/npcSheet.html",
     "templates/item/abilitySheet.html",
     "templates/item/armorSheet.html",
     "templates/item/artifactSheet.html",
@@ -26,7 +24,6 @@ const toBundle = [
     "templates/item/odditySheet.html",
     "templates/item/skillSheet.html",
     "templates/item/weaponSheet.html",
-    "templates/scene/tokenConfig.html",
     "LICENSE"
 ];
 
