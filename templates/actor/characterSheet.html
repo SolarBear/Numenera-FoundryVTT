@@ -1,10 +1,10 @@
 <form class="{{cssClass}} numenera pc" autocomplete="off">
     <h1 class="character">
-        <input type="text" name="name" value="{{actor.name}}" class="charname" placeholder="Type" />
-        is a
-        <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="Descriptor" />
-        <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" data-type="String">
-        who <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="Focus" />
+        <input type="text" name="name" value="{{actor.name}}" class="charname" placeholder="{{localize "NUMENERA.pcActorSheet.header.name"}}" />
+        {{localize "NUMENERA.pcActorSheet.header.isA"}}
+        <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="{{localize "NUMENERA.pcActorSheet.header.descriptor"}}" />
+        <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" placeholder="{{localize "NUMENERA.pcActorSheet.header.type"}}" data-type="String">
+        {{localize "NUMENERA.pcActorSheet.header.who"}} <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="{{localize "NUMENERA.pcActorSheet.header.focus"}}" />
     </h1>
     <div class="flexcol">
         <div class="flexrow header">
@@ -17,59 +17,59 @@
                     <div class="stats" data-stat="{{id}}">
                         <h2 class="stat">{{localize id}}</h2>
                         <h3>
-                            Current <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
+                            {{localize "NUMENERA.stats.current"}} <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
                             /
-                            Pool <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0" />
+                            {{localize "NUMENERA.stats.pool"}} <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0" />
                         </h3>
             
-                        <h3>Edge <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
+                        <h3>{{localize "NUMENERA.stats.edge"}} <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
                     </div>
                     {{/each}}
                 </div>
                 <div class="flexrow">
                     <div class="stats">
-                        <h2>Tier <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
-                            Effort <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
+                        <h2>{{localize "NUMENERA.pc.tier"}} <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
+                            {{localize "NUMENERA.pc.effort"}} <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
                         </h2>
-                        <h2>Damage track</h2>
+                        <h2>{{localize "NUMENERA.pc.damageTrack.name"}}</h2>
                         <p>
                             <select name="data.damageTrack" data-dtype="Number">
                             {{#select data.damageTrack}}
                             {{#each damageTrackData as |track id|}}
-                                <option value="{{id}}" data-dtype="Number">{{this.label}}</option>
+                                <option value="{{id}}" data-dtype="Number">{{localize this.label}}</option>
                             {{/each}}
                             {{/select}}
                             </select>
                         </p>
-                        <p class="description">{{damageTrackDescription}}</p>
+                        <p class="description">{{localize damageTrackDescription}}</p>
                     </div>
                     <div class="stats advances">
-                        <h2>Advancement</h2>
+                        <h2>{{localize "NUMENERA.pcActorSheet.advancement.title"}}</h2>
                         <h3>
-                            <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> XP
+                            <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> {{localize "NUMENERA.pcActorSheet.advancement.xp"}}
                         </h3>
                         <ul>
                             {{#each advances as |advance|}}
                             <li>
                                 <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean" {{checked advance.isChecked}}/>
-                                <label for="data.advances.{{advance.name}}">{{advance.label}}</label>
+                                <label for="data.advances.{{advance.name}}">{{localize advance.label}}</label>
                             </li>
                             {{/each}}
                         </ul>
                     </div>
                     <div class="stats recovery">
                         <button id="recoveryRoll">
-                            <h2>Recovery</h2>
+                            <h2>{{localize "NUMENERA.pc.recovery.name"}}</h2>
                         </button>
                         <ul>
                         {{#each recoveriesData as |recovery|}}
                             <li>
                                 <input type="checkbox" id="{{recovery.label}}" {{checked recovery.checked}} disabled/>
-                                <label>{{recovery.label}}</label>
+                                <label>{{localize recovery.label}}</label>
                             </li>
                         {{/each}}
                         </ul>
-                        <h2>Armor&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
+                        <h2>{{localize "NUMENERA.pc.armor"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
                         </h2>
                     </div>
                 </div>
@@ -79,11 +79,11 @@
 
     {{!-- Sheet Tab Navigation --}}
     <nav class="sheet-tabs tabs" data-group="primary">
-        <a class="item" data-tab="skills">Skills</a>
-        <a class="item" data-tab="abilities">Abilities</a>
-        <a class="item" data-tab="numenera">Numenera</a>
-        <a class="item" data-tab="equipment">Equipment</a>
-        <a class="item" data-tab="bio">Bio</a>
+        <a class="item" data-tab="skills">{{localize "NUMENERA.pcActorSheet.tab.skills"}}</a>
+        <a class="item" data-tab="abilities">{{localize "NUMENERA.pcActorSheet.tab.abilities"}}</a>
+        <a class="item" data-tab="numenera">{{localize "NUMENERA.pcActorSheet.tab.numenera"}}</a>
+        <a class="item" data-tab="equipment">{{localize "NUMENERA.pcActorSheet.tab.equipment"}}</a>
+        <a class="item" data-tab="bio">{{localize "NUMENERA.pcActorSheet.tab.bio"}}</a>
     </nav>
 
     <section id="pc-sheet-body">
@@ -97,13 +97,13 @@
                     {{#if settings.icons.skills}}
                         <td class="skill-icon"></td>
                     {{/if}}
-                        <td class="skill-name">Name</td>
-                        <td class="skill-stat">Stat</td>
-                        <td class="skill-inability">Inability</td>
-                        <td class="skill-untrained">Untrained</td>
-                        <td class="skill-trained">Trained</td>
-                        <td class="skill-specialized">Specialized</td>
-                        <td><a class="skill-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
+                        <td class="skill-name">{{localize "NUMENERA.skills.tab.name"}}</td>
+                        <td class="skill-stat">{{localize "NUMENERA.skills.tab.stat"}}</td>
+                        <td class="skill-inability">{{localize "NUMENERA.skillLevels.Inability"}}</td>
+                        <td class="skill-untrained">{{localize "NUMENERA.skillLevels.Untrained"}}</td>
+                        <td class="skill-trained">{{localize "NUMENERA.skillLevels.Trained"}}</td>
+                        <td class="skill-specialized">{{localize "NUMENERA.skillLevels.Specialized"}}</td>
+                        <td><a class="skill-create" data-action="create" title="{{localize "NUMENERA.skills.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,10 +142,20 @@
                             <input class="skill-specialized" type="checkbox" name="data.items.skills.{{skill._id}}.data.specialized" {{checked skill.data.specialized}} data-dtype="Boolean" />
                         </td>
                         <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" alt="d20" /></a>
-                            <a class="skill-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.skills.tab.rollTooltip"}}" alt="d20" /></a>
+                            <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.skills.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
+                {{else}}
+                <tr>
+                    {{#if settings.icons.skills}}
+                    <td colspan="9">
+                    {{else}}
+                    <td colspan="8">
+                    {{/if}}
+                        {{{localize "NUMENERA.skills.tab.instructions"}}}
+                    </td>
+                </tr>
                 {{/each}}
                 </tbody>
             </table>
@@ -161,11 +171,11 @@
                     {{#if settings.icons.abilities}}
                         <td class="ability-icon"></td>
                     {{/if}}
-                        <td class="ability-name">Name</td>
-                        <td class="ability-cost">Cost</td>
-                        <td class="ability-range">Range</td>
-                        <td class="ability-description">Description</td>
-                        <td><a class="ability-create" data-action="create" title="Create"><i class="fas fa-plus"></i></a></td>
+                        <td class="ability-name">{{localize "NUMENERA.abilities.tab.name"}}</td>
+                        <td class="ability-cost">{{localize "NUMENERA.abilities.tab.cost"}}</td>
+                        <td class="ability-range">{{localize "NUMENERA.abilities.tab.range"}}</td>
+                        <td class="ability-description">{{localize "NUMENERA.abilities.tab.description"}}</td>
+                        <td><a class="ability-create" data-action="create" title="{{localize "NUMENERA.abilities.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -185,8 +195,8 @@
                         <td class="ability-cost">
                             <select name="data.items.abilities.{{ability._id}}.data.isAction" data-dtype="Boolean">
                                 {{#select ability.data.isAction}}
-                                <option value="true">Action</option>
-                                <option value="false">Enabler</option>
+                                <option value="true">{{localize "NUMENERA.abilities.type.action"}}</option>
+                                <option value="false">{{localize "NUMENERA.abilities.type.enabler"}}</option>
                                 {{/select}}
                             </select>
                             <br/>
@@ -206,9 +216,7 @@
                             <select name="data.items.abilities.{{ability._id}}.data.range">
                             {{#select ability.data.range}}
                             {{#each ability.ranges}}
-                                <option value="{{this}}">
-                                    {{this}}
-                                </option>
+                                <option value="{{this}}">{{localize this}}</option>
                             {{/each}}
                             {{/select}}
                             </select>
@@ -217,8 +225,18 @@
                             <textarea name="data.items.abilities.{{ability._id}}.data.notes">{{ability.data.notes}}</textarea>
                         </td>
                         <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" alt="d20" /></a>
-                            <a class="ability-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.abilities.tab.rollTooltip"}}" alt="d20" /></a>
+                            <a class="ability-delete" data-action="delete" title="{{localize "NUMENERA.abilities.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        {{#if settings.icons.skills}}
+                        <td colspan="7">
+                        {{else}}
+                        <td colspan="6">
+                        {{/if}}
+                            {{{localize "NUMENERA.abilities.tab.instructions"}}}
                         </td>
                     </tr>
                 {{/each}}
