@@ -247,7 +247,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return {
         key,
         label: value,
-        checked: idx < this.actor.data.data.recoveries
+        checked: idx >= this.actor.data.data.recoveriesLeft
       };
     });
 
