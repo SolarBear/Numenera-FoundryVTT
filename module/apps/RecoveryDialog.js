@@ -27,7 +27,7 @@ export class RecoveryDialog extends FormApplication {
     .map(([key, value]) => {
       return {
         name: key,
-        current: value.pool.value,
+        value: value.pool.value,
         max: value.pool.max,
         min: value.pool.value,
       };
@@ -38,16 +38,16 @@ export class RecoveryDialog extends FormApplication {
        sum + value.pool.value
     , 0);
 
+    debugger;
     const recoveryDialogObject = {
       actor,
       initialUnspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
-      unspentRecoveryPoints: actor.data.data.unspentRecoveryPoints || null,
+      unspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
       initialRecoveriesLeft: actor.data.data.recoveriesLeft,
       recoveriesLeft: actor.data.data.recoveriesLeft,
       pools,
       poolsTotal,
       initialPoolsTotal: poolsTotal,
-      diceToRoll: 0,
     };
 
     super(recoveryDialogObject, options);
@@ -143,6 +143,7 @@ export class RecoveryDialog extends FormApplication {
       flavor: `${this.object.actor.data.name} rolls for Recovery`,
     });
 
+    debugger;
     this.object.unspentRecoveryPoints += roll.total;
     this.object.initialUnspentRecoveryPoints += roll.total;
     this.object.initialRecoveriesLeft = this.object.recoveriesLeft;
@@ -237,9 +238,10 @@ export class RecoveryDialog extends FormApplication {
     }
 
     //Update remaining points and pools
+    debugger;
     let poolsTotal = 0;
     for (let pool of this.object.pools) {
-      pool.value = formData[`pools.${pool.name}.value`];
+      pool.value = formData[`pools.${pool.name}.value`] || 0;
       poolsTotal += pool.value;
     }
 

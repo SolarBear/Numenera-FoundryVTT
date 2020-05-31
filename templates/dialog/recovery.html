@@ -26,7 +26,7 @@
             {{#each pools as |pool|}}
             <div class="stats">
                 <label class="stat">{{pool.name}}</label>
-                <input name="pools.{{pool.name}}.current" type="number" value="{{pool.current}}" min="{{pool.min}}" max="{{pool.max}}" class="pool" data-dtype="Number" />
+                <input name="pools.{{pool.name}}.value" type="number" value="{{pool.value}}" min="{{pool.min}}" max="{{pool.max}}" class="pool" data-dtype="Number" />
             </div>
             {{/each}}
             
