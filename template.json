@@ -145,14 +145,14 @@
             "damage": 0,
             "weaponType": ""
 		},
-		"recursion": {
-			"templates": ["common"],
-			"name": "",
-			"level": "",
-			"laws": "",
-			"race": "",
-			"focus": "",
-			"focusAbilities": ""
+	"recursion": {
+		"templates": ["common"],
+		"name": "",
+		"level": "",
+		"laws": "",
+		"race": "",
+		"focus": "",
+		"focusAbilities": ""
 		}
 	}
 }
