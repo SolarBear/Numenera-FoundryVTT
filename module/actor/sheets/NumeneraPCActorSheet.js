@@ -23,7 +23,7 @@ const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order >
  * Higher order function that generates an item creation handler.
  *
  * @param {String} itemType The type of the Item (eg. 'ability', 'cypher', etc.)
- * @param {*} itemClass 
+ * @param {*} itemClass
  * @param {*} [callback=null]
  * @returns
  */
@@ -56,9 +56,9 @@ function onItemEditGenerator(editClass, callback = null) {
       throw new Error(`Missing ${editClass} class element`);
     else if (!elem.dataset.itemId)
       throw new Error(`No itemID on ${editClass} element`);
-      
+
     const updated = {_id: elem.dataset.itemId};
-    
+
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
@@ -195,10 +195,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-  get template() {
-    return "systems/numenera/templates/actor/characterSheet.html";
-  }
-
+   get template() {
+     if (game.settings.get("numenera", "worldSetting") === 2)
+       return "systems/numenera/templates/actor/characterSheetStrange.html";
+     else
+       return "systems/numenera/templates/actor/characterSheet.html";
+   }
   /**
    * Provides the data objects provided to the character sheet. Use that method
    * to insert new values or mess with existing ones.
@@ -438,7 +440,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   onAbilityUse(event) {
     event.preventDefault();
     const abilityId = event.target.closest(".ability").dataset.itemId;
-  
+
     if (!abilityId)
       return;
 
@@ -515,13 +517,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (element && element.contains(event.target))
         return;
     }
-    
+
     super._onChangeInput(event);
   }
 
   _onDrop(event) {
     super._onDrop(event);
-    
+
     const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
 
     if (type !== "Item")

@@ -17,9 +17,9 @@
                     <div class="stats" data-stat="{{id}}">
                         <h2 class="stat">{{id}}</h2>
                         <h3>
-                            Current <input name="data.stats.{{id}}.pool.current" type="text" value="{{stat.pool.current}}" class="stats" data-dtype="Number" placeholder="0" />
+                            Current <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
                             /
-                            Pool <input name="data.stats.{{id}}.pool.maximum" type="text" value="{{stat.pool.maximum}}" class="stats" data-dtype="Number" placeholder="0" />
+                            Pool <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0" />
                         </h3>
 
                         <h3>Edge <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
@@ -58,16 +58,14 @@
                         </ul>
                     </div>
                     <div class="stats recovery">
-                        <h2>Recovery</h2>
-                        <h3>
-                            1d6 + <input type="text" value="{{data.tier}}" data-dtype="Number" disabled="disabled" />
-                        </h3>
-
+                        <button id="recoveryRoll">
+                            <h2>Recovery</h2>
+                        </button>
                         <ul>
                         {{#each recoveriesData as |recovery|}}
                             <li>
-                                <input type="checkbox" name="data.recoveries.{{recovery.key}}" id="{{recovery.label}}" {{checked recovery.checked}}/>
-                                <label for="recoveries.action">{{recovery.label}}</label>
+                                <input type="checkbox" id="{{recovery.label}}" {{checked recovery.checked}} disabled/>
+                                <label>{{recovery.label}}</label>
                             </li>
                         {{/each}}
                         </ul>
@@ -83,7 +81,7 @@
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="skills">Skills</a>
         <a class="item" data-tab="abilities">Abilities</a>
-        <a class="item" data-tab="strange">Strange</a>
+        <a class="item" data-tab="numenera">Strange</a>
         <a class="item" data-tab="recursion">Recursions</a>
         <a class="item" data-tab="equipment">Equipment</a>
         <a class="item" data-tab="bio">Bio</a>
@@ -229,7 +227,7 @@
             </table>
         </div>
 
-        <div class="tab strange" data-group="primary" data-tab="Strange">
+        <div class="tab numenera" data-group="primary" data-tab="numenera">
             <h2>Cyphers</h2>
             <h3>Cypher Limit <input type="text" name="data.cypherLimit" value="{{data.cypherLimit}}" class="cypher-limit" data-dtype="Number" /></h3>
             {{#if displayCypherLimitWarning}}
@@ -384,7 +382,6 @@
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
                         </td>
-                    {{/if}}
                         <td class="recursion-name">
                             <input type="text" name="data.items.recrusions.{{recrusion._id}}.name" placeholder="recrusion name" class="recrusion-name-input" value="{{recrusion.name}}"/>
                         </td>
@@ -422,7 +419,7 @@
         </div>
         <!-- End Recursion WIP-->
         <div class="tab equipment" data-group="primary" data-tab="equipment">
-            <h2>recrusions</h2>
+            <h2>Weapons</h2>
             <table class="weapons">
                 <thead>
                     <td>
