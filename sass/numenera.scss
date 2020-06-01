@@ -247,6 +247,10 @@ form.numenera {
             }
         }
 
+        h3.shins > input[data-dtype="Number"] {
+            width: 5em;
+        }
+
         table {
             td {
                 padding: 5px;
