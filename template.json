@@ -144,6 +144,15 @@
             "templates": ["common", "ranged", "sellable", "weight"],
             "damage": 0,
             "weaponType": ""
-        }
-    }
+		},
+		"recursion": {
+			"templates": ["common"],
+			"name": "",
+			"level": "",
+			"laws": "",
+			"race": "",
+			"focus": "",
+			"focusAbilities": ""
+		}
+	}
 }
