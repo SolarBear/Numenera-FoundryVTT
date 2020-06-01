@@ -19,13 +19,18 @@ export class NumeneraPCActor extends Actor {
   }
 
   getInitiativeFormula() {
+    //TODO: use numeneraRoll() here instead of duplicating roll logic
+
     //Check for an initiative skill
-    const initSkill = 3 * this.getSkillLevel("Initiative");
+    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "Initiative")
+    let initSkillLevel = 0;
+    if (initSkill) 
+      initSkillLevel = 3 * this.getSkillLevel(initSkill);
     
     //TODO possible assets, effort on init roll
     let formula = "1d20"
     if (initSkill !== 0) {
-      formula += `+${initSkill}`;
+      formula += `+${initSkillLevel}`;
     }
 
     return formula;
@@ -47,7 +52,7 @@ export class NumeneraPCActor extends Actor {
 
     //Each stat pool whose value is 0 counts as being one step higher on the damage track
     return Object.values(stats).filter(stat => {
-      return stat.pool.current === 0;
+      return stat.pool.value === 0;
     }).length;
   }
 
@@ -72,7 +77,7 @@ export class NumeneraPCActor extends Actor {
         ui.notifications.warn("Cannot attempt roll: your character is Dead.");
         return;
     }
-
+  
     const skill = this.getOwnedItem(skillId);
     const skillLevel = this.getSkillLevel(skill);
 
@@ -130,7 +135,7 @@ export class NumeneraPCActor extends Actor {
     if (effortLevel === 0) {
       return value;
     }
-
+        
     const actorData = this.data.data;
 
     const statId = event.target.dataset.statId;
@@ -230,7 +235,7 @@ export class NumeneraPCActor extends Actor {
       case "cypher":
       const itemData = data.data;
 
-      if (!itemData.level && itemData.levelDie) {
+      if (!itemData.level && itemData.levelDie) {  
         try {
             //Try the formula as is first
             itemData.level = new Roll(itemData.levelDie).roll().total;

@@ -7,6 +7,7 @@ import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 
 import  "../../../lib/dragula/dragula.js";
+import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
 
 //Common Dragula options
 const dragulaOptions = {
@@ -22,7 +23,7 @@ const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order >
  * Higher order function that generates an item creation handler.
  *
  * @param {String} itemType The type of the Item (eg. 'ability', 'cypher', etc.)
- * @param {*} itemClass
+ * @param {*} itemClass 
  * @param {*} [callback=null]
  * @returns
  */
@@ -55,9 +56,9 @@ function onItemEditGenerator(editClass, callback = null) {
       throw new Error(`Missing ${editClass} class element`);
     else if (!elem.dataset.itemId)
       throw new Error(`No itemID on ${editClass} element`);
-
+      
     const updated = {_id: elem.dataset.itemId};
-
+    
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
@@ -195,10 +196,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
-    if (game.settings.get("numenera", "worldSetting") === 2)
-      return "systems/numenera/templates/characterSheetStrange.html";
-    else
-      return "systems/numenera/templates/characterSheet.html";
+    return "systems/numenera/templates/actor/characterSheet.html";
   }
 
   /**
@@ -244,13 +242,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
-    sheetData.recoveriesData = Object.entries(
-      sheetData.actor.data.recoveries
-    ).map(([key, value]) => {
+    sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
+    .map(([key, value], idx) => {
       return {
         key,
-        label: NUMENERA.recoveries[key],
-        checked: value,
+        label: value,
+        checked: 4 - this.actor.data.data.recoveriesLeft > idx
       };
     });
 
@@ -315,7 +312,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     sheetData.displayCypherLimitWarning = this.actor.isOverCypherLimit();
 
-    //TODO put ranges, stats, etc. as globally available data for the sheet instead of repeating
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
@@ -397,6 +393,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       cyphersList.on("blur", "input,select", this.onCypherEdit.bind(this));
     }
 
+    html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
+
     //Make sure to make a copy of the options object, otherwise only the first call
     //to Dragula seems to work
     const drakes = [];
@@ -440,7 +438,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   onAbilityUse(event) {
     event.preventDefault();
     const abilityId = event.target.closest(".ability").dataset.itemId;
-
+  
     if (!abilityId)
       return;
 
@@ -461,6 +459,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!artifactId)
       return;
 
+    //TODO move to the Artifact item class
     const artifact = this.actor.getOwnedItem(artifactId);
     const depletion = artifact.data.data.depletion;
     if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
@@ -501,22 +500,28 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ui.notifications.warn("An Ability with the same name also exists: delete it if required");
   }
 
+  onRecoveryRoll(event) {
+    event.preventDefault();
+    new RecoveryDialog(this.actor).render(true);
+  }
+
   /*
   Override the base method to handle some of the values ourselves
   */
   _onChangeInput(event) {
+    //TODO is this still relevant?
     for (let container of NumeneraPCActorSheet.inputsToIntercept) {
       const element = window.document.querySelector(container);
       if (element && element.contains(event.target))
         return;
     }
-
+    
     super._onChangeInput(event);
   }
 
   _onDrop(event) {
     super._onDrop(event);
-
+    
     const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
 
     if (type !== "Item")

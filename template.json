@@ -1,162 +1,149 @@
 {
-	"Actor": {
-		"types": ["pc", "npc"],
-		"pc": {
-			"advances": {
-				"statPools": false,
-				"effort": false,
-				"edge": false,
-				"skillTraining": false,
-				"other": false
-			},
-			"armor": 0,
-			"background": "",
-			"characterType": "",
-			"cypherLimit": 1,
-			"damageTrack": 0,
-			"descriptor": "",
-			"effort": 1,
-			"focus": "",
-			"recovery": 1,
-			"stats": {
-				"might": {
-					"pool": {
-						"current": 0,
-						"maximum": 0
-					},
-					"edge": 0
-				},
-				"speed": {
-					"pool": {
-						"current": 0,
-						"maximum": 0
-					},
-					"edge": 0
-				},
-				"intellect": {
-					"pool": {
-						"current": 0,
-						"maximum": 0
-					},
-					"edge": 0
-				}
-			},
-			"recoveries": {
-				"action": false,
-				"tenMin": false,
-				"oneHour": false,
-				"tenHours": false
-			},
-			"shins": 0,
-			"tier": 1,
-			"version": 4,
-			"xp": 0
-		},
-		"npc": {
-			"level": 1,
-			"attacks": {},
-			"description": null,
-			"motive": null,
-			"environment": null,
-			"health": {
-				"current": 1,
-				"max": 1
-			},
-			"combat": null,
-			"damage": 0,
-			"armor": 0,
-			"movement": "short",
-			"modifications": null,
-			"interaction": null,
-			"use": null,
-			"loot": null,
-			"gmIntrusion": null,
-			"image": null,
-			"version": 1
-		}
-	},
-	"Item": {
-		"types": ["ability", "armor", "artifact", "cypher", "equipment", "oddity", "skill", "weapon", "recursion"],
-		"templates": {
-			"common": {
-				"notes": "",
-				"order": -1,
-				"version": 3
-			},
-			"numenera": {
-				"identified": false,
-				"level": null,
-				"levelDie": "",
-				"form": "",
-				"effect": ""
-			},
-			"ranged": {
-				"range": "Immediate"
-			},
-			"sellable": {
-				"price": 0
-			},
-			"weight": {
-				"weight": "Light"
-			}
-		},
-		"ability": {
-			"templates": ["common", "ranged"],
-			"category": "",
-			"categoryValue": "",
-			"cost": {
-				"amount": 0,
-				"pool": ""
-			},
-			"isAction": false,
-			"tier": ""
-		},
-		"armor": {
-			"templates": ["common", "sellable", "weight"],
-			"armor": 0,
-			"additionalSpeedEffortCost": 1
-		},
-		"artifact": {
-			"templates": ["carriable", "common", "numenera"],
-			"depletion": {
-				"isDepleting": true,
-				"die": "d6",
-				"threshold": 1
-			}
-		},
-		"cypher": {
-			"templates": ["carriable", "common", "numenera"],
-			"cypherType": "anoetic"
-		},
-		"equipment": {
-			"templates": ["common", "sellable"],
-			"quantity": 0
-		},
-		"oddity": {
-			"templates": ["carriable", "common"]
-		},
-		"skill": {
-			"templates": ["common"],
-			"relatedAbilityId": null,
-			"stat": "",
-			"inability": false,
-			"untrained": true,
-			"trained": false,
-			"specialized": false
-		},
-		"weapon": {
-			"templates": ["common", "ranged", "sellable", "weight"],
-			"damage": 0,
-			"weaponType": ""
-		},
-		"recursion": {
-			"templates": ["common"],
-			"name": "",
-			"level": "",
-			"laws": "",
-			"race": "",
-			"focus": "",
-			"focusAbilities": ""
-		}
-	}
+    "Actor": {
+        "types": ["pc", "npc"],
+        "pc": {
+            "advances": {
+                "statPools": false,
+                "effort": false,
+                "edge": false,
+                "skillTraining": false,
+                "other": false
+            },
+            "armor": 0,
+            "background": "",
+            "characterType": "",
+            "cypherLimit": 1,
+            "damageTrack": 0,
+            "descriptor": "",
+            "effort": 1,
+            "focus": "",
+            "recovery": 1,
+            "stats": {
+                "might": {
+                    "pool": {
+                        "value": 0,
+                        "max": 0
+                    },
+                    "edge": 0
+                },
+                "speed": {
+                    "pool": {
+                        "value": 0,
+                        "max": 0
+                    },
+                    "edge": 0
+                },
+                "intellect": {
+                    "pool": {
+                        "value": 0,
+                        "max": 0
+                    },
+                    "edge": 0
+                }
+            },
+            "recoveriesLeft": 4,
+            "shins": 0,
+            "tier": 1,
+            "unspentRecoveryPoints": 0,
+            "version": 5,
+            "xp": 0
+        },
+        "npc": {
+            "level": 1,
+            "attacks": {},
+            "description": null,
+            "motive": null,
+            "environment": null,
+            "health": {
+                "value": 1,
+                "max": 1
+            },
+            "combat": null,
+            "damage": 0,
+            "armor": 0,
+            "movement": "short",
+            "modifications": null,
+            "interaction": null,
+            "use": null,
+            "loot": null,
+            "gmIntrusion": null,
+            "image": null,
+            "version": 1
+        }
+    },
+    "Item": {
+        "types": ["ability", "armor", "artifact", "cypher", "equipment", "oddity", "skill", "weapon"],
+        "templates": {
+            "common": {
+                "notes": "",
+                "order": -1,
+                "version": 3
+            },
+            "numenera": {
+                "identified": false,
+                "level": null,
+                "levelDie": "",
+                "form": "",
+                "effect": ""
+            },
+            "ranged": {
+                "range": "Immediate"
+            },
+            "sellable": {
+                "price": 0
+            },
+            "weight": {
+                "weight": "Light"
+            }
+        },
+        "ability": {
+            "templates": ["common", "ranged"],
+            "category": "",
+            "categoryValue": "",
+            "cost": {
+                "amount": 0,
+                "pool": ""
+            },
+            "isAction": false,
+            "tier": ""
+        },
+        "armor": {
+            "templates": ["common", "sellable", "weight"],
+            "armor": 0,
+            "additionalSpeedEffortCost": 1
+        },
+        "artifact": {
+            "templates": ["carriable", "common", "numenera"],
+            "depletion": {
+                "isDepleting": true,
+                "die": "d6",
+                "threshold": 1
+            }
+        },
+        "cypher": {
+            "templates": ["carriable", "common", "numenera"],
+            "cypherType": "anoetic"
+        },
+        "equipment": {
+            "templates": ["common", "sellable"],
+            "quantity": 0
+        },
+        "oddity": {
+            "templates": ["carriable", "common"]
+        },
+        "skill": {
+            "templates": ["common"],
+            "relatedAbilityId": null,
+            "stat": "",
+            "inability": false,
+            "untrained": true,
+            "trained": false,
+            "specialized": false
+        },
+        "weapon": {
+            "templates": ["common", "ranged", "sellable", "weight"],
+            "damage": 0,
+            "weaponType": ""
+        }
+    }
 }

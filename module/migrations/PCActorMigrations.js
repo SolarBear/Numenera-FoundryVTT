@@ -205,5 +205,50 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
+const PCActorv4ToV5Migrator = Object.create(Migrator);
+
+PCActorv4ToV5Migrator.forVersion = 5;
+PCActorv4ToV5Migrator.forType = "pc";
+
+/* Summary of changes:
+  - recoveries change to an integer total instead of being individual boolean flags
+*/
+PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
+
+  if (actor.data.data.recoveries) {
+    let recoveriesLeft;
+    if (actor.data.data.recoveries.tenHours)
+      recoveriesLeft = 0;
+    else if (actor.data.data.recoveries.oneHour)
+      recoveriesLeft = 1;
+    else if (actor.data.data.recoveries.tenMin)
+      recoveriesLeft = 2;
+    else if (actor.data.data.recoveries.action)
+      recoveriesLeft = 3;
+    else
+      recoveriesLeft = 4;
+  
+    newData["data.recoveriesLeft"] = recoveriesLeft;
+    newData["data.-=recoveries"] = null;
+  }
+
+  //These properties have been renamed
+  newData["data.stats.might.pool.value"] = actor.data.data.stats.might.pool.current;
+  newData["data.stats.might.pool.max"] = actor.data.data.stats.might.pool.maximum;
+  newData["data.stats.speed.pool.value"] = actor.data.data.stats.speed.pool.current;
+  newData["data.stats.speed.pool.max"] = actor.data.data.stats.speed.pool.maximum;
+  newData["data.stats.intellect.pool.value"] = actor.data.data.stats.intellect.pool.current;
+  newData["data.stats.intellect.pool.max"] = actor.data.data.stats.intellect.pool.maximum;
+  newData["data.-=stats.might.pool.current"] = null;
+  newData["data.-=stats.might.pool.maximum"] = null;
+  newData["data.-=stats.speed.pool.current"] = null;
+  newData["data.-=stats.speed.pool.maximum"] = null;
+  newData["data.-=stats.intellect.pool.current"] = null;
+  newData["data.-=stats.intellect.pool.maximum"] = null;
+    
+  return newData;
+};
+
 //Only export the latest migrator
-export const PCActorMigrator = PCActorv3ToV4Migrator;
+export const PCActorMigrator = PCActorv4ToV5Migrator;
