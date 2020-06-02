@@ -153,5 +153,22 @@
     "NUMENERA.item.armor.armor": "Armor",
     "NUMENERA.item.armor.additionalSpeedEffortCost": "Additional Speed Effort Cost",
     "NUMENERA.item.armor.price": "Price",
-    "NUMENERA.item.armor.description": "Description"
+    "NUMENERA.item.armor.description": "Description",
+
+    "NUMENERA.item.artifact.level": "Level",
+    "NUMENERA.item.artifact.form": "Form",
+    "NUMENERA.item.artifact.depletion": "Depletion",
+    "NUMENERA.item.artifact.depletionDie": "Die",
+    "NUMENERA.item.artifact.depletionThreshold": "Threshold",
+    "NUMENERA.item.artifact.effect": "Effect",
+
+    "NUMENERA.item.cypher.level": "Level",
+    "NUMENERA.item.cypher.type": "Type",
+    "NUMENERA.item.cypher.typeAnoetic": "Anoetic",
+    "NUMENERA.item.cypher.typeOccultic": "Occultic",
+    "NUMENERA.item.cypher.form": "Form",
+    "NUMENERA.item.cypher.effect": "Effect",
+
+    "NUMENERA.item.equipment.price": "Price",
+    "NUMENERA.item.equipment.descripton": "Description"
 }

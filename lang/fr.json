@@ -165,5 +165,22 @@
     "NUMENERA.item.armor.armor": "Armure",
     "NUMENERA.item.armor.additionalSpeedEffortCost": "Coût supplémentaire d'Effort de Célérité",
     "NUMENERA.item.armor.price": "Prix",
-    "NUMENERA.item.armor.description": "Description"
+    "NUMENERA.item.armor.description": "Description",
+
+    "NUMENERA.item.artifact.level": "Niveau",
+    "NUMENERA.item.artifact.form": "Forme",
+    "NUMENERA.item.artifact.depletion": "ÉPUISEMENT",
+    "NUMENERA.item.artifact.depletionDie": "Dé",
+    "NUMENERA.item.artifact.depletionThreshold": "Seuil",
+    "NUMENERA.item.artifact.effect": "Effet",
+
+    "NUMENERA.item.cypher.level": "Niveau",
+    "NUMENERA.item.cypher.type": "Type",
+    "NUMENERA.item.cypher.typeAnoetic": "Anoetique",
+    "NUMENERA.item.cypher.typeOccultic": "Occultique",
+    "NUMENERA.item.cypher.form": "Forme",
+    "NUMENERA.item.cypher.effect": "Effet",
+
+    "NUMENERA.item.equipment.price": "Prix",
+    "NUMENERA.item.equipment.descripton": "Description"
 }
