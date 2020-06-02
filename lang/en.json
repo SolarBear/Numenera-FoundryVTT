@@ -97,6 +97,28 @@
     "NUMENERA.stats.pool": "Pool",
     "NUMENERA.stats.edge": "Edge",
 
+    "NUMENERA.pc.weapons.sectionName": "Armes",
+    "NUMENERA.pc.weapons.name": "Nom",
+    "NUMENERA.pc.weapons.type": "Type",
+    "NUMENERA.pc.weapons.damage": "Dommages",
+    "NUMENERA.pc.weapons.range": "Portée",
+    "NUMENERA.pc.weapons.notes": "Notes",
+    "NUMENERA.pc.weapons.createTooltip": "Créer",
+    "NUMENERA.pc.weapons.deleteTooltip": "Supprimer",
+    "NUMENERA.pc.weapons.none": "Pas d'armes. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
+
+    "NUMENERA.pc.armor.sectionName": "Armor",
+    "NUMENERA.pc.armor.name": "Name",
+    "NUMENERA.pc.armor.armor": "Armor Value",
+    "NUMENERA.pc.armor.type": "Type",
+    "NUMENERA.pc.armor.effortCost": "Effort Cost",
+    "NUMENERA.pc.armor.notes": "Notes",
+    "NUMENERA.pc.armor.createTooltip": "Create",
+    "NUMENERA.pc.armor.deleteTooltip": "Deletre",
+    "NUMENERA.pc.armor.none": "Pas d'armures. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
+
+    "NUMENERA.pc.bio.saveChanges": "Save Changes",
+
     "NUMENERA.weightClasses.Light": "Light",
     "NUMENERA.weightClasses.Medium": "Medium",
     "NUMENERA.weightClasses.Heavy": "Heavy",
