@@ -1,5 +1,9 @@
 # Numenera-FoundryVTT
 
+Do you enjoy using the system? Then support my harmful caffeine intake habits and buy me some beans!
+
+[![Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/SolarBear)
+
 ## What is this?
 
 This repository is the beginning of support for the [Numenera role playing game](http://numenera.com/) for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop). Check them out!
