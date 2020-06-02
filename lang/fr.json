@@ -2,6 +2,14 @@
     "NUMENERA.N/A": "S/O",
     "NUMENERA.stat": "Stat",
 
+    "NUMENERA.weightClasses.Light": "Légère",
+    "NUMENERA.weightClasses.Medium": "Moyenne",
+    "NUMENERA.weightClasses.Heavy": "Lourde",
+
+    "NUMENERA.weaponTypes.Bashing": "Contondante",
+    "NUMENERA.weaponTypes.Bladed": "Tranchante",
+    "NUMENERA.weaponTypes.Ranged": "Distante",
+
     "NUMENERA.pcActorSheet.header.name": "Nom",
     "NUMENERA.pcActorSheet.header.isA": "est un(e)",
     "NUMENERA.pcActorSheet.header.descriptor": "Descripteur",
@@ -143,11 +151,13 @@
     "NUMENERA.npc.environment": "Environnement",
     "NUMENERA.npc.loot": "Butin",
 
-    "NUMENERA.weightClasses.Light": "Légère",
-    "NUMENERA.weightClasses.Medium": "Moyenne",
-    "NUMENERA.weightClasses.Heavy": "Lourde",
-
-    "NUMENERA.weaponTypes.Bashing": "Contondante",
-    "NUMENERA.weaponTypes.Bladed": "Tranchante",
-    "NUMENERA.weaponTypes.Ranged": "Distante"
+    "NUMENERA.item.ability.isAction": "Cette aptitude est une Action",
+    "NUMENERA.item.ability.isEnabler": "Cette aptitude est un ENABLER",
+    "NUMENERA.item.ability.cost": "Coût",
+    "NUMENERA.item.ability.category": "Catégorie",
+    "NUMENERA.item.ability.categoryPlaceholder": "Catégorie (ex. Type, Focus, etc.)",
+    "NUMENERA.item.ability.categoryValuePlaceholder": "Valeur catégérie (ex. Nano, Jack, Maîtrise l'Armement, etc.)",
+    "NUMENERA.item.ability.tier": "Rang",
+    "NUMENERA.item.ability.range": "Portée",
+    "NUMENERA.item.ability.description": "Description"
 }
