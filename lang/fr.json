@@ -77,7 +77,7 @@
     "NUMENERA.pc.recovery.tenHours": "10 heures",
     "NUMENERA.pc.tier": "Rang",
 
-    "NUMENERA.range.immediate": "Immédiate",
+    "NUMENERA.range.immediate": "Immédiat(e)",
     "NUMENERA.range.short": "Courte",
     "NUMENERA.range.long": "Longue",
     "NUMENERA.range.veryLong": "Très longue",
@@ -130,6 +130,18 @@
     "NUMENERA.pc.otherItems.none": "Pas d'objets. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
 
     "NUMENERA.pc.bio.saveChanges": "Sauvegarder changements",
+
+    "NUMENERA.npc.level": "Niveau",
+    "NUMENERA.npc.health": "Santé",
+    "NUMENERA.npc.movement": "Mouvement",
+    "NUMENERA.npc.armor": "Armure",
+    "NUMENERA.npc.damage": "Dommages",
+    "NUMENERA.npc.attacks.sectionName": "Attaques",
+    "NUMENERA.npc.attacks.description": "Description",
+    "NUMENERA.npc.description": "Description",
+    "NUMENERA.npc.use": "Utilisation",
+    "NUMENERA.npc.environment": "Environnement",
+    "NUMENERA.npc.loot": "Butin",
 
     "NUMENERA.weightClasses.Light": "Légère",
     "NUMENERA.weightClasses.Medium": "Moyenne",

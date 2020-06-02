@@ -31,7 +31,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
-    sheetData.ranges = NUMENERA.ranges;
+    sheetData.ranges = NUMENERA.ranges.map(r => game.i18n.localize(r));
 
     return sheetData;
   }

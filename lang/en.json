@@ -119,6 +119,18 @@
 
     "NUMENERA.pc.bio.saveChanges": "Save Changes",
 
+    "NUMENERA.npc.level": "Level",
+    "NUMENERA.npc.health": "Health",
+    "NUMENERA.npc.movement": "Movement",
+    "NUMENERA.npc.armor": "Armor",
+    "NUMENERA.npc.damage": "Damage",
+    "NUMENERA.npc.attacks.sectionName": "Attacks",
+    "NUMENERA.npc.attacks.description": "Description",
+    "NUMENERA.npc.description": "Description",
+    "NUMENERA.npc.use": "Use",
+    "NUMENERA.npc.environment": "Environment",
+    "NUMENERA.npc.loot": "Loot",
+
     "NUMENERA.weightClasses.Light": "Light",
     "NUMENERA.weightClasses.Medium": "Medium",
     "NUMENERA.weightClasses.Heavy": "Heavy",
