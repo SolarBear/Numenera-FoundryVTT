@@ -170,5 +170,26 @@
     "NUMENERA.item.cypher.effect": "Effect",
 
     "NUMENERA.item.equipment.price": "Price",
-    "NUMENERA.item.equipment.descripton": "Description"
+    "NUMENERA.item.equipment.descripton": "Description",
+
+    "NUMENERA.item.oddity.description": "Description",
+
+    "NUMENERA.item.skill.stat": "Stat",
+    "NUMENERA.item.skill.description": "Description",
+
+    "NUMENERA.item.weapon.weight": "Weight",
+    "NUMENERA.item.weapon.type": "Type",
+    "NUMENERA.item.weapon.damage": "Damage",
+    "NUMENERA.item.weapon.range": "Range",
+    "NUMENERA.item.weapon.price": "Price",
+    "NUMENERA.item.weapon.description": "Description",
+
+    "NUMENERA.recoveries.title": "Recoveires",
+    "NUMENERA.recoveries.reset": "Reset",
+    "NUMENERA.recoveries.rolling": "Rolling",
+    "NUMENERA.recoveries.noDice": "No dice to roll",
+    "NUMENERA.recoveries.pools": "Pools",
+    "NUMENERA.recoveries.pointsRemaining": "Remaining Points",
+    "NUMENERA.recoveries.roll": "Roll",
+    "NUMENERA.recoveries.accept": "Accept"
 }

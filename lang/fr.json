@@ -182,5 +182,26 @@
     "NUMENERA.item.cypher.effect": "Effet",
 
     "NUMENERA.item.equipment.price": "Prix",
-    "NUMENERA.item.equipment.descripton": "Description"
+    "NUMENERA.item.equipment.descripton": "Description",
+
+    "NUMENERA.item.oddity.description": "Description",
+
+    "NUMENERA.item.skill.stat": "Caractéristique",
+    "NUMENERA.item.skill.description": "Description",
+
+    "NUMENERA.item.weapon.weight": "Poids",
+    "NUMENERA.item.weapon.type": "Type",
+    "NUMENERA.item.weapon.damage": "Dommages",
+    "NUMENERA.item.weapon.range": "Portée",
+    "NUMENERA.item.weapon.price": "Prix",
+    "NUMENERA.item.weapon.description": "Description",
+
+    "NUMENERA.recoveries.title": "Récupérations",
+    "NUMENERA.recoveries.reset": "Réinitialiser",
+    "NUMENERA.recoveries.rolling": "Jet de",
+    "NUMENERA.recoveries.noDice": "Pas de dés à lancer",
+    "NUMENERA.recoveries.pools": "Réserves",
+    "NUMENERA.recoveries.pointsRemaining": "Points restants ",
+    "NUMENERA.recoveries.roll": "Lancer les dés",
+    "NUMENERA.recoveries.accept": "Accepter"
 }
