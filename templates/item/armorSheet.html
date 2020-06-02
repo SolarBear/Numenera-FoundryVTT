@@ -5,7 +5,7 @@
             <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
         </div>
         <div class="armor">
-            <label>Weight
+            <label>{{localize "NUMENERA.item.armor.weight"}}
                 <select name="data.weightClass">
                     {{#select data.weightClass}}
                     {{#each weightClasses}}
@@ -14,17 +14,17 @@
                     {{/select}}
                 </select>
             </label>
-            <label>Armor
+            <label>{{localize "NUMENERA.item.armor.armor"}}
                 <input type="number" name="data.armor" value="{{data.armor}}" />
             </label>
-            <label>Additional Speed Effort Cost
+            <label>{{localize "NUMENERA.item.armor.additionalSpeedEffortCost"}}
                 <input type="number" name="data.additionalSpeedEffortCost" value="{{data.additionalSpeedEffortCost}}" />
             </label>
-            <label>Price
+            <label>{{localize "NUMENERA.item.armor.price"}}
                 <input type="number" name="data.price" value="{{data.price}}" class="price" data-dtype="Number" />
             </label>
             
-            <label>Description</label>
+            <label>{{localize "NUMENERA.item.armor.description"}}</label>
             <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>

@@ -159,5 +159,11 @@
     "NUMENERA.item.ability.categoryValuePlaceholder": "Valeur catégérie (ex. Nano, Jack, Maîtrise l'Armement, etc.)",
     "NUMENERA.item.ability.tier": "Rang",
     "NUMENERA.item.ability.range": "Portée",
-    "NUMENERA.item.ability.description": "Description"
+    "NUMENERA.item.ability.description": "Description",
+
+    "NUMENERA.item.armor.weight": "Poids",
+    "NUMENERA.item.armor.armor": "Armure",
+    "NUMENERA.item.armor.additionalSpeedEffortCost": "Coût supplémentaire d'Effort de Célérité",
+    "NUMENERA.item.armor.price": "Prix",
+    "NUMENERA.item.armor.description": "Description"
 }

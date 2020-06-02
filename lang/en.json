@@ -139,7 +139,6 @@
     "NUMENERA.npc.environment": "Environment",
     "NUMENERA.npc.loot": "Loot",
 
-
     "NUMENERA.item.ability.isAction": "This ability is an Action",
     "NUMENERA.item.ability.isEnabler": "This ability is an Enabler",
     "NUMENERA.item.ability.cost": "Cost",
@@ -148,5 +147,11 @@
     "NUMENERA.item.ability.categoryValuePlaceholder": "Category Value (eg. Nano, Jack, Masters Weaponry, etc.)",
     "NUMENERA.item.ability.tier": "Rang",
     "NUMENERA.item.ability.range": "Portée",
-    "NUMENERA.item.ability.description": "Description"
+    "NUMENERA.item.ability.description": "Description",
+
+    "NUMENERA.item.armor.weight": "Weight",
+    "NUMENERA.item.armor.armor": "Armor",
+    "NUMENERA.item.armor.additionalSpeedEffortCost": "Additional Speed Effort Cost",
+    "NUMENERA.item.armor.price": "Price",
+    "NUMENERA.item.armor.description": "Description"
 }
