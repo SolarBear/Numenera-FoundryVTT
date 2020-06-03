@@ -1,6 +1,20 @@
 {
     "NUMENERA.N/A": "S/O",
-    "NUMENERA.stat": "Stat",
+    "NUMENERA.majorEffect": "Effet majeur",
+    "NUMENERA.minorEffect": "Effet mineur",
+    "NUMENERA.rolling": "Jet de",
+    "NUMENERA.stat": "Caractéristique",
+    "NUMENERA.unknown": "Inconnu",
+
+    "NUMENERA.gmIntrusion": "Intrusion du MJ",
+    "NUMENERA.gmIntrusionContent": "<p>Le maître de jeu vous offre une intrusion. L'acceptez-vous ?</p><ul><li>Si vous l'acceptez, le MJ introduira une complication inattendue pour votre personnage ; cependant, vous recevres 2 PX dont 1 qui devra être remis à un autre joueur.</li><li>Si vous la refusez, la complication ne surviendra pas mais 1 PX vous sera enlevé.</li></ul>",
+    "NUMENERA.gmIntrusionButtonAccept": "Accepter",
+    "NUMENERA.gmIntrusionButtonRefuse": "Refuser",
+    "NUMENERA.gmIntrusionText": "Le MJ offre une intrusion à",
+    "NUMENERA.gmIntrusionAccepts": "accepte l'intrusion",
+    "NUMENERA.gmIntrusionRefuses": "refuse l'intrusion",
+
+    "NUMENERA.successLevel": "Niveau de succès",
 
     "NUMENERA.weightClasses.Light": "Légère",
     "NUMENERA.weightClasses.Medium": "Moyenne",
@@ -9,6 +23,8 @@
     "NUMENERA.weaponTypes.Bashing": "Contondante",
     "NUMENERA.weaponTypes.Bladed": "Tranchante",
     "NUMENERA.weaponTypes.Ranged": "Distante",
+
+    "NUMENERA.pc.initiativeRoll": "fait un jet d'Initiative",
 
     "NUMENERA.pcActorSheet.header.name": "Nom",
     "NUMENERA.pcActorSheet.header.isA": "est un(e)",
@@ -51,22 +67,24 @@
     "NUMENERA.pc.damageTrack.impaired.description": "Dans un état blessé. Appliquer des Efforts coûte 1 point supplémentaire par niveau d'effort investi.",
     "NUMENERA.pc.damageTrack.debilitated.label": "Incapacité",
     "NUMENERA.pc.damageTrack.debilitated.description": "Dans un état critique. Le personnage ne peut faire d'autre action que de ramper sur une distance immédiate; si leur Réserve de Célérité est à 0, il ne peut se déplacer.",
+    "NUMENERA.pc.damageTrack.debilitated.warning": "Jet de dés impossible : votre personnage est Incapacité.",
     "NUMENERA.pc.damageTrack.dead.label": "Mort",
     "NUMENERA.pc.damageTrack.dead.description": "Le personnage est mort.",
+    "NUMENERA.pc.damageTrack.dead.warning": "Jet de dés impossible : votre personnage est Mort.",
     "NUMENERA.pc.effort": "Effort",
-
-    "NUMENERA.pc.numenera.identified": "Identifié?",
-    "NUMENERA.pc.numenera.deleteTooltip": "Supprimer",
-    "NUMENERA.pc.numenera.effect": "Effet",
-    "NUMENERA.pc.numenera.form": "Forme",
-    "NUMENERA.pc.numenera.level": "Niveau",
 
     "NUMENERA.pc.numenera.artifact.depletion": "Déplétion",
     "NUMENERA.pc.numenera.artifact.in": "sur",
     "NUMENERA.pc.numenera.artifact.name": "Artefacts",
     "NUMENERA.pc.numenera.artifact.none": "Pas d'artefacts",
     "NUMENERA.pc.numenera.artifact.roll": "Jet",
-    
+    "NUMENERA.pc.numenera.artifact.unidentified": "Artefact non identifié",
+
+    "NUMENERA.pc.numenera.cypher.deleteTooltip": "Supprimer",
+    "NUMENERA.pc.numenera.cypher.effect": "Effet",
+    "NUMENERA.pc.numenera.cypher.form": "Forme",
+    "NUMENERA.pc.numenera.cypher.identified": "Identifié ?",
+    "NUMENERA.pc.numenera.cypher.level": "Niveau",
     "NUMENERA.pc.numenera.cypher.limit": "Limite",
     "NUMENERA.pc.numenera.cypher.name": "Cyphers",
     "NUMENERA.pc.numenera.cypher.none": "Pas de cyphers",
@@ -74,6 +92,7 @@
     "NUMENERA.pc.numenera.cypher.type.name": "Type",
     "NUMENERA.pc.numenera.cypher.type.anoetic": "Anoëtique",
     "NUMENERA.pc.numenera.cypher.type.occultic": "Occultique",
+    "NUMENERA.pc.numenera.cypher.unidentified": "Cypher non identifié",
 
     "NUMENERA.pc.numenera.oddity.name": "Curiosités",
     "NUMENERA.pc.numenera.oddity.none": "Pas de curiosités",
@@ -96,6 +115,7 @@
     "NUMENERA.skills.tab.rollTooltip": "Jet de compétence",
     "NUMENERA.skills.tab.stat": "Caractéristique",
     "NUMENERA.skills.tab.instructions": "Pas de compétences. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
+    "NUMENERA.skills.newSkill": "Nouvelle compétence",
     "NUMENERA.skillLevels.Inability": "Incompétence",
     "NUMENERA.skillLevels.Untrained": "Non entraîné",
     "NUMENERA.skillLevels.Trained": "Entraîné",
@@ -110,6 +130,7 @@
     "NUMENERA.stats.edge": "Avantage",
 
     "NUMENERA.pc.weapons.sectionName": "Armes",
+    "NUMENERA.pc.weapons.newWeapon": "Nouvelle arme",
     "NUMENERA.pc.weapons.name": "Nom",
     "NUMENERA.pc.weapons.type": "Type",
     "NUMENERA.pc.weapons.damage": "Dommages",
@@ -166,6 +187,7 @@
     "NUMENERA.item.armor.additionalSpeedEffortCost": "Coût supplémentaire d'Effort de Célérité",
     "NUMENERA.item.armor.price": "Prix",
     "NUMENERA.item.armor.description": "Description",
+    "NUMENERA.item.armor.newArmor": "Nouvelle armure",
 
     "NUMENERA.item.artifact.level": "Niveau",
     "NUMENERA.item.artifact.form": "Forme",
@@ -173,6 +195,7 @@
     "NUMENERA.item.artifact.depletionDie": "Dé",
     "NUMENERA.item.artifact.depletionThreshold": "Seuil",
     "NUMENERA.item.artifact.effect": "Effet",
+    "NUMENERA.item.artifact.newArtifact": "Nouvel artefact",
 
     "NUMENERA.item.cypher.level": "Niveau",
     "NUMENERA.item.cypher.type": "Type",
@@ -180,11 +203,14 @@
     "NUMENERA.item.cypher.typeOccultic": "Occultique",
     "NUMENERA.item.cypher.form": "Forme",
     "NUMENERA.item.cypher.effect": "Effet",
+    "NUMENERA.item.cypher.newCypher": "Nouveau cypher",
 
     "NUMENERA.item.equipment.price": "Prix",
     "NUMENERA.item.equipment.descripton": "Description",
+    "NUMENERA.item.equipment.newEquipment": "Nouvel équipement",
 
     "NUMENERA.item.oddity.description": "Description",
+    "NUMENERA.item.oddity.newOddity": "Nouvelle curiosité",
 
     "NUMENERA.item.skill.stat": "Caractéristique",
     "NUMENERA.item.skill.description": "Description",
@@ -198,10 +224,21 @@
 
     "NUMENERA.recoveries.title": "Récupérations",
     "NUMENERA.recoveries.reset": "Réinitialiser",
-    "NUMENERA.recoveries.rolling": "Jet de",
     "NUMENERA.recoveries.noDice": "Pas de dés à lancer",
     "NUMENERA.recoveries.pools": "Réserves",
     "NUMENERA.recoveries.pointsRemaining": "Points restants ",
     "NUMENERA.recoveries.roll": "Lancer les dés",
-    "NUMENERA.recoveries.accept": "Accepter"
+    "NUMENERA.recoveries.accept": "Accepter",
+
+    "NUMENERA.dialog.confirmDeletion.title": "Confirmation de suppression",
+    "NUMENERA.dialog.confirmDeletion.text": "Voulez-vous vraiment supprimer ce",
+    "NUMENERA.dialog.confirmDeletion.ok": "OK",
+    "NUMENERA.dialog.confirmDeletion.cancel": "Annuler",
+
+    "NUMENERA.info.linkedToSkillWithSameName": "L'aptitude a été reliée à une compétence portant le même nom",
+    "NUMENERA.info.skillWithSameNameCreated": "Une compétence portant le même nom a aussi été créée",
+
+    "NUMENERA.warnings.abilityWithSameNameExists": "Une aptitude portant le même nom existe déjà",
+    "NUMENERA.warnings.noSkillRelatedToAbility": "Aucune compétence n'est reliée à cette aptitude",
+    "NUMENERA.warnings.skillWithSameNameExists": "Une compétence portant le même nom existe déjà"
 }

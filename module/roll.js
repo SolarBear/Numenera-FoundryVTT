@@ -13,19 +13,19 @@ export function rollText(dieRoll) {
   switch (dieRoll) {
     case 1:
       return {
-        text: "GM Intrusion",
+        text: game.i18n.localize("NUMENERA.gmIntrusion"),
         color: 0x000000,
       }
 
     case 19:
       return {
-        text: "Minor Effect",
+        text: game.i18n.localize("NUMENERA.minorEffect"),
         color: 0x000000,
       }
 
     case 20:
       return {
-        text: "Major Effect",
+        text: game.i18n.localize("NUMENERA.majorEffect"),
         color: 0x000000,
       }
 

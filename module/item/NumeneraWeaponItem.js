@@ -17,7 +17,7 @@ export class NumeneraWeaponItem extends Item {
         //TODO we're duplicating the name here... why is that?
         const desc = Object.getOwnPropertyDescriptor(itemData, "name");
         if (desc && desc.writable)
-            itemData.name = this.data.name || "New Weapon";
+            itemData.name = this.data.name || game.i18n.localize("NUMENERA.pc.weapons.newWeapon");
 
         itemData.damage = itemData.damage || 1;
         itemData.range = itemData.range || NUMENERA.ranges[0];

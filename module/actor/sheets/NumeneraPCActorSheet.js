@@ -33,7 +33,7 @@ function onItemCreate(itemType, itemClass, callback = null) {
     event.preventDefault();
 
     const itemData = {
-      name: `New ${itemType.capitalize()}`,
+      //name: `New ${itemType.capitalize()}`,
       type: itemType,
       data: new itemClass({}),
     };
@@ -283,9 +283,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.user.isGM) {
         artifact.editable = true;
       } else if (!artifact.data.identified) {
-        artifact.name = "Unidentified Artifact";
-        artifact.data.level = "Unknown";
-        artifact.data.effect = "Unknown";
+        artifact.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
+        artifact.data.level = game.i18n.localize("NUMENERA.unknown");
+        artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
         artifact.data.depletion = null;
       }
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
@@ -296,12 +296,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.user.isGM) {
         cypher.editable = true;
       } else if (!cypher.data.identified) {
-        cypher.name = "Unidentified Cypher";
-        cypher.data.level = "Unknown";
-        cypher.data.effect = "Unknown";
+        cypher.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
+        cypher.data.level = game.i18n.localize("NUMENERA.unknown");
+        cypher.data.effect = game.i18n.localize("NUMENERA.unknown");
 
         if (useCypherTypes) {
-          cypher.data.cypherType = "Unknown";
+          cypher.data.cypherType = game.i18n.localize("NUMENERA.unknown");
         }
       }
 
@@ -449,7 +449,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Get related skill
     const skill = this.actor.data.items.find(i => i.data.relatedAbilityId === abilityId);
     if (!skill) {
-      ui.notifications.warn("No skill related to that ability");
+      ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.noSkillRelatedToAbility"));
       return;
     }
 
@@ -473,7 +473,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `Depletion roll for ${artifact.name}<br/>Threshold: ${depletion.threshold}`,
+      flavor: `Depletion roll for ${artifact.name}<br/>${game.i18n.localize("NUMENERA.item.artifact.depletionThreshold")}: ${depletion.threshold}`,
     });
   }
 
@@ -492,7 +492,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       this.actor.data.items.find(i => i.type === "skill" &&
       i.data.relatedAbilityId === ability._id)
     )
-      ui.notifications.warn("A Skill with the same name also exists: delete it if required");
+      ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.skillWithSameNameExists"));
   }
 
   onSkillDeleted(skill) {
@@ -501,7 +501,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       skill.data.relatedAbilityId &&
       this.actor.data.items.find(i => i._id === skill.data.relatedAbilityId)
     )
-      ui.notifications.warn("An Ability with the same name also exists: delete it if required");
+      ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.abilityWithSameNameExists"));
   }
 
   onRecoveryRoll(event) {
