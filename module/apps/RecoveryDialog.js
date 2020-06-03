@@ -72,6 +72,12 @@ export class RecoveryDialog extends FormApplication {
     const pointAttributionEnabled = this.object.initialUnspentRecoveryPoints > 0;
     const formula = this._getFormula(this.object.initialRecoveriesLeft - this.object.recoveriesLeft);
 
+    debugger;
+    const stats = {};
+    for (const prop in NUMENERA.stats) {
+      stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
+    }
+
     return mergeObject(data, {
       rollSelectionEnabled,
       pointAttributionEnabled,
@@ -83,7 +89,7 @@ export class RecoveryDialog extends FormApplication {
       disallowReset: this.object.initialRecoveriesLeft >= 4,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
-      stats: NUMENERA.stats,
+      stats,
       hasUnspentRecoveryPoints: this.object.unspentRecoveryPoints !== null,
       unspentRecoveryPoints: this.object.unspentRecoveryPoints || 0,
     });

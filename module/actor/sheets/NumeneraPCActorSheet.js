@@ -220,11 +220,15 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
 
     //Copy labels to be used as is
-    sheetData.ranges = NUMENERA.ranges;
-    sheetData.stats = NUMENERA.stats;
+    sheetData.ranges = NUMENERA.ranges
     sheetData.weaponTypes = NUMENERA.weaponTypes;
     sheetData.weights = NUMENERA.weightClasses;
     sheetData.optionalWeights = NUMENERA.optionalWeightClasses;
+
+    sheetData.stats = {};
+    for (const prop in NUMENERA.stats) {
+      sheetData.stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
+    }
 
     if (useCypherTypes)
       sheetData.cypherTypes = NUMENERA.cypherTypes;
