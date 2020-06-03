@@ -129,7 +129,7 @@
     "NUMENERA.stats.pool": "Pool",
     "NUMENERA.stats.edge": "Edge",
 
-    "NUMENERA.pc.weapons.sectionName": "Armes",
+    "NUMENERA.pc.weapons.sectionName": "Weapons",
     "NUMENERA.pc.weapons.newWeapon": "New Weapon",
     "NUMENERA.pc.weapons.name": "Name",
     "NUMENERA.pc.weapons.type": "Type",
@@ -178,8 +178,8 @@
     "NUMENERA.item.ability.category": "Category",
     "NUMENERA.item.ability.categoryPlaceholder": "Category (eg. Type, Focus, etc.)",
     "NUMENERA.item.ability.categoryValuePlaceholder": "Category Value (eg. Nano, Jack, Masters Weaponry, etc.)",
-    "NUMENERA.item.ability.tier": "Rang",
-    "NUMENERA.item.ability.range": "Portée",
+    "NUMENERA.item.ability.tier": "Tier",
+    "NUMENERA.item.ability.range": "Range",
     "NUMENERA.item.ability.description": "Description",
 
     "NUMENERA.item.armor.weight": "Weight",
@@ -206,7 +206,7 @@
     "NUMENERA.item.cypher.newCypher": "New Cypher",
 
     "NUMENERA.item.equipment.price": "Price",
-    "NUMENERA.item.equipment.descripton": "Description",
+    "NUMENERA.item.equipment.description": "Description",
     "NUMENERA.item.equipment.newEquipment": "New Equipment",
 
     "NUMENERA.item.oddity.description": "Description",

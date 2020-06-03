@@ -6,7 +6,7 @@ NUMENERA.weightClasses = {
   "Heavy": "NUMENERA.weightClasses.Heavy",
 };
 
-NUMENERA.optionalWeightClasses = ["NUMENERA.N/A"].concat(NUMENERA.weightClasses);
+NUMENERA.optionalWeightClasses = Object.assign({"N/A": "NUMENERA.N/A"}, NUMENERA.weightClasses);
 
 NUMENERA.weaponTypes = {
   "Bashing": "NUMENERA.weaponTypes.Bashing",
