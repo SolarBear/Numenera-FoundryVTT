@@ -51,6 +51,7 @@ function onItemCreate(itemType, itemClass, callback = null) {
 function onItemEditGenerator(editClass, callback = null) {
   return async function (event) {
     event.preventDefault();
+    event.stopPropagation(); //Important! otherwise we get double rendering
 
     const elem = event.currentTarget.closest(editClass);
 
