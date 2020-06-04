@@ -359,7 +359,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     const abilitiesTable = html.find("table.abilities");
-    abilitiesTable.find("*").off("change"); //TODO remove this brutal thing when transition to 0.5.6+ is done
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
