@@ -5,33 +5,31 @@
             <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
         </div>
         <div class="artifact">
-            <label>Level
+            <label>{{localize "NUMENERA.item.artifact.level"}}
                 <input type="text" id="data.levelDie" name="data.levelDie" value="{{data.levelDie}}" data-dtype="String" />
             </label>
 
-            <label>Form
+            <label><label>{{localize "NUMENERA.item.artifact.form"}}
                 <input type="text" id="data.form" name="data.form" value="{{data.form}}" data-dtype="String" />
             </label>
 
-            <label for="data.depletion.isDepleting">Depletion
+            <label for="data.depletion.isDepleting"><label>{{localize "NUMENERA.item.artifact.depletion"}}
                 <input type="checkbox" id="data.depletion.isDepleting" name="data.depletion.isDepleting" data-dtype="Boolean" {{checked data.depletion.isDepleting}} />
             </label>
             
             {{#if data.depletion.isDepleting}}
             <fieldset>
-                <label for="data.depletion.die">Die
+                <label for="data.depletion.die"><label>{{localize "NUMENERA.item.artifact.depletionDie"}}
                     <input type="text" id="data.depletion.die" name="data.depletion.die" value="{{data.depletion.die}}" data-dtype="String" />
                 </label>
 
-                <label>Threshold
+                <label><label>{{localize "NUMENERA.item.artifact.depletionThreshold"}}
                     <input type="number" name="data.depletion.threshold" value="{{data.depletion.threshold}}" data-dtype="Number" />
                 </label>
             </fieldset>
             {{/if}}
 
-            <label>Effect
-                
-            </label>
+            <label><label>{{localize "NUMENERA.item.artifact.effect"}}</label>
             <textarea name="data.effect" data-dtype="String">{{data.effect}}</textarea>
         </div>
     </div>

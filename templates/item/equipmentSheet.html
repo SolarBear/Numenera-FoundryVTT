@@ -5,10 +5,10 @@
             <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
         </div>
         <div class="equipment">
-            <label>Price
+            <label>{{localize "NUMENERA.item.equipment.price"}}
                 <input type="number" name="data.price" value="{{data.price}}" class="price" data-dtype="Number" />
             </label>
-            <label>Notes</label>
+            <label>{{localize "NUMENERA.item.equipment.description"}}</label>
             <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>

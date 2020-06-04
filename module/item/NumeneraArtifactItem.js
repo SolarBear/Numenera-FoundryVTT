@@ -11,7 +11,7 @@ export class NumeneraArtifactItem extends Item {
 
         const itemData = this.data.data || {};
 
-        itemData.name = this.data.name || "New Cypher";
+        itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.artifact.newArtifact");;
         itemData.price = itemData.price || 0;
         itemData.notes = itemData.notes || "";
         itemData.form = itemData.form || "";

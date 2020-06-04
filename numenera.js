@@ -125,7 +125,7 @@ Hooks.on("renderChatMessage", (app, html, data) => {
             const skillLevel = (roll.total - rolled) / 3;
             const sum = taskLevel + skillLevel;
 
-            let text = `Success Level ${sum}`;
+            let text = `${game.i18n.localize("NUMENERA.successLevel")} ${sum}`;
 
             if (skillLevel !== 0) {
                 const sign = sum > 0 ? "+" : "-";
@@ -145,7 +145,7 @@ Hooks.on("renderChatMessage", (app, html, data) => {
  */
 Hooks.on("getActorDirectoryEntryContext", (html, entryOptions) => {
     entryOptions.push({
-        name: "GM Intrusion",
+        name: game.i18n.localize("NUMENERA.gmIntrusion"),
         icon: '<i class="fas fa-exclamation-circle"></i>',
         callback: li => {
             const actor = game.actors.get(li.data("entityId"));
@@ -163,7 +163,7 @@ Hooks.on("getActorDirectoryEntryContext", (html, entryOptions) => {
             }});
 
             ChatMessage.create({
-                content: `<h2>GM Intrusion</h2><br/>The GM offers an intrusion to ${actor.data.name}`,
+                content: `<h2>${game.i18n.localize("NUMENERA.gmIntrusion")}</h2><br/>${game.i18n.localize("NUMENERA.gmIntrusionText")} ${actor.data.name}`,
             });
         },
         condition: li => {

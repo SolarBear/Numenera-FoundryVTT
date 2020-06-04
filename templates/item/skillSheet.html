@@ -7,17 +7,17 @@
         </div>
 
         <div class="skill">
-            <label>Stat</label>
+            <label>{{localize "NUMENERA.item.skill.stat"}}</label>
             <select name="data.stat">
                 {{#select data.stat}}
                 {{#each stats}}
-                    <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{localize this}}</option>
                 {{/each}}
                 {{/select}}
                 </select>
             </label>
 
-            <label>Description</label>
+            <label>{{localize "NUMENERA.item.skill.description"}}</label>
             <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>

@@ -51,7 +51,7 @@ export const rollInitiative = async function (
               token: c.token._id,
               alias: c.token.name,
             },
-            flavor: `${c.token.name} rolls for Initiative!`,
+            flavor: `${c.token.name} ${game.i18n.localize("NUMENERA.pc.initiativeRoll")}`,
           },
           messageOptions
         );
