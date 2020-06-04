@@ -39,5 +39,36 @@ Itemv1ToV2Migrator.migrationFunction = async function(item) {
   return item;
 };
 
+//Keep migrators in order: v1 to v2, v2 to v3, etc.
+const Itemv2ToV3Migrator = Object.create(Migrator);
+
+Itemv2ToV3Migrator.forVersion = 3;
+Itemv2ToV3Migrator.forObject = "Item";
+
+/* Summary of changes:
+  - skill levels are now an integer isntea of being a couple of boolean flags
+*/
+Itemv2ToV3Migrator.migrationFunction = async function(item) {
+  const newData = Object.assign({ _id: item._id});
+
+  if (item.type === "skill") {
+    let skillLevel = 0;
+    if (item.data.specialized) {
+      skillLevel = 2;
+    } else if (item.data.trained) {
+      skillLEvel = 1;
+    }
+
+    newData["data.skillLevel"] = skillLevel;
+    newData["data.-=untrained"] = null;
+    newData["data.-=trained"] = null;
+    newData["data.-=specialized"] = null;
+  }
+
+  newData["data.version"] = this.forVersion;
+
+  return item;
+};
+
 //Only export the latest migrator
-export const ItemMigrator = Itemv1ToV2Migrator;
+export const ItemMigrator = Itemv2ToV3Migrator;

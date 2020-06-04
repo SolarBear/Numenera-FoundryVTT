@@ -103,13 +103,8 @@ export class NumeneraPCActor extends Actor {
     if (!skill.data.data)
       return 0; //skills are untrained by default
 
-    skill = skill.data.data;
-    let level = -Number(skill.inability); //Inability subtracts 1 from overall level
-
-    if (skill.specialized) level += 2;
-    else if (skill.trained) level += 1;
-
-    return level;
+    //Inability subtracts 1 from overall level
+    return skill.data.data.skillLevel - Number(skill.inability);
   }
 
   /**
