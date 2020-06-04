@@ -97,13 +97,13 @@
                     {{#if settings.icons.skills}}
                         <td class="skill-icon"></td>
                     {{/if}}
-                        <td class="skill-name">{{localize "NUMENERA.skills.tab.name"}}</td>
-                        <td class="skill-stat">{{localize "NUMENERA.skills.tab.stat"}}</td>
+                        <td class="skill-name">{{localize "NUMENERA.item.skills.tab.name"}}</td>
+                        <td class="skill-stat">{{localize "NUMENERA.item.skills.tab.stat"}}</td>
                         <td class="skill-inability">{{localize "NUMENERA.skillLevels.Inability"}}</td>
                         <td class="skill-untrained">{{localize "NUMENERA.skillLevels.Untrained"}}</td>
                         <td class="skill-trained">{{localize "NUMENERA.skillLevels.Trained"}}</td>
                         <td class="skill-specialized">{{localize "NUMENERA.skillLevels.Specialized"}}</td>
-                        <td><a class="skill-create" data-action="create" title="{{localize "NUMENERA.skills.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
+                        <td><a class="skill-create" data-action="create" title="{{localize "NUMENERA.item.skills.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -142,8 +142,8 @@
                             <input class="skill-specialized" type="checkbox" name="data.items.skills.{{skill._id}}.data.specialized" {{checked skill.data.specialized}} data-dtype="Boolean" />
                         </td>
                         <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.skills.tab.rollTooltip"}}" alt="d20" /></a>
-                            <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.skills.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.skills.tab.rollTooltip"}}" alt="d20" /></a>
+                            <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.item.skills.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 {{else}}
@@ -153,7 +153,7 @@
                     {{else}}
                     <td colspan="8">
                     {{/if}}
-                        {{{localize "NUMENERA.skills.tab.instructions"}}}
+                        {{{localize "NUMENERA.item.skills.tab.instructions"}}}
                     </td>
                 </tr>
                 {{/each}}
