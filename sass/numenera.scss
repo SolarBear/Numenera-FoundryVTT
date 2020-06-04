@@ -13,9 +13,9 @@ span.numenera-message-special {
 }
 
 form.numenera {
-    overflow: scroll;
+    height: 100%;
     font-family: $font-stack;
-
+    
     button#recoveryRoll {
         width: 75%;
 
