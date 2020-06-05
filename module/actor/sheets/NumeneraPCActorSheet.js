@@ -32,7 +32,7 @@ function onItemCreate(itemType, itemClass, callback = null) {
     if (event)
     event.preventDefault();
 
-    const newName = game.i18n.localize(`NUMENERA.item.${itemType}s.new${itemType.capitalize()}`);
+    const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
     const itemData = {
       name: newName,

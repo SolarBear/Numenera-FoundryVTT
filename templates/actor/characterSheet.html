@@ -171,11 +171,11 @@
                     {{#if settings.icons.abilities}}
                         <td class="ability-icon"></td>
                     {{/if}}
-                        <td class="ability-name">{{localize "NUMENERA.abilities.tab.name"}}</td>
-                        <td class="ability-cost">{{localize "NUMENERA.abilities.tab.cost"}}</td>
-                        <td class="ability-range">{{localize "NUMENERA.abilities.tab.range"}}</td>
-                        <td class="ability-description">{{localize "NUMENERA.abilities.tab.description"}}</td>
-                        <td><a class="ability-create" data-action="create" title="{{localize "NUMENERA.abilities.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
+                        <td class="ability-name">{{localize "NUMENERA.item.ability.tab.name"}}</td>
+                        <td class="ability-cost">{{localize "NUMENERA.item.ability.tab.cost"}}</td>
+                        <td class="ability-range">{{localize "NUMENERA.item.ability.tab.range"}}</td>
+                        <td class="ability-description">{{localize "NUMENERA.item.ability.tab.description"}}</td>
+                        <td><a class="ability-create" data-action="create" title="{{localize "NUMENERA.item.ability.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -195,8 +195,8 @@
                         <td class="ability-cost">
                             <select name="data.items.abilities.{{ability._id}}.data.isAction" data-dtype="Boolean">
                                 {{#select ability.data.isAction}}
-                                <option value="true">{{localize "NUMENERA.abilities.type.action"}}</option>
-                                <option value="false">{{localize "NUMENERA.abilities.type.enabler"}}</option>
+                                <option value="true">{{localize "NUMENERA.item.ability.type.action"}}</option>
+                                <option value="false">{{localize "NUMENERA.item.ability.type.enabler"}}</option>
                                 {{/select}}
                             </select>
                             <br/>
@@ -225,8 +225,8 @@
                             <textarea name="data.items.abilities.{{ability._id}}.data.notes">{{ability.data.notes}}</textarea>
                         </td>
                         <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.abilities.tab.rollTooltip"}}" alt="d20" /></a>
-                            <a class="ability-delete" data-action="delete" title="{{localize "NUMENERA.abilities.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.ability.tab.rollTooltip"}}" alt="d20" /></a>
+                            <a class="ability-delete" data-action="delete" title="{{localize "NUMENERA.item.ability.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 {{else}}
@@ -236,7 +236,7 @@
                         {{else}}
                         <td colspan="6">
                         {{/if}}
-                            {{{localize "NUMENERA.abilities.tab.instructions"}}}
+                            {{{localize "NUMENERA.item.ability.tab.instructions"}}}
                         </td>
                     </tr>
                 {{/each}}
