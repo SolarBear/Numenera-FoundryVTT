@@ -172,53 +172,18 @@ export class NumeneraNPCActorSheet extends ActorSheet {
   }
 
   /**
-   * Handles the click event on add/delete attack controls.
-   *
-   * @param {*} event
-   * @memberof NumeneraNPCActorSheet
+   * @override
    */
-  async onAttackControl(event) {
-    event.preventDefault();
-
-    const a = event.currentTarget;
-    const action = a.dataset.action;
-
-    switch (action) {
-      case "create":
-        const table = a.closest("table");
-        const template = table.getElementsByTagName("template")[0];
-        const body = table.getElementsByTagName("tbody")[0];
-
-        if (!template)
-          throw new Error(`No row template found in attacks table`);
-
-        //Let's keep things simple here: get the largest existing id and add one
-        const id =
-          Math.max(
-            ...[...body.children].map((c) => c.children[0].children[0].value || 0)
-          ) + 1 + "";
-
-        const newRow = template.content.cloneNode(true);
-        body.appendChild(newRow);
-
-        //That "newRow"? A DocumentFragment. AN IMPOSTOR.
-        const actualRow = body.children[body.children.length - 1];
-        actualRow.children[0].children[0].name = `data.attacks.${id}.id`;
-        actualRow.children[0].children[0].value = id;
-        actualRow.children[0].children[1].name = `data.attacks.${id}.description`;
-
-        await this._onSubmit(event);
-        break;
-
-      case "delete":
-        const row = a.closest(".attack");
-        row.parentElement.removeChild(row);
-
-        await this._onSubmit(event);
-        break;
-
-      default:
-        throw new Error("Unhandled case in onAttackControl");
+  _onDeleteEmbeddedEntity(...args) {
+    /* Necessary because, after deleting an item, Foundry fetches the Item's sheet
+    class and, well, NPC attacks don't have one. Intercept the exception and, in that
+    particular case, ignore it */
+    try {
+      super._onDeleteEmbeddedEntity(...args);
+    } catch (e) {
+      if (!e.message.includes("No valid Item sheet found for type npcAttack")) {
+        throw e;
+      }
     }
   }
 }
