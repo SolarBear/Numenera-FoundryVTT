@@ -12,8 +12,14 @@ export class NumeneraNPCActorSheet extends ActorSheet {
    */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      width: 750,
-      height: 700,
+      width: 850,
+      height: 650,
+    tabs: [
+        {
+          navSelector: ".tabs",
+          contentSelector: "#npc-sheet-body",
+        },
+      ],
     });
   }
 
@@ -99,81 +105,5 @@ export class NumeneraNPCActorSheet extends ActorSheet {
       default:
         throw new Error("Unhandled case in onAttackControl");
     }
-  }
-
-  /**
-   * Implement the _updateObject method as required by the parent class spec
-   * This defines how to update the subject of the form when the form is submitted
-   *
-   * Mostly handles the funky behavior of dynamic tables inside the form.
-   *
-   * @private
-   */
-  async _updateObject(event, formData) {
-    //TODO this is repeated in NumeneraPCActorSheet, try to abstract all of this a bit plz
-    const fd = expandObject(formData);
-
-    const formAttacks = fd.data.attacks || {};
-
-    //***************************
-    //DISGUSTING WORKAROUND ALERT
-    //***************************
-
-    //TODO FIX THIS SHIT
-    //For some extra-weird reason, I get NaN sometimes as an ID, so just swap it around
-    let nAnPatch = 1000;
-
-    for (let at of Object.values(formAttacks)) {
-      if (typeof at.id !== "string") {
-        console.warn("Oops! Weird NaN problem here, buddy");
-        
-        //Avoid collisions, in case this is not the first time this happens
-        while (Object.values(formAttacks).some(at => at.id == nAnPatch))
-          ++nAnPatch;
-
-        at.id = nAnPatch.toString();
-        ++nAnPatch;
-      }
-    }
-
-    //*******************************
-    //END DISGUSTING WORKAROUND ALERT
-    //*******************************
-
-    const formDataReduceFunction = function (obj, v) {
-      if (v.hasOwnProperty("id")) {
-        const id = v["id"].trim();
-        if (id) obj[id] = v;
-      }
-
-      return obj;
-    };
-
-    const attacks = Object.values(formAttacks).reduce(formDataReduceFunction, {});
-
-    // Remove attacks which are no longer used
-    for (let at of Object.keys(this.object.data.data.attacks)) {
-      if (at && !attacks.hasOwnProperty(at)) attacks[`-=${at}`] = null;
-    }
-
-    // Re-combine formData
-    formData = Object.entries(formData)
-      .filter((e) => !e[0].startsWith("data.attacks"))
-      .reduce(
-        (obj, e) => {
-          obj[e[0]] = e[1];
-          return obj;
-        },
-        {
-          _id: this.object._id,
-          "data.attacks": attacks,
-        }
-      );
-
-    // Update the Actor
-    await this.object.update(formData);
-
-    //In case the NPC level changed, re-render the ActorDirectory
-    ui.actors.render();
   }
 }
