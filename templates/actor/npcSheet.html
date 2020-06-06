@@ -46,40 +46,30 @@
     <section id="npc-sheet-body">
         <div class="tab attacks" data-group="primary" data-tab="attacks">
             <table class="attacks">
-                <template>
-                    <tr class="attack">
-                        <td class="handle">
-                            <a><i class="fas fa-grip-vertical handle"></i></a>
-                        </td>
-                        <td class="attack-description">
-                            <input type="hidden" />
-                            <input type="text" />
-                        </td>
-                        <td><a class="attack-control" data-action="delete"><i class="fas fa-trash"></i></a></td>                        
-                    </tr>
-                </template>
                 <thead>
                     <tr>
                         <td class="">
                             <!-- Extra empty table data for handle to properly center if we're showing icons-->
                         </td>
-                        <td>{{localize "NUMENERA.npc.attacks.description"}}</td>
                         <td>
-                            <a class="attack-control" data-action="create" title="{{localize "NUMENERA.npc.attacks.createTooltip"}}"><i class="fas fa-plus"></i></a>
+                            {{localize "NUMENERA.npc.attacks.description"}}
+                        </td>
+                        <td>
+                            <a class="attack-create" data-action="create" title="{{localize "NUMENERA.npc.attacks.createTooltip"}}"><i class="fas fa-plus"></i></a>
                         </td>
                     </tr>
                 </thead>
                 <tbody>
-                {{#each data.attacks as |attack|}}
-                    <tr class="attack">
+                {{#each data.items.attacks as |attack|}}
+                    <tr class="npcAttack" data-item-id="{{attack._id}}" data-order="{{equipment.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
                         </td>
                         <td class="attack-description">
-                            <input type="text" name="data.attacks.{{attack.id}}.description" value="{{attack.description}}" placeholder="{{localize "NUMENERA.npc.attacks.placeholder"}}" />
+                            <input type="text" name="data.items.attacks.{{attack._id}}.notes" value="{{attack.notes}}" placeholder="{{localize "NUMENERA.npc.attacks.placeholder"}}" />
                         </td>
                         <td>
-                            <a class="attack-control" data-action="delete" title="{{localize "NUMENERA.npc.attacks.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                            <a class="attack-delete" data-action="delete" title="{{localize "NUMENERA.npc.attacks.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 {{else}}
