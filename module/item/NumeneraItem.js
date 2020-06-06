@@ -37,7 +37,7 @@ export const NumeneraItem = new Proxy(function () {}, {
         return new NumeneraCypherItem(...args);
       case "equipment":
         return new NumeneraEquipmentItem(...args);
-      case "npcattack":
+      case "npcAttack":
         return new NumeneraNpcAttackItem(...args);
       case "oddity":
         return new NumeneraOddityItem(...args);
@@ -64,7 +64,7 @@ export const NumeneraItem = new Proxy(function () {}, {
               return NumeneraCypherItem.create(data, options);
             case "equipment":
               return NumeneraEquipmentItem.create(data, options);
-            case "npcattack":
+            case "npcAttack":
               return NumeneraNpcAttackItem.create(data, options);
             case "oddity":
               return NumeneraOddityItem.create(data, options);
