@@ -1,32 +1,33 @@
 <form class="{{cssClass}} numenera-recovery" autocomplete="off">
-    <h1>Recovery <button id="reset-recoveries" {{disabled disallowReset}}>Reset</button></h1>
+    <h1>{{localize "NUMENERA.recoveries.title"}} <button id="reset-recoveries" {{disabled disallowReset}}>{{localize "NUMENERA.recoveries.reset"}}</button></h1>
     <div class="flexrow columns">
         <div class="recoveries{{#unless hasRecoveriesLeft}} disabled{{/unless}}">
-            <h2>Recoveries</h2>
+            <h2>{{localize "NUMENERA.recoveries.title"}}</h2>
             <ul>
             {{#each recoveriesData as |recovery id|}}
             <li>
                 <input type="checkbox" name="recovery[{{recovery.key}}]" data-recovery-id="{{id}}" 
                     {{checked recovery.checked}} {{disabled recovery.disabled}} 
                 />
-                <label>{{recovery.label}}</label>
+                <label>{{localize recovery.label}}</label>
             </li>
             {{/each}}
             </ul>
             {{#if showFormula}}
-            <p>Rolling {{formula}}</p>
+            <p>{{localize "NUMENERA.rolling"}} {{formula}}</p>
             {{else}}
-            <p>No dice to roll</p>
+            <p>{{localize "NUMENERA.recoveries.noDice"}}</p>
             {{/if}}
             
         </div>
         <div class="pools{{#unless hasUnspentRecoveryPoints}} disabled{{/unless}}">
-            <h2>Pools</h2>
-            <h3>Points Remaining: {{unspentRecoveryPoints}}</h3>
+            <h2>{{localize "NUMENERA.recoveries.pools"}}</h2>
+            <h3>{{localize "NUMENERA.recoveries.pointsRemaining"}}: {{unspentRecoveryPoints}}</h3>
             {{#each pools as |pool|}}
             <div class="stats">
-                <label class="stat">{{pool.name}}</label>
+                <label class="stat">{{lookup ../stats pool.name}}</label>
                 <input name="pools.{{pool.name}}.value" type="number" value="{{pool.value}}" min="{{pool.min}}" max="{{pool.max}}" class="pool" data-dtype="Number" />
+                / {{pool.max}}
             </div>
             {{/each}}
             
@@ -34,10 +35,10 @@
     </div>
     <div class="flexrow columns">
         <div>
-            <button id="roll-recovery-dice">Roll</button>
+            <button id="roll-recovery-dice">{{localize "NUMENERA.recoveries.roll"}}</button>
         </div>
         <div>
-            <button id="apply-recovery-choices">Accept</button>
+            <button id="apply-recovery-choices">{{localize "NUMENERA.recoveries.accept"}}</button>
         </div>
     </div>
 </form>

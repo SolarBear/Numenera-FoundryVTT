@@ -24,16 +24,12 @@ export class GMIntrusionDialog extends Dialog {
 
   constructor(actor, options = {}) {
     const dialogData = {
-      title: "GM Intrusion!",
-      content: `<p>The game master offers you an intrusion. Do you accept?</p>
-      <ul>
-        <li>Should you accept, the GM will introduce an unexpected complication for your character; however, you will receive 2 XP, 1 of which you must give to another player.</li>
-        <li>Should you refuse, the complication will not happen but 1 XP will be subtracted from your current amount.</li>
-      </ul>`,
+      title: game.i18n.localize("NUMENERA.gmIntrusion"),
+      content: game.i18n.localize("NUMENERA.gmIntrusionContent"),
       buttons: {
         ok: {
           icon: '<i class="fas fa-check"></i>',
-          label: "Accept",
+          label: game.i18n.localize("NUMENERA.gmIntrusionButtonAccept"),
           callback: async () => {
             await actor.onGMIntrusion(true);
             super.close();
@@ -41,7 +37,7 @@ export class GMIntrusionDialog extends Dialog {
         },
         cancel: {
           icon: '<i class="fas fa-times"></i>',
-          label: "Refuse",
+          label: game.i18n.localize("NUMENERA.gmIntrusionButtonRefuse"),
           callback: async () => {
             await actor.onGMIntrusion(false);
             super.close();

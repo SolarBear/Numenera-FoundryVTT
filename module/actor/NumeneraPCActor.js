@@ -70,11 +70,11 @@ export class NumeneraPCActor extends Actor {
 
     switch (this.data.data.damageTrack) {
       case 2:
-        ui.notifications.warn("Cannot attempt roll: your character is Debilitated.");
+        ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
         return;
 
       case 3:
-        ui.notifications.warn("Cannot attempt roll: your character is Dead.");
+        ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.dead.warning"));
         return;
     }
   
@@ -85,7 +85,7 @@ export class NumeneraPCActor extends Actor {
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `Rolling ${skill.name}`,
+      flavor: `${game.i18n.localize("NUMENERA.rolling")} ${skill.name}`,
     });
   }
 
@@ -154,7 +154,7 @@ export class NumeneraPCActor extends Actor {
 
     let warning = null;
     if (effortLevel > availableEffortFromPool) {
-      warning = `Not enough points in your ${statId} pool for that level of Effort`;
+      warning = null; // TODO put into localization file `Not enough points in your ${statId} pool for that level of Effort`;
     }
 
     value.cost = cost;
@@ -171,14 +171,14 @@ export class NumeneraPCActor extends Actor {
 
   async onGMIntrusion(accepted) {
     let xp = this.data.data.xp;
-    let choiceVerb;
+    let choice;
 
     if (accepted) {
       xp++;
-      choiceVerb = "accepts";
+      choice = game.i18n.localize("NUMENERA.gmIntrusionAccepts");
     } else {
       xp--;
-      choiceVerb = "refuses";
+      choice = game.i18n.localize("NUMENERA.gmIntrusionRefuses");
     }
 
     this.update({
@@ -187,7 +187,7 @@ export class NumeneraPCActor extends Actor {
     });
 
     ChatMessage.create({
-      content: `<h2>GM Intrusion</h2><br/>${this.data.name} ${choiceVerb} the intrusion`,
+      content: `<h2>${game.i18n.localize("NUMENERA.gmIntrusion")}</h2><br/>${this.data.name} ${choice}`,
     });
   }
 
@@ -283,9 +283,7 @@ export class NumeneraPCActor extends Actor {
           };
           await this.updateEmbeddedEntity("OwnedItem", updated);
 
-          ui.notifications.info(
-            `The ability had been linked to the skill bearing the same name`
-          );
+          ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
         } else {
           //Create a related skill if one does not already exist
           const skillData = {
@@ -301,9 +299,7 @@ export class NumeneraPCActor extends Actor {
 
           await this.createOwnedItem(itemData);
 
-          ui.notifications.info(
-            `A skill with the same name linked to this ability has also been created`
-          );
+          ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
         }
         break;
     }
@@ -311,8 +307,8 @@ export class NumeneraPCActor extends Actor {
     return newItem;
   }
 
-  async updateEmbeddedEntity(embeddedName, data, options={}) {
-    const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
+  updateEmbeddedEntity(embeddedName, data, options={}) {
+    const updated = super.updateEmbeddedEntity(embeddedName, data, options);
 
     const updatedItem = this.getOwnedItem(updated._id);
 

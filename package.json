@@ -1,6 +1,6 @@
 {
   "name": "numenera-foundryvtt",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Support for the Numenera role playing game for the Foundry virtual tabletop",
   "dependencies": {},
   "devDependencies": {

@@ -13,9 +13,9 @@ span.numenera-message-special {
 }
 
 form.numenera {
-    overflow: scroll;
+    height: 100%;
     font-family: $font-stack;
-
+    
     button#recoveryRoll {
         width: 75%;
 
@@ -245,6 +245,10 @@ form.numenera {
                     margin-left: 1em;
                 }
             }
+        }
+
+        h3.shins > input[data-dtype="Number"] {
+            width: 5em;
         }
 
         table {
