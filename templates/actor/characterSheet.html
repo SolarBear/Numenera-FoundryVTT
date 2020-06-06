@@ -180,6 +180,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.abilities as |ability| }}
+                <!-- TODO "prder"? is this even useful? -->
                     <tr class="ability" data-item-id="{{ability._id}}" data-prder="{{ability.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
@@ -584,7 +585,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.equipment as |equipment|}}
-                    <tr class="equipment" data-item-id="{{equipment._id}}" data-prder="{{equipment.data.order}}">
+                    <tr class="equipment" data-item-id="{{equipment._id}}" data-order="{{equipment.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
                         </td>
@@ -609,7 +610,7 @@
                 {{else}}
                 <tr>
                     <td colspan="6">
-                        {{{"NUMENERA.pc.otherItems.none"}}}
+                        {{{localize "NUMENERA.pc.otherItems.none"}}}
                     </td>
                 </tr>
                 {{/each}}
