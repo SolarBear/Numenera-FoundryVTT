@@ -7,7 +7,7 @@ export class NumeneraNpcAttackItem extends Item {
     super.prepareData();
 
     const itemData = this.data.data || {};
-debugger;
+
     itemData.notes = itemData.notes || "";
     itemData.info = itemData.info || "";
   }
