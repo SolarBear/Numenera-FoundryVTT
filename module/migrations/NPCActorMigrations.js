@@ -15,7 +15,6 @@ NPCActorv1ToV2Migrator.forType = "npc";
 NPCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
   const newData = Object.assign({ _id: actor._id}, obj);
 
-  debugger;
   //Convert attack POJOs into Items
   const attacks = Object.values(actor.data.data.attacks);
   for (let attack of attacks) {
