@@ -58,6 +58,9 @@ Hooks.once("init", function() {
     Items.registerSheet("numenera", NumeneraOddityItemSheet, { types: ["oddity"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraSkillItemSheet, { types: ["skill"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
+
+    //May seem weird but otherwise 
+    Items.registerSheet("numenera", ActorSheet, { types: ["npcAttack"], makeDefault: true });
     
     registerSystemSettings();
     registerHandlebarHelpers();
