@@ -7,7 +7,12 @@ import { rollText } from './roll.js';
  * @export
  */
 export function registerHooks() {
-
+  Hooks.on("ready", () => ui.notifications.info(
+    `Numenera and its logo are trademarks of Monte Cook Games, LLC in the U.S.A. and other countries.
+    All Monte Cook Games characters and character names, and the distinctive likenesses thereof,
+    are trademarks of Monte Cook Games, LLC. Content derived from Monte Cook Games publications is
+    © 2013-2019 Monte Cook Games, LLC.`)
+  );
 
   /*
   Display an NPC's difficulty between parentheses in the Actors list
