@@ -61,12 +61,12 @@
                 </thead>
                 <tbody>
                 {{#each data.items.attacks as |attack|}}
-                    <tr class="npcAttack" data-item-id="{{attack._id}}" data-order="{{equipment.data.order}}">
+                    <tr class="npcAttack" data-item-id="{{attack._id}}" data-order="{{attack.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
                         </td>
                         <td class="attack-description">
-                            <input type="text" name="data.items.attacks.{{attack._id}}.notes" value="{{attack.notes}}" placeholder="{{localize "NUMENERA.npc.attacks.placeholder"}}" />
+                            <input type="text" name="data.items.attacks.{{attack._id}}.notes" value="{{attack.data.notes}}" placeholder="{{localize "NUMENERA.npc.attacks.placeholder"}}" />
                         </td>
                         <td>
                             <a class="attack-delete" data-action="delete" title="{{localize "NUMENERA.npc.attacks.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
