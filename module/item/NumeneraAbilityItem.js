@@ -11,7 +11,7 @@ export class NumeneraAbilityItem extends Item {
 
       const itemData = this.data.data || {};
 
-      itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.abilities.newAbility");
+      itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.ability.newAbility");
       itemData.category = itemData.category || "";
       itemData.categoryValue = itemData.categoryValue || "";
       itemData.isAction = itemData.isAction || false;

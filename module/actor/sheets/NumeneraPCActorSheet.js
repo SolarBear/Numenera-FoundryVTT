@@ -32,7 +32,7 @@ function onItemCreate(itemType, itemClass, callback = null) {
     if (event)
     event.preventDefault();
 
-    const newName = game.i18n.localize(`NUMENERA.item.${itemType}s.new${itemType.capitalize()}`);
+    const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
     const itemData = {
       name: newName,
@@ -441,7 +441,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
 
-    return this.actor.rollSkill(skillId);
+    return this.actor.rollSkillById(skillId);
   }
 
   onAbilityUse(event) {
@@ -458,7 +458,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
     }
 
-    return this.actor.rollSkill(skill._id);
+    return this.actor.rollSkillById(skill._id);
   }
 
   onArtifactDepletionRoll(event) {
