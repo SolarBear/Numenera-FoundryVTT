@@ -47,7 +47,7 @@ export function registerHooks() {
       //Don't apply ChatMessage enhancement to recovery rolls
       if (roll && roll.dice[0].faces === 20)
       {
-          const special = rollText(roll.total);
+          const special = rollText(roll.dice[0].rolls[0].roll);
           const dt = html.find("h4.dice-total")[0];
 
           //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
@@ -67,7 +67,7 @@ export function registerHooks() {
               let text = `${game.i18n.localize("NUMENERA.successLevel")} ${sum}`;
 
               if (skillLevel !== 0) {
-                  const sign = sum > 0 ? "+" : "-";
+                  const sign = sum > 0 ? "+" : "";
                   text += ` (${taskLevel}${sign}${skillLevel})`;
               }
 

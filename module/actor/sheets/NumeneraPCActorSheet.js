@@ -438,7 +438,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
 
-    return this.actor.rollSkill(skillId);
+    return this.actor.rollSkillById(skillId);
   }
 
   onAbilityUse(event) {
@@ -455,7 +455,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
     }
 
-    return this.actor.rollSkill(skill._id);
+    return this.actor.rollSkillById(skill._id);
   }
 
   onArtifactDepletionRoll(event) {
