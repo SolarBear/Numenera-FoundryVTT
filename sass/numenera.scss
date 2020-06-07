@@ -7,6 +7,20 @@ $foundry-border-color: #782e22;
 $border-color: #325d6d;
 $font-stack: Ogirema;
 
+@mixin editor($class, $height, $id) {
+    div.#{$class}  {
+        height: #{$height};
+        
+        .editor {
+            height: 100%;
+        }
+
+        button#save-#{$id} {
+            width: 99%;
+        }
+    }
+}
+
 span.numenera-message-special {
     font-weight: bold;
     font-size: large;
@@ -150,14 +164,35 @@ form.numenera {
         div > div.npc-info {
             flex: 0.25;
 
-            input.levelDie {
-                width: 2ch;
-                align-content: center;
+            h1 {
+                margin-left: 0.5em;
+                margin-right: 0.5em;
+
+                input.charname {
+                    width: 70%;
+                }
+
+                input.level {
+                    width: 3em;
+                    align-content: center;
+                }
             }
         }
 
         div > div.npc-stats {
-            flex: 0.5;
+            flex: 0.15;
+            padding: 1em;
+            text-align: center;
+
+            label {
+                padding-top: 2px;
+                font-size: 16px;
+                font-weight: bold;
+            }
+
+            input {
+                width: 2ch;
+            }
         }
 
         ul {
@@ -342,15 +377,22 @@ form.numenera {
         border-bottom: 1px solid $border-color;
     }
 
-    div.description  {
-        height: 425px;
-        
-        .editor {
-            height: 100%;
-        }
+    //TinyMCE editors
+    @include editor("description", 425px, "bio");
 
-        button#save-bio {
-            width: 99%;
+    $totalDescriptionHeight: 285px;
+    $buttonHeight: 34px;
+    $descriptionHeight: $totalDescriptionHeight - $buttonHeight;
+
+    @include editor("npc-description", $descriptionHeight, "npc-description");
+    @include editor("npc-info", $descriptionHeight, "npc-info");
+
+    div.npc-modifications {
+        display: flex;
+        flex-direction: column;
+
+        textarea {
+            flex: 1;
         }
     }
 
@@ -404,6 +446,10 @@ form.numenera {
         margin: 0.5em 0 0.5em 0;
         border: 1px solid black;
         border-radius: 8px;
+
+        &.sheet-tabs {
+            flex: 0;
+        }
     }
 
     a.item {

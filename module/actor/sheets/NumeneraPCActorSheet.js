@@ -32,7 +32,7 @@ function onItemCreate(itemType, itemClass, callback = null) {
     if (event)
     event.preventDefault();
 
-    const newName = game.i18n.localize(`NUMENERA.item.${itemType}s.new${itemType.capitalize()}`);
+    const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
     const itemData = {
       name: newName,
@@ -359,7 +359,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     const abilitiesTable = html.find("table.abilities");
-    abilitiesTable.find("*").off("change"); //TODO remove this brutal thing when transition to 0.5.6+ is done
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
@@ -439,7 +438,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
 
-    return this.actor.rollSkill(skillId);
+    return this.actor.rollSkillById(skillId);
   }
 
   onAbilityUse(event) {
@@ -456,7 +455,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
     }
 
-    return this.actor.rollSkill(skill._id);
+    return this.actor.rollSkillById(skill._id);
   }
 
   onArtifactDepletionRoll(event) {

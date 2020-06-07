@@ -2,11 +2,15 @@
 
 Rolls a d20 and then determines your success level.
 */
-export function numeneraRoll(level = 0) {
+export function numeneraRollFormula(level = 0) {
   let formula = "d20";
-  if (level) formula += "+" + 3 * level;
+  if (level > 0) formula += "+" + 3 * level;
 
-  return new Roll(formula).roll();
+  return formula;
+}
+
+export function numeneraRoll(level = 0) {
+  return new Roll(numeneraRollFormula(level));
 }
 
 export function rollText(dieRoll) {
