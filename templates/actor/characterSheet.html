@@ -272,11 +272,11 @@
                                 </td>
                                 <td class="cypher-level">
                                 {{#if cypher.editable}}
-                                    <label>{{localize "NUMENERA.pc.numenera.identified"}}
+                                    <label>{{localize "NUMENERA.pc.numenera.cypher.identified"}}
                                         <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified" data-dtype="Boolean" {{checked cypher.data.identified}}/>
                                     </label>
                                     <br />
-                                    <label>{{localize "NUMENERA.pc.numenera.level"}}
+                                    <label>{{localize "NUMENERA.pc.numenera.cypher.level"}}
                                         <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level" value="{{cypher.data.level}}" min="1" data-dtype="Number"/>
                                     </label>
                                 {{#if ../displayCypherType}}
@@ -291,18 +291,18 @@
                                     </label>
                                 {{/if}}
                                 {{else}}
-                                    <span>{{localize "NUMENERA.pc.numenera.level"}}</span> {{cypher.data.level}}
+                                    <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.level}}
                                 {{#if ../displayCypherType}}
-                                    <span>{{localize "NUMENERA.pc.numenera.type"}}</span> {{cypher.data.cypherType}}
+                                    <span>{{localize "NUMENERA.pc.numenera.cypher.type"}}</span> {{cypher.data.cypherType}}
                                 {{/if}}
                                 {{/if}}
                                 </td>
                                 <td class="cypher-description">
                                     <p>
-                                        <span><strong>{{localize "NUMENERA.pc.numenera.form"}}:</strong></span> {{cypher.data.form}}
+                                        <span><strong>{{localize "NUMENERA.pc.numenera.cypher.form"}}:</strong></span> {{cypher.data.form}}
                                     </p>
                                     <p>
-                                        <span><strong>{{localize "NUMENERA.pc.numenera.effect"}}:</strong></span> {{cypher.data.effect}}
+                                        <span><strong>{{localize "NUMENERA.pc.numenera.cypher.effect"}}:</strong></span> {{cypher.data.effect}}
                                     </p>
                                 </td>
                                 <td>
@@ -340,11 +340,11 @@
                             </td>
                             <td class="artifact-level">
                             {{#if artifact.editable}}
-                                <label>{{localize "NUMENERA.pc.numenera.identified"}}
+                                <label>{{localize "NUMENERA.pc.numenera.artifact.identified"}}
                                     <input type="checkbox" name="data.items.artifacts.{{artifact._id}}.data.identified" data-dtype="Boolean" {{checked artifact.data.identified}}/>
                                 </label>
                                 <br />
-                                <label>{{localize "NUMENERA.pc.numenera.level"}}
+                                <label>{{localize "NUMENERA.pc.numenera.artifact.level"}}
                                     <input type="number" name="data.items.artifacts.{{artifact._id}}.data.level" min="1" value="{{artifact.data.level}}"/>
                                 </label>
                             {{else}}
@@ -354,10 +354,10 @@
 
                             <td class="artifact-description">
                                 <p>
-                                    <span><strong>{{localize "NUMENERA.pc.numenera.form"}}:</strong></span> {{artifact.data.form}}
+                                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.form"}}:</strong></span> {{artifact.data.form}}
                                 </p>
                                 <p>
-                                    <span><strong>{{localize "NUMENERA.pc.numenera.effect"}}:</strong></span> {{artifact.data.effect}}
+                                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.effect"}}:</strong></span> {{artifact.data.effect}}
                                 </p>
                             {{#if artifact.data.depletion.isDepleting}}
                                 <p>

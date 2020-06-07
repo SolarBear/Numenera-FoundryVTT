@@ -78,7 +78,11 @@
     "NUMENERA.pc.numenera.artifact.name": "Artefacts",
     "NUMENERA.pc.numenera.artifact.none": "Pas d'artefacts",
     "NUMENERA.pc.numenera.artifact.roll": "Jet",
+    "NUMENERA.pc.numenera.artifact.effect": "Effet",
+    "NUMENERA.pc.numenera.artifact.form": "Forme",
     "NUMENERA.pc.numenera.artifact.unidentified": "Artefact non identifié",
+    "NUMENERA.pc.numenera.artifact.identified": "Identifié ?",
+    "NUMENERA.pc.numenera.artifact.level": "Niveau",
 
     "NUMENERA.pc.numenera.cypher.deleteTooltip": "Supprimer",
     "NUMENERA.pc.numenera.cypher.effect": "Effet",
