@@ -1,5 +1,5 @@
 export class NumeneraSkillItem extends Item {
-  get type() {
+  static get type() {
       return "skill";
   }
 
@@ -40,5 +40,14 @@ export class NumeneraSkillItem extends Item {
     ui.notifications.info("Related ability information updated");
 
     return updated;
+  }
+
+  async use() {
+    //An ability must be related to an Actor to be used
+    if (this.actor === null) {
+      return ui.notifications.error("The skill is not linked to an actor");
+    }
+
+    this.actor.rollSkill(this);
   }
 }

@@ -1,3 +1,5 @@
+import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
+
 export class NumeneraAbilityItem extends Item {
   get type() {
       return "ability";
@@ -45,5 +47,18 @@ export class NumeneraAbilityItem extends Item {
     ui.notifications.info("Related skill information updated");
 
     return updated;
+  }
+
+  async use() {
+    //An ability must be related to an Actor to be used
+    if (this.actor === null) {
+      return ui.notifications.error("The ability is not linked to an actor");
+    }
+
+    //Get the skill related to that ability
+    const skill = this.actor.data.items.find(
+      i => i.name === this.data.name && i.type === NumeneraSkillItem.type
+    );
+    this.actor.rollSkill(skill);
   }
 }

@@ -417,6 +417,38 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Handle reordering on all these nice draggable elements
     //Assumes they all have a "order" property: should be the case since it's defined in the template.json
     drakes.map(drake => drake.on("drop", this.reorderElements.bind(this)));
+
+    if (this.actor.owner) {
+      const handler = ev => this._onDragItemStart(ev);
+
+      // Find all abilitiy items on the character sheet.
+      html.find('tr.ability,tr.skill').each((i, tr) => {
+        // Add draggable attribute and dragstart listener.
+        tr.setAttribute("draggable", true);
+        tr.addEventListener("dragstart", handler, false);
+      });
+    }
+  }
+
+  _onDragItemStart(event) {
+    const itemId = event.currentTarget.dataset.itemId;
+
+    const clickedItem = duplicate(
+      this.actor.getEmbeddedEntity("OwnedItem", itemId)
+    );
+    clickedItem.data.stored = "";
+    
+    const item = clickedItem;
+    event.dataTransfer.setData(
+      "text/plain",
+      JSON.stringify({
+        type: "Item",
+        actorId: this.actor.id,
+        data: item,
+      })
+    );
+    
+    return super._onDragItemStart(event);
   }
 
   async reorderElements(el, target, source, sibling) {
