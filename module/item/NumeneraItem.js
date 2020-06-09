@@ -93,7 +93,7 @@ export const NumeneraItem = new Proxy(function () {}, {
             instance instanceof NumeneraNpcAttackItem ||
             instance instanceof NumeneraSkillItem ||
             instance instanceof NumeneraWeaponItem ||
-            instance instanceof StrangeRecursionItem ||
+            instance instanceof StrangeRecursionItem
           );
         };
 

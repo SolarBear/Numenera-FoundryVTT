@@ -1,6 +1,6 @@
 import { NUMENERA } from "../../config.js";
 
-export class StrnageRecusionItemSheet extends ItemSheet {
+export class StrangeRecusionItemSheet extends ItemSheet {
     /**
      * Define default rendering options for the weapon sheet
      * @return {Object}

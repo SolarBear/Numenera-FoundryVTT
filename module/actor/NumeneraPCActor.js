@@ -49,7 +49,7 @@ export class NumeneraPCActor extends Actor {
   getSkillFormula(skill) {
     if (!skill)
       return;
-  
+
     const skillLevel = this.getSkillLevel(skill);
     return numeneraRollFormula(skillLevel);
   }
@@ -80,7 +80,7 @@ export class NumeneraPCActor extends Actor {
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.dead.warning"));
         return;
     }
-  
+
     const roll = new Roll(this.getSkillFormula(skill)).roll();
 
     roll.toMessage({
@@ -135,7 +135,7 @@ export class NumeneraPCActor extends Actor {
     if (effortLevel === 0) {
       return value;
     }
-        
+
     const actorData = this.data.data;
 
     const statId = event.target.dataset.statId;
@@ -235,7 +235,7 @@ export class NumeneraPCActor extends Actor {
       case "cypher":
       const itemData = data.data;
 
-      if (!itemData.level && itemData.levelDie) {  
+      if (!itemData.level && itemData.levelDie) {
         try {
             //Try the formula as is first
             itemData.level = new Roll(itemData.levelDie).roll().total;
