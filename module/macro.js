@@ -9,7 +9,7 @@ export function useItemMacro(actorId, itemId) {
   const item = actor.items.find(i => i._id === itemId);
 
   if (!item)
-      return ui.notifications.warn(`Your controlled Actor does not have an item named ${itemId}`);
+      return ui.notifications.warn(game.i18n.localize("NUMENERA.macro.use.notActorsItem"));
 
   // Trigger the item use
   return item.use();
@@ -27,7 +27,7 @@ export async function createNumeneraMacro(data, slot) {
         return;
 
     if (!("data" in data))
-        return ui.notifications.warn("You can only create macro buttons for owned Items");
+        return ui.notifications.warn(game.i18n.localize("NUMENERA.macro.create.onlyOwned"));
 
     const item = data.data;
   

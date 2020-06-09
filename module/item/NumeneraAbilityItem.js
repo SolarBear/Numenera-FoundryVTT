@@ -44,7 +44,7 @@ export class NumeneraAbilityItem extends Item {
     },
     options);
 
-    ui.notifications.info("Related skill information updated");
+    ui.notifications.info(game.i18n.localize("NUMENERA.item.ability.relatedSkillUpdated"));
 
     return updated;
   }
@@ -52,7 +52,7 @@ export class NumeneraAbilityItem extends Item {
   async use() {
     //An ability must be related to an Actor to be used
     if (this.actor === null) {
-      return ui.notifications.error("The ability is not linked to an actor");
+      return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
     }
 
     //Get the skill related to that ability
