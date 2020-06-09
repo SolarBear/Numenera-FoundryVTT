@@ -65,7 +65,7 @@
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "skill", "weapon"],
+        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "skill", "weapon", "recursion"],
         "templates": {
             "common": {
                 "notes": "",

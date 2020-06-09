@@ -75,7 +75,7 @@ export const NumeneraItem = new Proxy(function () {}, {
               return NumeneraSkillItem.create(data, options);
             case "weapon":
               return NumeneraWeaponItem.create(data, options);
-            case "weapon":
+            case "recursion":
               return StrangeRecursionItem.create(data, options);
           }
         };
