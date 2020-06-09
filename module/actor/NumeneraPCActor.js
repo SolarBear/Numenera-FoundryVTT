@@ -1,4 +1,4 @@
-import { numeneraRoll } from "../roll.js";
+import { numeneraRoll, numeneraRollFormula } from "../roll.js";
 
 const effortObject = {
   cost: 0,
@@ -19,21 +19,11 @@ export class NumeneraPCActor extends Actor {
   }
 
   getInitiativeFormula() {
-    //TODO: use numeneraRoll() here instead of duplicating roll logic
-
     //Check for an initiative skill
-    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "Initiative")
-    let initSkillLevel = 0;
-    if (initSkill) 
-      initSkillLevel = 3 * this.getSkillLevel(initSkill);
-    
-    //TODO possible assets, effort on init roll
-    let formula = "1d20"
-    if (initSkill !== 0) {
-      formula += `+${initSkillLevel}`;
-    }
+    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative")
 
-    return formula;
+    //TODO possible assets, effort on init roll
+    return this.getSkillFormula(initSkill);
   }
 
   get effort() {
@@ -56,6 +46,19 @@ export class NumeneraPCActor extends Actor {
     }).length;
   }
 
+  getSkillFormula(skill) {
+    if (!skill)
+      return;
+  
+    const skillLevel = this.getSkillLevel(skill);
+    return numeneraRollFormula(skillLevel);
+  }
+
+  rollSkillById(skillId) {
+    const skill = this.getOwnedItem(skillId);
+    return this.rollSkill(skill);
+  }
+
   /**
    * Given a skill ID, fetch the skill level bonus and roll a d20, adding the skill
    * bonus.
@@ -64,8 +67,8 @@ export class NumeneraPCActor extends Actor {
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skillId) {
-    if (!skillId)
+  rollSkill(skill) {
+    if (!skill)
       return;
 
     switch (this.data.data.damageTrack) {
@@ -78,10 +81,7 @@ export class NumeneraPCActor extends Actor {
         return;
     }
   
-    const skill = this.getOwnedItem(skillId);
-    const skillLevel = this.getSkillLevel(skill);
-
-    const roll = numeneraRoll(skillLevel);
+    const roll = new Roll(this.getSkillFormula(skill)).roll();
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),

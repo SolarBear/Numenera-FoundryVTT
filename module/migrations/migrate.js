@@ -1,3 +1,4 @@
+import { NPCActorMigrator } from "./NPCActorMigrations.js";
 import { PCActorMigrator } from "./PCActorMigrations.js";
 import { ItemMigrator } from "./ItemMigrations.js";
 
@@ -9,7 +10,7 @@ export async function migrateWorld() {
     return;
   
   const currentPCActorVersion = PCActorMigrator.forVersion;
-  const currentNPCActorVersion = 1; //NPCActorMigrator.forVersion;
+  const currentNPCActorVersion = NPCActorMigrator.forVersion;
   const currentItemVersion = Item.forVersion;
 
   let pcActors = game.actors.entities.filter(actor => actor.data.type === 'pc' && actor.data.data.version < currentPCActorVersion);
@@ -19,6 +20,7 @@ export async function migrateWorld() {
   if (pcActors && pcActors.length > 0 || npcActors && npcActors.length > 0 || items && items.length > 0) {
     ui.notifications.info(`Applying Numenera system migrations. Please be patient and do not close your game or shut down your server.`, {permanent: true});
 
+    //TODO these 3 migration blocks are exactly the same, refactor plz
     try {
       if (pcActors && pcActors.length > 0) {
         const updatedPcData = await Promise.all(pcActors.map(async actor => await PCActorMigrator.migrate(actor)));
@@ -33,21 +35,20 @@ export async function migrateWorld() {
       console.error("Error in PC migrations", e);
     }
 
-    //No NPC migrations yet
-    // try {
-    //   if (npcActors)
-    //     npcActors = await Promise.all(pcActors.map(async actor => await NPCActorMigrator.migrate(actor)));
+    try {
+      if (npcActors && npcActors.length > 0) {
+        const updatedNpcData = await Promise.all(npcActors.map(async actor => await NPCActorMigrator.migrate(actor)));
 
-            // for (const npcActor of npcActors) {
-            //   await NumeneraNPCActor.update(npcActor.data);
-            // }
+        for (let i = 0; i < npcActors.length; i++) {
+          await npcActors[i].update(updatedNpcData[i]);
+        }
 
-    //     console.log("NPC Actor migration succeeded!");
-    // } catch (e) {console.l
-    //   console.error("Error in NPC migrations", e);
-    // }
+        console.log("NPC Actor migration succeeded!");
+      }
+    } catch (e) {
+      console.error("Error in NPC migrations", e);
+    }
     
-    //No separate Item migrations yet
     try {
       if (items && items.length > 0) {
         const updatedItems = await Promise.all(items.map(async item => await ItemMigrator.migrate(item)));
