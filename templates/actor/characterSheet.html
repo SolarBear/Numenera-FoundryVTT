@@ -180,8 +180,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.abilities as |ability| }}
-                <!-- TODO "prder"? is this even useful? -->
-                    <tr class="ability" data-item-id="{{ability._id}}" data-prder="{{ability.data.order}}">
+                    <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -442,7 +441,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.weapons as |weapon|}}
-                    <tr class="weapon" data-item-id="{{weapon._id}}" data-prder="{{weapon.data.order}}">
+                    <tr class="weapon" data-item-id="{{weapon._id}}" data-order="{{weapon.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -527,7 +526,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.armor as |armor|}}
-                    <tr class="armor" data-item-id="{{armor._id}}" data-prder="{{armor.data.order}}">
+                    <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
