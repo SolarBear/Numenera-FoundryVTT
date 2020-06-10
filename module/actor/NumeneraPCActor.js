@@ -47,10 +47,11 @@ export class NumeneraPCActor extends Actor {
   }
 
   getSkillFormula(skill) {
-    if (!skill)
-      return;
-  
-    const skillLevel = this.getSkillLevel(skill);
+    let skillLevel = 0;
+    if (skill) {
+      skillLevel = this.getSkillLevel(skill);
+    }
+    
     return numeneraRollFormula(skillLevel);
   }
 
@@ -68,9 +69,6 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   rollSkill(skill) {
-    if (!skill)
-      return;
-
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -97,14 +95,14 @@ export class NumeneraPCActor extends Actor {
    * @memberof ActorNumeneraPC
    */
   getSkillLevel(skill) {
-    if (!skill)
+    if (!skill || !skill.data)
       throw new Error("No skill provided");
 
-    if (!skill.data.data)
-      return 0; //skills are untrained by default
+    skill = skill.data;
+    if (skill.hasOwnProperty("data"))
+      skill = skill.data;
 
-    skill = skill.data.data;
-    let level = -Number(skill.inability); //Inability subtracts 1 from overall level
+    let level = -Number(skill.inability) || 0; //Inability subtracts 1 from overall level
 
     if (skill.specialized) level += 2;
     else if (skill.trained) level += 1;

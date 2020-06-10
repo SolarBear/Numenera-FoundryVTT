@@ -165,7 +165,7 @@
             <table class="abilities">
                 <thead>
                     <tr>
-                        <td class="">
+                        <td>
                             <!-- Extra empty table data for handle to properly center if we're showing icons-->
                         </td>
                     {{#if settings.icons.abilities}}
@@ -423,20 +423,22 @@
             <h2>{{localize "NUMENERA.pc.weapons.sectionName"}}</h2>
             <table class="weapons">
                 <thead>
-                    <td>
-                        <!-- Extra empty table data for handle to properly center if we're showing icons-->
-                    </td>
-                {{#if settings.icons.equipment}}
-                    <td>
-                        <!-- Extra empty table data for icon-->
-                    </td>
-                {{/if}}
-                    <td>{{localize "NUMENERA.pc.weapons.name"}}</td>
-                    <td>{{localize "NUMENERA.pc.weapons.type"}}</td>
-                    <td>{{localize "NUMENERA.pc.weapons.damage"}}</td>
-                    <td>{{localize "NUMENERA.pc.weapons.range"}}</td>
-                    <td>{{localize "NUMENERA.pc.weapons.notes"}}</td>
-                    <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                    <tr>
+                        <td>
+                            <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                        </td>
+                    {{#if settings.icons.equipment}}
+                        <td>
+                            <!-- Extra empty table data for icon-->
+                        </td>
+                    {{/if}}
+                        <td>{{localize "NUMENERA.pc.weapons.name"}}</td>
+                        <td>{{localize "NUMENERA.pc.weapons.type"}}</td>
+                        <td>{{localize "NUMENERA.pc.weapons.damage"}}</td>
+                        <td>{{localize "NUMENERA.pc.weapons.range"}}</td>
+                        <td>{{localize "NUMENERA.pc.weapons.notes"}}</td>
+                        <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
+                    </tr>
                 </thead>
                 <tbody>
                 {{#each data.items.weapons as |weapon|}}

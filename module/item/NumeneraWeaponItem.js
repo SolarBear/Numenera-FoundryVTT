@@ -1,3 +1,4 @@
+import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 import { NUMENERA } from '../config.js';
 
 export class NumeneraWeaponItem extends Item {
@@ -45,4 +46,25 @@ export class NumeneraWeaponItem extends Item {
             }
         });
     }
+
+    async use() {
+        //An ability must be related to an Actor to be used
+        if (this.actor === null) {
+          return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+        }
+
+        const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+    
+        //Get the skill related to that ability
+        let skill = this.actor.data.items.find(
+          i => i.name === skillName && i.type === NumeneraSkillItem.type
+        );
+
+        if (!skill) {
+            skill = new NumeneraSkillItem();
+            skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+        }
+
+        this.actor.rollSkill(skill);
+      }
 }

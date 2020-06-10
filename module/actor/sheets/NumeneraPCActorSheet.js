@@ -423,7 +423,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       const handler = ev => this._onDragItemStart(ev);
 
       // Find all abilitiy items on the character sheet.
-      html.find('tr.ability,tr.skill').each((i, tr) => {
+      html.find('tr.ability,tr.skill,tr.weapon').each((i, tr) => {
         // Add draggable attribute and dragstart listener.
         tr.setAttribute("draggable", true);
         tr.addEventListener("dragstart", handler, false);
@@ -487,10 +487,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const skillName = `${weight} ${weaponType}`;
 
     //Get related skill, if any
-    const skillId = this.actor.data.items.find(i => i.name.toLowerCase() === skillName.toLowerCase())._id;
-    const skill = await this.actor.getOwnedItem(skillId);
-    if (skill)
-      return this.actor.rollSkill(skill);
+    const skillId = this.actor.data.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
+    if (skillId) {
+      const skill = await this.actor.getOwnedItem(skillId._id);
+      if (skill)
+        return this.actor.rollSkill(skill);
+    }
 
     //No appropriate skill? Create a fake one, just to ensure a nice chat output
     const fakeSkill = new NumeneraSkillItem();

@@ -72,7 +72,7 @@ export async function registerHooks() {
               let text = `${game.i18n.localize("NUMENERA.successLevel")} ${sum}`;
 
               if (skillLevel !== 0) {
-                  const sign = sum > 0 ? "+" : "";
+                  const sign = skillLevel > 0 ? "+" : "";
                   text += ` (${taskLevel}${sign}${skillLevel})`;
               }
 
