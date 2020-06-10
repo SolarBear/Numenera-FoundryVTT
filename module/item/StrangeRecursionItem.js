@@ -2,19 +2,19 @@ export class StrangeRecursionItem extends Item {
     get type() {
         return "recursion";
     }
-    prepareData() {
+
+    async prepareData() {
 	    // Override common default icon
+	    if (!this.data.img) this.data.img = 'icons/svg/circle.svg';
 
         super.prepareData();
 
-        const itemData = this.data.data || {};
+        let itemData = this.data.data || {};
 
-        //TODO we're duplicating the name here... why is that?
-        /*
         const desc = Object.getOwnPropertyDescriptor(itemData, "name");
         if (desc && desc.writable)
-                        itemData.name = this.data.name || game.i18n.localize("NUMENERA.pc.recursion.newRecursion");
-*/
+          itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.recursion.newRecursion");
+
         itemData.level = itemData.level || 0;
         itemData.laws = itemData.laws || "";
         itemData.race = itemData.race || "";

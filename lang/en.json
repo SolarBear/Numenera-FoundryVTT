@@ -146,12 +146,13 @@
     "NUMENERA.pc.weapons.deleteTooltip": "Delete",
     "NUMENERA.pc.weapons.none": "No weapons yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
 
+    "NUMENERA.item.recursion.newRecursion": "New Recursion",
+    "NUMENERA.item.recursion.level": "Level",
     "NUMENERA.item.recursion.laws": "Laws",
     "NUMENERA.item.recursion.race": "Race",
     "NUMENERA.item.recursion.focus": "Focus",
     "NUMENERA.item.recursion.focusAbilities": "Focus Abilities",
-    "NUMENERA.pc.recursion.newRecursion": "New Recursion",
-    "NUMENERA.pc.recursion.none": "No weapons yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.pc.recursion.none": "No Recursion yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
 
     "NUMENERA.pc.armor.sectionName": "Armor",
     "NUMENERA.pc.armor.name": "Name",
@@ -161,7 +162,7 @@
     "NUMENERA.pc.armor.notes": "Notes",
     "NUMENERA.pc.armor.createTooltip": "Create",
     "NUMENERA.pc.armor.deleteTooltip": "Delete",
-    "NUMENERA.pc.armor.none": "No Recusions yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.pc.armor.none": "No armor yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
 
     "NUMENERA.pc.otherItems.sectionName": "Other Items",
     "NUMENERA.pc.otherItems.name": "Name",

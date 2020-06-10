@@ -24,7 +24,4 @@ export class StrangeRecursionItemSheet extends ItemSheet {
         return "systems/numenera/templates/item/recursionSheet.html";
     }
 
-    get type() {
-        return "recursion";
-    }
 }
