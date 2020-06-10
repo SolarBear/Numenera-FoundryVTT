@@ -1,8 +1,11 @@
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
+import { NumeneraArtifactItem } from "../../item/NumeneraArtifactItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
+import { NumeneraCypherItem } from "../../item/NumeneraCypherItem.js";
 import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
+import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 
@@ -260,25 +263,21 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     sheetData.data.items = sheetData.actor.items || {};
 
-    //TODO repetition! kill it FOR GREAT JUSTICE
-    //TODO use ItemClass.getType()
     const items = sheetData.data.items;
-    if (!sheetData.data.items.abilities)
-      sheetData.data.items.abilities = items.filter(i => i.type === "ability").sort(sortFunction);
-    if (!sheetData.data.items.armor)
-      sheetData.data.items.armor = items.filter(i => i.type === "armor").sort(sortFunction);
-    if (!sheetData.data.items.artifacts)
-      sheetData.data.items.artifacts = items.filter(i => i.type === "artifact").sort(sortFunction);
-    if (!sheetData.data.items.cyphers)
-      sheetData.data.items.cyphers = items.filter(i => i.type === "cypher").sort(sortFunction);
-    if (!sheetData.data.items.equipment)
-      sheetData.data.items.equipment = items.filter(i => i.type === "equipment").sort(sortFunction);
-    if (!sheetData.data.items.oddities)
-      sheetData.data.items.oddities = items.filter(i => i.type === "oddity").sort(sortFunction);
-    if (!sheetData.data.items.skills)
-      sheetData.data.items.skills = items.filter(i => i.type === "skill").sort(sortFunction);
-    if (!sheetData.data.items.weapons)
-      sheetData.data.items.weapons = items.filter(i => i.type === "weapon").sort(sortFunction);
+
+    Object.entries({
+      abilities: NumeneraAbilityItem.type,
+      armor: NumeneraArmorItem.type,
+      artifacts: NumeneraArtifactItem.type,
+      cyphers: NumeneraCypherItem.type,
+      equipment: NumeneraEquipmentItem.type,
+      oddities: NumeneraOddityItem.type,
+      skills: NumeneraSkillItem.type,
+      weapons: NumeneraWeaponItem.type,
+    }).forEach(([val, type]) => {
+      if (!sheetData.data.items[val])
+        sheetData.data.items[val] = items.filter(i => i.type === type).sort(sortFunction)
+    });
 
     //Make it so that unidentified artifacts and cyphers appear as blank items
     //TODO extract this in the Item class if possible (perhaps as a static method?)
