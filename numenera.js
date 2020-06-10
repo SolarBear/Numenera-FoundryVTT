@@ -23,6 +23,7 @@ import { RecoveryDialog } from './module/apps/RecoveryDialog.js';
 import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
 import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
 import { registerHooks } from './module/hooks.js';
+import { useItemMacro } from './module/macro.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -31,6 +32,7 @@ Hooks.once("init", function() {
         applications: {
             RecoveryDialog,
         },
+        useItemMacro,
     };
 
     // Record Configuration Values
@@ -74,4 +76,4 @@ Hooks.once("ready", migrateWorld);
 Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
-registerHooks();
+Hooks.once("ready", registerHooks);

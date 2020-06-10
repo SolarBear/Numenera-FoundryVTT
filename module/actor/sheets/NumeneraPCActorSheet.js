@@ -384,6 +384,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("click", ".weapon-create", this.onWeaponCreate.bind(this));
     weaponsTable.on("click", ".weapon-delete", this.onWeaponDelete.bind(this));
     weaponsTable.on("blur", "input,select", this.onWeaponEdit.bind(this));
+    weaponsTable.on("click", "a.rollable", this.onWeaponUse.bind(this));
 
     html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
 
@@ -417,6 +418,38 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Handle reordering on all these nice draggable elements
     //Assumes they all have a "order" property: should be the case since it's defined in the template.json
     drakes.map(drake => drake.on("drop", this.reorderElements.bind(this)));
+
+    if (this.actor.owner) {
+      const handler = ev => this._onDragItemStart(ev);
+
+      // Find all abilitiy items on the character sheet.
+      html.find('tr.ability,tr.skill,tr.weapon').each((i, tr) => {
+        // Add draggable attribute and dragstart listener.
+        tr.setAttribute("draggable", true);
+        tr.addEventListener("dragstart", handler, false);
+      });
+    }
+  }
+
+  _onDragItemStart(event) {
+    const itemId = event.currentTarget.dataset.itemId;
+
+    const clickedItem = duplicate(
+      this.actor.getEmbeddedEntity("OwnedItem", itemId)
+    );
+    clickedItem.data.stored = "";
+    
+    const item = clickedItem;
+    event.dataTransfer.setData(
+      "text/plain",
+      JSON.stringify({
+        type: "Item",
+        actorId: this.actor.id,
+        data: item,
+      })
+    );
+    
+    return super._onDragItemStart(event);
   }
 
   async reorderElements(el, target, source, sibling) {
@@ -441,6 +474,33 @@ export class NumeneraPCActorSheet extends ActorSheet {
     return this.actor.rollSkillById(skillId);
   }
 
+  async onWeaponUse(event) {
+    event.preventDefault();
+
+    const weaponId = event.target.closest(".weapon").dataset.itemId;
+    if (!weaponId)
+      return;
+
+    const weapon = await this.actor.getOwnedItem(weaponId);
+    const weight = game.i18n.localize(weapon.data.data.weight);
+    const weaponType = game.i18n.localize(weapon.data.data.weaponType);
+    const skillName = `${weight} ${weaponType}`;
+
+    //Get related skill, if any
+    const skillId = this.actor.data.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
+    if (skillId) {
+      const skill = await this.actor.getOwnedItem(skillId._id);
+      if (skill)
+        return this.actor.rollSkill(skill);
+    }
+
+    //No appropriate skill? Create a fake one, just to ensure a nice chat output
+    const fakeSkill = new NumeneraSkillItem();
+    fakeSkill.data.name = skillName;
+
+    return this.actor.rollSkill(fakeSkill);
+  }
+
   onAbilityUse(event) {
     event.preventDefault();
     const abilityId = event.target.closest(".ability").dataset.itemId;
@@ -455,7 +515,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
     }
 
-    return this.actor.rollSkillById(skill._id);
+    return this.actor.rollSkill(skill);
   }
 
   onArtifactDepletionRoll(event) {

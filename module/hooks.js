@@ -1,12 +1,12 @@
+import { createNumeneraMacro } from './macro.js';
 import { rollText } from './roll.js';
-
 
 /**
  * This function is simply meant to be the place where all hooks are registered.
  *
  * @export
  */
-export function registerHooks() {
+export async function registerHooks() {
   Hooks.on("ready", () => ui.notifications.info(
     `Numenera and its logo are trademarks of Monte Cook Games, LLC in the U.S.A. and other countries.
     All Monte Cook Games characters and character names, and the distinctive likenesses thereof,
@@ -72,7 +72,7 @@ export function registerHooks() {
               let text = `${game.i18n.localize("NUMENERA.successLevel")} ${sum}`;
 
               if (skillLevel !== 0) {
-                  const sign = sum > 0 ? "+" : "";
+                  const sign = skillLevel > 0 ? "+" : "";
                   text += ` (${taskLevel}${sign}${skillLevel})`;
               }
 
@@ -119,4 +119,8 @@ export function registerHooks() {
           }
       });
   });
+
+  // Many thanks to @asacolips for their awesome tutorial: https://gitlab.com/asacolips-projects/foundry-mods/foundryvtt-system-tutorial/-/blob/master/pages/16-macrobar-support.md
+  // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
+  Hooks.on("hotbarDrop", (_, data, slot) => createNumeneraMacro(data, slot));
 }
