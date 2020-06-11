@@ -220,6 +220,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
       icons: {}
     };
 
+    //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
+    sheetData.data.focus = this.actor.getFocus();
+
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
     sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
@@ -356,6 +359,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   activateListeners(html) {
     super.activateListeners(html);
+
+    html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
 
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
