@@ -1,5 +1,5 @@
 export class NumeneraSkillItem extends Item {
-  static get type() {
+  get type() {
       return "skill";
   }
 
@@ -11,8 +11,7 @@ export class NumeneraSkillItem extends Item {
 
       const itemData = this.data.data || {};
 
-      itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
-      
+      itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.skills.newSkill");
       itemData.notes = itemData.notes || "";
       itemData.stat = itemData.stat || "";
       itemData.inability = itemData.inability || false;
@@ -38,17 +37,8 @@ export class NumeneraSkillItem extends Item {
     },
     options);
 
-    ui.notifications.info(game.i18n.localize("NUMENERA.item.skill.relatedAbilityUpdated"));
+    ui.notifications.info("Related ability information updated");
 
     return updated;
-  }
-
-  async use() {
-    //An ability must be related to an Actor to be used
-    if (this.actor === null) {
-      return ui.notifications.error(game.i18n.localize("NUMENERA.item.skill.useNotLinkedToActor"));
-    }
-
-    this.actor.rollSkill(this);
   }
 }

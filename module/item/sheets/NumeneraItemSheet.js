@@ -5,7 +5,6 @@ import { NumeneraCypherItemSheet } from "./NumeneraCypherItemSheet.js";
 import { NumeneraEquipmentItemSheet } from "./NumeneraEquipmentItemSheet.js";
 import { NumeneraOddityItemSheet } from "./NumeneraOddityItemSheet.js";
 import { NumeneraWeaponItemSheet } from "./NumeneraWeaponItemSheet.js";
-import { StrangeRecursionItemSheet } from "./StrangeRecursionItemSheet.js";
 
 export class NumeneraItemSheet extends ItemSheet {
     constructor(data, options) {
@@ -41,9 +40,6 @@ export class NumeneraItemSheet extends ItemSheet {
                 break;
             case "weapon":
                 object = new NumeneraWeaponItemSheet(data, options);
-                break;
-            case "recursion":
-                object = new StrangeRecursionItemSheet(data, options);
                 break;
         }
 

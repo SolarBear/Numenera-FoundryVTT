@@ -4,12 +4,7 @@ Rolls a d20 and then determines your success level.
 */
 export function numeneraRollFormula(level = 0) {
   let formula = "d20";
-
-  if (level > 0)
-    formula += "+";
-
-  if (level !== 0)
-    formula += 3 * level;
+  if (level > 0) formula += "+" + 3 * level;
 
   return formula;
 }
