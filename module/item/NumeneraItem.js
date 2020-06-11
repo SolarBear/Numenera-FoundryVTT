@@ -7,6 +7,7 @@ import { NumeneraOddityItem } from "./NumeneraOddityItem.js";
 import { NumeneraNpcAttackItem } from "./NumeneraNPCAttack.js";
 import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "./NumeneraWeaponItem.js";
+import { StrangeRecursionItem } from "./StrangeRecursionItem.js";
 
 /**
  * Numenera item base class
@@ -45,6 +46,8 @@ export const NumeneraItem = new Proxy(function () {}, {
         return new NumeneraSkillItem(...args);
       case "weapon":
         return new NumeneraWeaponItem(...args);
+      case "recursion":
+        return new StrangeRecursionItem(...args);
     }
   },
   //Property access on this weird, dirty proxy object
@@ -72,6 +75,8 @@ export const NumeneraItem = new Proxy(function () {}, {
               return NumeneraSkillItem.create(data, options);
             case "weapon":
               return NumeneraWeaponItem.create(data, options);
+            case "recursion":
+              return StrangeRecursionItem.create(data, options);
           }
         };
 
@@ -87,7 +92,8 @@ export const NumeneraItem = new Proxy(function () {}, {
             instance instanceof NumeneraOddityItem ||
             instance instanceof NumeneraNpcAttackItem ||
             instance instanceof NumeneraSkillItem ||
-            instance instanceof NumeneraWeaponItem
+            instance instanceof NumeneraWeaponItem ||
+            instance instanceof StrangeRecursionItem
           );
         };
 

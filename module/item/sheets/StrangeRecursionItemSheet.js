@@ -1,6 +1,6 @@
-import { NUMENERA } from "../../config.js";
+//import { NUMENERA } from "../../config.js";
 
-export class NumeneraSkillItemSheet extends ItemSheet {
+export class StrangeRecursionItemSheet extends ItemSheet {
     /**
      * Define default rendering options for the weapon sheet
      * @return {Object}
@@ -21,17 +21,7 @@ export class NumeneraSkillItemSheet extends ItemSheet {
      * @type {String}
      */
     get template() {
-        return "systems/numenera/templates/item/skillSheet.html";
+        return "systems/numenera/templates/item/recursionSheet.html";
     }
 
-    getData() {
-        const sheetData = super.getData();
-
-        sheetData.stats = {};
-        for (const prop in NUMENERA.stats) {
-          sheetData.stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
-        }
-
-        return sheetData;
-    }
 }

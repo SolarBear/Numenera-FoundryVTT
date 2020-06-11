@@ -1,5 +1,5 @@
 export class NumeneraArtifactItem extends Item {
-    get type() {
+    static get type() {
         return "artifact";
     }
 
