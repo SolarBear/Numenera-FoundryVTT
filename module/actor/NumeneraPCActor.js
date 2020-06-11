@@ -1,4 +1,4 @@
-import { numeneraRoll, numeneraRollFormula } from "../roll.js";
+import { numeneraRollFormula } from "../roll.js";
 
 const effortObject = {
   cost: 0,
@@ -16,6 +16,24 @@ export class NumeneraPCActor extends Actor {
 
     //Armor would sometimes get desynchronized with the armor items, this fixes it
     this.data.data.armor = this.getTotalArmor();
+  }
+
+  getFocus() {
+    //Add any game-specific logic to get the PC's focus here
+
+    //Default case: there is no specific ID
+    return this.data.data.focus[""];
+  }
+
+  setFocusFromEvent(event) {
+    this.setFocus(event.currentTarget.value);
+  }
+
+  setFocus(value) {
+    //Add any game-specific logic to set a PC focus here    
+
+    //Default case: there is no specific ID
+    this.data.data.focus[""] = value;
   }
 
   getInitiativeFormula() {
@@ -47,10 +65,18 @@ export class NumeneraPCActor extends Actor {
   }
 
   getSkillFormula(skill) {
+<<<<<<< HEAD
     if (!skill)
       return;
 
     const skillLevel = this.getSkillLevel(skill);
+=======
+    let skillLevel = 0;
+    if (skill) {
+      skillLevel = this.getSkillLevel(skill);
+    }
+    
+>>>>>>> f25de3bac2c7138f09109a3b1880e0bab2386635
     return numeneraRollFormula(skillLevel);
   }
 
@@ -68,9 +94,6 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   rollSkill(skill) {
-    if (!skill)
-      return;
-
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -97,14 +120,14 @@ export class NumeneraPCActor extends Actor {
    * @memberof ActorNumeneraPC
    */
   getSkillLevel(skill) {
-    if (!skill)
+    if (!skill || !skill.data)
       throw new Error("No skill provided");
 
-    if (!skill.data.data)
-      return 0; //skills are untrained by default
+    skill = skill.data;
+    if (skill.hasOwnProperty("data"))
+      skill = skill.data;
 
-    skill = skill.data.data;
-    let level = -Number(skill.inability); //Inability subtracts 1 from overall level
+    let level = -Number(skill.inability) || 0; //Inability subtracts 1 from overall level
 
     if (skill.specialized) level += 2;
     else if (skill.trained) level += 1;

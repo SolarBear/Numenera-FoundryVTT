@@ -1,5 +1,5 @@
 export class NumeneraNpcAttackItem extends Item {
-  get type() {
+  static get type() {
       return "npcattack";
   }
 

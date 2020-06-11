@@ -1,5 +1,5 @@
 export class NumeneraCypherItem extends Item {
-    get type() {
+    static get type() {
         return "cypher";
     }
 

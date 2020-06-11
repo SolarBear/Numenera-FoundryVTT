@@ -43,19 +43,6 @@
     "NUMENERA.pcActorSheet.tab.equipment": "Equipment",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
 
-    "NUMENERA.item.ability.newAbility": "New Ability",
-    "NUMENERA.item.ability.name": "Abilities",
-    "NUMENERA.item.ability.type.action": "Action",
-    "NUMENERA.item.ability.type.enabler": "Enabler",
-    "NUMENERA.item.ability.tab.createTooltip": "Create",
-    "NUMENERA.item.ability.tab.deleteTooltip": "Delete",
-    "NUMENERA.item.ability.tab.rollTooltip": "Ability Roll",
-    "NUMENERA.item.ability.tab.cost": "Cost",
-    "NUMENERA.item.ability.tab.description": "Description",
-    "NUMENERA.item.ability.tab.name": "Name",
-    "NUMENERA.item.ability.tab.range": "Range",
-    "NUMENERA.item.ability.tab.instructions": "No abilities yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
-
     "NUMENERA.pc.advances.statPools": "+4 to stat pools",
     "NUMENERA.pc.advances.effort": "+1 to Effort",
     "NUMENERA.pc.advances.edge": "+1 to Edge",
@@ -115,13 +102,13 @@
     "NUMENERA.range.long": "Long",
     "NUMENERA.range.veryLong": "Very Long",
 
-    "NUMENERA.item.skills.tab.createTooltip": "Create",
-    "NUMENERA.item.skills.tab.deleteTooltip": "Delete",
-    "NUMENERA.item.skills.tab.name": "Name",
-    "NUMENERA.item.skills.tab.rollTooltip": "Skill Roll",
-    "NUMENERA.item.skills.tab.stat": "Stat",
-    "NUMENERA.item.skills.tab.instructions": "No skills yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
-    "NUMENERA.item.skills.newSkill": "New Skill",
+    "NUMENERA.item.skill.tab.createTooltip": "Create",
+    "NUMENERA.item.skill.tab.deleteTooltip": "Delete",
+    "NUMENERA.item.skill.tab.name": "Name",
+    "NUMENERA.item.skill.tab.rollTooltip": "Skill Roll",
+    "NUMENERA.item.skill.tab.stat": "Stat",
+    "NUMENERA.item.skill.tab.instructions": "No skills yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.item.skill.newSkill": "New Skill",
     "NUMENERA.skillLevels.Inability": "Inability",
     "NUMENERA.skillLevels.Untrained": "Untrained",
     "NUMENERA.skillLevels.Trained": "Trained",
@@ -136,7 +123,6 @@
     "NUMENERA.stats.edge": "Edge",
 
     "NUMENERA.pc.weapons.sectionName": "Weapons",
-    "NUMENERA.pc.weapons.newWeapon": "New Weapon",
     "NUMENERA.pc.weapons.name": "Name",
     "NUMENERA.pc.weapons.type": "Type",
     "NUMENERA.pc.weapons.damage": "Damage",
@@ -199,8 +185,18 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Information",
 
-    "NUMENERA.item.ability.isAction": "This ability is an Action",
-    "NUMENERA.item.ability.isEnabler": "This ability is an Enabler",
+    "NUMENERA.item.ability.newAbility": "New Ability",
+    "NUMENERA.item.ability.name": "Abilities",
+    "NUMENERA.item.ability.type.action": "Action",
+    "NUMENERA.item.ability.type.enabler": "Enabler",
+    "NUMENERA.item.ability.tab.createTooltip": "Create",
+    "NUMENERA.item.ability.tab.deleteTooltip": "Delete",
+    "NUMENERA.item.ability.tab.rollTooltip": "Ability Roll",
+    "NUMENERA.item.ability.tab.cost": "Cost",
+    "NUMENERA.item.ability.tab.description": "Description",
+    "NUMENERA.item.ability.tab.name": "Name",
+    "NUMENERA.item.ability.tab.range": "Range",
+    "NUMENERA.item.ability.tab.instructions": "No abilities yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
     "NUMENERA.item.ability.cost": "Cost",
     "NUMENERA.item.ability.category": "Category",
     "NUMENERA.item.ability.categoryPlaceholder": "Category (eg. Type, Focus, etc.)",
@@ -208,6 +204,8 @@
     "NUMENERA.item.ability.tier": "Tier",
     "NUMENERA.item.ability.range": "Range",
     "NUMENERA.item.ability.description": "Description",
+    "NUMENERA.item.ability.relatedSkillUpdated": "Related skill information updated",
+    "NUMENERA.item.ability.useNotLinkedToActor": "The ability is not linked to an actor",
 
     "NUMENERA.item.armor.weight": "Weight",
     "NUMENERA.item.armor.armor": "Armor",
@@ -241,13 +239,17 @@
 
     "NUMENERA.item.skill.stat": "Stat",
     "NUMENERA.item.skill.description": "Description",
+    "NUMENERA.item.skill.relatedAbilityUpdated": "Related ability information updated",
+    "NUMENERA.item.skill.useNotLinkedToActor": "The skill is not linked to an actor",
 
+    "NUMENERA.item.weapon.newWeapon": "New Weapon",
     "NUMENERA.item.weapon.weight": "Weight",
     "NUMENERA.item.weapon.type": "Type",
     "NUMENERA.item.weapon.damage": "Damage",
     "NUMENERA.item.weapon.range": "Range",
     "NUMENERA.item.weapon.price": "Price",
     "NUMENERA.item.weapon.description": "Description",
+    "NUMENERA.item.weapon.tab.rollTooltip": "Roll",
 
     "NUMENERA.recoveries.title": "Recoveries",
     "NUMENERA.recoveries.reset": "Reset",
@@ -267,5 +269,13 @@
 
     "NUMENERA.warnings.abilityWithSameNameExists": "An Ability with the same name also exists",
     "NUMENERA.warnings.noSkillRelatedToAbility": "No skill related to that ability",
+<<<<<<< HEAD
     "NUMENERA.warnings.skillWithSameNameExists": "A Skill with the same name also exists"
 }
+=======
+    "NUMENERA.warnings.skillWithSameNameExists": "A Skill with the same name also exists",
+
+    "NUMENERA.macro.use.notActorsItem": "Your controlled Actor does not have such an item",
+    "NUMENERA.macro.create.onlyOwned": "You can only create macro buttons for owned Items"
+}
+>>>>>>> f25de3bac2c7138f09109a3b1880e0bab2386635
