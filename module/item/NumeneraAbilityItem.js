@@ -1,7 +1,5 @@
-import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
-
 export class NumeneraAbilityItem extends Item {
-  static get type() {
+  get type() {
       return "ability";
   }
 
@@ -44,21 +42,8 @@ export class NumeneraAbilityItem extends Item {
     },
     options);
 
-    ui.notifications.info(game.i18n.localize("NUMENERA.item.ability.relatedSkillUpdated"));
+    ui.notifications.info("Related skill information updated");
 
     return updated;
-  }
-
-  async use() {
-    //An ability must be related to an Actor to be used
-    if (this.actor === null) {
-      return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
-    }
-
-    //Get the skill related to that ability
-    const skill = this.actor.data.items.find(
-      i => i.name === this.data.name && i.type === NumeneraSkillItem.type
-    );
-    this.actor.rollSkill(skill);
   }
 }

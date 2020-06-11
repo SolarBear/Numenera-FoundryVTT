@@ -16,7 +16,7 @@
             "damageTrack": 0,
             "descriptor": "",
             "effort": 1,
-            "focus": {},
+            "focus": "",
             "recovery": 1,
             "stats": {
                 "might": {
@@ -45,7 +45,7 @@
             "shins": 0,
             "tier": 1,
             "unspentRecoveryPoints": 0,
-            "version": 6,
+            "version": 5,
             "xp": 0
         },
         "npc": {
@@ -65,7 +65,7 @@
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "skill", "weapon", "recursion"],
+        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "skill", "weapon"],
         "templates": {
             "common": {
                 "notes": "",
@@ -141,13 +141,13 @@
             "damage": 0,
             "weaponType": ""
 		},
-	       "recursion": {
-		         "templates": ["common"],
-		         "level": 0,
-		         "laws": "",
-		         "race": "",
-		         "focus": "",
-		         "focusAbilities": ""
+	"recursion": {
+		"templates": ["common"],
+		"level": 0,
+		"laws": "",
+		"race": "",
+		"focus": "",
+		"focusAbilities": ""
 		}
 	}
 }

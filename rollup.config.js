@@ -29,7 +29,6 @@ const toBundle = [
     "templates/item/skillSheet.html",
     "templates/item/weaponSheet.html",
     "templates/scene/tokenConfig.html",
-    "templates/item/recursionSheet.html",
     "LICENSE"
 ];
 

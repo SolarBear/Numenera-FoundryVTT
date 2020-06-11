@@ -12,7 +12,6 @@ import { NumeneraEquipmentItemSheet } from './module/item/sheets/NumeneraEquipme
 import { NumeneraOddityItemSheet } from './module/item/sheets/NumeneraOddityItemSheet.js';
 import { NumeneraSkillItemSheet } from './module/item/sheets/NumeneraSkillItemSheet.js';
 import { NumeneraWeaponItemSheet } from './module/item/sheets/NumeneraWeaponItemSheet.js';
-import { StrangeRecursionItemSheet } from './module/item/sheets/StrangeRecursionItemSheet.js';
 
 import { NUMENERA } from './module/config.js';
 import { getInitiativeFormula, rollInitiative } from './module/combat.js';
@@ -24,7 +23,6 @@ import { RecoveryDialog } from './module/apps/RecoveryDialog.js';
 import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
 import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
 import { registerHooks } from './module/hooks.js';
-import { useItemMacro } from './module/macro.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -33,7 +31,6 @@ Hooks.once("init", function() {
         applications: {
             RecoveryDialog,
         },
-        useItemMacro,
     };
 
     // Record Configuration Values
@@ -61,11 +58,10 @@ Hooks.once("init", function() {
     Items.registerSheet("numenera", NumeneraOddityItemSheet, { types: ["oddity"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraSkillItemSheet, { types: ["skill"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
-    Items.registerSheet("numenera", StrangeRecursionItemSheet, { types: ["recursion"], makeDefault: true });
 
-    //May seem weird but otherwise
+    //May seem weird but otherwise 
     Items.registerSheet("numenera", ActorSheet, { types: ["npcAttack"], makeDefault: true });
-
+    
     registerSystemSettings();
     registerHandlebarHelpers();
     preloadHandlebarsTemplates();
@@ -78,8 +74,4 @@ Hooks.once("ready", migrateWorld);
 Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
-<<<<<<< HEAD
 registerHooks();
-=======
-Hooks.once("ready", registerHooks);
->>>>>>> f25de3bac2c7138f09109a3b1880e0bab2386635
