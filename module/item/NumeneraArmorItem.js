@@ -1,5 +1,5 @@
 export class NumeneraArmorItem extends Item {
-    get type() {
+    static get type() {
         return "armor";
     }
 

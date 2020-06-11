@@ -16,7 +16,7 @@
             "damageTrack": 0,
             "descriptor": "",
             "effort": 1,
-            "focus": "",
+            "focus": {},
             "recovery": 1,
             "stats": {
                 "might": {
@@ -45,7 +45,7 @@
             "shins": 0,
             "tier": 1,
             "unspentRecoveryPoints": 0,
-            "version": 5,
+            "version": 6,
             "xp": 0
         },
         "npc": {
