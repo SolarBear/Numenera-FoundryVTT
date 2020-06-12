@@ -206,7 +206,7 @@ export class RecoveryDialog extends FormApplication {
 
     //Only update the actor if changes actually happened
     if (data !== null) {
-      data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoin
+      data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoints;
       await this.object.actor.update(data);
 
       ui.notifications.info("Pool changes have been applied");
