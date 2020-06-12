@@ -24,7 +24,7 @@
                     {{/each}}
                     {{/select}}
                 </select>
-                <label for="data.armor">{{localize "NUMENERA.npc.armor"}}</label>      
+                <label for="data.armor">{{localize "NUMENERA.npc.armor"}}</label>
                 <input type="text" name="data.armor" value="{{data.armor}}" min="0" data-dtype="Number" />
                 <label for="data.damage">{{localize "NUMENERA.npc.damage"}}</label>
                 <input type="text" name="data.damage" value="{{data.damage}}" min="0" data-dtype="Number" />
@@ -66,7 +66,7 @@
                             <a><i class="fas fa-grip-vertical handle"></i></a>
                         </td>
                         <td class="attack-description">
-                            <input type="text" name="data.items.attacks.{{attack._id}}.notes" value="{{attack.data.notes}}" placeholder="{{localize "NUMENERA.npc.attacks.placeholder"}}" />
+                            <input type="text" name="data.items.attacks.{{attack._id}}.notes" value="{{attack.notes}}" placeholder="{{localize "NUMENERA.npc.attacks.placeholder"}}" />
                         </td>
                         <td>
                             <a class="attack-delete" data-action="delete" title="{{localize "NUMENERA.npc.attacks.deleteTooltip"}}"><i class="fas fa-trash"></i></a>

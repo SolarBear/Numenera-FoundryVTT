@@ -1,9 +1,9 @@
 export class NumeneraNpcAttackItem extends Item {
-  get type() {
+  static get type() {
       return "npcattack";
   }
 
-  prepareData() {     
+  prepareData() {
     super.prepareData();
 
     const itemData = this.data.data || {};

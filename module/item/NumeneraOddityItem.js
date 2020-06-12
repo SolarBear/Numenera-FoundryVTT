@@ -1,5 +1,5 @@
 export class NumeneraOddityItem extends Item {
-    get type() {
+    static get type() {
         return "oddity";
     }
 

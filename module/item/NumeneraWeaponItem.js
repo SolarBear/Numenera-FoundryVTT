@@ -1,15 +1,16 @@
+import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 import { NUMENERA } from '../config.js';
 
 export class NumeneraWeaponItem extends Item {
 
-    get type() {
+    static get type() {
         return "weapon";
     }
 
     prepareData() {
 	    // Override common default icon
 	    if (!this.data.img) this.data.img = 'icons/svg/sword.svg';
-		
+
         super.prepareData();
 
         let itemData = this.data.data || {};
@@ -17,7 +18,7 @@ export class NumeneraWeaponItem extends Item {
         //TODO we're duplicating the name here... why is that?
         const desc = Object.getOwnPropertyDescriptor(itemData, "name");
         if (desc && desc.writable)
-            itemData.name = this.data.name || game.i18n.localize("NUMENERA.pc.weapons.newWeapon");
+            itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.weapon.newWeapon");
 
         itemData.damage = itemData.damage || 1;
         itemData.range = itemData.range || NUMENERA.ranges[0];
@@ -45,4 +46,25 @@ export class NumeneraWeaponItem extends Item {
             }
         });
     }
+
+    async use() {
+        //An ability must be related to an Actor to be used
+        if (this.actor === null) {
+          return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+        }
+
+        const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+
+        //Get the skill related to that ability
+        let skill = this.actor.data.items.find(
+          i => i.name === skillName && i.type === NumeneraSkillItem.type
+        );
+
+        if (!skill) {
+            skill = new NumeneraSkillItem();
+            skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+        }
+
+        this.actor.rollSkill(skill);
+      }
 }

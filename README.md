@@ -6,7 +6,7 @@ Do you enjoy using the system? Then support my harmful caffeine intake habits an
 
 ## What is this?
 
-This repository is the beginning of support for the [Numenera role playing game](http://numenera.com/) for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop). Check them out!
+This repository is the beginning of support for the [Numenera role playing game](http://numenera.com/) (and soon, other Cypher games) for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop). Check them out!
 
 ## Features
 
@@ -59,7 +59,7 @@ If you're the kind of person who knows HTML, CSS and/or Javasript, well 1) my co
 If you want to use the code as is - unminified, without tree-shaking, etc. - follow these steps.
 
 1. Ensure the Foundry server is installed on your machine.
-1. Clone the repo to a directory of your liking using your git client of choice. 
+1. Clone the repo to a directory of your liking using your git client of choice.
 1. Open a console and move to that directory.
 1. Run `npm install` there. Wait for it to finish.
 1. Go to your Foundry data folder and either move your git repo clone into the `worlds/` subdirectory or create a symlink to that directory.
@@ -79,4 +79,5 @@ Once you've bundled up the whole thing, unzip the contents of that archive into 
 
 Just run `npm run build`: it uses rollup.js to bundle up everything inside a nice ZIP archive with minified and tree-shaken JS, with all the required JSON, CSS and HTML.
 
+>>>>>>> f25de3bac2c7138f09109a3b1880e0bab2386635
 If you add new files that _should_ be added to the bundle (eg. a new HTML template), make sure to add it to the list of files inside rollup.config.js, otherwise it will not be bundled; note this is not necessary for .js files.
