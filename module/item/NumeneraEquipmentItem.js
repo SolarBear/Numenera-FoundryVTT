@@ -1,5 +1,5 @@
 export class NumeneraEquipmentItem extends Item {
-    get type() {
+    static get type() {
         return "equipment";
     }
 
