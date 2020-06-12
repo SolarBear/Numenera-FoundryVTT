@@ -39,6 +39,7 @@
     "NUMENERA.pcActorSheet.tab.abilities": "Abilities",
     "NUMENERA.pcActorSheet.tab.numenera": "Numenera",
     "NUMENERA.pcActorSheet.tab.strange": "Strange",
+    "NUMENERA.pcActorSheet.tab.recursion": "Recursions",
     "NUMENERA.pcActorSheet.tab.equipment": "Equipment",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
 
@@ -247,7 +248,7 @@
     "NUMENERA.item.recursion.laws": "Laws",
     "NUMENERA.item.recursion.race": "Race",
     "NUMENERA.item.recursion.focus": "Focus",
-    "NUMENERA.item.recursion.focusAbilties": "Focus Abilities",
+    "NUMENERA.item.recursion.focusAbilities": "Focus Abilities",
     "NUMENERA.item.recursion.tab.instructions": "No Recursions yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
 
     "NUMENERA.recoveries.title": "Recoveries",
