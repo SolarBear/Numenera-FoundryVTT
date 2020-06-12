@@ -18,7 +18,7 @@ export class StrangeRecursionItem extends Item {
         itemData.level = itemData.level || 0;
         itemData.laws = itemData.laws || "";
         itemData.race = itemData.race || "";
-        itemData.focus = itemData.focus || "";
+        itemData.focus = itemData.focus || {};
         itemData.focusAbilities = itemData.focusAbilities || "";
       }
 }

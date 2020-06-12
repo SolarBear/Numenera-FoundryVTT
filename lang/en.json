@@ -242,6 +242,7 @@
     "NUMENERA.item.weapon.tab.rollTooltip": "Roll",
 
     "NUMENERA.item.recursion.name": "Name",
+    "NUMENERA.item.recursion.newRecursion": "New Recursion",
     "NUMENERA.item.recursion.level": "Level",
     "NUMENERA.item.recursion.laws": "Laws",
     "NUMENERA.item.recursion.race": "Race",
