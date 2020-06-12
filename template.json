@@ -65,7 +65,7 @@
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "skill", "weapon"],
+        "types": ["ability", "armor", "artifact", "cypher", "equipment", "focus", "npcAttack", "oddity", "skill", "weapon"],
         "templates": {
             "common": {
                 "notes": "",
@@ -120,6 +120,13 @@
         "equipment": {
             "templates": ["common", "sellable"],
             "quantity": 0
+        },
+        "focus": {
+            "templates": ["common"],
+            "minorEffectSuggestions": "",
+            "majorEffectSuggestions": "",
+            "additionalEquipment": "",
+            "tierAbilities": {}
         },
         "npcAttack": {
             "templates": ["common"]
