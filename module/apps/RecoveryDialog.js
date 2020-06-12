@@ -112,8 +112,12 @@ export class RecoveryDialog extends FormApplication {
       yes: () => {
         this.object.recoveriesLeft = 4;
         this.object.initialRecoveriesLeft = 4;
+        this.object.unspentRecoveryPoints = 0;
+        this.object.hasUnspentRecoveryPoints = false;
+
         this.object.actor.update({
           "data.recoveriesLeft": 4,
+          "data.unspentRecoveryPoints": 0,
         });
         ChatMessage.create({
           content: `<h3>${this.object.actor.data.name} has reset their daily Recoveries</h3>`,
