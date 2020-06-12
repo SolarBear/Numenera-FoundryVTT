@@ -107,8 +107,8 @@ export class RecoveryDialog extends FormApplication {
 
   async _reset() {
     Dialog.confirm({
-      title: "Reset Recoveries",
-      content: "Really reset your Recoveries?",
+      title: game.i18n.localize("NUMENERA.recoveries.resetDialog.title"),
+      content: game.i18n.localize("NUMENERA.recoveries.resetDialog.content"),
       yes: () => {
         this.object.recoveriesLeft = 4;
         this.object.initialRecoveriesLeft = 4;
@@ -120,7 +120,7 @@ export class RecoveryDialog extends FormApplication {
           "data.unspentRecoveryPoints": 0,
         });
         ChatMessage.create({
-          content: `<h3>${this.object.actor.data.name} has reset their daily Recoveries</h3>`,
+          content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
         });
         this.render();
       }

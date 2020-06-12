@@ -247,6 +247,9 @@
     "NUMENERA.recoveries.pointsRemaining": "Remaining Points",
     "NUMENERA.recoveries.roll": "Roll",
     "NUMENERA.recoveries.accept": "Accept",
+    "NUMENERA.recoveries.resetDialog.title": "Reset Recoveries",
+    "NUMENERA.recoveries.resetDialog.content": "Really reset your Recoveries? Any unspent recovery points will be lost.",
+    "NUMENERA.recoveries.resetDialog.confirmation": "has reset their daily Recoveries.",
 
     "NUMENERA.dialog.confirmDeletion.title": "Confirm Deletion",
     "NUMENERA.dialog.confirmDeletion.text": "Do you really want to delete this",

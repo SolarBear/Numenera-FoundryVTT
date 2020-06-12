@@ -246,6 +246,9 @@
     "NUMENERA.recoveries.pointsRemaining": "Points restants ",
     "NUMENERA.recoveries.roll": "Lancer les dés",
     "NUMENERA.recoveries.accept": "Accepter",
+    "NUMENERA.recoveries.resetDialog.title": "Réinitialiser les récupérations",
+    "NUMENERA.recoveries.resetDialog.content": "Souhaitez-vous vraiment rénitialiser vos Récupérations ? Tous les points restants seront perdus.",
+    "NUMENERA.recoveries.resetDialog.confirmation": "a réinitialisé ses Récupérations quotidiennes.",
 
     "NUMENERA.dialog.confirmDeletion.title": "Confirmation de suppression",
     "NUMENERA.dialog.confirmDeletion.text": "Voulez-vous vraiment supprimer ce",
