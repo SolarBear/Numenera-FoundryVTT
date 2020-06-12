@@ -1,55 +1,28 @@
 <form class="{{cssClass}} numenera" autocomplete="off">
-    <h1><input type="text" name="name" value="{{.name}}"  placeholder="Item Name" /></h1>
+    <h1><input type="text" name="name" value="{{item.name}}"  placeholder="Item Name" /></h1>
     <div class="flexrow item">
         <div class="img">
             <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
         </div>
 
-        <div class="weapon">
-            <label>Weight
-                <select name="data.weight">
-                {{#select data.weight}}
-                {{#each weights}}
-                    <option value="{{this}}">{{this}}</option>
-                {{/each}}
-                {{/select}}
-                </select>
-            </label>
+        <div class="recursion">
+                  <label>{{localize "NUMENERA.item.recursion.level"}}
+                      <input type="text" name="data.level" value="{{data.level}}" data-dtype="String" />
+                  </label>
 
-            <label>Type
-                <select name="data.weaponType">
-                {{#select data.weaponType}}
-                {{#each weaponTypes}}
-                    <option value="{{this}}">
-                        {{this}}
-                    </option>
-                {{/each}}
-                {{/select}}
-                </select>
-            </label>
+                  <label>{{localize "NUMENERA.item.recursion.laws"}}
+                    <input type="text" name="data.laws" value="{{data.laws}}" />
+                  </label>
 
-            <label>Damage
-                <input type="number" name="data.damage" value="{{data.damage}}" />
-            </label>
+                  <label>{{localize "NUMENERA.item.recursion.race"}}
+                    <input type="text" name="data.race" value="{{data.race}}" />
+                  </label>
 
-            <label>Range
-                <select name="data.range">
-                {{#select data.range}}
-                    {{#each ranges}}
-                        <option value="{{this}}">
-                            {{this}}
-                        </option>
-                    {{/each}}
-                {{/select}}
-                </select>
-            </label>
+                  <label>{{localize "NUMENERA.item.recursion.focus"}}
+                  <textarea name="data.focus">{{data.notes}}</textarea>
 
-            <label>Price
-                <input type="number" name="data.price" value="{{data.price}}" data-dtype="Number" />
-            </label>
-
-            <label>Notes</label>
-            <textarea name="data.notes">{{data.notes}}</textarea>
+                  <label>{{localize "NUMENERA.item.recursion.focusAbilities"}}</label>
+                  <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>
 </form>

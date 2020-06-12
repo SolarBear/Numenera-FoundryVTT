@@ -8,6 +8,7 @@ import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
 import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
+import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 
 import  "../../../lib/dragula/dragula.js";
 import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
@@ -129,6 +130,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.weapons",
       "ul.cyphers",
       "ul.artifacts",
+      "table.recursions"
     ];
   }
 
@@ -147,6 +149,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera ul.artifacts",
         "form.numenera ul.cyphers",
         "form.numenera ul.oddities",
+        "form.numenera table.recursions"
       ],
       width: 925,
       height: 1000,
@@ -172,6 +175,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
+    this.onRecursionCreate = onItemCreate("recursion", StrangeRecursionItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
@@ -181,6 +185,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onEquipmentEdit = onItemEditGenerator(".equipment");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
+    this.onRecursionEdit = onItemEditGenerator(".recursion");
 
     //Delete event handlers
     this.onAbilityDelete = onItemDeleteGenerator("ability", this.onAbilityDeleted.bind(this));
@@ -191,6 +196,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onOddityDelete = onItemDeleteGenerator("oddity");
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon");
+    this.onRecursionDelete = onItemDeleteGenerator("recursion");
+
   }
 
   /* -------------------------------------------- */
@@ -201,9 +208,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-  get template() {
-    return "systems/numenera/templates/actor/characterSheet.html";
-  }
+   get template() {
+      if (game.settings.get("numenera", "worldSetting") === 2)
+        return "systems/numenera/templates/actor/characterSheetStrange.html";
+      else
+        return "systems/numenera/templates/actor/characterSheet.html";
+    }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
@@ -227,6 +237,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
     sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
+
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges
@@ -277,6 +288,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       oddities: NumeneraOddityItem.type,
       skills: NumeneraSkillItem.type,
       weapons: NumeneraWeaponItem.type,
+      recursion: StrangeRecursionItem.type,
+
     }).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
         sheetData.data.items[val] = items.filter(i => i.type === type).sort(sortFunction)
@@ -414,6 +427,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
+    drakes.push(dragula([document.querySelector("table.recusion > tbody")], Object.assign({}, dragulaOptions)));
 
     drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("ul.cyphers")], Object.assign({}, dragulaOptions)));
