@@ -383,7 +383,6 @@
         <div class="tab recursion" data-group="primary" data-tab="recursion">
             <h2>{{localize "NUMENERA.pcActorSheet.tab.recursion"}}</h2>
             <table class="recursion">
-              <ul class="recursion">
               {{#each data.items.recursion as |recursion|}}
                   <li class="recursion" data-item-id={{recursion._id}} data-order={{recursion.data.order}}>
                       <table class="recursion-header-table">
@@ -440,7 +439,6 @@
                   {{else}}
                   {{localize "NUMENERA.item.recursion.tab.instructions"}}
                   {{/each}}
-              </ul>
             </table>
         </div>
 <!--

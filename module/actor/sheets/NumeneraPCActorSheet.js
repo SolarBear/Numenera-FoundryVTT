@@ -412,6 +412,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
+    const recursionList = html.find("table.recursion");
+    html.find("ul.recursion").on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+
     if (game.user.isGM) {
       artifactsList.on("blur", "input", this.onArtifactEdit.bind(this));
       cyphersList.on("blur", "input,select", this.onCypherEdit.bind(this));
