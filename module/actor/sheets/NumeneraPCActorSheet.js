@@ -441,7 +441,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       const handler = ev => this._onDragItemStart(ev);
 
       // Find all abilitiy items on the character sheet.
-      html.find('tr.ability,tr.skill,tr.weapon').each((i, tr) => {
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, tr) => {
         // Add draggable attribute and dragstart listener.
         tr.setAttribute("draggable", true);
         tr.addEventListener("dragstart", handler, false);
