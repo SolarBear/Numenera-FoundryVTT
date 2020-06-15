@@ -9,33 +9,33 @@
             <label>
                 <select name="data.isAction" data-dtype="Boolean">
                     {{#select data.isAction}}
-                    <option value="true" >This ability is an Action</option>
-                    <option value="false" >This ability is an Enabler</option>
+                    <option value="true">{{localize "NUMENERA.item.ability.type.action"}}</option>
+                    <option value="false" >{{localize "NUMENERA.item.ability.type.enabler"}}</option>
                     {{/select}}
                 </select>
             </label>
 
-            <label>Cost
+            <label>{{localize "NUMENERA.item.ability.cost"}}
                 <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="1" data-dtype="Number" />
                 <select name="data.cost.pool" data-dtype="String">
                     {{#select data.cost.pool}}
                     {{#each data.stats}}
-                    <option value="{{this}}">{{this}}</option>
+                    <option value="{{this}}">{{localize this}}</option>
                     {{/each}}
                     {{/select}}
                 </select>
             </label>
 
             <label>Category
-                <input type="text" name="data.category" value="{{data.category}}" placeholder="Category (eg. Type, Focus, etc.)" />
-                <input type="text" name="data.categoryValue" value="{{data.categoryValue}}" placeholder="Category Value (eg. Nano, Jack, Masters Weaponry, etc.)" />
+                <input type="text" name="data.category" value="{{data.category}}" placeholder="{{localize "NUMENERA.item.ability.categoryPlaceholder"}}" />
+                <input type="text" name="data.categoryValue" value="{{data.categoryValue}}" placeholder="{{localize "NUMENERA.item.ability.categoryValuePlaceholder"}}" />
             </label>
 
-            <label>Tier
+            <label>{{localize "NUMENERA.item.ability.tier"}}
                 <input type="text" name="data.tier" value="{{data.tier}}" data-dtype="Number" />
             </label>
 
-            <label>Range
+            <label>{{localize "NUMENERA.item.ability.range"}}
                 <select name="data.range" data-dtype="String">
                     {{#select data.range}}
                     {{#each data.ranges}}
@@ -45,7 +45,7 @@
                 </select>
             </label>
 
-            <label>Description</label>
+            <label>{{localize "NUMENERA.item.ability.description"}}</label>
             <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>

@@ -1,4 +1,4 @@
-import { numeneraRoll } from "../roll.js";
+import { numeneraRollFormula } from "../roll.js";
 
 const effortObject = {
   cost: 0,
@@ -18,22 +18,30 @@ export class NumeneraPCActor extends Actor {
     this.data.data.armor = this.getTotalArmor();
   }
 
+  getFocus() {
+    //Add any game-specific logic to get the PC's focus here
+
+    //Default case: there is no specific ID
+    return this.data.data.focus[""];
+  }
+
+  setFocusFromEvent(event) {
+    this.setFocus(event.currentTarget.value);
+  }
+
+  setFocus(value) {
+    //Add any game-specific logic to set a PC focus here    
+
+    //Default case: there is no specific ID
+    this.data.data.focus[""] = value;
+  }
+
   getInitiativeFormula() {
-    //TODO: use numeneraRoll() here instead of duplicating roll logic
-
     //Check for an initiative skill
-    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "Initiative")
-    let initSkillLevel = 0;
-    if (initSkill) 
-      initSkillLevel = 3 * this.getSkillLevel(initSkill);
-    
-    //TODO possible assets, effort on init roll
-    let formula = "1d20"
-    if (initSkill !== 0) {
-      formula += `+${initSkillLevel}`;
-    }
+    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative")
 
-    return formula;
+    //TODO possible assets, effort on init roll
+    return this.getSkillFormula(initSkill);
   }
 
   get effort() {
@@ -56,6 +64,20 @@ export class NumeneraPCActor extends Actor {
     }).length;
   }
 
+  getSkillFormula(skill) {
+    let skillLevel = 0;
+    if (skill) {
+      skillLevel = this.getSkillLevel(skill);
+    }
+    
+    return numeneraRollFormula(skillLevel);
+  }
+
+  rollSkillById(skillId) {
+    const skill = this.getOwnedItem(skillId);
+    return this.rollSkill(skill);
+  }
+
   /**
    * Given a skill ID, fetch the skill level bonus and roll a d20, adding the skill
    * bonus.
@@ -64,28 +86,22 @@ export class NumeneraPCActor extends Actor {
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skillId) {
-    if (!skillId)
-      return;
-
+  rollSkill(skill) {
     switch (this.data.data.damageTrack) {
       case 2:
-        ui.notifications.warn("Cannot attempt roll: your character is Debilitated.");
+        ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
         return;
 
       case 3:
-        ui.notifications.warn("Cannot attempt roll: your character is Dead.");
+        ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.dead.warning"));
         return;
     }
   
-    const skill = this.getOwnedItem(skillId);
-    const skillLevel = this.getSkillLevel(skill);
-
-    const roll = numeneraRoll(skillLevel);
+    const roll = new Roll(this.getSkillFormula(skill)).roll();
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `Rolling ${skill.name}`,
+      flavor: `${game.i18n.localize("NUMENERA.rolling")} ${skill.name}`,
     });
   }
 
@@ -97,14 +113,14 @@ export class NumeneraPCActor extends Actor {
    * @memberof ActorNumeneraPC
    */
   getSkillLevel(skill) {
-    if (!skill)
+    if (!skill || !skill.data)
       throw new Error("No skill provided");
 
-    if (!skill.data.data)
-      return 0; //skills are untrained by default
+    skill = skill.data;
+    if (skill.hasOwnProperty("data"))
+      skill = skill.data;
 
-    skill = skill.data.data;
-    let level = -Number(skill.inability); //Inability subtracts 1 from overall level
+    let level = -Number(skill.inability) || 0; //Inability subtracts 1 from overall level
 
     if (skill.specialized) level += 2;
     else if (skill.trained) level += 1;
@@ -154,7 +170,7 @@ export class NumeneraPCActor extends Actor {
 
     let warning = null;
     if (effortLevel > availableEffortFromPool) {
-      warning = `Not enough points in your ${statId} pool for that level of Effort`;
+      warning = null; // TODO put into localization file `Not enough points in your ${statId} pool for that level of Effort`;
     }
 
     value.cost = cost;
@@ -171,14 +187,14 @@ export class NumeneraPCActor extends Actor {
 
   async onGMIntrusion(accepted) {
     let xp = this.data.data.xp;
-    let choiceVerb;
+    let choice;
 
     if (accepted) {
       xp++;
-      choiceVerb = "accepts";
+      choice = game.i18n.localize("NUMENERA.gmIntrusionAccepts");
     } else {
       xp--;
-      choiceVerb = "refuses";
+      choice = game.i18n.localize("NUMENERA.gmIntrusionRefuses");
     }
 
     this.update({
@@ -187,7 +203,7 @@ export class NumeneraPCActor extends Actor {
     });
 
     ChatMessage.create({
-      content: `<h2>GM Intrusion</h2><br/>${this.data.name} ${choiceVerb} the intrusion`,
+      content: `<h2>${game.i18n.localize("NUMENERA.gmIntrusion")}</h2><br/>${this.data.name} ${choice}`,
     });
   }
 
@@ -283,9 +299,7 @@ export class NumeneraPCActor extends Actor {
           };
           await this.updateEmbeddedEntity("OwnedItem", updated);
 
-          ui.notifications.info(
-            `The ability had been linked to the skill bearing the same name`
-          );
+          ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
         } else {
           //Create a related skill if one does not already exist
           const skillData = {
@@ -301,9 +315,7 @@ export class NumeneraPCActor extends Actor {
 
           await this.createOwnedItem(itemData);
 
-          ui.notifications.info(
-            `A skill with the same name linked to this ability has also been created`
-          );
+          ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
         }
         break;
     }
@@ -311,8 +323,8 @@ export class NumeneraPCActor extends Actor {
     return newItem;
   }
 
-  async updateEmbeddedEntity(embeddedName, data, options={}) {
-    const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
+  updateEmbeddedEntity(embeddedName, data, options={}) {
+    const updated = super.updateEmbeddedEntity(embeddedName, data, options);
 
     const updatedItem = this.getOwnedItem(updated._id);
 

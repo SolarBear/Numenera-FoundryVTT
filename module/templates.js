@@ -22,7 +22,11 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/item/equipmentSheet.html",
         "systems/numenera/templates/item/odditySheet.html",
         "systems/numenera/templates/item/skillSheet.html",
-        "systems/numenera/templates/item/weaponSheet.html"
+        "systems/numenera/templates/item/weaponSheet.html",
+
+        //Token stuff
+        "systems/numenera/templates/hud/tokenHUD.html",
+        "systems/numenera/templates/scene/tokenConfig.html",
     ];
 
     // Load the template parts

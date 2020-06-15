@@ -1,5 +1,5 @@
 export class NumeneraOddityItem extends Item {
-    get type() {
+    static get type() {
         return "oddity";
     }
 
@@ -10,7 +10,7 @@ export class NumeneraOddityItem extends Item {
 
         const itemData = this.data.data || {};
 
-        itemData.name = this.data.name || "New Oddity";
+        itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.oddity.newOddity");
         itemData.notes = itemData.notes || "";
     }
 }

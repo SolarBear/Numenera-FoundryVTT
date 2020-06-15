@@ -1,5 +1,5 @@
 export class NumeneraArmorItem extends Item {
-    get type() {
+    static get type() {
         return "armor";
     }
 
@@ -11,7 +11,7 @@ export class NumeneraArmorItem extends Item {
 
         const itemData = this.data.data || {};
 
-        itemData.name = this.data ? this.data.name : "New Armor";
+        itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.armor.description");
         itemData.armor = itemData.armor || 0;
         itemData.weight = itemData.weight || "Light";
         itemData.effect = itemData.price || 0;

@@ -16,7 +16,17 @@ export function cypherToken() {
                 this.data.bar1 = {attribute: "stats.might.pool"};
                 this.data.bar2 = {attribute: "stats.speed.pool"};
                 this.data.bar3 = {attribute: "stats.intellect.pool"};
+
+                this.drawBars();
             }
+        }
+    })();
+
+    Token.prototype._onUpdate = (function () {
+        const superFunction = Token.prototype._onUpdate;
+        return async function() {
+            superFunction.apply(this, arguments);
+            this.drawBars();
         }
     })();
     
@@ -30,7 +40,7 @@ export function cypherToken() {
                 return superFunction.apply(this, arguments);
             }
         };
-        
+
     })();
 
     
@@ -112,6 +122,19 @@ export function cypherToken() {
     })();
 }
 
+export function add3rdBarToPCTokens() {
+    //Update existing tokens with the extra attribute
+    game.scenes.entities.forEach(scene => {
+        scene.data.tokens.forEach(token => {
+            if (!token.hasOwnProperty("bar3")) {
+                token.bar1 = {attribute: "stats.might.pool"};
+                token.bar2 = {attribute: "stats.speed.pool"};
+                token.bar3 = {attribute: "stats.intellect.pool"};
+            }
+        })
+    });
+}
+
 /**
  * Override to add a third attribute bar to the token
  */
@@ -170,7 +193,7 @@ function drawCypherBar(number, bar, data) {
         1: NUMENERA.attributeColors[1],
         2: NUMENERA.attributeColors[2]
     }
-    
+
     let color = colors[number];
 
     bar.clear()

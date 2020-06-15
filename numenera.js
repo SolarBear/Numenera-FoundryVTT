@@ -13,18 +13,22 @@ import { NumeneraOddityItemSheet } from './module/item/sheets/NumeneraOddityItem
 import { NumeneraSkillItemSheet } from './module/item/sheets/NumeneraSkillItemSheet.js';
 import { NumeneraWeaponItemSheet } from './module/item/sheets/NumeneraWeaponItemSheet.js';
 
-
 import { NUMENERA } from './module/config.js';
 import { getInitiativeFormula, rollInitiative } from './module/combat.js';
-import { rollText } from './module/roll.js';
 import { preloadHandlebarsTemplates } from './module/templates.js';
 import { registerSystemSettings } from './module/settings.js';
 import { migrateWorld } from './module/migrations/migrate.js';
 import { numeneraSocketListeners } from './module/socket.js';
 import { RecoveryDialog } from './module/apps/RecoveryDialog.js';
 import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
+<<<<<<< HEAD
 import { cypherToken } from './module/token.js';
 import { cypherRuler } from './module/ruler.js';
+=======
+import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
+import { registerHooks } from './module/hooks.js';
+import { useItemMacro } from './module/macro.js';
+>>>>>>> 9b2dd7da70c7e8e9f67d511f8d4a26acbe2898c8
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -33,6 +37,7 @@ Hooks.once("init", function() {
         applications: {
             RecoveryDialog,
         },
+        useItemMacro,
     };
 
     // Record Configuration Values
@@ -60,125 +65,21 @@ Hooks.once("init", function() {
     Items.registerSheet("numenera", NumeneraOddityItemSheet, { types: ["oddity"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraSkillItemSheet, { types: ["skill"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
+
+    //May seem weird but otherwise 
+    Items.registerSheet("numenera", ActorSheet, { types: ["npcAttack"], makeDefault: true });
     
     registerSystemSettings();
     registerHandlebarHelpers();
     preloadHandlebarsTemplates();
 });
 
+//Place asy clean, well-behaved hook here
 Hooks.once("init", cypherToken);
 Hooks.once("init", cypherRuler);
-
-//TODO cleanup the functions here, it's gonna get messy real quick
-  
-/*
-Display an NPC's difficulty between parentheses in the Actors list
-*/
-Hooks.on('renderActorDirectory', (app, html, options) => {
-  const found = html.find(".entity-name");
-  
-  app.entities
-      .filter(actor => actor.data.type === 'npc')
-      .forEach(actor => {
-          found.filter((i, elem) => elem.innerText === actor.data.name)
-                .each((i, elem) => elem.innerText += ` (${actor.data.data.level * 3})`);
-      })
-});
-
-Hooks.on('renderCompendium', async (app, html, options) => {
-    const npcs = game.actors.entities.filter(e => e.constructor === NumeneraNPCActor);
-
-    html.find(".entry-name")
-        .each((i, el) => {
-        const actor = npcs.find(npc => el.innerText.indexOf(npc.data.name) !== -1);
-        if (!actor)
-            return;
-
-        //Display the NPC's target between parentheses
-        el.innerHTML += ` (${actor.data.data.level * 3})`;
-    });
-
-});
-
-Hooks.on("renderChatMessage", (app, html, data) => {
-    if (!data.message.roll)
-        return;
-
-    const roll = JSON.parse(data.message.roll);
-
-    //Don't apply ChatMessage enhancement to recovery rolls
-    if (roll && roll.dice[0].faces === 20)
-    {
-        const special = rollText(roll.total);
-        const dt = html.find("h4.dice-total")[0];
-
-        //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
-        if (special) {
-            const { text, color } = special;
-            const newContent = `<span class="numenera-message-special">${text}</span>`;
-
-            $(newContent).insertBefore(dt);
-        }
-
-        if (game.settings.get("numenera", "d20Rolling") === "taskLevels") {
-            const rolled = roll.dice[0].rolls[0].roll;
-            const taskLevel = Math.floor(rolled / 3);
-            const skillLevel = (roll.total - rolled) / 3;
-            const sum = taskLevel + skillLevel;
-
-            let text = `Success Level ${sum}`;
-
-            if (skillLevel !== 0) {
-                const sign = sum > 0 ? "+" : "-";
-                text += ` (${taskLevel}${sign}${skillLevel})`;
-            }
-
-            dt.textContent = text;
-        }
-
-    }
-});
-
-/**
- * Add additional system-specific sidebar directory context menu options for D&D5e Actor entities
- * @param {jQuery} html         The sidebar HTML
- * @param {Array} entryOptions  The default array of context menu options
- */
-Hooks.on("getActorDirectoryEntryContext", (html, entryOptions) => {
-    entryOptions.push({
-        name: "GM Intrusion",
-        icon: '<i class="fas fa-exclamation-circle"></i>',
-        callback: li => {
-            const actor = game.actors.get(li.data("entityId"));
-            const ownerIds = Object.entries(actor.data.permission)
-                .filter(entry => {
-                    const [id, permissionLevel] = entry;
-                    return permissionLevel >= ENTITY_PERMISSIONS.OWNER
-                        && id !== game.user.id
-                })
-                .map(usersPermissions => usersPermissions[0]);
-
-            game.socket.emit("system.numenera", {type: "gmIntrusion", data: {
-                userIds: ownerIds,
-                actorId: actor.data._id,
-            }});
-
-            ChatMessage.create({
-                content: `<h2>GM Intrusion</h2><br/>The GM offers an intrusion to ${actor.data.name}`,
-            });
-        },
-        condition: li => {
-            if (!game.user.isGM)
-                return false;
-
-            const actor = game.actors.get(li.data("entityId"));
-            return actor && actor.data.type === "pc";
-        }
-    });
-});
-
-/**
- * Once the entire VTT framework is initialized, check to see if we should perform a data migration
- */
+Hooks.once("ready", add3rdBarToPCTokens);
 Hooks.once("ready", migrateWorld);
 Hooks.once("ready", numeneraSocketListeners);
+
+//Random hooks should go in there
+Hooks.once("ready", registerHooks);

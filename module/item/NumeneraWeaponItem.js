@@ -1,8 +1,9 @@
+import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 import { NUMENERA } from '../config.js';
 
 export class NumeneraWeaponItem extends Item {
 
-    get type() {
+    static get type() {
         return "weapon";
     }
 
@@ -17,7 +18,7 @@ export class NumeneraWeaponItem extends Item {
         //TODO we're duplicating the name here... why is that?
         const desc = Object.getOwnPropertyDescriptor(itemData, "name");
         if (desc && desc.writable)
-            itemData.name = this.data.name || "New Weapon";
+            itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.weapon.newWeapon");
 
         itemData.damage = itemData.damage || 1;
         itemData.range = itemData.range || NUMENERA.ranges[0];
@@ -27,18 +28,43 @@ export class NumeneraWeaponItem extends Item {
 
         itemData.ranges = NUMENERA.ranges;
 
-        itemData.weightClasses = NUMENERA.weightClasses.map(weightClass => {
+        itemData.weightClasses = Object.entries(NUMENERA.weightClasses).map(entry => {
+            const [weightClass, label] = entry;
             return {
-                label: weightClass,
+                weightClass,
+                label,
                 checked: weightClass === itemData.weight,
             }
         });
 
-        itemData.weaponTypes = NUMENERA.weaponTypes.map(weaponType => {
+        itemData.weaponTypes = Object.entries(NUMENERA.weaponTypes).map(entry => {
+            const [weaponType, label] = entry;
             return {
-                label: weaponType,
+                weaponType,
+                label,
                 checked: weaponType === itemData.type,
             }
         });
     }
+
+    async use() {
+        //An ability must be related to an Actor to be used
+        if (this.actor === null) {
+          return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+        }
+
+        const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+    
+        //Get the skill related to that ability
+        let skill = this.actor.data.items.find(
+          i => i.name === skillName && i.type === NumeneraSkillItem.type
+        );
+
+        if (!skill) {
+            skill = new NumeneraSkillItem();
+            skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+        }
+
+        this.actor.rollSkill(skill);
+      }
 }

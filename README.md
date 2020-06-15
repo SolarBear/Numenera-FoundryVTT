@@ -1,16 +1,23 @@
 # Numenera-FoundryVTT
 
+Do you enjoy using the system? Then support my harmful caffeine intake habits and buy me some beans!
+
+[![Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/SolarBear)
+
 ## What is this?
 
-This repository is the beginning of support for the [Numenera role playing game](http://numenera.com/) for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop). Check them out!
+This repository is the beginning of support for the [Numenera role playing game](http://numenera.com/) (and soon, other Cypher games) for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop). Check them out!
 
 ## Features
+
+See a mostly complete tour here: https://www.youtube.com/watch?v=yiK2A3iq8gY
 
 * Sheets for PCs, NPCs, skills, cyphers... anything under the 9th World's sun!
 * Unidentified numenera items so your players don't know what you've given them!
 * Numenera items can either have a fixed level or a randomly-generated one from a formula (eg. 1d6+2). Once given to a PC, that level is determined randomly, but the GM may override that value if they wish.
 * Players can create their own items or use pre-made ones
 * Dice rolls explicitly tell you about minor and major effects, as well as free GM intrusions
+* A third health bar for PC tokens
 
 ## How do I use it?
 
@@ -26,7 +33,10 @@ First and foremost, use it! Use the system for your games and send any feedback 
 
 Otherwise, I'm always looking for all kinds of help:
 
-* translations: any non-English language translations are welcome
+* wiki: this repo has a wiki and it would be a great place to document features and tips!
+* translations: any language translations are welcome! Already translated:
+    * English
+    * French
 * layout: if you have any HTML and CSS skills, you're probably better at this than I am!
 * feature development: there's a LOT of work ahead, so if you're familiar with Javascript, there's work to be done
 

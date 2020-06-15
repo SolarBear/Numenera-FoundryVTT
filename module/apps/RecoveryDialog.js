@@ -27,7 +27,7 @@ export class RecoveryDialog extends FormApplication {
     .map(([key, value]) => {
       return {
         name: key,
-        current: value.pool.value,
+        value: value.pool.value,
         max: value.pool.max,
         min: value.pool.value,
       };
@@ -41,13 +41,12 @@ export class RecoveryDialog extends FormApplication {
     const recoveryDialogObject = {
       actor,
       initialUnspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
-      unspentRecoveryPoints: actor.data.data.unspentRecoveryPoints || null,
+      unspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
       initialRecoveriesLeft: actor.data.data.recoveriesLeft,
       recoveriesLeft: actor.data.data.recoveriesLeft,
       pools,
       poolsTotal,
       initialPoolsTotal: poolsTotal,
-      diceToRoll: 0,
     };
 
     super(recoveryDialogObject, options);
@@ -73,6 +72,11 @@ export class RecoveryDialog extends FormApplication {
     const pointAttributionEnabled = this.object.initialUnspentRecoveryPoints > 0;
     const formula = this._getFormula(this.object.initialRecoveriesLeft - this.object.recoveriesLeft);
 
+    const stats = {};
+    for (const prop in NUMENERA.stats) {
+      stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
+    }
+
     return mergeObject(data, {
       rollSelectionEnabled,
       pointAttributionEnabled,
@@ -84,7 +88,7 @@ export class RecoveryDialog extends FormApplication {
       disallowReset: this.object.initialRecoveriesLeft >= 4,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
-      stats: NUMENERA.stats,
+      stats,
       hasUnspentRecoveryPoints: this.object.unspentRecoveryPoints !== null,
       unspentRecoveryPoints: this.object.unspentRecoveryPoints || 0,
     });
@@ -103,17 +107,20 @@ export class RecoveryDialog extends FormApplication {
 
   async _reset() {
     Dialog.confirm({
-      title: "Reset Recoveries",
-      content: "Really reset your Recoveries?",
+      title: game.i18n.localize("NUMENERA.recoveries.resetDialog.title"),
+      content: game.i18n.localize("NUMENERA.recoveries.resetDialog.content"),
       yes: () => {
         this.object.recoveriesLeft = 4;
         this.object.initialRecoveriesLeft = 4;
+        this.object.unspentRecoveryPoints = 0;
+        this.object.hasUnspentRecoveryPoints = false;
+
         this.object.actor.update({
-          //_id: this.object.actor.data._id,
           "data.recoveriesLeft": 4,
+          "data.unspentRecoveryPoints": 0,
         });
         ChatMessage.create({
-          content: `<h3>${this.object.actor.data.name} has reset their daily Recoveries</h3>`,
+          content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
         });
         this.render();
       }
@@ -239,7 +246,7 @@ export class RecoveryDialog extends FormApplication {
     //Update remaining points and pools
     let poolsTotal = 0;
     for (let pool of this.object.pools) {
-      pool.value = formData[`pools.${pool.name}.value`];
+      pool.value = formData[`pools.${pool.name}.value`] || 0;
       poolsTotal += pool.value;
     }
 
