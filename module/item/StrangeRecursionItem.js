@@ -1,5 +1,5 @@
 export class StrangeRecursionItem extends Item {
-    get type() {
+    static get type() {
         return "recursion";
     }
 
@@ -15,10 +15,11 @@ export class StrangeRecursionItem extends Item {
         if (desc && desc.writable)
           itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.recursion.newRecursion");
 
+        itemData.active = itemData.active || false;
         itemData.level = itemData.level || 0;
         itemData.laws = itemData.laws || "";
         itemData.race = itemData.race || "";
-        itemData.focus = itemData.focus || {};
+        itemData.focus = itemData.focus || "";
         itemData.focusAbilities = itemData.focusAbilities || "";
       }
 }

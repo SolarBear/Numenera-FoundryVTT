@@ -385,13 +385,16 @@
             <table class="recursion">
                   <thead>
                     <tr>
+                            <td></td>
                             <td>{{localize "NUMENERA.item.recursion.active"}}</td>
+                            <td></td>
                             <td>{{localize "NUMENERA.item.recursion.name"}}</td>
                             <td>{{localize "NUMENERA.item.recursion.level"}}</td>
                             <td>{{localize "NUMENERA.item.recursion.laws"}}</td>
                             <td>{{localize "NUMENERA.item.recursion.race"}}</td>
                             <td>{{localize "NUMENERA.item.recursion.focus"}}</td>
                             <td>{{localize "NUMENERA.item.recursion.focusAbilities"}}</td>
+                            <td></td>
                     </tr>
                   </thead>
                   <tbody>
@@ -400,32 +403,46 @@
                           <td class="handle">
                               <a><i class="fas fa-grip-vertical"></i></a>
                           </td>
+
+                          <td class="Recursion-active">
+                              <input type="checkbox" name="data.items.recursion.{{recursion._id}}.data.active" data-dtype="Boolean" {{checked recursion.data.active}}/>
+                          </td>
+
+                          <td class="ability-icon">
+                              <img src="{{recursion.img}}" />
+                          </td>
+
                           <td class="recursion-name">
                               <h4><strong>{{recursion.name}}</strong></h4>
                           </td>
+
                           <td class="recursion-level">
-                              <label>{{localize "NUMENERA.item.recursion.level"}}
                                   <span><strong>{{localize "NUMENERA.item.recursion.level"}}:</strong></span> {{recursion.data.level}}
                           </td>
+
                           <td class="recursion-laws">
                               <span><strong>{{localize "NUMENERA.item.recursion.laws"}}:</strong></span> {{recursion.data.laws}}
                           </td>
-                          <td class="recrusion-race">
-                              <input type="text" name="data.items.recrusions.{{recrusion._id}}.data.race" value="{{recrusion.data.race}}" title="{{recrusion.data.race}}" />
+
+                          <td class="recursion-race">
+                              <input type="text" name="data.items.recursions.{{recursion._id}}.data.race" value="{{recursion.data.race}}" title="{{recursion.data.race}}" />
                           </td>
-                          <td class="recrusion-focus">
-                              <input type="text" name="data.items.recrusions.{{recrusion._id}}.data.focus" value="{{recrusion.data.focus}}" title="{{recrusion.data.focus}}" />
+
+                          <td class="recursion-focus">
+                              <input type="text" name="data.items.recursions.{{recursion._id}}.data.focus" value="{{recursion.data.focus}}" title="{{recursion.data.focus}}" />
                           </td>
-                          <td class="recrusion-focusAbilties">
-                              <textarea name="data.items.recrusions.{{recrusion._id}}.data.focusAbilties">{{ability.data.notes}}</textarea>
+
+                          <td class="recursion-focusAbilties">
+                              <textarea name="data.items.recursions.{{recursion._id}}.data.focusAbilties">{{ability.data.notes}}</textarea>
                           </td>
+
                           <td>
                               <a class="recursion-delete" data-action="delete" title="{{localize "NUMENERA.item.recursion.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                           </td>
                         </tr>
                       {{else}}
                         <tr>
-                          <td colspan="8">
+                          <td colspan="10">
                             {{localize "NUMENERA.item.recursion.tab.instructions"}}
                           </td>
                         </tr>
@@ -440,11 +457,7 @@
 </td>
 
 
-{{#if recursion.showIcon}}
-  <td class="ability-icon">
-    <img src="{{recursion.img}}" />
-  </td>
-{{/if}}
+
 
 <li class="recursion" data-item-id={{recursion._id}} data-order={{recursion.data.order}}>
     <table class="recursion-header-table">
@@ -465,26 +478,26 @@
                             <a><i class="fas fa-grip-vertical handle"></i></a>
                         </td>
                         <td class="recursion-name">
-                            <input type="text" name="data.items.recrusions.{{recrusion._id}}.name" placeholder="recrusion name" class="recrusion-name-input" value="{{recrusion.name}}"/>
+                            <input type="text" name="data.items.recursions.{{recursion._id}}.name" placeholder="recursion name" class="recursion-name-input" value="{{recursion.name}}"/>
                         </td>
-                        <td class="recrusion-level">
-                            <input type="number" name="data.items.recrusions.{{recrusion._id}}.data.level" min="1" data-dtype="Number" value="{{recrusion.data.level}}" />
-                        </td>
-                        <td>
-                        <td class="recrusion-laws">
-                            <input type="text" name="data.items.recrusions.{{recrusion._id}}.data.laws" value="{{recrusion.data.laws}}" title="{{recrusion.data.laws}}" />
+                        <td class="recursion-level">
+                            <input type="number" name="data.items.recursions.{{recursion._id}}.data.level" min="1" data-dtype="Number" value="{{recursion.data.level}}" />
                         </td>
                         <td>
-                        <td class="recrusion-race">
-                            <input type="text" name="data.items.recrusions.{{recrusion._id}}.data.race" value="{{recrusion.data.race}}" title="{{recrusion.data.race}}" />
+                        <td class="recursion-laws">
+                            <input type="text" name="data.items.recursions.{{recursion._id}}.data.laws" value="{{recursion.data.laws}}" title="{{recursion.data.laws}}" />
                         </td>
                         <td>
-                        <td class="recrusion-focus">
-                            <input type="text" name="data.items.recrusions.{{recrusion._id}}.data.focus" value="{{recrusion.data.focus}}" title="{{recrusion.data.focus}}" />
+                        <td class="recursion-race">
+                            <input type="text" name="data.items.recursions.{{recursion._id}}.data.race" value="{{recursion.data.race}}" title="{{recursion.data.race}}" />
                         </td>
                         <td>
-                        <td class="recrusion-focusAbilties">
-                            <textarea name="data.items.recrusions.{{ability._id}}.data.focusAbilties">{{ability.data.notes}}</textarea>
+                        <td class="recursion-focus">
+                            <input type="text" name="data.items.recursions.{{recursion._id}}.data.focus" value="{{recursion.data.focus}}" title="{{recursion.data.focus}}" />
+                        </td>
+                        <td>
+                        <td class="recursion-focusAbilties">
+                            <textarea name="data.items.recursions.{{ability._id}}.data.focusAbilties">{{ability.data.notes}}</textarea>
                         </td>
                             <a class="recursion-delete" data-action="delete" title="Delete"><i class="fas fa-trash"></i></a>
                         </td>
