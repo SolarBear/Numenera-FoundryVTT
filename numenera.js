@@ -21,14 +21,10 @@ import { migrateWorld } from './module/migrations/migrate.js';
 import { numeneraSocketListeners } from './module/socket.js';
 import { RecoveryDialog } from './module/apps/RecoveryDialog.js';
 import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
-<<<<<<< HEAD
-import { cypherToken } from './module/token.js';
-import { cypherRuler } from './module/ruler.js';
-=======
 import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
 import { registerHooks } from './module/hooks.js';
 import { useItemMacro } from './module/macro.js';
->>>>>>> 9b2dd7da70c7e8e9f67d511f8d4a26acbe2898c8
+import { cypherRuler } from './module/ruler.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
