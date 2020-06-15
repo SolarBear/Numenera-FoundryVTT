@@ -46,7 +46,7 @@ function getDistanceBandInFeet(distance) {
     } else if (distance <= 15.0) {
         return game.i18n.localize("NUMENERA.range.short");
     } else if (distance <= 30.0) {
-        return game.i18n.localize("NUMENERA.range.short");
+        return game.i18n.localize("NUMENERA.range.long");
     } else {
         return game.i18n.localize("NUMENERA.range.veryLong");
     }
