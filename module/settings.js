@@ -31,6 +31,23 @@ export const registerSystemSettings = function() {
       "straightNumbers": "Output numbers and modifiers as is",
     },
   });
+
+  /**
+   * Configure distance settings
+   */
+  game.settings.register("numenera", "measureDistanceInUnits", {
+    name: "Measurement Units",
+    hint: "Select the measurement unit of your game to get a distance annotation when using the ruler.",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "meters",
+    choices: {
+      "none": "None",
+      "feet": "Feet",
+      "meters": "Meters",
+    }
+  });
   
   /**
    * Configure whether or not to show skill icons
