@@ -3,13 +3,13 @@ export class StrangeRecursionItem extends Item {
         return "recursion";
     }
 
-    async prepareData() {
+    prepareData() {
 	    // Override common default icon
 	    if (!this.data.img) this.data.img = 'icons/svg/circle.svg';
 
         super.prepareData();
 
-        let itemData = this.data.data || {};
+        const itemData = this.data.data || {};
 
         const desc = Object.getOwnPropertyDescriptor(itemData, "name");
         if (desc && desc.writable)
