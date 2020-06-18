@@ -580,7 +580,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
   Override the base method to handle some of the values ourselves
   */
   _onChangeInput(event) {
-    //TODO is this still relevant?
     for (let container of NumeneraPCActorSheet.inputsToIntercept) {
       const element = window.document.querySelector(container);
       if (element && element.contains(event.target))
