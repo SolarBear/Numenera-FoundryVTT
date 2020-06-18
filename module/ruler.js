@@ -1,3 +1,5 @@
+import { NUMENERA } from "./config.js";
+
 export function cypherRuler() {
     Ruler.prototype._getSegmentLabel = (function() {
         let superFunction = Ruler.prototype._getSegmentLabel;
@@ -32,10 +34,10 @@ function useCypherDistances() {
 }
 
 function getDistanceBand(unit, distance) {
-    if (unit.toUpperCase() === "METERS") {
+    if (unit === "NUMENERA.units.meters") {
         return getDistanceBandInMeters(distance);
     }
-    else if (unit.toUpperCase() === "FEET") {
+    else if (unit === "NUMENERA.units.feet") {
         return getDistanceBandInFeet(distance);
     }
 }

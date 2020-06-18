@@ -26,6 +26,10 @@
 
     "NUMENERA.pc.initiativeRoll": "rolls for Initiative",
 
+    "NUMENERA.canvas.unit.feet": "feet",
+    "NUMENERA.canvas.unit.meters": "meters",
+    "NUMENERA.canvas.unit.noUnitWarning": "Could not measure range: no measurement unit defined for this Scene",
+
     "NUMENERA.pcActorSheet.header.name": "Name",
     "NUMENERA.pcActorSheet.header.isA": "is a",
     "NUMENERA.pcActorSheet.header.descriptor": "Descriptor",

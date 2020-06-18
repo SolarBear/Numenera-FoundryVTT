@@ -44,8 +44,8 @@ export const registerSystemSettings = function() {
     default: "meters",
     choices: {
       "none": "None",
-      "feet": "Feet",
-      "meters": "Meters",
+      "NUMENERA.units.feet": "Feet",
+      "NUMENERA.units.meters": "Meters",
     }
   });
   

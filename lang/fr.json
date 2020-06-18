@@ -26,6 +26,10 @@
 
     "NUMENERA.pc.initiativeRoll": "fait un jet d'Initiative",
 
+    "NUMENERA.canvas.unit.feet": "pieds",
+    "NUMENERA.canvas.unit.meters": "mètres",
+    "NUMENERA.canvas.unit.noUnitWarning": "Impossible d'évaluer la portée : aucune unité de mesure défifnie pour cette Scène",
+
     "NUMENERA.pcActorSheet.header.name": "Nom",
     "NUMENERA.pcActorSheet.header.isA": "est un(e)",
     "NUMENERA.pcActorSheet.header.descriptor": "Descripteur",
