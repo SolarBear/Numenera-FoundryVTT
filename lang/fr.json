@@ -26,6 +26,10 @@
 
     "NUMENERA.pc.initiativeRoll": "fait un jet d'Initiative",
 
+    "NUMENERA.canvas.unit.feet": "pieds",
+    "NUMENERA.canvas.unit.meters": "mètres",
+    "NUMENERA.canvas.unit.noUnitWarning": "Impossible d'évaluer la portée : aucune unité de mesure défifnie pour cette Scène",
+
     "NUMENERA.pcActorSheet.header.name": "Nom",
     "NUMENERA.pcActorSheet.header.isA": "est un(e)",
     "NUMENERA.pcActorSheet.header.descriptor": "Descripteur",
@@ -246,6 +250,9 @@
     "NUMENERA.recoveries.pointsRemaining": "Points restants ",
     "NUMENERA.recoveries.roll": "Lancer les dés",
     "NUMENERA.recoveries.accept": "Accepter",
+    "NUMENERA.recoveries.resetDialog.title": "Réinitialiser les récupérations",
+    "NUMENERA.recoveries.resetDialog.content": "Souhaitez-vous vraiment rénitialiser vos Récupérations ? Tous les points restants seront perdus.",
+    "NUMENERA.recoveries.resetDialog.confirmation": "a réinitialisé ses Récupérations quotidiennes.",
 
     "NUMENERA.dialog.confirmDeletion.title": "Confirmation de suppression",
     "NUMENERA.dialog.confirmDeletion.text": "Voulez-vous vraiment supprimer ce",

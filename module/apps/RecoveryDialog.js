@@ -107,16 +107,20 @@ export class RecoveryDialog extends FormApplication {
 
   async _reset() {
     Dialog.confirm({
-      title: "Reset Recoveries",
-      content: "Really reset your Recoveries?",
+      title: game.i18n.localize("NUMENERA.recoveries.resetDialog.title"),
+      content: game.i18n.localize("NUMENERA.recoveries.resetDialog.content"),
       yes: () => {
         this.object.recoveriesLeft = 4;
         this.object.initialRecoveriesLeft = 4;
+        this.object.unspentRecoveryPoints = 0;
+        this.object.hasUnspentRecoveryPoints = false;
+
         this.object.actor.update({
           "data.recoveriesLeft": 4,
+          "data.unspentRecoveryPoints": 0,
         });
         ChatMessage.create({
-          content: `<h3>${this.object.actor.data.name} has reset their daily Recoveries</h3>`,
+          content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
         });
         this.render();
       }
@@ -206,7 +210,7 @@ export class RecoveryDialog extends FormApplication {
 
     //Only update the actor if changes actually happened
     if (data !== null) {
-      data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoin
+      data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoints;
       await this.object.actor.update(data);
 
       ui.notifications.info("Pool changes have been applied");

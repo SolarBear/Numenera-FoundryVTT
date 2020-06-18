@@ -1,4 +1,4 @@
-import { numeneraRoll, numeneraRollFormula } from "../roll.js";
+import { numeneraRollFormula } from "../roll.js";
 
 const effortObject = {
   cost: 0,
@@ -16,6 +16,24 @@ export class NumeneraPCActor extends Actor {
 
     //Armor would sometimes get desynchronized with the armor items, this fixes it
     this.data.data.armor = this.getTotalArmor();
+  }
+
+  getFocus() {
+    //Add any game-specific logic to get the PC's focus here
+
+    //Default case: there is no specific ID
+    return this.data.data.focus[""];
+  }
+
+  setFocusFromEvent(event) {
+    this.setFocus(event.currentTarget.value);
+  }
+
+  setFocus(value) {
+    //Add any game-specific logic to set a PC focus here    
+
+    //Default case: there is no specific ID
+    this.data.data.focus[""] = value;
   }
 
   getInitiativeFormula() {

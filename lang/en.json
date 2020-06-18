@@ -26,6 +26,10 @@
 
     "NUMENERA.pc.initiativeRoll": "rolls for Initiative",
 
+    "NUMENERA.canvas.unit.feet": "feet",
+    "NUMENERA.canvas.unit.meters": "meters",
+    "NUMENERA.canvas.unit.noUnitWarning": "Could not measure range: no measurement unit defined for this Scene",
+
     "NUMENERA.pcActorSheet.header.name": "Name",
     "NUMENERA.pcActorSheet.header.isA": "is a",
     "NUMENERA.pcActorSheet.header.descriptor": "Descriptor",
@@ -247,6 +251,9 @@
     "NUMENERA.recoveries.pointsRemaining": "Remaining Points",
     "NUMENERA.recoveries.roll": "Roll",
     "NUMENERA.recoveries.accept": "Accept",
+    "NUMENERA.recoveries.resetDialog.title": "Reset Recoveries",
+    "NUMENERA.recoveries.resetDialog.content": "Really reset your Recoveries? Any unspent recovery points will be lost.",
+    "NUMENERA.recoveries.resetDialog.confirmation": "has reset their daily Recoveries.",
 
     "NUMENERA.dialog.confirmDeletion.title": "Confirm Deletion",
     "NUMENERA.dialog.confirmDeletion.text": "Do you really want to delete this",

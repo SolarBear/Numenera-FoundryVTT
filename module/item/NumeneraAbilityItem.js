@@ -1,7 +1,7 @@
 import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 
 export class NumeneraAbilityItem extends Item {
-  get type() {
+  static get type() {
       return "ability";
   }
 

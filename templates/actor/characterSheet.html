@@ -4,7 +4,7 @@
         {{localize "NUMENERA.pcActorSheet.header.isA"}}
         <input type="text" name="data.descriptor" value="{{data.descriptor}}" class="descriptor" placeholder="{{localize "NUMENERA.pcActorSheet.header.descriptor"}}" />
         <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" placeholder="{{localize "NUMENERA.pcActorSheet.header.type"}}" data-type="String">
-        {{localize "NUMENERA.pcActorSheet.header.who"}} <input type="text" name="data.focus" value="{{data.focus}}" class="focus" placeholder="{{localize "NUMENERA.pcActorSheet.header.focus"}}" />
+        {{localize "NUMENERA.pcActorSheet.header.who"}} <input type="text" name="data.currentFocus" value="{{data.focus}}" class="focus" placeholder="{{localize "NUMENERA.pcActorSheet.header.focus"}}" />
     </h1>
     <div class="flexcol">
         <div class="flexrow header">
@@ -180,8 +180,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.abilities as |ability| }}
-                <!-- TODO "prder"? is this even useful? -->
-                    <tr class="ability" data-item-id="{{ability._id}}" data-prder="{{ability.data.order}}">
+                    <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -442,7 +441,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.weapons as |weapon|}}
-                    <tr class="weapon" data-item-id="{{weapon._id}}" data-prder="{{weapon.data.order}}">
+                    <tr class="weapon" data-item-id="{{weapon._id}}" data-order="{{weapon.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -527,7 +526,7 @@
                 </thead>
                 <tbody>
                 {{#each data.items.armor as |armor|}}
-                    <tr class="armor" data-item-id="{{armor._id}}" data-prder="{{armor.data.order}}">
+                    <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -572,7 +571,7 @@
             </table>
 
             <h2>{{localize "NUMENERA.pc.otherItems.sectionName"}}</h2>
-            <h3 class="shins"><i class="fas fa-coins"></i> Shins <input type="number" name="data.shins" value="{{data.shins}}" class="shins" data-dtype="Number" /></h3>
+            <h3 class="shins"><i class="fas fa-coins"></i> {{settings.currency}} <input type="number" name="data.shins" value="{{data.shins}}" class="shins" data-dtype="Number" /></h3>
             <table class="equipment">
                 <thead>
                     <td>

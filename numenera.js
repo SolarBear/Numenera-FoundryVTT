@@ -24,6 +24,7 @@ import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
 import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
 import { registerHooks } from './module/hooks.js';
 import { useItemMacro } from './module/macro.js';
+import { cypherRuler } from './module/ruler.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -71,6 +72,7 @@ Hooks.once("init", function() {
 
 //Place asy clean, well-behaved hook here
 Hooks.once("init", cypherToken);
+Hooks.once("init", cypherRuler);
 Hooks.once("ready", add3rdBarToPCTokens);
 Hooks.once("ready", migrateWorld);
 Hooks.once("ready", numeneraSocketListeners);

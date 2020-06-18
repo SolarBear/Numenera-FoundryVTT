@@ -3,7 +3,7 @@ import { NUMENERA } from '../config.js';
 
 export class NumeneraWeaponItem extends Item {
 
-    get type() {
+    static get type() {
         return "weapon";
     }
 
