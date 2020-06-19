@@ -123,5 +123,4 @@ export async function registerHooks() {
   // Many thanks to @asacolips for their awesome tutorial: https://gitlab.com/asacolips-projects/foundry-mods/foundryvtt-system-tutorial/-/blob/master/pages/16-macrobar-support.md
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (_, data, slot) => createNumeneraMacro(data, slot));
-
 }

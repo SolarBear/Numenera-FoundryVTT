@@ -79,5 +79,4 @@ Once you've bundled up the whole thing, unzip the contents of that archive into 
 
 Just run `npm run build`: it uses rollup.js to bundle up everything inside a nice ZIP archive with minified and tree-shaken JS, with all the required JSON, CSS and HTML.
 
->>>>>>> f25de3bac2c7138f09109a3b1880e0bab2386635
 If you add new files that _should_ be added to the bundle (eg. a new HTML template), make sure to add it to the list of files inside rollup.config.js, otherwise it will not be bundled; note this is not necessary for .js files.

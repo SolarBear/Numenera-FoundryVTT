@@ -197,7 +197,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon");
     this.onRecursionDelete = onItemDeleteGenerator("recursion");
-
   }
 
   /* -------------------------------------------- */
@@ -208,12 +207,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-   get template() {
-      if (game.settings.get("numenera", "worldSetting") === 2)
-        return "systems/numenera/templates/actor/characterSheetStrange.html";
-      else
-        return "systems/numenera/templates/actor/characterSheet.html";
-    }
+  get template() {
+    return "systems/numenera/templates/actor/characterSheet.html";
+  }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
@@ -233,13 +229,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
     sheetData.data.focus = this.actor.getFocus();
 
-
     sheetData.settings.currency = game.settings.get("numenera", "currency");
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
     sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
-
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges
@@ -433,7 +427,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.recusion > tbody")], Object.assign({}, dragulaOptions)));
 
     drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("ul.cyphers")], Object.assign({}, dragulaOptions)));

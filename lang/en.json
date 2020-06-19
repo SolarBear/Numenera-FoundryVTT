@@ -42,8 +42,6 @@
     "NUMENERA.pcActorSheet.tab.skills": "Skills",
     "NUMENERA.pcActorSheet.tab.abilities": "Abilities",
     "NUMENERA.pcActorSheet.tab.numenera": "Numenera",
-    "NUMENERA.pcActorSheet.tab.strange": "Strange",
-    "NUMENERA.pcActorSheet.tab.recursion": "Recursions",
     "NUMENERA.pcActorSheet.tab.equipment": "Equipment",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
 
@@ -282,3 +280,4 @@
 
     "NUMENERA.macro.use.notActorsItem": "Your controlled Actor does not have such an item",
     "NUMENERA.macro.create.onlyOwned": "You can only create macro buttons for owned Items"
+}
