@@ -233,6 +233,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
     sheetData.data.focus = this.actor.getFocus();
 
+<<<<<<< HEAD
+=======
+    sheetData.settings.currency = game.settings.get("numenera", "currency");
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
     sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
@@ -288,8 +292,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
       oddities: NumeneraOddityItem.type,
       skills: NumeneraSkillItem.type,
       weapons: NumeneraWeaponItem.type,
+<<<<<<< HEAD
       recursion: StrangeRecursionItem.type,
 
+=======
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     }).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
         sheetData.data.items[val] = items.filter(i => i.type === type).sort(sortFunction)
@@ -444,7 +451,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
       const handler = ev => this._onDragItemStart(ev);
 
       // Find all abilitiy items on the character sheet.
+<<<<<<< HEAD
       html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, tr) => {
+=======
+      html.find('tr.ability,tr.skill,tr.weapon').each((i, tr) => {
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
         // Add draggable attribute and dragstart listener.
         tr.setAttribute("draggable", true);
         tr.addEventListener("dragstart", handler, false);
@@ -459,7 +470,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
     );
     clickedItem.data.stored = "";
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     const item = clickedItem;
     event.dataTransfer.setData(
       "text/plain",
@@ -469,7 +484,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
         data: item,
       })
     );
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     return super._onDragItemStart(event);
   }
 
@@ -596,7 +615,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
   Override the base method to handle some of the values ourselves
   */
   _onChangeInput(event) {
-    //TODO is this still relevant?
     for (let container of NumeneraPCActorSheet.inputsToIntercept) {
       const element = window.document.querySelector(container);
       if (element && element.contains(event.target))

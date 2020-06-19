@@ -26,6 +26,10 @@
 
     "NUMENERA.pc.initiativeRoll": "rolls for Initiative",
 
+    "NUMENERA.canvas.unit.feet": "feet",
+    "NUMENERA.canvas.unit.meters": "meters",
+    "NUMENERA.canvas.unit.noUnitWarning": "Could not measure range: no measurement unit defined for this Scene",
+
     "NUMENERA.pcActorSheet.header.name": "Name",
     "NUMENERA.pcActorSheet.header.isA": "is a",
     "NUMENERA.pcActorSheet.header.descriptor": "Descriptor",
@@ -241,6 +245,7 @@
     "NUMENERA.item.weapon.price": "Price",
     "NUMENERA.item.weapon.description": "Description",
     "NUMENERA.item.weapon.tab.rollTooltip": "Roll",
+<<<<<<< HEAD
 
     "NUMENERA.item.recursion.name": "Name",
     "NUMENERA.item.recursion.newRecursion": "New Recursion",
@@ -252,6 +257,8 @@
     "NUMENERA.item.recursion.tab.instructions": "No Recursions yet. Pick one from the Items Directory or a Compendium and drag it here.",
     "NUMENERA.item.recursion.active": "Active?",
     "NUMENERA.item.recursion.tab.deleteTooltip": "Delete",
+=======
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
 
     "NUMENERA.recoveries.title": "Recoveries",
     "NUMENERA.recoveries.reset": "Reset",
@@ -260,6 +267,9 @@
     "NUMENERA.recoveries.pointsRemaining": "Remaining Points",
     "NUMENERA.recoveries.roll": "Roll",
     "NUMENERA.recoveries.accept": "Accept",
+    "NUMENERA.recoveries.resetDialog.title": "Reset Recoveries",
+    "NUMENERA.recoveries.resetDialog.content": "Really reset your Recoveries? Any unspent recovery points will be lost.",
+    "NUMENERA.recoveries.resetDialog.confirmation": "has reset their daily Recoveries.",
 
     "NUMENERA.dialog.confirmDeletion.title": "Confirm Deletion",
     "NUMENERA.dialog.confirmDeletion.text": "Do you really want to delete this",
@@ -275,4 +285,8 @@
 
     "NUMENERA.macro.use.notActorsItem": "Your controlled Actor does not have such an item",
     "NUMENERA.macro.create.onlyOwned": "You can only create macro buttons for owned Items"
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9

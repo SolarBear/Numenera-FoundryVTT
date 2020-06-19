@@ -54,7 +54,11 @@ export class NumeneraWeaponItem extends Item {
         }
 
         const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
         //Get the skill related to that ability
         let skill = this.actor.data.items.find(
           i => i.name === skillName && i.type === NumeneraSkillItem.type
@@ -67,4 +71,8 @@ export class NumeneraWeaponItem extends Item {
 
         this.actor.rollSkill(skill);
       }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
