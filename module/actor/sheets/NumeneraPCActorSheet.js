@@ -197,7 +197,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon");
     this.onRecursionDelete = onItemDeleteGenerator("recursion");
-
   }
 
   /* -------------------------------------------- */
@@ -208,12 +207,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-   get template() {
-      if (game.settings.get("numenera", "worldSetting") === 2)
-        return "systems/numenera/templates/actor/characterSheetStrange.html";
-      else
-        return "systems/numenera/templates/actor/characterSheet.html";
-    }
+  get template() {
+    return "systems/numenera/templates/actor/characterSheet.html";
+  }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
@@ -233,15 +229,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
     sheetData.data.focus = this.actor.getFocus();
 
-<<<<<<< HEAD
-=======
     sheetData.settings.currency = game.settings.get("numenera", "currency");
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
     sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
-
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges
@@ -292,11 +284,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       oddities: NumeneraOddityItem.type,
       skills: NumeneraSkillItem.type,
       weapons: NumeneraWeaponItem.type,
-<<<<<<< HEAD
       recursion: StrangeRecursionItem.type,
 
-=======
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     }).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
         sheetData.data.items[val] = items.filter(i => i.type === type).sort(sortFunction)
@@ -419,8 +408,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
-    const recursionList = html.find("table.recursion");
-    html.find("ul.recursion").on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+    const recursionTable = html.find("table.recursion");
+    recursionTable.on("blur", "input,select", this.onRecursionEdit.bind(this));
+    recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
 
     if (game.user.isGM) {
       artifactsList.on("blur", "input", this.onArtifactEdit.bind(this));
@@ -437,7 +427,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.recusion > tbody")], Object.assign({}, dragulaOptions)));
 
     drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("ul.cyphers")], Object.assign({}, dragulaOptions)));
@@ -451,11 +440,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       const handler = ev => this._onDragItemStart(ev);
 
       // Find all abilitiy items on the character sheet.
-<<<<<<< HEAD
       html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, tr) => {
-=======
-      html.find('tr.ability,tr.skill,tr.weapon').each((i, tr) => {
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
         // Add draggable attribute and dragstart listener.
         tr.setAttribute("draggable", true);
         tr.addEventListener("dragstart", handler, false);
@@ -470,11 +455,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
     );
     clickedItem.data.stored = "";
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     const item = clickedItem;
     event.dataTransfer.setData(
       "text/plain",
@@ -484,11 +465,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         data: item,
       })
     );
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
     return super._onDragItemStart(event);
   }
 

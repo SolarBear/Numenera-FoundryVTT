@@ -42,8 +42,6 @@
     "NUMENERA.pcActorSheet.tab.skills": "Skills",
     "NUMENERA.pcActorSheet.tab.abilities": "Abilities",
     "NUMENERA.pcActorSheet.tab.numenera": "Numenera",
-    "NUMENERA.pcActorSheet.tab.strange": "Strange",
-    "NUMENERA.pcActorSheet.tab.recursion": "Recursions",
     "NUMENERA.pcActorSheet.tab.equipment": "Equipment",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
 
@@ -245,7 +243,6 @@
     "NUMENERA.item.weapon.price": "Price",
     "NUMENERA.item.weapon.description": "Description",
     "NUMENERA.item.weapon.tab.rollTooltip": "Roll",
-<<<<<<< HEAD
 
     "NUMENERA.item.recursion.name": "Name",
     "NUMENERA.item.recursion.newRecursion": "New Recursion",
@@ -257,8 +254,6 @@
     "NUMENERA.item.recursion.tab.instructions": "No Recursions yet. Pick one from the Items Directory or a Compendium and drag it here.",
     "NUMENERA.item.recursion.active": "Active?",
     "NUMENERA.item.recursion.tab.deleteTooltip": "Delete",
-=======
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
 
     "NUMENERA.recoveries.title": "Recoveries",
     "NUMENERA.recoveries.reset": "Reset",
@@ -285,8 +280,4 @@
 
     "NUMENERA.macro.use.notActorsItem": "Your controlled Actor does not have such an item",
     "NUMENERA.macro.create.onlyOwned": "You can only create macro buttons for owned Items"
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9

@@ -274,29 +274,5 @@ PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
-const PCActorv5ToV6Migrator = Object.create(Migrator);
-
-PCActorv5ToV6Migrator.forVersion = 6;
-PCActorv5ToV6Migrator.forType = "pc";
-
-/* Summary of changes:
-  - foci now become an object to allow various key/value pairs; this will be use
-    to support The Strange, which requires PCs to have a different Focus in
-    each Recursion they live in; this will ease, later on, adding Focus Items
-    into the system \o/
-*/
-PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ _id: actor._id}, obj);
-
-  //Transform current focus property into an object
-  const focusBackup = actor.data.data.focus;
-
-  newData["data.focus"] = {
-    "": focusBackup,
-  };
-    
-  return newData;
-};
-
 //Only export the latest migrator
 export const PCActorMigrator = PCActorv5ToV6Migrator;
