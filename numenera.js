@@ -80,8 +80,5 @@ Hooks.once("ready", migrateWorld);
 Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
-<<<<<<< HEAD
+
 Hooks.once("ready", registerHooks);
-=======
-Hooks.once("ready", registerHooks);
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9

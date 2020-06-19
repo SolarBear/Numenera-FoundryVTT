@@ -274,11 +274,6 @@ PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
-const PCActorv5ToV6Migrator = Object.create(Migrator);
-
-PCActorv5ToV6Migrator.forVersion = 6;
-PCActorv5ToV6Migrator.forType = "pc";
-
 /* Summary of changes:
   - foci now become an object to allow various key/value pairs; this will be use
     to support The Strange, which requires PCs to have a different Focus in
@@ -294,7 +289,7 @@ PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
   newData["data.focus"] = {
     "": focusBackup,
   };
-    
+
   return newData;
 };
 

@@ -61,8 +61,4 @@ export class NumeneraAbilityItem extends Item {
     );
     this.actor.rollSkill(skill);
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 873211fb83313b36cb890699d5f9c24fd9aee9c9
