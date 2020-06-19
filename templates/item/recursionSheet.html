@@ -1,5 +1,5 @@
 <form class="{{cssClass}} numenera" autocomplete="off">
-    <h1><input type="text" name="name" value="{{item.name}}"  placeholder="Item Name" /></h1>
+    <h1><input type="text" name="name" value="{{item.name}}" /></h1>
     <div class="flexrow item">
         <div class="img">
             <img class="profile-img" src="{{item.img}}" title="{{item.name}}" data-edit="img" />
@@ -17,12 +17,6 @@
                   <label>{{localize "NUMENERA.item.recursion.race"}}
                     <input type="text" name="data.race" value="{{data.race}}" />
                   </label>
-
-                  <label>{{localize "NUMENERA.item.recursion.focus"}}
-                  <textarea name="data.focus">{{data.notes}}</textarea>
-
-                  <label>{{localize "NUMENERA.item.recursion.focusAbilities"}}</label>
-                  <textarea name="data.notes">{{data.notes}}</textarea>
         </div>
     </div>
 </form>

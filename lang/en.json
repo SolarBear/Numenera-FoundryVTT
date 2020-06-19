@@ -249,7 +249,9 @@
     "NUMENERA.item.recursion.race": "Race",
     "NUMENERA.item.recursion.focus": "Focus",
     "NUMENERA.item.recursion.focusAbilities": "Focus Abilities",
-    "NUMENERA.item.recursion.tab.instructions": "No Recursions yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.item.recursion.tab.instructions": "No Recursions yet. Pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.item.recursion.active": "Active?",
+    "NUMENERA.item.recursion.tab.deleteTooltip": "Delete",
 
     "NUMENERA.recoveries.title": "Recoveries",
     "NUMENERA.recoveries.reset": "Reset",

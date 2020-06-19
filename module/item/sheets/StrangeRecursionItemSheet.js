@@ -1,4 +1,4 @@
-//import { NUMENERA } from "../../config.js";
+import { NUMENERA } from "../../config.js";
 
 export class StrangeRecursionItemSheet extends ItemSheet {
     /**
