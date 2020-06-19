@@ -380,7 +380,7 @@
             </ul>
         </div>
 
-    <!-- Recursions WIP-->
+    <!-- recursion WIP-->
 
         <div class="tab recursion" data-group="primary" data-tab="recursion">
             <h2>{{localize "NUMENERA.pcActorSheet.tab.recursion"}}</h2>
@@ -406,8 +406,8 @@
                               <a><i class="fas fa-grip-vertical"></i></a>
                           </td>
 
-                          <td class="Recursion-active">
-                              <input class="recursion-active" type="checkbox" name="data.items.recursion.{{recursion._id}}.data.active" {{checked recursion.data.active}} data-dtype="Boolean" />
+                          <td class="recursion-active">
+                              <input type="checkbox" name="data.items.recursion.{{recursion._id}}.data.active" {{checked recursion.data.active}} data-dtype="Boolean" />
                           </td>
 
                           <td class="recursion-icon">
@@ -427,15 +427,15 @@
                           </td>
 
                           <td class="recursion-race">
-                              <input type="text" name="data.items.recursions.{{recursion._id}}.data.race" value="{{recursion.data.race}}" title="{{recursion.data.race}}" />
+                              <input type="text" name="data.items.recursion.{{recursion._id}}.data.race" value="{{recursion.data.race}}" title="{{recursion.data.race}}" />
                           </td>
 
                           <td class="recursion-focus">
-                              <input type="text" name="data.items.recursions.{{recursion._id}}.data.focus" value="{{recursion.data.focus}}" title="{{recursion.data.focus}}" />
+                              <input type="text" name="data.items.recursion.{{recursion._id}}.data.focus" value="{{recursion.data.focus}}" title="{{recursion.data.focus}}" />
                           </td>
 
-                          <td class="recursion-focusAbilties">
-                              <textarea name="data.items.recursions.{{recursion._id}}.data.focusAbilties">{{ability.data.notes}}</textarea>
+                          <td class="recursion-focusAbilities">
+                              <textarea name="data.items.recursion.{{recursion._id}}.data.focusAbilities">{{recursion.data.focusAbilities}}</textarea>
                           </td>
 
                           <td>

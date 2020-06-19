@@ -207,8 +207,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-  get template() {
-    return "systems/numenera/templates/actor/characterSheet.html";
+   get template() {
+    if (game.settings.get("numenera", "worldSetting") === 2)
+      return "systems/numenera/templates/actor/characterSheetStrange.html";
+    else
+      return "systems/numenera/templates/actor/characterSheet.html";
   }
 
   /**
@@ -409,7 +412,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
     const recursionTable = html.find("table.recursion");
-    recursionTable.on("blur", "input,select", this.onRecursionEdit.bind(this));
+    recursionTable.on("blur", "input,select,textarea", this.onRecursionEdit.bind(this));
     recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
 
     if (game.user.isGM) {
