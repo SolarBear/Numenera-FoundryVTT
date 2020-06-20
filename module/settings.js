@@ -17,6 +17,22 @@ export const registerSystemSettings = function() {
   });
 
   /**
+      * Toggle for alnternate Cpyher System Settings
+      */
+    game.settings.register("numenera", "worldSetting", {
+      name: "Alternate Cypher Setting",
+      hint: "Choose an alternate Cypher System Setting",
+      scope: "world",
+      config: true,
+      type: Number,
+      default: 1,
+      choices: {
+        1: "Numenera",
+        2: "The Strange",
+      },
+    });
+
+  /**
    * Configure d20-rolling options
    */
   game.settings.register("numenera", "d20Rolling", {
@@ -31,7 +47,24 @@ export const registerSystemSettings = function() {
       "straightNumbers": "Output numbers and modifiers as is",
     },
   });
-  
+
+  /**
+   * Configure distance settings
+   */
+  game.settings.register("numenera", "measureDistanceInUnits", {
+    name: "Measurement Units",
+    hint: "Select the measurement unit of your game to get a distance annotation when using the ruler.",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "meters",
+    choices: {
+      "none": "None",
+      "NUMENERA.units.feet": "Feet",
+      "NUMENERA.units.meters": "Meters",
+    }
+  });
+
   /**
    * Configure whether or not to show skill icons
    */
@@ -43,7 +76,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show ability icons
    */
@@ -55,7 +88,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */
@@ -67,7 +100,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */
@@ -78,6 +111,18 @@ export const registerSystemSettings = function() {
     config: true,
     type: Boolean,
     default: true
+  });
+
+  /**
+   * Configure whether or not to show skill icons
+   */
+  game.settings.register("numenera", "currency", {
+    name: "Currency Name",
+    hint: "How currency is named in your game world: shins, dollars, gold coins, gazoogous, etc.",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "Shins"
   });
 
   game.settings.register("numenera", "trademarkNotice", {

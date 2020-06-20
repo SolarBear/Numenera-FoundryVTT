@@ -137,3 +137,8 @@ NUMENERA.attributeColors = {
   1: 0x87ff3d,    // Speed
   2: 0x3ddbff     // Intellect
 };
+
+NUMENERA.units = {
+  feet: "NUMENERA.canvas.unit.feet",
+  meters: "NUMENERA.canvas.unit.meters",
+};

@@ -26,6 +26,10 @@
 
     "NUMENERA.pc.initiativeRoll": "rolls for Initiative",
 
+    "NUMENERA.canvas.unit.feet": "feet",
+    "NUMENERA.canvas.unit.meters": "meters",
+    "NUMENERA.canvas.unit.noUnitWarning": "Could not measure range: no measurement unit defined for this Scene",
+
     "NUMENERA.pcActorSheet.header.name": "Name",
     "NUMENERA.pcActorSheet.header.isA": "is a",
     "NUMENERA.pcActorSheet.header.descriptor": "Descriptor",
@@ -38,6 +42,8 @@
     "NUMENERA.pcActorSheet.tab.skills": "Skills",
     "NUMENERA.pcActorSheet.tab.abilities": "Abilities",
     "NUMENERA.pcActorSheet.tab.numenera": "Numenera",
+    "NUMENERA.pcActorSheet.tab.strange": "Strange",
+    "NUMENERA.pcActorSheet.tab.recursion": "Recursions",
     "NUMENERA.pcActorSheet.tab.equipment": "Equipment",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
 
@@ -84,7 +90,7 @@
     "NUMENERA.pc.numenera.cypher.type.anoetic": "Anoetic",
     "NUMENERA.pc.numenera.cypher.type.occultic": "Occultic",
     "NUMENERA.pc.numenera.cypher.unidentified": "Unidentified Cypher",
-    
+
     "NUMENERA.pc.numenera.oddity.name": "Oddity",
     "NUMENERA.pc.numenera.oddity.none": "No Oddities",
 
@@ -242,6 +248,17 @@
     "NUMENERA.item.weapon.description": "Description",
     "NUMENERA.item.weapon.tab.rollTooltip": "Roll",
 
+    "NUMENERA.item.recursion.name": "Name",
+    "NUMENERA.item.recursion.newRecursion": "New Recursion",
+    "NUMENERA.item.recursion.level": "Level",
+    "NUMENERA.item.recursion.laws": "Laws",
+    "NUMENERA.item.recursion.race": "Race",
+    "NUMENERA.item.recursion.focus": "Focus",
+    "NUMENERA.item.recursion.focusAbilities": "Focus Abilities",
+    "NUMENERA.item.recursion.tab.instructions": "No Recursions yet. Pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.item.recursion.active": "Active?",
+    "NUMENERA.item.recursion.tab.deleteTooltip": "Delete",
+
     "NUMENERA.recoveries.title": "Recoveries",
     "NUMENERA.recoveries.reset": "Reset",
     "NUMENERA.recoveries.noDice": "No dice to roll",
@@ -249,6 +266,9 @@
     "NUMENERA.recoveries.pointsRemaining": "Remaining Points",
     "NUMENERA.recoveries.roll": "Roll",
     "NUMENERA.recoveries.accept": "Accept",
+    "NUMENERA.recoveries.resetDialog.title": "Reset Recoveries",
+    "NUMENERA.recoveries.resetDialog.content": "Really reset your Recoveries? Any unspent recovery points will be lost.",
+    "NUMENERA.recoveries.resetDialog.confirmation": "has reset their daily Recoveries.",
 
     "NUMENERA.dialog.confirmDeletion.title": "Confirm Deletion",
     "NUMENERA.dialog.confirmDeletion.text": "Do you really want to delete this",

@@ -3,7 +3,7 @@ export class NumeneraNpcAttackItem extends Item {
       return "npcattack";
   }
 
-  prepareData() {     
+  prepareData() {
     super.prepareData();
 
     const itemData = this.data.data || {};

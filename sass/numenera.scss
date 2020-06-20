@@ -10,7 +10,7 @@ $font-stack: Ogirema;
 @mixin editor($class, $height, $id) {
     div.#{$class}  {
         height: #{$height};
-        
+
         .editor {
             height: 100%;
         }
@@ -29,7 +29,7 @@ span.numenera-message-special {
 form.numenera {
     height: 100%;
     font-family: $font-stack;
-    
+
     button#recoveryRoll {
         width: 75%;
 
@@ -46,7 +46,7 @@ form.numenera {
     a.rollable {
         height: auto;
         width: auto;
-        
+
         & > img {
             border: 0;
             height: 24px;
@@ -66,9 +66,6 @@ form.numenera {
         flex-flow: column nowrap;
     }
 
-    li {
-        list-style-type: none;
-    }
 
     h1.character {
         font-size: 24px;
@@ -311,7 +308,7 @@ form.numenera {
             }
 
             &.abilities {
-                //Gray out ability cost controls when value is 0 or undefined 
+                //Gray out ability cost controls when value is 0 or undefined
                 div.nocost {
                     opacity: 0.6;
                 }
@@ -325,7 +322,7 @@ form.numenera {
                 input.equipment-name-input {
                     width: 100%;
                 }
-    
+
                 input.equipment-quantity {
                     width: 3em;
                 }
@@ -339,11 +336,11 @@ form.numenera {
                 input.weapon-name-input {
                     width: auto;
                 }
-    
+
                 select.weapon-weight {
                     margin-right: 0.5em
                 }
-    
+
                 input.weapon-damage {
                     width: 3em;
                 }
@@ -396,48 +393,59 @@ form.numenera {
         }
     }
 
-    div.item {
-        height: 80%;
+    &.item {
 
-        label {
-            font-weight: bold;
+        h1 {
+            width: 100%;
+
+            input[type="text"] {
+                width: inherit;
+            }
         }
 
-        input[type="number"] {
-            width: 4em;
-        }
+        div.item {
+            height: 80%;
+    
+            label {
+                font-weight: bold;
+            }
+    
+            input[type="number"] {
+                width: 4em;
+            }
 
-        div {
-            display: inline-block;
-            display: flex;
-            flex-direction: column;;
+            div {
+                display: inline-block;
+                display: flex;
+                flex-direction: column;;
+    
+                textarea {
+                    flex: 1;
+                }
+    
+                &.img {
+                    flex: 0.5;
+                    margin-right: 0.5em;
+                }
 
+                &.description {
+                    height: 95%;
+                    vertical-align: top;
+                }
+            }
+    
             textarea {
-                flex: 1;
+                width: auto;
+                height: 100%; 
+                box-sizing: border-box;
+                margin: 0 0.5em 0 0.5em;
             }
-
-            &.img {
-                flex: 0.5;
-                margin-right: 0.5em;
+    
+            label {
+                clear: both;
+                display: block;
+                margin: 0.25em 0.5em 0 0.5em;
             }
-
-            &.description {
-                height: 95%;
-                vertical-align: top;
-            }
-        }
-
-        textarea {
-            width: auto;
-            height: 100%; 
-            box-sizing: border-box;
-            margin: 0 0.5em 0 0.5em;
-        }
-
-        label {
-            clear: both;
-            display: block;
-            margin: 0.25em 0.5em 0 0.5em;
         }
     }
 
@@ -456,7 +464,7 @@ form.numenera {
         font-size: 22px;
         font-weight: bold;
     }
-    
+
     //Separators, borrowed from https://github.com/Roll20/roll20-character-sheets/blob/master/Numenera/Numenera.css
     hr.sheet-one {
         margin: 0;
@@ -471,7 +479,7 @@ form.numenera {
         display: block;
         content: "";
         height: 20px;
-        margin-top: -21px;    
+        margin-top: -21px;
         border-style: solid;
         border-color: #056da1;
         border-width: 0 0 1px 1px;
@@ -481,12 +489,12 @@ form.numenera {
     hr.sheet-two {
         border: 0;
         height: 1px;
-        background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
-        background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
-        background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
-        background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0)); 
+        background-image: -webkit-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0));
+        background-image:    -moz-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0));
+        background-image:     -ms-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0));
+        background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(5,109,161,1.75), rgba(0,0,0,0));
     }
-    
+
     hr.sheet-three {
         height: 20px;
         border-style: solid;
@@ -498,27 +506,27 @@ form.numenera {
         display: block;
         content: "";
         height: 20px;
-        margin-top: -21px;    
+        margin-top: -21px;
         border-style: solid;
         border-color: $border-color;
         border-width: 0px 1px 1px 0px;
         border-radius: 20px;
     }
-	
+
 	#pc-sheet-body .item-icon {
 	    padding-left: 0px;
 		padding-right: 0px;
 		margin-left: 0px;
 		margin-right: 0px;
 	}
-	
+
 	#pc-sheet-body img {
 		max-width: 42px;
 		border: none;
     }
-    
+
     .gu-mirror .item-icon img {
-        width: 42px !important; 
+        width: 42px !important;
     }
 
     table.cypher-header-table, table.artifact-header-table, table.oddity-header-table {
