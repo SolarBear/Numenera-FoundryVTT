@@ -10,7 +10,7 @@ export class NumeneraWeaponItem extends Item {
     prepareData() {
 	    // Override common default icon
 	    if (!this.data.img) this.data.img = 'icons/svg/sword.svg';
-		
+
         super.prepareData();
 
         let itemData = this.data.data || {};
@@ -54,7 +54,7 @@ export class NumeneraWeaponItem extends Item {
         }
 
         const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
-    
+
         //Get the skill related to that ability
         let skill = this.actor.data.items.find(
           i => i.name === skillName && i.type === NumeneraSkillItem.type

@@ -17,7 +17,7 @@ PCActorv1ToV2Migrator.forType = "pc";
 */
 PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
   const newData = Object.assign({ _id: actor._id}, obj);
-  
+
   if (actor.data.data.numenera) {
     if (actor.data.data.numenera.oddities) {
       //Create pseudo-objects by splitting the text as different oddities
@@ -25,7 +25,7 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
         .split(/\r?\n/)
         .filter(Boolean);
 
-      for (let oddity of oddityLines) { 
+      for (let oddity of oddityLines) {
         await actor.createOwnedItem({
             name: oddity,
             type: "oddity",
@@ -111,7 +111,7 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
     newData["data.effort"] = 1;
 
   newData["data.version"] = this.forVersion;
-    
+
   return newData;
 };
 
@@ -128,7 +128,7 @@ PCActorv2ToV3Migrator.migrationFunction = async function(actor, obj = {}) {
 
   newData["data.damageTrack"] = 0;
   newData["data.version"] = this.forVersion;
-    
+
   return newData;
 };
 
@@ -197,11 +197,11 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
       });
     }
   }
-  
+
   newData["data.-=abilities"] = null;
   newData["data.-=skills"] = null;
   newData["data.version"] = this.forVersion;
-    
+
   return newData;
 };
 
@@ -228,7 +228,7 @@ PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
       recoveriesLeft = 3;
     else
       recoveriesLeft = 4;
-  
+
     newData["data.recoveriesLeft"] = recoveriesLeft;
     newData["data.-=recoveries"] = null;
   }
@@ -246,7 +246,31 @@ PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
   newData["data.-=stats.speed.pool.maximum"] = null;
   newData["data.-=stats.intellect.pool.current"] = null;
   newData["data.-=stats.intellect.pool.maximum"] = null;
-    
+
+  return newData;
+};
+
+const PCActorv5ToV6Migrator = Object.create(Migrator);
+
+PCActorv5ToV6Migrator.forVersion = 6;
+PCActorv5ToV6Migrator.forType = "pc";
+
+/* Summary of changes:
+  - foci now become an object to allow various key/value pairs; this will be use
+    to support The Strange, which requires PCs to have a different Focus in
+    each Recursion they live in; this will ease, later on, adding Focus Items
+    into the system \o/
+*/
+PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
+
+  //Transform current focus property into an object
+  const focusBackup = actor.data.data.focus;
+
+  newData["data.focus"] = {
+    "": focusBackup,
+  };
+
   return newData;
 };
 

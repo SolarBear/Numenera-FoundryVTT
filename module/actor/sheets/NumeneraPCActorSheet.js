@@ -8,6 +8,7 @@ import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
 import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
+import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 
 import  "../../../lib/dragula/dragula.js";
 import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
@@ -26,7 +27,7 @@ const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order >
  * Higher order function that generates an item creation handler.
  *
  * @param {String} itemType The type of the Item (eg. 'ability', 'cypher', etc.)
- * @param {*} itemClass 
+ * @param {*} itemClass
  * @param {*} [callback=null]
  * @returns
  */
@@ -62,9 +63,9 @@ function onItemEditGenerator(editClass, callback = null) {
       throw new Error(`Missing ${editClass} class element`);
     else if (!elem.dataset.itemId)
       throw new Error(`No itemID on ${editClass} element`);
-      
+
     const updated = {_id: elem.dataset.itemId};
-    
+
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
@@ -129,6 +130,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.weapons",
       "ul.cyphers",
       "ul.artifacts",
+      "table.recursions"
     ];
   }
 
@@ -147,6 +149,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera ul.artifacts",
         "form.numenera ul.cyphers",
         "form.numenera ul.oddities",
+        "form.numenera table.recursions"
       ],
       width: 925,
       height: 1000,
@@ -172,6 +175,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
+    this.onRecursionCreate = onItemCreate("recursion", StrangeRecursionItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
@@ -181,6 +185,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onEquipmentEdit = onItemEditGenerator(".equipment");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
+    this.onRecursionEdit = onItemEditGenerator(".recursion");
 
     //Delete event handlers
     this.onAbilityDelete = onItemDeleteGenerator("ability", this.onAbilityDeleted.bind(this));
@@ -191,6 +196,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onOddityDelete = onItemDeleteGenerator("oddity");
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon");
+    this.onRecursionDelete = onItemDeleteGenerator("recursion");
   }
 
   /* -------------------------------------------- */
@@ -201,8 +207,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-  get template() {
-    return "systems/numenera/templates/actor/characterSheet.html";
+   get template() {
+    if (game.settings.get("numenera", "worldSetting") === 2)
+      return "systems/numenera/templates/actor/characterSheetStrange.html";
+    else
+      return "systems/numenera/templates/actor/characterSheet.html";
   }
 
   /**
@@ -278,6 +287,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       oddities: NumeneraOddityItem.type,
       skills: NumeneraSkillItem.type,
       weapons: NumeneraWeaponItem.type,
+      recursion: StrangeRecursionItem.type,
+
     }).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
         sheetData.data.items[val] = items.filter(i => i.type === type).sort(sortFunction)
@@ -400,6 +411,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
+    const recursionTable = html.find("table.recursion");
+    recursionTable.on("blur", "input,select,textarea", this.onRecursionEdit.bind(this));
+    recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+
     if (game.user.isGM) {
       artifactsList.on("blur", "input", this.onArtifactEdit.bind(this));
       cyphersList.on("blur", "input,select", this.onCypherEdit.bind(this));
@@ -428,7 +443,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       const handler = ev => this._onDragItemStart(ev);
 
       // Find all abilitiy items on the character sheet.
-      html.find('tr.ability,tr.skill,tr.weapon').each((i, tr) => {
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, tr) => {
         // Add draggable attribute and dragstart listener.
         tr.setAttribute("draggable", true);
         tr.addEventListener("dragstart", handler, false);
@@ -443,7 +458,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
     );
     clickedItem.data.stored = "";
-    
+
     const item = clickedItem;
     event.dataTransfer.setData(
       "text/plain",
@@ -452,8 +467,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         actorId: this.actor.id,
         data: item,
       })
-    );
-    
+
     return super._onDragItemStart(event);
   }
 
@@ -509,7 +523,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   onAbilityUse(event) {
     event.preventDefault();
     const abilityId = event.target.closest(".ability").dataset.itemId;
-  
+
     if (!abilityId)
       return;
 
@@ -585,13 +599,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (element && element.contains(event.target))
         return;
     }
-    
+
     super._onChangeInput(event);
   }
 
   _onDrop(event) {
     super._onDrop(event);
-    
+
     const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
 
     if (type !== "Item")

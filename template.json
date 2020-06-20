@@ -65,7 +65,7 @@
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "skill", "weapon"],
+        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "skill", "weapon", "recursion"],
         "templates": {
             "common": {
                 "notes": "",
@@ -140,6 +140,15 @@
             "templates": ["common", "ranged", "sellable", "weight"],
             "damage": 0,
             "weaponType": ""
-        }
+          },
+      	"recursion": {
+      	    "templates": ["common"],
+            "active": false,
+            "level": 1,
+      		  "laws": "",
+      		  "race": "",
+      		  "focus": "",
+      		  "focusAbilities": ""
+      		}
     }
 }

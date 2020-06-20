@@ -34,7 +34,7 @@ export class RecoveryDialog extends FormApplication {
     });
 
     const poolsTotal = Object.entries(actor.data.data.stats)
-    .reduce((sum, [key, value]) => 
+    .reduce((sum, [key, value]) =>
        sum + value.pool.value
     , 0);
 
@@ -131,8 +131,8 @@ export class RecoveryDialog extends FormApplication {
    * Event handler for the "Roll" button. If any new recovery checkboxes have
    * been checked, roll that many recovery dice. The Actor will be updated
    * in that case.
-   * 
-   * @param {*} event 
+   *
+   * @param {*} event
    */
   async _rollRecovery(event) {
     event.preventDefault();
