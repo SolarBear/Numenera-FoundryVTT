@@ -6,7 +6,7 @@ export class NumeneraArtifactItem extends Item {
     async prepareData() {
 		// Override common default icon
 	    if (!this.data.img) this.data.img = 'icons/svg/mage-shield.svg';
-		
+
         super.prepareData();
 
         const itemData = this.data.data || {};

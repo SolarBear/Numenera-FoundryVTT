@@ -17,6 +17,22 @@ export const registerSystemSettings = function() {
   });
 
   /**
+      * Toggle for alnternate Cpyher System Settings
+      */
+    game.settings.register("numenera", "worldSetting", {
+      name: "Alternate Cypher Setting",
+      hint: "Choose an alternate Cypher System Setting",
+      scope: "world",
+      config: true,
+      type: Number,
+      default: 1,
+      choices: {
+        1: "Numenera",
+        2: "The Strange",
+      },
+    });
+
+  /**
    * Configure d20-rolling options
    */
   game.settings.register("numenera", "d20Rolling", {
@@ -48,7 +64,7 @@ export const registerSystemSettings = function() {
       "NUMENERA.units.meters": "Meters",
     }
   });
-  
+
   /**
    * Configure whether or not to show skill icons
    */
@@ -60,7 +76,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show ability icons
    */
@@ -72,7 +88,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */
@@ -84,7 +100,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */

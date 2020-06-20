@@ -6,13 +6,12 @@ export class NumeneraSkillItem extends Item {
   prepareData() {
 	  // Override common default icon
 	  if (!this.data.img) this.data.img = 'icons/svg/book.svg';
-		
+
       super.prepareData();
 
       const itemData = this.data.data || {};
 
       itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
-      
       itemData.notes = itemData.notes || "";
       itemData.stat = itemData.stat || "";
       itemData.inability = itemData.inability || false;

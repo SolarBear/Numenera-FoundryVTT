@@ -30,7 +30,7 @@ export class NumeneraPCActor extends Actor {
   }
 
   setFocus(value) {
-    //Add any game-specific logic to set a PC focus here    
+    //Add any game-specific logic to set a PC focus here
 
     //Default case: there is no specific ID
     this.data.data.focus[""] = value;
@@ -96,7 +96,7 @@ export class NumeneraPCActor extends Actor {
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.dead.warning"));
         return;
     }
-  
+
     const roll = new Roll(this.getSkillFormula(skill)).roll();
 
     roll.toMessage({
@@ -151,7 +151,7 @@ export class NumeneraPCActor extends Actor {
     if (effortLevel === 0) {
       return value;
     }
-        
+
     const actorData = this.data.data;
 
     const statId = event.target.dataset.statId;
@@ -251,7 +251,7 @@ export class NumeneraPCActor extends Actor {
       case "cypher":
       const itemData = data.data;
 
-      if (!itemData.level && itemData.levelDie) {  
+      if (!itemData.level && itemData.levelDie) {
         try {
             //Try the formula as is first
             itemData.level = new Roll(itemData.levelDie).roll().total;

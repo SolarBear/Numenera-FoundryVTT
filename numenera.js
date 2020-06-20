@@ -12,6 +12,7 @@ import { NumeneraEquipmentItemSheet } from './module/item/sheets/NumeneraEquipme
 import { NumeneraOddityItemSheet } from './module/item/sheets/NumeneraOddityItemSheet.js';
 import { NumeneraSkillItemSheet } from './module/item/sheets/NumeneraSkillItemSheet.js';
 import { NumeneraWeaponItemSheet } from './module/item/sheets/NumeneraWeaponItemSheet.js';
+import { StrangeRecursionItemSheet } from './module/item/sheets/StrangeRecursionItemSheet.js';
 
 import { NUMENERA } from './module/config.js';
 import { getInitiativeFormula, rollInitiative } from './module/combat.js';
@@ -61,10 +62,11 @@ Hooks.once("init", function() {
     Items.registerSheet("numenera", NumeneraOddityItemSheet, { types: ["oddity"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraSkillItemSheet, { types: ["skill"], makeDefault: true });
     Items.registerSheet("numenera", NumeneraWeaponItemSheet, { types: ["weapon"], makeDefault: true });
+    Items.registerSheet("numenera", StrangeRecursionItemSheet, { types: ["recursion"], makeDefault: true });
 
-    //May seem weird but otherwise 
+    //May seem weird but otherwise
     Items.registerSheet("numenera", ActorSheet, { types: ["npcAttack"], makeDefault: true });
-    
+
     registerSystemSettings();
     registerHandlebarHelpers();
     preloadHandlebarsTemplates();

@@ -33,7 +33,7 @@ export class NumeneraAbilityItem extends Item {
     if (
       skill.data.data.stat === this.data.data.cost.pool &&
       skill.data.name === this.data.name
-    ) 
+    )
       return;
 
     const updated = await skill.update({
