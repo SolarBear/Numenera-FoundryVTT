@@ -130,7 +130,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.weapons",
       "ul.cyphers",
       "ul.artifacts",
-      "table.recursions"
+      "table.recursion"
     ];
   }
 
@@ -149,7 +149,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera ul.artifacts",
         "form.numenera ul.cyphers",
         "form.numenera ul.oddities",
-        "form.numenera table.recursions"
+        "form.numenera table.recursion"
       ],
       width: 925,
       height: 1000,
@@ -467,6 +467,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         actorId: this.actor.id,
         data: item,
       })
+    );
 
     return super._onDragItemStart(event);
   }
