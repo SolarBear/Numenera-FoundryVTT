@@ -65,7 +65,7 @@
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "equipment",  "focus", "npcAttack", "oddity", "recursion", "skill", "weapon"],
+        "types": ["ability", "armor", "artifact", "cypher", "descriptor", "equipment",  "focus", "npcAttack", "oddity", "recursion", "skill", "weapon"],
         "templates": {
             "common": {
                 "notes": "",
@@ -116,6 +116,12 @@
         "cypher": {
             "templates": ["carriable", "common", "numenera"],
             "cypherType": "anoetic"
+        },
+        "descriptor": {
+            "templates": ["common"],
+            "additionalEquipment": "",
+            "initialLink": [],
+            "effects": []
         },
         "equipment": {
             "templates": ["common", "sellable"],
