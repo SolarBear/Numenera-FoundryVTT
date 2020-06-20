@@ -33,6 +33,7 @@ export async function createNumeneraMacro(data, slot) {
 
     // Create the macro command
     const command = `game.numenera.useItemMacro("${data.actorId}", "${item._id}");`;
+
     let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
     if (!macro) {
       macro = await Macro.create({

@@ -69,7 +69,7 @@ export class NumeneraPCActor extends Actor {
     if (skill) {
       skillLevel = this.getSkillLevel(skill);
     }
-
+    
     return numeneraRollFormula(skillLevel);
   }
 

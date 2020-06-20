@@ -12,7 +12,6 @@ export class NumeneraSkillItem extends Item {
       const itemData = this.data.data || {};
 
       itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
-
       itemData.notes = itemData.notes || "";
       itemData.stat = itemData.stat || "";
       itemData.inability = itemData.inability || false;

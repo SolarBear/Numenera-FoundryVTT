@@ -467,7 +467,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
         actorId: this.actor.id,
         data: item,
       })
-    );
 
     return super._onDragItemStart(event);
   }
