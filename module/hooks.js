@@ -19,7 +19,7 @@ export async function registerHooks() {
   */
   Hooks.on('renderActorDirectory', (app, html, options) => {
     const found = html.find(".entity-name");
-    
+
     app.entities
         .filter(actor => actor.data.type === 'npc')
         .forEach(actor => {

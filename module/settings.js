@@ -17,6 +17,22 @@ export const registerSystemSettings = function() {
   });
 
   /**
+      * Toggle for alnternate Cpyher System Settings
+      */
+    game.settings.register("numenera", "worldSetting", {
+      name: "Alternate Cypher Setting",
+      hint: "Choose an alternate Cypher System Setting",
+      scope: "world",
+      config: true,
+      type: Number,
+      default: 1,
+      choices: {
+        1: "Numenera",
+        2: "The Strange",
+      },
+    });
+
+  /**
    * Configure d20-rolling options
    */
   game.settings.register("numenera", "d20Rolling", {
@@ -30,6 +46,25 @@ export const registerSystemSettings = function() {
       "taskLevels": "Output task level success instead of numbers",
       "straightNumbers": "Output numbers and modifiers as is",
     },
+  });
+
+  const permissionChoices = {};
+  permissionChoices[USER_ROLES.PLAYER] = "PLAYER";
+  permissionChoices[USER_ROLES.TRUSTED] = "TRUSTED";
+  permissionChoices[USER_ROLES.ASSISTANT] = "ASSISTANT";
+  permissionChoices[USER_ROLES.GAMEMASTER] = "GAMEMASTER";
+
+  /**
+   * Configure numenera items editing
+   */
+  game.settings.register("numenera", "cypherArtifactEdition", {
+    name: "Numenera item editing permissions",
+    hint: "Select the minimum level a user must have to edit a PC's cyphers, artifacts, etc.",
+    scope: "world",
+    config: true,
+    type: Number,
+    default: USER_ROLES.GAMEMASTER,
+    choices: permissionChoices,
   });
 
   /**
@@ -48,7 +83,7 @@ export const registerSystemSettings = function() {
       "NUMENERA.units.meters": "Meters",
     }
   });
-  
+
   /**
    * Configure whether or not to show skill icons
    */
@@ -60,7 +95,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show ability icons
    */
@@ -72,7 +107,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */
@@ -84,7 +119,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */

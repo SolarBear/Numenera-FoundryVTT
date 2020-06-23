@@ -59,7 +59,7 @@ If you're the kind of person who knows HTML, CSS and/or Javasript, well 1) my co
 If you want to use the code as is - unminified, without tree-shaking, etc. - follow these steps.
 
 1. Ensure the Foundry server is installed on your machine.
-1. Clone the repo to a directory of your liking using your git client of choice. 
+1. Clone the repo to a directory of your liking using your git client of choice.
 1. Open a console and move to that directory.
 1. Run `npm install` there. Wait for it to finish.
 1. Go to your Foundry data folder and either move your git repo clone into the `worlds/` subdirectory or create a symlink to that directory.

@@ -17,7 +17,7 @@ PCActorv1ToV2Migrator.forType = "pc";
 */
 PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
   const newData = Object.assign({ _id: actor._id}, obj);
-  
+
   if (actor.data.data.numenera) {
     if (actor.data.data.numenera.oddities) {
       //Create pseudo-objects by splitting the text as different oddities
@@ -25,7 +25,7 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
         .split(/\r?\n/)
         .filter(Boolean);
 
-      for (let oddity of oddityLines) { 
+      for (let oddity of oddityLines) {
         await actor.createOwnedItem({
             name: oddity,
             type: "oddity",
@@ -111,7 +111,7 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
     newData["data.effort"] = 1;
 
   newData["data.version"] = this.forVersion;
-    
+
   return newData;
 };
 
@@ -128,7 +128,7 @@ PCActorv2ToV3Migrator.migrationFunction = async function(actor, obj = {}) {
 
   newData["data.damageTrack"] = 0;
   newData["data.version"] = this.forVersion;
-    
+
   return newData;
 };
 
@@ -197,11 +197,11 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
       });
     }
   }
-  
+
   newData["data.-=abilities"] = null;
   newData["data.-=skills"] = null;
   newData["data.version"] = this.forVersion;
-    
+
   return newData;
 };
 
@@ -228,7 +228,7 @@ PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
       recoveriesLeft = 3;
     else
       recoveriesLeft = 4;
-  
+
     newData["data.recoveriesLeft"] = recoveriesLeft;
     newData["data.-=recoveries"] = null;
   }
@@ -246,7 +246,7 @@ PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
   newData["data.-=stats.speed.pool.maximum"] = null;
   newData["data.-=stats.intellect.pool.current"] = null;
   newData["data.-=stats.intellect.pool.maximum"] = null;
-    
+
   return newData;
 };
 
@@ -270,7 +270,7 @@ PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
   newData["data.focus"] = {
     "": focusBackup,
   };
-    
+
   return newData;
 };
 
