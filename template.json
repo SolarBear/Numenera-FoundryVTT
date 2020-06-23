@@ -115,7 +115,7 @@
         },
         "cypher": {
             "templates": ["carriable", "common", "numenera"],
-            "cypherType": "anoetic"
+            "cypherType": ""
         },
         "equipment": {
             "templates": ["common", "sellable"],
