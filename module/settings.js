@@ -48,6 +48,25 @@ export const registerSystemSettings = function() {
     },
   });
 
+  const permissionChoices = {};
+  permissionChoices[USER_ROLES.PLAYER] = "PLAYER";
+  permissionChoices[USER_ROLES.TRUSTED] = "TRUSTED";
+  permissionChoices[USER_ROLES.ASSISTANT] = "ASSISTANT";
+  permissionChoices[USER_ROLES.GAMEMASTER] = "GAMEMASTER";
+
+  /**
+   * Configure numenera items editing
+   */
+  game.settings.register("numenera", "cypherArtifactEdition", {
+    name: "Numenera item editing permissions",
+    hint: "Select the minimum level a user must have to edit a PC's cyphers, artifacts, etc.",
+    scope: "world",
+    config: true,
+    type: Number,
+    default: USER_ROLES.GAMEMASTER,
+    choices: permissionChoices,
+  });
+
   /**
    * Configure distance settings
    */
