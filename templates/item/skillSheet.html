@@ -10,7 +10,7 @@
             <label>{{localize "NUMENERA.item.skill.stat"}}</label>
             <select name="data.stat">
                 {{#select data.stat}}
-                {{#each stats}}
+                {{#each data.stats}}
                     <option value="{{this}}">{{localize this}}</option>
                 {{/each}}
                 {{/select}}
