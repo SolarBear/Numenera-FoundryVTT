@@ -1,0 +1,48 @@
+<h2>
+    {{localize "NUMENERA.pc.numenera.oddity.name"}}
+</h2>
+<ul class="oddities">
+    {{#each data.items.oddities as |oddity|}}
+    <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
+        <table class="oddity-header-table">
+            <tbody>
+                <tr>
+                    <td>
+                        <h4>
+                            <a><i class="fas fa-grip-vertical"></i></a>
+                        </h4>
+                    </td>
+                {{#if oddity.showIcon}}
+                    <td class="oddity-icon">
+                        <img src="{{oddity.img}}" />
+                    </td>
+                {{/if}}
+                    <td class="oddity-name">
+                        <h4>
+                        {{#if oddity.editable}}
+                            <input type="text" name="data.items.oddities.{{oddity._id}}.name" value="{{oddity.name}}" />
+                        {{else}}
+                            <strong>{{oddity.name}}</strong>
+                        {{/if}}
+                        </h4>
+                    </td>
+                    <td class="oddity-description">
+                    {{#if oddity.editable}}
+                        <span>
+                            <input type="text" name="data.items.oddities.{{oddity._id}}.data.notes" value="{{oddity.data.notes}}" />
+                        </span>
+                    {{else}}
+                        {{oddity.data.notes}}
+                    {{/if}}
+                    </td>
+                    <td>
+                        <a class="oddity-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </li>
+    {{else}}
+    {{localize "NUMENERA.pc.numenera.oddity.none"}}
+    {{/each}}
+</ul>

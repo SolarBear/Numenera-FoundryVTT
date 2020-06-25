@@ -9,7 +9,13 @@ export const preloadHandlebarsTemplates = async() => {
     const templatePaths = [
         // Actor Sheets
         "systems/numenera/templates/actor/characterSheet.html",
+        "systems/numenera/templates/actor/characterSheetStrange.html",
         "systems/numenera/templates/actor/npcSheet.html",
+
+        // Actor partials
+        "systems/numenera/templates/actor/partials/artifacts.html",
+        "systems/numenera/templates/actor/partials/cyphers.html",
+        "systems/numenera/templates/actor/partials/oddities.html",
 
         // Dialog Sheets
         "systems/numenera/templates/dialog/recovery.html",

@@ -66,6 +66,9 @@ form.numenera {
         flex-flow: column nowrap;
     }
 
+    li {
+        list-style-type: none;
+    }
 
     h1.character {
         font-size: 24px;
@@ -607,11 +610,6 @@ form.numenera-recovery {
     }
 
     & > div.columns {
-
-        li {
-            list-style-type: none;
-        }
-
         & > div {
             display: flex;
             flex-direction: column;

@@ -18,7 +18,7 @@ function handleNumeneraEvents(args) {
 
 }
 
-function handleGMIntrusion(args) {
+function handleGMIntrusion(actorId, userIds) {
   if (!game.ready || game.user.isGM || !userIds.find(id => id === game.userId))
     return;
 
