@@ -179,6 +179,8 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Informations",
 
+    "NUMENERA.item.tab.rollTooltip": "Jet (Clic pour un jet public, Shift+clic pour un jet a l'aveugle)",
+
     "NUMENERA.item.ability.newAbility": "Nouvelle Aptitude",
     "NUMENERA.item.ability.name": "Aptitudes",
     "NUMENERA.item.ability.type.action": "Action",
