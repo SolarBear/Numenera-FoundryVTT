@@ -243,6 +243,17 @@
     "NUMENERA.item.weapon.description": "Description",
     "NUMENERA.item.weapon.tab.rollTooltip": "Jet",
 
+    "NUMENERA.item.recursion.name": "Nom",
+    "NUMENERA.item.recursion.newRecursion": "Nouvelle Récursion",
+    "NUMENERA.item.recursion.level": "Niveau",
+    "NUMENERA.item.recursion.laws": "Lois",
+    "NUMENERA.item.recursion.race": "Race",
+    "NUMENERA.item.recursion.focus": "Focus",
+    "NUMENERA.item.recursion.focusAbilities": "Aptitudes de Focus",
+    "NUMENERA.item.recursion.tab.instructions": "Pas de Récursions. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
+    "NUMENERA.item.recursion.active": "Active ?",
+    "NUMENERA.item.recursion.tab.deleteTooltip": "Supprimer",
+
     "NUMENERA.recoveries.title": "Récupérations",
     "NUMENERA.recoveries.reset": "Réinitialiser",
     "NUMENERA.recoveries.noDice": "Pas de dés à lancer",
