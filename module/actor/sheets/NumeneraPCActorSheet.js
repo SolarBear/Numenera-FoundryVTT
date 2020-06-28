@@ -500,7 +500,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
 
-    return this.actor.rollSkillById(skillId);
+    return this.actor.rollSkillById(skillId, event.shiftKey);
   }
 
   async onWeaponUse(event) {
@@ -517,17 +517,19 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Get related skill, if any
     const skillId = this.actor.data.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
+    let skill;
+
     if (skillId) {
-      const skill = await this.actor.getOwnedItem(skillId._id);
-      if (skill)
-        return this.actor.rollSkill(skill);
+      skill = await this.actor.getOwnedItem(skillId._id);
     }
 
-    //No appropriate skill? Create a fake one, just to ensure a nice chat output
-    const fakeSkill = new NumeneraSkillItem();
-    fakeSkill.data.name = skillName;
+    if (!skill) {
+      //No appropriate skill? Create a fake one, just to ensure a nice chat output
+      skill = new NumeneraSkillItem();
+      skill.data.name = skillName;
+    }
 
-    return this.actor.rollSkill(fakeSkill);
+    return this.actor.rollSkill(skill, event.shiftKey);
   }
 
   onAbilityUse(event) {
@@ -544,7 +546,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
     }
 
-    return this.actor.rollSkill(skill);
+    return this.actor.rollSkill(skill, event.shiftKey);
   }
 
   onArtifactDepletionRoll(event) {

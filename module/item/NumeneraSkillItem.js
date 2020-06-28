@@ -9,7 +9,9 @@ export class NumeneraSkillItem extends Item {
 
       super.prepareData();
 
-      const itemData = this.data.data || {};
+      let itemData = this.data;
+      if (itemData.hasOwnProperty("data"))
+        itemData = itemData.data;
 
       itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
       itemData.notes = itemData.notes || "";
@@ -47,6 +49,8 @@ export class NumeneraSkillItem extends Item {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.skill.useNotLinkedToActor"));
     }
 
-    this.actor.rollSkill(this);
+    const gmRoll = window.event ? window.event.shiftKey : false;
+    
+    this.actor.rollSkill(this, gmRoll);
   }
 }
