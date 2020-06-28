@@ -327,8 +327,6 @@ export class NumeneraPCActor extends Actor {
     if (!updatedItem)
       return;
 
-    //TODO I AM A HACK PLEASE DESTROY ME I DO NOT DESERVE TO EXIST THANK U :)
-    //... or maybe not. It's not elegant but it works well to avoid recursing
     if (options.fromActorUpdateEmbeddedEntity)
       return updated;
 
