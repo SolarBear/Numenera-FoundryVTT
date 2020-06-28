@@ -15,8 +15,7 @@ export class NumeneraSkillItem extends Item {
       itemData.notes = itemData.notes || "";
       itemData.stat = itemData.stat || "";
       itemData.inability = itemData.inability || false;
-      itemData.trained = itemData.trained || false;
-      itemData.specialized = itemData.specialized || false;
+      itemData.skillLevel = itemData.skillLevel || 0;
   }
 
   async updateRelatedAbility(ability, options = {}) {

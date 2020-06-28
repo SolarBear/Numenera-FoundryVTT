@@ -348,9 +348,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
-      skill.untrained = skill.skillLevel === 0;
-      skill.trained = skill.skillLevel === 1;
-      skill.specialized = skill.skillLevel === 2;
+      skill.untrained = skill.data.skillLevel == 0;
+      skill.trained = skill.data.skillLevel == 1;
+      skill.specialized = skill.data.skillLevel == 2;
       return skill;
     });
 
