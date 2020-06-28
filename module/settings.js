@@ -17,6 +17,22 @@ export const registerSystemSettings = function() {
   });
 
   /**
+      * Toggle for alnternate Cpyher System Settings
+      */
+    game.settings.register("numenera", "worldSetting", {
+      name: "Alternate Cypher Setting",
+      hint: "Choose an alternate Cypher System Setting",
+      scope: "world",
+      config: true,
+      type: Number,
+      default: 1,
+      choices: {
+        1: "Numenera",
+        2: "The Strange",
+      },
+    });
+
+  /**
    * Configure d20-rolling options
    */
   game.settings.register("numenera", "d20Rolling", {
@@ -31,7 +47,43 @@ export const registerSystemSettings = function() {
       "straightNumbers": "Output numbers and modifiers as is",
     },
   });
-  
+
+  const permissionChoices = {};
+  permissionChoices[USER_ROLES.PLAYER] = "PLAYER";
+  permissionChoices[USER_ROLES.TRUSTED] = "TRUSTED";
+  permissionChoices[USER_ROLES.ASSISTANT] = "ASSISTANT";
+  permissionChoices[USER_ROLES.GAMEMASTER] = "GAMEMASTER";
+
+  /**
+   * Configure numenera items editing
+   */
+  game.settings.register("numenera", "cypherArtifactEdition", {
+    name: "Numenera item editing permissions",
+    hint: "Select the minimum level a user must have to edit a PC's cyphers, artifacts, etc.",
+    scope: "world",
+    config: true,
+    type: Number,
+    default: USER_ROLES.GAMEMASTER,
+    choices: permissionChoices,
+  });
+
+  /**
+   * Configure distance settings
+   */
+  game.settings.register("numenera", "measureDistanceInUnits", {
+    name: "Measurement Units",
+    hint: "Select the measurement unit of your game to get a distance annotation when using the ruler.",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "meters",
+    choices: {
+      "none": "None",
+      "NUMENERA.units.feet": "Feet",
+      "NUMENERA.units.meters": "Meters",
+    }
+  });
+
   /**
    * Configure whether or not to show skill icons
    */
@@ -43,7 +95,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show ability icons
    */
@@ -55,7 +107,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */
@@ -67,7 +119,7 @@ export const registerSystemSettings = function() {
     type: Boolean,
     default: true
   });
-  
+
   /**
    * Configure whether or not to show numenera icons
    */
@@ -78,5 +130,26 @@ export const registerSystemSettings = function() {
     config: true,
     type: Boolean,
     default: true
+  });
+
+  /**
+   * Configure whether or not to show skill icons
+   */
+  game.settings.register("numenera", "currency", {
+    name: "Currency Name",
+    hint: "How currency is named in your game world: shins, dollars, gold coins, gazoogous, etc.",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "Shins"
+  });
+
+  game.settings.register("numenera", "trademarkNotice", {
+    name: "Trademark Notice",
+    hint: "The Monte Cook Games logo, Numenera, and the Numenera logo are trademarks of Monte Cook Games, LLC in the U.S.A. and other countries. All Monte Cook Games characters and character names, and the distinctive likenesses thereof, are trademarks of Monte Cook Games, LLC. Content on this site or associated files derived from Monte Cook Games publications is © 2013-2019 Monte Cook Games, LLC. Monte Cook Games permits web sites and similar fan-created publications for their games, subject to the policy given at http://www.montecookgames.com/fan-use-policy/. The contents of this site are for personal, non-commercial use only. Monte Cook Games is not responsible for this site or any of the content, that did not originate directly from Monte Cook Games, on or in it. Use of Monte Cook Games’s trademarks and copyrighted materials anywhere on this site and its associated files should not be construed as a challenge to those trademarks or copyrights. Materials on this site may not be reproduced or distributed except with the permission of the site owner and in compliance with Monte Cook Games policy given at http://www.montecookgames.com/fan-use-policy/.",
+    scope: "world",
+    config: true,
+    type: null,
+    default: null
   });
 }

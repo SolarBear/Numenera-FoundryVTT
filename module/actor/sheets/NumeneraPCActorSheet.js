@@ -1,10 +1,14 @@
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { NUMENERA } from "../../config.js";
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
+import { NumeneraArtifactItem } from "../../item/NumeneraArtifactItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
+import { NumeneraCypherItem } from "../../item/NumeneraCypherItem.js";
 import { NumeneraEquipmentItem } from "../../item/NumeneraEquipmentItem.js";
+import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
+import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 
 import  "../../../lib/dragula/dragula.js";
 import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
@@ -23,7 +27,7 @@ const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order >
  * Higher order function that generates an item creation handler.
  *
  * @param {String} itemType The type of the Item (eg. 'ability', 'cypher', etc.)
- * @param {*} itemClass 
+ * @param {*} itemClass
  * @param {*} [callback=null]
  * @returns
  */
@@ -59,9 +63,9 @@ function onItemEditGenerator(editClass, callback = null) {
       throw new Error(`Missing ${editClass} class element`);
     else if (!elem.dataset.itemId)
       throw new Error(`No itemID on ${editClass} element`);
-      
+
     const updated = {_id: elem.dataset.itemId};
-    
+
     const splitName = event.currentTarget.name.split(".");
     const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
@@ -126,6 +130,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.weapons",
       "ul.cyphers",
       "ul.artifacts",
+      "ul.oddities",
+      "table.recursion"
     ];
   }
 
@@ -144,6 +150,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera ul.artifacts",
         "form.numenera ul.cyphers",
         "form.numenera ul.oddities",
+        "form.numenera table.recursion"
       ],
       width: 925,
       height: 1000,
@@ -169,6 +176,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
+    this.onRecursionCreate = onItemCreate("recursion", StrangeRecursionItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
@@ -176,8 +184,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onArtifactEdit = onItemEditGenerator(".artifact");
     this.onCypherEdit = onItemEditGenerator(".cypher");
     this.onEquipmentEdit = onItemEditGenerator(".equipment");
+    this.onOddityEdit = onItemEditGenerator(".oddity");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
+    this.onRecursionEdit = onItemEditGenerator(".recursion");
 
     //Delete event handlers
     this.onAbilityDelete = onItemDeleteGenerator("ability", this.onAbilityDeleted.bind(this));
@@ -188,6 +198,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onOddityDelete = onItemDeleteGenerator("oddity");
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon");
+    this.onRecursionDelete = onItemDeleteGenerator("recursion");
   }
 
   /* -------------------------------------------- */
@@ -198,8 +209,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-  get template() {
-    return "systems/numenera/templates/actor/characterSheet.html";
+   get template() {
+    if (game.settings.get("numenera", "worldSetting") === 2)
+      return "systems/numenera/templates/actor/characterSheetStrange.html";
+    else
+      return "systems/numenera/templates/actor/characterSheet.html";
   }
 
   /**
@@ -217,6 +231,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
       icons: {}
     };
 
+    //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
+    sheetData.data.focus = this.actor.getFocus();
+
+    sheetData.settings.currency = game.settings.get("numenera", "currency");
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
     sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
@@ -260,45 +278,44 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     sheetData.data.items = sheetData.actor.items || {};
 
-    //TODO repetition! kill it FOR GREAT JUSTICE
-    //TODO use ItemClass.getType()
     const items = sheetData.data.items;
-    if (!sheetData.data.items.abilities)
-      sheetData.data.items.abilities = items.filter(i => i.type === "ability").sort(sortFunction);
-    if (!sheetData.data.items.armor)
-      sheetData.data.items.armor = items.filter(i => i.type === "armor").sort(sortFunction);
-    if (!sheetData.data.items.artifacts)
-      sheetData.data.items.artifacts = items.filter(i => i.type === "artifact").sort(sortFunction);
-    if (!sheetData.data.items.cyphers)
-      sheetData.data.items.cyphers = items.filter(i => i.type === "cypher").sort(sortFunction);
-    if (!sheetData.data.items.equipment)
-      sheetData.data.items.equipment = items.filter(i => i.type === "equipment").sort(sortFunction);
-    if (!sheetData.data.items.oddities)
-      sheetData.data.items.oddities = items.filter(i => i.type === "oddity").sort(sortFunction);
-    if (!sheetData.data.items.skills)
-      sheetData.data.items.skills = items.filter(i => i.type === "skill").sort(sortFunction);
-    if (!sheetData.data.items.weapons)
-      sheetData.data.items.weapons = items.filter(i => i.type === "weapon").sort(sortFunction);
+
+    Object.entries({
+      abilities: NumeneraAbilityItem.type,
+      armor: NumeneraArmorItem.type,
+      artifacts: NumeneraArtifactItem.type,
+      cyphers: NumeneraCypherItem.type,
+      equipment: NumeneraEquipmentItem.type,
+      oddities: NumeneraOddityItem.type,
+      skills: NumeneraSkillItem.type,
+      weapons: NumeneraWeaponItem.type,
+      recursion: StrangeRecursionItem.type,
+
+    }).forEach(([val, type]) => {
+      if (!sheetData.data.items[val])
+        sheetData.data.items[val] = items.filter(i => i.type === type).sort(sortFunction)
+    });
 
     //Make it so that unidentified artifacts and cyphers appear as blank items
     //TODO extract this in the Item class if possible (perhaps as a static method?)
     sheetData.data.items.artifacts = sheetData.data.items.artifacts.map(artifact => {
-      if (game.user.isGM) {
-        artifact.editable = true;
-      } else if (!artifact.data.identified) {
+      artifact.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
+
+      if (!artifact.data.identified && !artifact.editable) {
         artifact.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
         artifact.data.level = game.i18n.localize("NUMENERA.unknown");
         artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
         artifact.data.depletion = null;
       }
+
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
       return artifact;
     });
 
     sheetData.data.items.cyphers = sheetData.data.items.cyphers.map(cypher => {
-      if (game.user.isGM) {
-        cypher.editable = true;
-      } else if (!cypher.data.identified) {
+      cypher.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
+
+      if (!cypher.data.identified && !cypher.editable) {
         cypher.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
         cypher.data.level = game.i18n.localize("NUMENERA.unknown");
         cypher.data.effect = game.i18n.localize("NUMENERA.unknown");
@@ -313,6 +330,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+      oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
       oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
       return oddity;
     });
@@ -361,6 +379,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
+
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
@@ -387,8 +407,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("click", ".weapon-create", this.onWeaponCreate.bind(this));
     weaponsTable.on("click", ".weapon-delete", this.onWeaponDelete.bind(this));
     weaponsTable.on("blur", "input,select", this.onWeaponEdit.bind(this));
+    weaponsTable.on("click", "a.rollable", this.onWeaponUse.bind(this));
 
-    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+    const odditiesTable = html.find("ul.oddities");
+    odditiesTable.on("click", ".oddity-delete", this.onOddityDelete.bind(this));
 
     const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
@@ -397,9 +419,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
+    const recursionTable = html.find("table.recursion");
+    recursionTable.on("blur", "input,select,textarea", this.onRecursionEdit.bind(this));
+    recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+
     if (game.user.isGM) {
-      artifactsList.on("blur", "input", this.onArtifactEdit.bind(this));
-      cyphersList.on("blur", "input,select", this.onCypherEdit.bind(this));
+      artifactsList.on("blur", "input,textarea", this.onArtifactEdit.bind(this));
+      cyphersList.on("blur", "input,textarea", this.onCypherEdit.bind(this));
+      odditiesTable.on("blur", "input", this.onOddityEdit.bind(this));
     }
 
     html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
@@ -420,6 +447,38 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Handle reordering on all these nice draggable elements
     //Assumes they all have a "order" property: should be the case since it's defined in the template.json
     drakes.map(drake => drake.on("drop", this.reorderElements.bind(this)));
+
+    if (this.actor.owner) {
+      const handler = ev => this._onDragItemStart(ev);
+
+      // Find all abilitiy items on the character sheet.
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, tr) => {
+        // Add draggable attribute and dragstart listener.
+        tr.setAttribute("draggable", true);
+        tr.addEventListener("dragstart", handler, false);
+      });
+    }
+  }
+
+  _onDragItemStart(event) {
+    const itemId = event.currentTarget.dataset.itemId;
+
+    const clickedItem = duplicate(
+      this.actor.getEmbeddedEntity("OwnedItem", itemId)
+    );
+    clickedItem.data.stored = "";
+
+    const item = clickedItem;
+    event.dataTransfer.setData(
+      "text/plain",
+      JSON.stringify({
+        type: "Item",
+        actorId: this.actor.id,
+        data: item,
+      })
+    );
+
+    return super._onDragItemStart(event);
   }
 
   async reorderElements(el, target, source, sibling) {
@@ -444,10 +503,37 @@ export class NumeneraPCActorSheet extends ActorSheet {
     return this.actor.rollSkillById(skillId);
   }
 
+  async onWeaponUse(event) {
+    event.preventDefault();
+
+    const weaponId = event.target.closest(".weapon").dataset.itemId;
+    if (!weaponId)
+      return;
+
+    const weapon = await this.actor.getOwnedItem(weaponId);
+    const weight = game.i18n.localize(weapon.data.data.weight);
+    const weaponType = game.i18n.localize(weapon.data.data.weaponType);
+    const skillName = `${weight} ${weaponType}`;
+
+    //Get related skill, if any
+    const skillId = this.actor.data.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
+    if (skillId) {
+      const skill = await this.actor.getOwnedItem(skillId._id);
+      if (skill)
+        return this.actor.rollSkill(skill);
+    }
+
+    //No appropriate skill? Create a fake one, just to ensure a nice chat output
+    const fakeSkill = new NumeneraSkillItem();
+    fakeSkill.data.name = skillName;
+
+    return this.actor.rollSkill(fakeSkill);
+  }
+
   onAbilityUse(event) {
     event.preventDefault();
     const abilityId = event.target.closest(".ability").dataset.itemId;
-  
+
     if (!abilityId)
       return;
 
@@ -458,7 +544,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
     }
 
-    return this.actor.rollSkillById(skill._id);
+    return this.actor.rollSkill(skill);
   }
 
   onArtifactDepletionRoll(event) {
@@ -518,19 +604,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
   Override the base method to handle some of the values ourselves
   */
   _onChangeInput(event) {
-    //TODO is this still relevant?
     for (let container of NumeneraPCActorSheet.inputsToIntercept) {
       const element = window.document.querySelector(container);
       if (element && element.contains(event.target))
         return;
     }
-    
+
     super._onChangeInput(event);
   }
 
   _onDrop(event) {
     super._onDrop(event);
-    
+
     const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
 
     if (type !== "Item")

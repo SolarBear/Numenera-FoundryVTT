@@ -1,14 +1,24 @@
 import { GMIntrusionDialog } from "./apps/GMIntrusionDialog.js";
 
 export function numeneraSocketListeners() {
-  game.socket.on("system.numenera", handleGMIntrusion);
+  game.socket.on("system.numenera", handleNumeneraEvents);
 }
 
-function handleGMIntrusion(args) {
-  //TODO handle types
+function handleNumeneraEvents(args) {
   const {type, data} = args;
   const {actorId, userIds} = data;
 
+  switch(type) {
+    case "gmIntrusion":
+      handleGMIntrusion(actorId, userIds);
+      break;
+    default:
+      throw new Error("Unhandled socket event " + type);
+  }
+
+}
+
+function handleGMIntrusion(actorId, userIds) {
   if (!game.ready || game.user.isGM || !userIds.find(id => id === game.userId))
     return;
 

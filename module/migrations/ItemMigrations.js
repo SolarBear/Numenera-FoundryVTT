@@ -1,5 +1,4 @@
 import { Migrator } from "./Migrator.js";
-import { NumeneraItem } from "../item/NumeneraItem.js";
 
 //Keep migrators in order: v1 to v2, v2 to v3, etc.
 const Itemv1ToV2Migrator = Object.create(Migrator);
@@ -24,12 +23,12 @@ Itemv1ToV2Migrator.migrationFunction = async function(item) {
     if (!item.data.data.hasProperty("identified")) {
       //Current artifacts and cyphers could only have been identified
       //for unowned ones, it's irrelevant
-      data["data.identified"] = item.data.data.isOwned;
+      newData["data.identified"] = item.data.data.isOwned;
     }
 
     if (!item.data.data.isOwned) {
       //Use current level as "level die" as string
-      data["data.levelDie"] = "" + item.data.data.level;
+      newData["data.levelDie"] = "" + item.data.data.level;
     }
     //Owned numenera may keep their level and don't need a level die
   }
@@ -56,7 +55,7 @@ Itemv2ToV3Migrator.migrationFunction = async function(item) {
     if (item.data.specialized) {
       skillLevel = 2;
     } else if (item.data.trained) {
-      skillLEvel = 1;
+      skillLevel = 1;
     }
 
     newData["data.skillLevel"] = skillLevel;
