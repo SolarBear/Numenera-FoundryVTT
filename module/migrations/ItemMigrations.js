@@ -36,6 +36,7 @@ Itemv1ToV2Migrator.migrationFunction = async function(item, obj = {}) {
   return newData;
 };
 
+
 //Keep migrators in order: v1 to v2, v2 to v3, etc.
 const Itemv2ToV3Migrator = Object.create(Migrator);
 
@@ -43,14 +44,26 @@ Itemv2ToV3Migrator.forVersion = 3;
 Itemv2ToV3Migrator.forType = NumeneraItem;
 
 /* Summary of changes:
-  - skill levels are now an integer isntea of being a couple of boolean flags
+  ... none. I mixed up version number and increased item version to 3
+  while there were no changes so... empty migrator.
 */
 Itemv2ToV3Migrator.migrationFunction = async function(item, obj = {}) {
-  let newData = null;
+  return Object.assign({ _id: item._id}, obj);
+}
+
+//Keep migrators in order: v1 to v2, v2 to v3, etc.
+const Itemv3ToV4Migrator = Object.create(Migrator);
+
+Itemv3ToV4Migrator.forVersion = 4;
+Itemv3ToV4Migrator.forType = NumeneraItem;
+
+/* Summary of changes:
+  - skill levels are now an integer isntea of being a couple of boolean flags
+*/
+Itemv3ToV4Migrator.migrationFunction = async function(item, obj = {}) {
+  const newData = Object.assign({ _id: item._id}, obj);
   
   if (item.type === "skill") {
-    newData = Object.assign({ _id: item._id}, obj);
-
     let skillLevel = 0;
     if (item.data.data.specialized) {
       skillLevel = 2;
@@ -69,4 +82,4 @@ Itemv2ToV3Migrator.migrationFunction = async function(item, obj = {}) {
 };
 
 //Only export the latest migrator
-export const ItemMigrator = Itemv2ToV3Migrator;
+export const ItemMigrator = Itemv3ToV4Migrator;
