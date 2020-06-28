@@ -6,7 +6,15 @@ Do you enjoy using the system? Then support my harmful caffeine intake habits an
 
 ## What is this?
 
-This repository is the beginning of support for the [Numenera role playing game](http://numenera.com/) (and soon, other Cypher games) for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop). Check them out!
+This repository is support for various Cypher system roleplaying games for the [Foundry virtual tabletop](http://foundryvtt.com/#about-foundry-virtual-tabletop).
+
+We currently officially support
+
+* [Numenera](http://numenera.com/)
+* [The Strange](http://thestrangerpg.com/)
+* Soon: generic Cypher System
+
+Don't know about them? Check them out!
 
 ## Features
 

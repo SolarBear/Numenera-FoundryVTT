@@ -141,9 +141,7 @@
             "relatedAbilityId": null,
             "stat": "",
             "inability": false,
-            "untrained": true,
-            "trained": false,
-            "specialized": false
+            "skillLevel": 0
         },
         "weapon": {
             "templates": ["common", "ranged", "sellable", "weight"],

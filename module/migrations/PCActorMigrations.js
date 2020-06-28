@@ -1,11 +1,12 @@
 import { Migrator } from "./Migrator.js";
 import { NumeneraItem } from "../item/NumeneraItem.js";
+import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 
 //Keep migrators in order: v1 to v2, v2 to v3, etc.
 const PCActorv1ToV2Migrator = Object.create(Migrator);
 
 PCActorv1ToV2Migrator.forVersion = 2;
-PCActorv1ToV2Migrator.forType = "pc";
+PCActorv1ToV2Migrator.forType = NumeneraPCActor;
 
 /* Summary of changes:
 * - the "numenera" property was removed: oddities, cyphers and artifacts are now
@@ -118,7 +119,7 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
 const PCActorv2ToV3Migrator = Object.create(Migrator);
 
 PCActorv2ToV3Migrator.forVersion = 3;
-PCActorv2ToV3Migrator.forType = "pc";
+PCActorv2ToV3Migrator.forType = NumeneraPCActor;
 
 /* Summary of changes:
 * - added "damage track" property to PC actors
@@ -135,7 +136,7 @@ PCActorv2ToV3Migrator.migrationFunction = async function(actor, obj = {}) {
 const PCActorv3ToV4Migrator = Object.create(Migrator);
 
 PCActorv3ToV4Migrator.forVersion = 4;
-PCActorv3ToV4Migrator.forType = "pc";
+PCActorv3ToV4Migrator.forType = NumeneraPCActor;
 
 /* Summary of changes:
 * - abilities and skills are now full-blown items so create skill Items
@@ -208,7 +209,7 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
 const PCActorv4ToV5Migrator = Object.create(Migrator);
 
 PCActorv4ToV5Migrator.forVersion = 5;
-PCActorv4ToV5Migrator.forType = "pc";
+PCActorv4ToV5Migrator.forType = NumeneraPCActor;
 
 /* Summary of changes:
   - recoveries change to an integer total instead of being individual boolean flags
@@ -253,7 +254,7 @@ PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
 const PCActorv5ToV6Migrator = Object.create(Migrator);
 
 PCActorv5ToV6Migrator.forVersion = 6;
-PCActorv5ToV6Migrator.forType = "pc";
+PCActorv5ToV6Migrator.forType = NumeneraPCActor;
 
 /* Summary of changes:
   - foci now become an object to allow various key/value pairs; this will be use
