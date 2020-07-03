@@ -61,10 +61,15 @@ export function cypherToken() {
     Token.prototype.getBarAttribute = (function () {
         let superFunction = Token.prototype.getBarAttribute;
         return function (barName, { alternative } = {}) {
-            if (this.actor.data.type === "pc") {
-                return getCypherTokenBarAttribute.apply(this, arguments);
-            } else {
-                return superFunction.apply(this, arguments);
+            switch (this.actor.data.type) {
+                case "pc":
+                    return getCypherPCTokenBarAttribute.apply(this, arguments);
+
+                case "npc":
+                    return getCypherNPCTokenBarAttribute.apply(this, arguments);
+
+                default:
+                    throw new Error("No such Actor type");
             }
         }
     })();
@@ -210,7 +215,7 @@ function drawCypherBar(number, bar, data) {
 }
 
 // Since the model for the Token config doesn't seem to want to cooperate, these stats are hard-coded to the 3 Cypher vitals
-function getCypherTokenBarAttribute(barName, { alternative } = {}) {
+function getCypherPCTokenBarAttribute(barName, { alternative } = {}) {
     let stat;
     if (barName === "bar1") {
         stat = "stats.might.pool";
@@ -224,6 +229,21 @@ function getCypherTokenBarAttribute(barName, { alternative } = {}) {
     return {
         type: "bar",
         attribute: stat,
+        value: parseInt(data.value || 0),
+        max: parseInt(data.max || 0)
+    }
+}
+
+// NPCs are like me: simple.
+function getCypherNPCTokenBarAttribute(barName, { alternative } = {}) {
+    if (barName !== "bar1")
+        return null;
+
+    let data = getProperty(this.actor.data.data, "health");
+    data = duplicate(data);
+    return {
+        type: "bar",
+        attribute: "health",
         value: parseInt(data.value || 0),
         max: parseInt(data.max || 0)
     }
