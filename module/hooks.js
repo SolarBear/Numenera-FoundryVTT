@@ -1,5 +1,7 @@
 import { createNumeneraMacro } from './macro.js';
 import { rollText } from './roll.js';
+import { NumeneraCommunityActor } from './actor/NumeneraCommunityActor.js';
+import { NumeneraNPCActor } from './actor/NumeneraNPCActor.js';
 
 /**
  * This function is simply meant to be the place where all hooks are registered.
@@ -29,7 +31,7 @@ export async function registerHooks() {
   });
 
   Hooks.on('renderCompendium', async (app, html, options) => {
-      const npcs = game.actors.entities.filter(e => e.constructor === NumeneraNPCActor);
+      const npcs = game.actors.entities.filter(e => e.constructor === NumeneraNPCActor || e.constructor === NumeneraCommunityActor);
 
       html.find(".entry-name")
           .each((i, el) => {

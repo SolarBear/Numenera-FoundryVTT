@@ -161,7 +161,7 @@ form.numenera {
             }
         }
 
-        div > div.npc-info {
+        div > div.npc-info,div.community-info {
             flex: 0.25;
 
             h1 {
@@ -179,7 +179,7 @@ form.numenera {
             }
         }
 
-        div > div.npc-stats {
+        div > div.npc-stats,div.community-stats {
             flex: 0.15;
             padding: 1em;
             text-align: center;
@@ -387,7 +387,13 @@ form.numenera {
     @include editor("npc-description", $descriptionHeight, "npc-description");
     @include editor("npc-info", $descriptionHeight, "npc-info");
 
-    div.npc-modifications {
+    @include editor("community-overview", $descriptionHeight, "community-overview");
+    @include editor("community-government", $descriptionHeight, "community-government");
+    @include editor("community-combat", $descriptionHeight, "community-combat");
+    @include editor("community-info", $descriptionHeight, "community-info");
+
+
+    div.npc-modifications,div.community-modifications {
         display: flex;
         flex-direction: column;
 
