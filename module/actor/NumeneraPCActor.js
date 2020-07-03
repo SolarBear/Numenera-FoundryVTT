@@ -256,6 +256,33 @@ export class NumeneraPCActor extends Actor {
   }
 
   /**
+   * Use an item, whatever its type, given its id.
+   *
+   * @param {String} itemId
+   * @memberof NumeneraPCActor
+   */
+  async useItemById(itemId) {
+    const item = await this.getOwnedItem(itemId);
+    return this.useItem(item);
+  }
+
+  /**
+   * Use an item, whatever its type.
+   *
+   * @param {String} itemId
+   * @memberof NumeneraPCActor
+   */
+  async useItem(item) {
+    switch (item.type) {
+      case NumeneraAbilityItem.type:
+        return this.useAbility(item);
+
+      default:
+        throw new Error("Item use not supported yet for item type " + item.type);
+    }
+  }
+
+  /**
    * Checks whether a given Ability can be used, ie. if there are enough
    * points available in the related pool.
    *
