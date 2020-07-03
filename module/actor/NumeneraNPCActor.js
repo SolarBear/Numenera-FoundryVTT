@@ -25,6 +25,11 @@ export class NumeneraNPCActor extends Actor {
   }
 
   async update(data, options) {
+    //This is the rule of thumb proposed in the manual, so it makes sense as a default value
+    if ("data.level" in data && data["data.level"] !== this.data.data.level) {
+      data["data.health.max"] = 3 * data["data.level"];
+    }
+
     //Update current health with max, this way tokens created from the NPC will have full health on creation
     if ("data.health.max" in data && data["data.health.max"] !== this.data.data.health.max) {
       data["data.health.value"] = data["data.health.max"];
