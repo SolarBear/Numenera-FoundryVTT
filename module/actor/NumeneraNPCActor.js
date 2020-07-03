@@ -23,4 +23,13 @@ export class NumeneraNPCActor extends Actor {
     
     return "1d1-1.1+" + 3 * this.data.data.level;
   }
+
+  async update(data, options) {
+    //Update current health with max, this way tokens created from the NPC will have full health on creation
+    if ("data.health.max" in data && data["data.health.max"] !== this.data.data.health.max) {
+      data["data.health.value"] = data["data.health.max"];
+    }
+
+    return super.update(data, options);
+  }
 }
