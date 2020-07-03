@@ -1,0 +1,94 @@
+<form class="{{cssClass}} numenera npc flexcol" autocomplete="off">
+    <div class="flexrow header">
+        <div class="picture">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+        </div>
+        <div class="flexcol">
+            <div class="flexrow npc-info">
+                <h1 class="character">
+                    <input type="text" name="name" value="{{actor.name}}" class="charname" />
+                    <label for="data.level">{{localize "NUMENERA.npc.level"}}</label>
+                    <input type="text" name="data.level" value="{{data.level}}" class="level" data-dtype="Number" />
+                </h1>
+
+            </div>
+            <div class="flexrow npc-stats">
+                <label for="data.health.max">{{localize "NUMENERA.npc.health"}}</label>
+                <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number" />
+
+                <label for="data.movement">{{localize "NUMENERA.npc.movement"}}</label>
+                <select name="data.movement">
+                    {{#select data.movement}}
+                    {{#each ranges}}
+                    <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+                <label for="data.armor">{{localize "NUMENERA.npc.armor"}}</label>
+                <input type="text" name="data.armor" value="{{data.armor}}" min="0" data-dtype="Number" />
+                <label for="data.damage">{{localize "NUMENERA.npc.damage"}}</label>
+                <input type="text" name="data.damage" value="{{data.damage}}" min="0" data-dtype="Number" />
+            </div>
+            <div class="npc-modifications">
+                <h2>{{localize "NUMENERA.npc.modifications"}}</h2>
+                <textarea name="data.modifications" data-dtype="String">{{data.modifications}}</textarea>
+            </div>
+        </div>
+    </div>
+
+    {{!-- Sheet Tab Navigation --}}
+    <nav class="sheet-tabs tabs" data-group="primary">
+        <a class="item" data-tab="attacks">{{localize "NUMENERA.npcActorSheet.tab.attacks"}}</a>
+        <a class="item" data-tab="description">{{localize "NUMENERA.npcActorSheet.tab.description"}}</a>
+        <a class="item" data-tab="info">{{localize "NUMENERA.npcActorSheet.tab.information"}}</a>
+    </nav>
+
+    <section id="npc-sheet-body">
+        <div class="tab attacks" data-group="primary" data-tab="attacks">
+            <table class="attacks">
+                <thead>
+                    <tr>
+                        <td class="">
+                            <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                        </td>
+                        <td>
+                            {{localize "NUMENERA.npc.attacks.description"}}
+                        </td>
+                        <td>
+                            <a class="attack-create" data-action="create" title="{{localize "NUMENERA.npc.attacks.createTooltip"}}"><i class="fas fa-plus"></i></a>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                {{#each data.items.attacks as |attack|}}
+                    <tr class="npcAttack" data-item-id="{{attack._id}}" data-order="{{attack.data.order}}">
+                        <td class="handle">
+                            <a><i class="fas fa-grip-vertical handle"></i></a>
+                        </td>
+                        <td class="attack-description">
+                            <input type="text" name="data.items.attacks.{{attack._id}}.notes" value="{{attack.notes}}" placeholder="{{localize "NUMENERA.npc.attacks.placeholder"}}" />
+                        </td>
+                        <td>
+                            <a class="attack-delete" data-action="delete" title="{{localize "NUMENERA.npc.attacks.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan="3">
+                            {{{localize "NUMENERA.npc.attacks.none"}}}
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="tab npc-description" data-group="primary" data-tab="description">
+            {{editor content=data.notes target="data.notes" button=true editable=editable}}
+            <button type="submit" id="save-npc-description"><i class="fas fa-feather-alt"></i>{{localize "NUMENERA.pc.bio.saveChanges"}}</button>
+        </div>
+        <div class="tab npc-info" data-group="primary" data-tab="info">
+            {{editor content=data.info target="data.info" button=true editable=editable}}
+            <button type="submit" id="save-npc-info"><i class="fas fa-feather-alt"></i>{{localize "NUMENERA.pc.bio.saveChanges"}}</button>
+        </div>
+    </section>
+</form>

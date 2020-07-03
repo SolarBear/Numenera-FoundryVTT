@@ -1,6 +1,6 @@
 {
     "Actor": {
-        "types": ["pc", "npc"],
+        "types": ["pc", "npc", "community"],
         "pc": {
             "advances": {
                 "statPools": false,
@@ -62,10 +62,27 @@
             "modifications": "",
             "image": null,
             "version": 2
+        },
+        "community": {
+            "rank": 1,
+            "overview": "",
+            "government": "",
+            "health": {
+                "value": 1,
+                "max": 1
+            },
+            "infrastructure": {
+                "value": 1,
+                "max": 1
+            },
+            "damage": 1,
+            "modifications": "",
+            "combat": "",
+            "version": 1
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "recursion", "skill", "weapon"],
+        "types": ["ability", "armor", "artifact", "community", "cypher", "equipment", "npcAttack", "oddity", "recursion", "skill", "weapon"],
         "templates": {
             "common": {
                 "notes": "",

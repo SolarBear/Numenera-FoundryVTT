@@ -1,3 +1,4 @@
+import { NumeneraCommunityActor } from "./NumeneraCommunityActor.js";
 import { NumeneraNPCActor } from "./NumeneraNPCActor.js";
 import { NumeneraPCActor } from "./NumeneraPCActor.js";
 
@@ -23,6 +24,9 @@ export const NumeneraActor = new Proxy(function () {}, {
 
       case "npc":
         return new NumeneraNPCActor(...args);
+
+      case "community":
+        return new NumeneraCommunityActor(...args);
 
       default:
         throw new Error("Unsupported Entity type for create(): " + data.type);
