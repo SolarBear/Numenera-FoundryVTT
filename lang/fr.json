@@ -290,6 +290,7 @@
     "NUMENERA.info.skillWithSameNameCreated": "Une compétence portant le même nom a aussi été créée",
 
     "NUMENERA.warnings.abilityWithSameNameExists": "Une aptitude portant le même nom existe déjà",
+    "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Pas suffisamment de points disponibles dans votre Réserve pour cette Aptitude",
     "NUMENERA.warnings.noSkillRelatedToAbility": "Aucune compétence n'est reliée à cette aptitude",
     "NUMENERA.warnings.skillWithSameNameExists": "Une compétence portant le même nom existe déjà",
 
