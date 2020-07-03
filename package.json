@@ -1,6 +1,6 @@
 {
   "name": "numenera-foundryvtt",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "description": "Support for the Numenera and The Strange role playing games for the Foundry virtual tabletop",
   "dependencies": {},
   "devDependencies": {

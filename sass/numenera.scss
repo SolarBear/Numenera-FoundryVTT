@@ -375,6 +375,7 @@ form.numenera {
 
     div.flexrow:not(:last-child) {
         border-bottom: 1px solid $border-color;
+        padding-bottom: 0.75em;
     }
 
     //TinyMCE editors
@@ -391,6 +392,8 @@ form.numenera {
     @include editor("community-government", $descriptionHeight, "community-government");
     @include editor("community-combat", $descriptionHeight, "community-combat");
     @include editor("community-info", $descriptionHeight, "community-info");
+
+    @include editor("item-notes", $descriptionHeight, "item-notes");
 
 
     div.npc-modifications,div.community-modifications {
@@ -413,7 +416,9 @@ form.numenera {
         }
 
         div.item {
-            height: 80%;
+            &:not(:first-child) {
+                margin-top: 0.5em;
+            }
     
             label {
                 font-weight: bold;
@@ -423,11 +428,12 @@ form.numenera {
                 width: 4em;
             }
 
-            div {
-                display: inline-block;
-                display: flex;
-                flex-direction: column;;
-    
+            & > div {
+                &:not(.item-notes) {
+                    display: flex;
+                    flex-direction: column;
+                }
+
                 textarea {
                     flex: 1;
                 }

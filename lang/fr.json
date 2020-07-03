@@ -228,6 +228,7 @@
     "NUMENERA.item.artifact.depletion": "Épuisement",
     "NUMENERA.item.artifact.depletionDie": "Dé",
     "NUMENERA.item.artifact.depletionThreshold": "Seuil",
+    "NUMENERA.item.artifact.description": "Description",
     "NUMENERA.item.artifact.effect": "Effet",
     "NUMENERA.item.artifact.newArtifact": "Nouvel artefact",
 

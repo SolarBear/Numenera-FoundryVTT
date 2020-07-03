@@ -8,7 +8,7 @@ export class NumeneraAbilityItemSheet extends ItemSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             width: 550,
-            height: 500
+            height: 630,
         });
     }
 
