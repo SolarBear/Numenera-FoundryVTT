@@ -232,7 +232,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     };
 
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
-    sheetData.data.focus = this.actor.getFocus();
+    sheetData.data.currentFocus = this.actor.getFocus();
 
     sheetData.settings.currency = game.settings.get("numenera", "currency");
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");

@@ -33,8 +33,19 @@ export class NumeneraPCActor extends Actor {
   setFocus(value) {
     //Add any game-specific logic to set a PC focus here
 
+    //TEMPORARY PATCH because of https://github.com/SolarBear/Numenera-FoundryVTT/issues/92
+    if (typeof this.data.data.focus === "string") {
+      const focus = this.data.data.focus;
+      this.data.data.focus = {};
+    }
+
     //Default case: there is no specific ID
     this.data.data.focus[""] = value;
+
+    const data = {_id: this._id};
+    data["data.focus['']"] = {"": value};
+
+    this.update(data);
   }
 
   getInitiativeFormula() {
