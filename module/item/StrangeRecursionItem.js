@@ -9,7 +9,9 @@ export class StrangeRecursionItem extends Item {
 
         super.prepareData();
 
-        const itemData = this.data.data || {};
+        let itemData = this.data;
+        if (itemData.hasOwnProperty("data"))
+          itemData = itemData.data;
 
         const desc = Object.getOwnPropertyDescriptor(itemData, "name");
         if (desc && desc.writable)

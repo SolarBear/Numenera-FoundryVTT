@@ -9,15 +9,22 @@
         <div class="skill">
             <label>{{localize "NUMENERA.item.skill.stat"}}</label>
             <select name="data.stat">
-                {{#select data.stat}}
-                {{#each stats}}
-                    <option value="{{this}}">{{localize this}}</option>
-                {{/each}}
-                {{/select}}
-                </select>
-
-            <label>{{localize "NUMENERA.item.skill.description"}}</label>
-            <textarea name="data.notes">{{data.notes}}</textarea>
+            {{#select data.stat}}
+            {{#each data.stats}}
+                <option value="{{this}}">{{localize this}}</option>
+            {{/each}}
+            {{/select}}
+            </select>
         </div>
+    </div>
+    <div class="item-notes">
+        <h2>
+            {{localize "NUMENERA.item.skill.description"}}
+        </h2>
+        {{editor content=data.notes target="data.notes" button=true editable=editable}}
+        <button type="submit" id="save-item-notes">
+            <i class="fas fa-feather-alt"></i>
+            {{localize "NUMENERA.pc.bio.saveChanges"}}
+        </button>
     </div>
 </form>

@@ -6,6 +6,19 @@
     "NUMENERA.stat": "Caractéristique",
     "NUMENERA.unknown": "Inconnu",
 
+    "NUMENERA.community.combat": "Combat",
+    "NUMENERA.community.armor": "Armure",
+    "NUMENERA.community.damage": "Dommages",
+    "NUMENERA.community.health": "Santé",
+    "NUMENERA.community.infrastructure": "Infrastructure",
+    "NUMENERA.community.modifications": "Modifications",
+    "NUMENERA.community.rank": "Rang",
+
+    "NUMENERA.communityActorSheet.tab.combat": "Combat",
+    "NUMENERA.communityActorSheet.tab.government": "Gouvernement",
+    "NUMENERA.communityActorSheet.tab.information": "Information",
+    "NUMENERA.communityActorSheet.tab.overview": "Survol",
+
     "NUMENERA.gmIntrusion": "Intrusion du MJ",
     "NUMENERA.gmIntrusionContent": "<p>Le maître de jeu vous offre une intrusion. L'acceptez-vous ?</p><ul><li>Si vous l'acceptez, le MJ introduira une complication inattendue pour votre personnage ; cependant, vous recevres 2 PX dont 1 qui devra être remis à un autre joueur.</li><li>Si vous la refusez, la complication ne surviendra pas mais 1 PX vous sera enlevé.</li></ul>",
     "NUMENERA.gmIntrusionButtonAccept": "Accepter",
@@ -179,6 +192,8 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Informations",
 
+    "NUMENERA.item.tab.rollTooltip": "Jet (Clic pour un jet public, Shift+clic pour un jet a l'aveugle)",
+
     "NUMENERA.item.ability.newAbility": "Nouvelle Aptitude",
     "NUMENERA.item.ability.name": "Aptitudes",
     "NUMENERA.item.ability.type.action": "Action",
@@ -213,6 +228,7 @@
     "NUMENERA.item.artifact.depletion": "Épuisement",
     "NUMENERA.item.artifact.depletionDie": "Dé",
     "NUMENERA.item.artifact.depletionThreshold": "Seuil",
+    "NUMENERA.item.artifact.description": "Description",
     "NUMENERA.item.artifact.effect": "Effet",
     "NUMENERA.item.artifact.newArtifact": "Nouvel artefact",
 
@@ -243,6 +259,17 @@
     "NUMENERA.item.weapon.description": "Description",
     "NUMENERA.item.weapon.tab.rollTooltip": "Jet",
 
+    "NUMENERA.item.recursion.name": "Nom",
+    "NUMENERA.item.recursion.newRecursion": "Nouvelle Récursion",
+    "NUMENERA.item.recursion.level": "Niveau",
+    "NUMENERA.item.recursion.laws": "Lois",
+    "NUMENERA.item.recursion.race": "Race",
+    "NUMENERA.item.recursion.focus": "Focus",
+    "NUMENERA.item.recursion.focusAbilities": "Aptitudes de Focus",
+    "NUMENERA.item.recursion.tab.instructions": "Pas de Récursions. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
+    "NUMENERA.item.recursion.active": "Active ?",
+    "NUMENERA.item.recursion.tab.deleteTooltip": "Supprimer",
+
     "NUMENERA.recoveries.title": "Récupérations",
     "NUMENERA.recoveries.reset": "Réinitialiser",
     "NUMENERA.recoveries.noDice": "Pas de dés à lancer",
@@ -263,6 +290,7 @@
     "NUMENERA.info.skillWithSameNameCreated": "Une compétence portant le même nom a aussi été créée",
 
     "NUMENERA.warnings.abilityWithSameNameExists": "Une aptitude portant le même nom existe déjà",
+    "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Pas suffisamment de points disponibles dans votre Réserve pour cette Aptitude",
     "NUMENERA.warnings.noSkillRelatedToAbility": "Aucune compétence n'est reliée à cette aptitude",
     "NUMENERA.warnings.skillWithSameNameExists": "Une compétence portant le même nom existe déjà",
 

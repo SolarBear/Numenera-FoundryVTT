@@ -65,6 +65,8 @@ export class NumeneraWeaponItem extends Item {
             skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
         }
 
-        this.actor.rollSkill(skill);
+        const gmRoll = window.event ? window.event.shiftKey : false;
+    
+        this.actor.rollSkill(skill, gmRoll);
       }
 }

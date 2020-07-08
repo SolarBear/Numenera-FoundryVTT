@@ -1,3 +1,4 @@
+import { NumeneraCommunityActor } from "./NumeneraCommunityActor.js";
 import { NumeneraNPCActor } from "./NumeneraNPCActor.js";
 import { NumeneraPCActor } from "./NumeneraPCActor.js";
 
@@ -24,6 +25,9 @@ export const NumeneraActor = new Proxy(function () {}, {
       case "npc":
         return new NumeneraNPCActor(...args);
 
+      case "community":
+        return new NumeneraCommunityActor(...args);
+
       default:
         throw new Error("Unsupported Entity type for create(): " + data.type);
     }
@@ -39,6 +43,8 @@ export const NumeneraActor = new Proxy(function () {}, {
               return NumeneraPCActor.create(data, options);
             case "npc":
               return NumeneraNPCActor.create(data, options);
+            case "community":
+              return NumeneraCommunityActor.create(data, options);
             default:
               throw new Error(
                 "Unsupported Entity type for create(): " + data.type
@@ -50,10 +56,12 @@ export const NumeneraActor = new Proxy(function () {}, {
         //Applying the "instanceof" operator on the instance object
         return function (instance) {
           return (
+            instance instanceof NumeneraCommunityActor ||
             instance instanceof NumeneraPCActor ||
             instance instanceof NumeneraNPCActor
           );
         };
+        
       default:
         //Just forward any requested properties to the base Actor class
         return Actor[prop];

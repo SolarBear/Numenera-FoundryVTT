@@ -1,6 +1,6 @@
 {
     "Actor": {
-        "types": ["pc", "npc"],
+        "types": ["pc", "npc", "community"],
         "pc": {
             "advances": {
                 "statPools": false,
@@ -62,6 +62,24 @@
             "modifications": "",
             "image": null,
             "version": 2
+        },
+        "community": {
+            "level": 1,
+            "overview": "",
+            "government": "",
+            "health": {
+                "value": 1,
+                "max": 1
+            },
+            "infrastructure": {
+                "value": 1,
+                "max": 1
+            },
+            "damage": 1,
+            "modifications": "",
+            "combat": "",
+            "information": "",
+            "version": 1
         }
     },
     "Item": {
@@ -115,7 +133,7 @@
         },
         "cypher": {
             "templates": ["carriable", "common", "numenera"],
-            "cypherType": "anoetic"
+            "cypherType": ""
         },
         "descriptor": {
             "templates": ["common"],
@@ -154,9 +172,7 @@
             "relatedAbilityId": null,
             "stat": "",
             "inability": false,
-            "untrained": true,
-            "trained": false,
-            "specialized": false
+            "skillLevel": 0
         },
         "weapon": {
             "templates": ["common", "ranged", "sellable", "weight"],

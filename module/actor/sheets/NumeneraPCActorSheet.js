@@ -130,6 +130,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.weapons",
       "ul.cyphers",
       "ul.artifacts",
+      "ul.oddities",
       "table.recursion"
     ];
   }
@@ -183,6 +184,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onArtifactEdit = onItemEditGenerator(".artifact");
     this.onCypherEdit = onItemEditGenerator(".cypher");
     this.onEquipmentEdit = onItemEditGenerator(".equipment");
+    this.onOddityEdit = onItemEditGenerator(".oddity");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
     this.onRecursionEdit = onItemEditGenerator(".recursion");
@@ -230,7 +232,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     };
 
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
-    sheetData.data.focus = this.actor.getFocus();
+    sheetData.data.currentFocus = this.actor.getFocus();
 
     sheetData.settings.currency = game.settings.get("numenera", "currency");
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
@@ -297,22 +299,23 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Make it so that unidentified artifacts and cyphers appear as blank items
     //TODO extract this in the Item class if possible (perhaps as a static method?)
     sheetData.data.items.artifacts = sheetData.data.items.artifacts.map(artifact => {
-      if (game.user.isGM) {
-        artifact.editable = true;
-      } else if (!artifact.data.identified) {
+      artifact.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
+
+      if (!artifact.data.identified && !artifact.editable) {
         artifact.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
         artifact.data.level = game.i18n.localize("NUMENERA.unknown");
         artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
         artifact.data.depletion = null;
       }
+
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
       return artifact;
     });
 
     sheetData.data.items.cyphers = sheetData.data.items.cyphers.map(cypher => {
-      if (game.user.isGM) {
-        cypher.editable = true;
-      } else if (!cypher.data.identified) {
+      cypher.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
+
+      if (!cypher.data.identified && !cypher.editable) {
         cypher.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
         cypher.data.level = game.i18n.localize("NUMENERA.unknown");
         cypher.data.effect = game.i18n.localize("NUMENERA.unknown");
@@ -327,6 +330,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+      oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
       oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
       return oddity;
     });
@@ -344,6 +348,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
+      skill.untrained = skill.data.skillLevel == 0;
+      skill.trained = skill.data.skillLevel == 1;
+      skill.specialized = skill.data.skillLevel == 2;
       return skill;
     });
 
@@ -402,7 +409,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("blur", "input,select", this.onWeaponEdit.bind(this));
     weaponsTable.on("click", "a.rollable", this.onWeaponUse.bind(this));
 
-    html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+    const odditiesTable = html.find("ul.oddities");
+    odditiesTable.on("click", ".oddity-delete", this.onOddityDelete.bind(this));
 
     const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
@@ -416,8 +424,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
 
     if (game.user.isGM) {
-      artifactsList.on("blur", "input", this.onArtifactEdit.bind(this));
-      cyphersList.on("blur", "input,select", this.onCypherEdit.bind(this));
+      artifactsList.on("blur", "input,textarea", this.onArtifactEdit.bind(this));
+      cyphersList.on("blur", "input,textarea", this.onCypherEdit.bind(this));
+      odditiesTable.on("blur", "input", this.onOddityEdit.bind(this));
     }
 
     html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
@@ -491,7 +500,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
 
-    return this.actor.rollSkillById(skillId);
+    return this.actor.rollSkillById(skillId, event.shiftKey);
   }
 
   async onWeaponUse(event) {
@@ -508,34 +517,35 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //Get related skill, if any
     const skillId = this.actor.data.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
+    let skill;
+
     if (skillId) {
-      const skill = await this.actor.getOwnedItem(skillId._id);
-      if (skill)
-        return this.actor.rollSkill(skill);
+      skill = await this.actor.getOwnedItem(skillId._id);
     }
 
-    //No appropriate skill? Create a fake one, just to ensure a nice chat output
-    const fakeSkill = new NumeneraSkillItem();
-    fakeSkill.data.name = skillName;
+    if (!skill) {
+      //No appropriate skill? Create a fake one, just to ensure a nice chat output
+      skill = new NumeneraSkillItem();
+      skill.data.name = skillName;
+    }
 
-    return this.actor.rollSkill(fakeSkill);
+    return this.actor.rollSkill(skill, event.shiftKey);
   }
 
-  onAbilityUse(event) {
+  /**
+   * Triggered whenever the use click the "Roll" button on an Ability.
+   *
+   * @param {Event} event
+   * @memberof NumeneraPCActorSheet
+   */
+  async onAbilityUse(event) {
     event.preventDefault();
     const abilityId = event.target.closest(".ability").dataset.itemId;
 
     if (!abilityId)
       return;
 
-    //Get related skill
-    const skill = this.actor.data.items.find(i => i.data.relatedAbilityId === abilityId);
-    if (!skill) {
-      ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.noSkillRelatedToAbility"));
-      return;
-    }
-
-    return this.actor.rollSkill(skill);
+    await this.actor.useAbilityById(abilityId);
   }
 
   onArtifactDepletionRoll(event) {

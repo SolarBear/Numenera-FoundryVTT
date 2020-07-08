@@ -11,7 +11,9 @@ export class NumeneraAbilityItem extends Item {
 
       super.prepareData();
 
-      const itemData = this.data.data || {};
+      let itemData = this.data;
+      if (itemData.hasOwnProperty("data"))
+        itemData = itemData.data;
 
       itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.ability.newAbility");
       itemData.category = itemData.category || "";
@@ -23,6 +25,19 @@ export class NumeneraAbilityItem extends Item {
       itemData.tier = itemData.tier || 1;
       itemData.range = itemData.range || "";
       itemData.notes = itemData.notes || "";
+  }
+
+  /**
+   * Gets the Ability cost as an object representing the pool name and amount.
+   *
+   * @returns {Object}
+   * @memberof NumeneraAbilityItem
+   */
+  getCost() {
+    return {
+      pool: this.data.data.cost.pool.split(".").pop(), // pool is saved as "NUMENERA.pool.POOLNAME"
+      amount: this.data.data.cost.amount,
+    };
   }
 
   async updateRelatedSkill(skill, options = {}) {
@@ -59,6 +74,9 @@ export class NumeneraAbilityItem extends Item {
     const skill = this.actor.data.items.find(
       i => i.name === this.data.name && i.type === NumeneraSkillItem.type
     );
-    this.actor.rollSkill(skill);
+
+    const gmRoll = window.event ? window.event.shiftKey : false;
+    
+    this.actor.rollSkill(skill, gmRoll);
   }
 }

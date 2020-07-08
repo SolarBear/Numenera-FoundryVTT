@@ -19,7 +19,7 @@ export const Migrator = {
   //Target version: will only handle migrating from (forVersion - 1) to forVersion
   forVersion: null,
 
-  //Type to be handled, as specified in template.json
+  //Type to be handled, base class of the object - be as specific as possible
   forType: null,
 
   //Optional: previous Migrator object so they can chained together
@@ -48,12 +48,12 @@ export const Migrator = {
         throw new Error("Previous migrator has the wrong type");
     }
 
-    if (obj.data.type !== this.forType) 
+    if (obj.data.type instanceof this.forType) 
       throw new Error("Wrong migrator type for object");
     
     //Migration already performed?
     if (obj.data.data.version >= this.forVersion)
-      return obj;
+      return null;
 
     let data = {};
 
@@ -67,7 +67,8 @@ export const Migrator = {
     }
 
     const updatedObject = await this.migrationFunction(obj, data);
-    updatedObject["data.version"] = this.forVersion;
+    if (updatedObject)
+      updatedObject["data.version"] = this.forVersion;
 
     return updatedObject;
   }

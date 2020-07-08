@@ -1,0 +1,93 @@
+<h2>{{localize "NUMENERA.pc.numenera.cypher.name"}}</h2>
+
+<h3>{{localize "NUMENERA.pc.numenera.cypher.limit"}}
+    <input type="text" name="data.cypherLimit" value="{{data.cypherLimit}}" class="cypher-limit" data-dtype="Number" />
+</h3>
+
+{{#if displayCypherLimitWarning}}
+<h3 class="cypher-limit-warning">{{localize "NUMENERA.pc.numenera.cypher.overLimit"}}</h3>
+{{/if}}
+
+<ul class="cyphers">
+    {{#each data.items.cyphers as |cypher|}}
+    <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.order}}>
+        <table class="cypher-header-table">
+            <tbody>
+                <tr class="cypher-header">
+                    <td>
+                        <h4>
+                            <a><i class="fas fa-grip-vertical"></i></a>
+                        </h4>
+                    </td>
+                    {{#if cypher.showIcon}}
+                    <td class="ability-icon">
+                        <img src="{{cypher.img}}" />
+                    </td>
+                    {{/if}}
+                    <td class="cypher-name">
+                        <h4><strong>{{cypher.name}}</strong></h4>
+                    </td>
+                    <td class="cypher-level">
+                    {{#if cypher.editable}}
+                        <label>{{localize "NUMENERA.pc.numenera.cypher.identified"}}
+                            <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified"
+                                data-dtype="Boolean" {{checked cypher.data.identified}} />
+                        </label>
+                        <br />
+                        <label>{{localize "NUMENERA.pc.numenera.cypher.level"}}
+                            <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level"
+                                value="{{cypher.data.level}}" min="1" data-dtype="Number" />
+                        </label>
+                        {{#if ../displayCypherType}}
+                        <label>{{localize "NUMENERA.pc.numenera.cypher.type"}}
+                            <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String"
+                                class="cypher-type">
+                                {{#select cypher.data.cypherType}}
+                                {{#each ../cypherTypes}}
+                                <option value="{{this}}">{{localize this}}</option>
+                                {{/each}}
+                                {{/select}}
+                            </select>
+                        </label>
+                        {{/if}}
+                    {{else}}
+                        <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.level}}
+                        {{#if ../displayCypherType}}
+                        <span>{{localize "NUMENERA.pc.numenera.cypher.type"}}</span> {{cypher.data.cypherType}}
+                        {{/if}}
+                    {{/if}}
+                    </td>
+                    <td class="cypher-description">
+                    {{#if cypher.editable}}
+                        <label>
+                            Form
+                            <input type="text" name="data.items.cyphers.{{cypher._id}}.data.form" value="{{cypher.data.form}}" />
+                        </label>
+                        <label>
+                            Effect
+                            <textarea name="data.items.cyphers.{{cypher._id}}.data.effect">{{cypher.data.effect}}</textarea>
+                        </label>
+                    {{else}}
+                        <p>
+                            <span><strong>{{localize "NUMENERA.pc.numenera.cypher.form"}}:</strong></span>
+                            {{cypher.data.form}}
+                        </p>
+                        <p>
+                            <span><strong>{{localize "NUMENERA.pc.numenera.cypher.effect"}}:</strong></span>
+                            {{cypher.data.effect}}
+                        </p>
+                    {{/if}}
+                    </td>
+                    <td>
+                        <a class="cypher-delete" data-action="delete"
+                            title="{{localize "NUMENERA.pc.numenera.cypher.deleteTooltip"}}"><i
+                                class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </li>
+    {{else}}
+    {{localize "NUMENERA.pc.numenera.cypher.none"}}
+    {{/each}}
+</ul>

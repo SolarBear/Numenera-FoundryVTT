@@ -1,5 +1,7 @@
 import { createNumeneraMacro } from './macro.js';
 import { rollText } from './roll.js';
+import { NumeneraCommunityActor } from './actor/NumeneraCommunityActor.js';
+import { NumeneraNPCActor } from './actor/NumeneraNPCActor.js';
 
 /**
  * This function is simply meant to be the place where all hooks are registered.
@@ -29,7 +31,7 @@ export async function registerHooks() {
   });
 
   Hooks.on('renderCompendium', async (app, html, options) => {
-      const npcs = game.actors.entities.filter(e => e.constructor === NumeneraNPCActor);
+      const npcs = game.actors.entities.filter(e => e.constructor === NumeneraNPCActor || e.constructor === NumeneraCommunityActor);
 
       html.find(".entry-name")
           .each((i, el) => {
@@ -43,44 +45,43 @@ export async function registerHooks() {
 
   });
 
-  Hooks.on("renderChatMessage", (app, html, data) => {
-      if (!data.message.roll)
-          return;
+    //Change a chat message when it contains some roll data
+    Hooks.on("renderChatMessage", (app, html, data) => {
+        if (!app.isRoll || !app.isContentVisible)
+            return;
 
-      const roll = JSON.parse(data.message.roll);
+        const roll = JSON.parse(data.message.roll);
 
-      //Don't apply ChatMessage enhancement to recovery rolls
-      if (roll && roll.dice[0].faces === 20)
-      {
-          const special = rollText(roll.dice[0].rolls[0].roll);
-          const dt = html.find("h4.dice-total")[0];
+        //Don't apply ChatMessage enhancement to recovery rolls
+        if (roll && roll.dice[0].faces === 20) {
+            const special = rollText(roll.dice[0].rolls[0].roll);
+            const dt = html.find("h4.dice-total")[0];
 
-          //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
-          if (special) {
-              const { text, color } = special;
-              const newContent = `<span class="numenera-message-special">${text}</span>`;
+            //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
+            if (special) {
+                const { text, color } = special;
+                const newContent = `<span class="numenera-message-special">${text}</span>`;
 
-              $(newContent).insertBefore(dt);
-          }
+                $(newContent).insertBefore(dt);
+            }
 
-          if (game.settings.get("numenera", "d20Rolling") === "taskLevels") {
-              const rolled = roll.dice[0].rolls[0].roll;
-              const taskLevel = Math.floor(rolled / 3);
-              const skillLevel = (roll.total - rolled) / 3;
-              const sum = taskLevel + skillLevel;
+            if (game.settings.get("numenera", "d20Rolling") === "taskLevels") {
+                const rolled = roll.dice[0].rolls[0].roll;
+                const taskLevel = Math.floor(rolled / 3);
+                const skillLevel = (roll.total - rolled) / 3;
+                const sum = taskLevel + skillLevel;
 
-              let text = `${game.i18n.localize("NUMENERA.successLevel")} ${sum}`;
+                let text = `${game.i18n.localize("NUMENERA.successLevel")} ${sum}`;
 
-              if (skillLevel !== 0) {
-                  const sign = skillLevel > 0 ? "+" : "";
-                  text += ` (${taskLevel}${sign}${skillLevel})`;
-              }
+                if (skillLevel !== 0) {
+                    const sign = skillLevel > 0 ? "+" : "";
+                    text += ` (${taskLevel}${sign}${skillLevel})`;
+                }
 
-              dt.textContent = text;
-          }
-
-      }
-  });
+                dt.textContent = text;
+            }
+        }
+    });
 
   /**
    * Add additional system-specific sidebar directory context menu options for D&D5e Actor entities

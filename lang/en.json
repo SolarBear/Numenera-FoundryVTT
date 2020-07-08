@@ -6,6 +6,19 @@
     "NUMENERA.stat": "Stat",
     "NUMENERA.unknown": "Unknown",
 
+    "NUMENERA.community.combat": "Combat",
+    "NUMENERA.community.armor": "Armor",
+    "NUMENERA.community.damage": "Damage",
+    "NUMENERA.community.health": "Health",
+    "NUMENERA.community.infrastructure": "Infrastructure",
+    "NUMENERA.community.modifications": "Modifications",
+    "NUMENERA.community.rank": "Rank",
+
+    "NUMENERA.communityActorSheet.tab.combat": "Combat",
+    "NUMENERA.communityActorSheet.tab.government": "Government",
+    "NUMENERA.communityActorSheet.tab.information": "Information",
+    "NUMENERA.communityActorSheet.tab.overview": "Overview",
+    
     "NUMENERA.gmIntrusion": "GM Intrusion",
     "NUMENERA.gmIntrusionContent": "<p>The game master offers you an intrusion. Do you accept?</p><ul><li>Should you accept, the GM will introduce an unexpected complication for your character; however, you will receive 2 XP, 1 of which you must give to another player.</li><li>Should you refuse, the complication will not happen but 1 XP will be subtracted from your current amount.</li></ul>",
     "NUMENERA.gmIntrusionButtonAccept": "Accept",
@@ -109,7 +122,6 @@
     "NUMENERA.item.skill.tab.createTooltip": "Create",
     "NUMENERA.item.skill.tab.deleteTooltip": "Delete",
     "NUMENERA.item.skill.tab.name": "Name",
-    "NUMENERA.item.skill.tab.rollTooltip": "Skill Roll",
     "NUMENERA.item.skill.tab.stat": "Stat",
     "NUMENERA.item.skill.tab.instructions": "No skills yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
     "NUMENERA.item.skill.newSkill": "New Skill",
@@ -180,13 +192,14 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Information",
 
+    "NUMENERA.item.tab.rollTooltip": "Roll (Click for public roll, Shift+click for a blind)",
+
     "NUMENERA.item.ability.newAbility": "New Ability",
     "NUMENERA.item.ability.name": "Abilities",
     "NUMENERA.item.ability.type.action": "Action",
     "NUMENERA.item.ability.type.enabler": "Enabler",
     "NUMENERA.item.ability.tab.createTooltip": "Create",
     "NUMENERA.item.ability.tab.deleteTooltip": "Delete",
-    "NUMENERA.item.ability.tab.rollTooltip": "Ability Roll",
     "NUMENERA.item.ability.tab.cost": "Cost",
     "NUMENERA.item.ability.tab.description": "Description",
     "NUMENERA.item.ability.tab.name": "Name",
@@ -214,6 +227,7 @@
     "NUMENERA.item.artifact.depletion": "Depletion",
     "NUMENERA.item.artifact.depletionDie": "Die",
     "NUMENERA.item.artifact.depletionThreshold": "Threshold",
+    "NUMENERA.item.artifact.description": "Description",
     "NUMENERA.item.artifact.effect": "Effect",
     "NUMENERA.item.artifact.newArtifact": "New Artifact",
 
@@ -246,7 +260,6 @@
     "NUMENERA.item.weapon.range": "Range",
     "NUMENERA.item.weapon.price": "Price",
     "NUMENERA.item.weapon.description": "Description",
-    "NUMENERA.item.weapon.tab.rollTooltip": "Roll",
 
     "NUMENERA.item.recursion.name": "Name",
     "NUMENERA.item.recursion.newRecursion": "New Recursion",
@@ -279,6 +292,7 @@
     "NUMENERA.info.skillWithSameNameCreated": "A skill with the same name linked to this ability has also been created",
 
     "NUMENERA.warnings.abilityWithSameNameExists": "An Ability with the same name also exists",
+    "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Not enough point left in your pool to use that Ability",
     "NUMENERA.warnings.noSkillRelatedToAbility": "No skill related to that ability",
     "NUMENERA.warnings.skillWithSameNameExists": "A Skill with the same name also exists",
 
