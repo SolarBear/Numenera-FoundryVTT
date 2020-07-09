@@ -48,9 +48,9 @@ export const Migrator = {
         throw new Error("Previous migrator has the wrong type");
     }
 
-    if (obj.data.type instanceof this.forType) 
+    if (obj.constructor !== this.forType) 
       throw new Error("Wrong migrator type for object");
-    
+
     //Migration already performed?
     if (obj.data.data.version >= this.forVersion)
       return null;
