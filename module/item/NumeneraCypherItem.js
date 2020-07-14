@@ -9,7 +9,9 @@ export class NumeneraCypherItem extends Item {
 
         super.prepareData();
 
-        const itemData = this.data.data || {};
+        let itemData = this.data;
+        if (itemData.hasOwnProperty("data"))
+          itemData = itemData.data;
 
         itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.cypher.newCypher");
         itemData.level = itemData.level || null;

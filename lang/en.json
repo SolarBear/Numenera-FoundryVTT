@@ -109,7 +109,6 @@
     "NUMENERA.item.skill.tab.createTooltip": "Create",
     "NUMENERA.item.skill.tab.deleteTooltip": "Delete",
     "NUMENERA.item.skill.tab.name": "Name",
-    "NUMENERA.item.skill.tab.rollTooltip": "Skill Roll",
     "NUMENERA.item.skill.tab.stat": "Stat",
     "NUMENERA.item.skill.tab.instructions": "No skills yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
     "NUMENERA.item.skill.newSkill": "New Skill",
@@ -180,13 +179,14 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Information",
 
+    "NUMENERA.item.tab.rollTooltip": "Roll (Click for public roll, Shift+click for a blind)",
+
     "NUMENERA.item.ability.newAbility": "New Ability",
     "NUMENERA.item.ability.name": "Abilities",
     "NUMENERA.item.ability.type.action": "Action",
     "NUMENERA.item.ability.type.enabler": "Enabler",
     "NUMENERA.item.ability.tab.createTooltip": "Create",
     "NUMENERA.item.ability.tab.deleteTooltip": "Delete",
-    "NUMENERA.item.ability.tab.rollTooltip": "Ability Roll",
     "NUMENERA.item.ability.tab.cost": "Cost",
     "NUMENERA.item.ability.tab.description": "Description",
     "NUMENERA.item.ability.tab.name": "Name",
@@ -244,7 +244,6 @@
     "NUMENERA.item.weapon.range": "Range",
     "NUMENERA.item.weapon.price": "Price",
     "NUMENERA.item.weapon.description": "Description",
-    "NUMENERA.item.weapon.tab.rollTooltip": "Roll",
 
     "NUMENERA.item.recursion.name": "Name",
     "NUMENERA.item.recursion.newRecursion": "New Recursion",

@@ -6,7 +6,9 @@ export class NumeneraNpcAttackItem extends Item {
   prepareData() {
     super.prepareData();
 
-    const itemData = this.data.data || {};
+    let itemData = this.data;
+    if (itemData.hasOwnProperty("data"))
+      itemData = itemData.data;
 
     itemData.notes = itemData.notes || "";
     itemData.info = itemData.info || "";

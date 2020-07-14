@@ -8,7 +8,9 @@ export class NumeneraEquipmentItem extends Item {
 	    if (!this.data.img) this.data.img = 'icons/svg/anchor.svg';
         super.prepareData();
 
-        const itemData = this.data.data || {};
+        let itemData = this.data;
+        if (itemData.hasOwnProperty("data"))
+          itemData = itemData.data;
 
         itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.equipment.newEquipment");
         itemData.price = itemData.price || 0;

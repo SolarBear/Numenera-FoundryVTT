@@ -134,13 +134,13 @@
                             <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
                         </td>
                         <td class="skill-untrained">
-                            <input class="skill-untrained" type="checkbox" name="data.items.skills.{{skill._id}}.data.untrained" {{checked skill.data.untrained}} data-dtype="Boolean" />
+                            <input class="skill-untrained" type="radio" value="0" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.untrained}} data-dtype="Number" />
                         </td>
                         <td class="skill-trained">
-                            <input class="skill-trained" type="checkbox" name="data.items.skills.{{skill._id}}.data.trained" {{checked skill.data.trained}} data-dtype="Boolean" />
+                            <input class="skill-trained" type="radio" value="1" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.trained}} data-dtype="Number" />
                         </td>
                         <td class="skill-specialized">
-                            <input class="skill-specialized" type="checkbox" name="data.items.skills.{{skill._id}}.data.specialized" {{checked skill.data.specialized}} data-dtype="Boolean" />
+                            <input class="skill-specialized" type="radio" value="2" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.specialized}} data-dtype="Number" />
                         </td>
                         <td>
                             <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.skill.tab.rollTooltip"}}" alt="d20" /></a>

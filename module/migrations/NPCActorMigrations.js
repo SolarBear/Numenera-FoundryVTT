@@ -1,11 +1,12 @@
 import { Migrator } from "./Migrator.js";
 import { NumeneraItem } from "../item/NumeneraItem.js";
+import { NumeneraNPCActor } from "../actor/NumeneraNPCActor.js";
 
 //Keep migrators in order: v1 to v2, v2 to v3, etc.
 const NPCActorv1ToV2Migrator = Object.create(Migrator);
 
 NPCActorv1ToV2Migrator.forVersion = 2;
-NPCActorv1ToV2Migrator.forType = "npc";
+NPCActorv1ToV2Migrator.forType = NumeneraNPCActor;
 
 /* Summary of changes:
 * - NPC attacks are now items, which will make them easier to manage internally

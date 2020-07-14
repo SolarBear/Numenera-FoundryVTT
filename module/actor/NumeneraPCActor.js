@@ -72,21 +72,29 @@ export class NumeneraPCActor extends Actor {
     
     return numeneraRollFormula(skillLevel);
   }
-
-  rollSkillById(skillId) {
+/**
+ * Given a skill ID, roll the related skill item for the character.
+ *
+ * @param {String} skillId
+ * @param {boolean} [gmRoll=false]
+ * @returns {Roll}
+ * @memberof NumeneraPCActor
+ */
+rollSkillById(skillId, gmRoll = false) {
     const skill = this.getOwnedItem(skillId);
-    return this.rollSkill(skill);
+    return this.rollSkill(skill, gmRoll);
   }
 
   /**
-   * Given a skill ID, fetch the skill level bonus and roll a d20, adding the skill
+   * Given a skill object, fetch the skill level bonus and roll a d20, adding the skill
    * bonus.
    *
-   * @param {String} skillId
+   * @param {NumeneraSkillItem} skill
+   * @param {Boolean} gmRoll
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skill) {
+  rollSkill(skill, gmRoll=false) {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -99,16 +107,33 @@ export class NumeneraPCActor extends Actor {
 
     const roll = new Roll(this.getSkillFormula(skill)).roll();
 
+    let rollMode;
+    if (gmRoll) {
+      if (game.user.isGM) {
+        rollMode = DICE_ROLL_MODES.PRIVATE;
+      }
+      else
+      {
+        rollMode = DICE_ROLL_MODES.BLIND;
+      }
+    }
+    else {
+      rollMode = DICE_ROLL_MODES.PUBLIC;
+    }
+
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       flavor: `${game.i18n.localize("NUMENERA.rolling")} ${skill.name}`,
+    },
+    {
+      rollMode
     });
   }
 
   /**
    * Given a skill ID, return this skill's modifier as a a numeric value.
    *
-   * @param {string} skillId Item ID of the skill
+   * @param {NumeneraSkillItem} skill item
    * @returns {Number} Skill modifier in the [-1, 2] range
    * @memberof ActorNumeneraPC
    */
@@ -120,12 +145,8 @@ export class NumeneraPCActor extends Actor {
     if (skill.hasOwnProperty("data"))
       skill = skill.data;
 
-    let level = -Number(skill.inability) || 0; //Inability subtracts 1 from overall level
-
-    if (skill.specialized) level += 2;
-    else if (skill.trained) level += 1;
-
-    return level;
+    //Inability subtracts 1 from overall level
+    return skill.skillLevel - Number(skill.inability);
   }
 
   /**
@@ -331,8 +352,6 @@ export class NumeneraPCActor extends Actor {
     if (!updatedItem)
       return;
 
-    //TODO I AM A HACK PLEASE DESTROY ME I DO NOT DESERVE TO EXIST THANK U :)
-    //... or maybe not. It's not elegant but it works well to avoid recursing
     if (options.fromActorUpdateEmbeddedEntity)
       return updated;
 
