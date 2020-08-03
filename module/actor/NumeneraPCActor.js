@@ -393,6 +393,16 @@ export class NumeneraPCActor extends Actor {
         } else {
           itemData.level = itemData.level || null;
         }
+		
+		// Get the form of the artifact/cypher
+		try {
+			let forms = itemData.form.split(',');
+			let form = forms[Math.floor(Math.random() * forms.length)];
+			
+			itemData.form = form;
+		} catch (Error) {
+			//Leave it as it is
+		}
         break;
     }
 
