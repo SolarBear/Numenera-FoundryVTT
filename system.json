@@ -1,7 +1,7 @@
 {
     "name": "numenera",
     "title": "Numenera",
-    "description": "Unofficial port from the https://github.com/SolarBear/Numenera-FoundryVTT, as we wait for SolarBear. Simple support for Numenera and The Strange for the Fountry Virtual TableTop.",
+    "description": "Simple support for Numenera and The Strange for the Fountry Virtual TableTop.",
     "version": "0.16.0",
     "author": "SolarBear",
     "scripts": ["lib/dragula/dragula.min.js"],
