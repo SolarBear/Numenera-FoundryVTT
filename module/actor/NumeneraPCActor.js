@@ -21,9 +21,10 @@ export class NumeneraPCActor extends Actor {
 
   getFocus() {
     //Add any game-specific logic to get the PC's focus here
+	var allFocus = this.data.data.focus;
 
     //Default case: there is no specific ID
-    return this.data.data.focus[""];
+    return allFocus[Object.keys(allFocus)[0]];
   }
 
   setFocusFromEvent(event) {
@@ -32,18 +33,13 @@ export class NumeneraPCActor extends Actor {
 
   setFocus(value) {
     //Add any game-specific logic to set a PC focus here
-
-    //TEMPORARY PATCH because of https://github.com/SolarBear/Numenera-FoundryVTT/issues/92
-    if (typeof this.data.data.focus === "string") {
-      const focus = this.data.data.focus;
-      this.data.data.focus = {};
-    }
+	var allFocus = this.data.data.focus;
 
     //Default case: there is no specific ID
-    this.data.data.focus[""] = value;
+    allFocus[Object.keys(allFocus)[0]] = value;
 
     const data = {_id: this._id};
-    data["data.focus['']"] = {"": value};
+    data["data.focus"] = {"": value};
 
     this.update(data);
   }
@@ -397,6 +393,16 @@ export class NumeneraPCActor extends Actor {
         } else {
           itemData.level = itemData.level || null;
         }
+		
+		// Get the form of the artifact/cypher
+		try {
+			let forms = itemData.form.split(',');
+			let form = forms[Math.floor(Math.random() * forms.length)];
+			
+			itemData.form = form;
+		} catch (Error) {
+			//Leave it as it is
+		}
         break;
     }
 
