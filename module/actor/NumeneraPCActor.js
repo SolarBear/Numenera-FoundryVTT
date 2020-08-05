@@ -21,10 +21,10 @@ export class NumeneraPCActor extends Actor {
 
   getFocus() {
     //Add any game-specific logic to get the PC's focus here
-	var allFocus = this.data.data.focus;
+  	const allFoci = this.data.data.focus;
 
     //Default case: there is no specific ID
-    return allFocus[Object.keys(allFocus)[0]];
+    return allFoci[Object.keys(allFoci)[0]];
   }
 
   setFocusFromEvent(event) {
@@ -33,10 +33,10 @@ export class NumeneraPCActor extends Actor {
 
   setFocus(value) {
     //Add any game-specific logic to set a PC focus here
-	var allFocus = this.data.data.focus;
+	  const allFoci = this.data.data.focus;
 
     //Default case: there is no specific ID
-    allFocus[Object.keys(allFocus)[0]] = value;
+    allFoci[Object.keys(allFoci)[0]] = value;
 
     const data = {_id: this._id};
     data["data.focus"] = {"": value};
@@ -394,15 +394,15 @@ export class NumeneraPCActor extends Actor {
           itemData.level = itemData.level || null;
         }
 		
-		// Get the form of the artifact/cypher
-		try {
-			let forms = itemData.form.split(',');
-			let form = forms[Math.floor(Math.random() * forms.length)];
-			
-			itemData.form = form;
-		} catch (Error) {
-			//Leave it as it is
-		}
+        // Get the form of the artifact/cypher
+        try {
+          const forms = itemData.form.split(',');
+          const form = forms[Math.floor(Math.random() * forms.length)];
+          
+          itemData.form = form;
+        } catch (Error) {
+          //Leave it as it is
+        }
         break;
     }
 
