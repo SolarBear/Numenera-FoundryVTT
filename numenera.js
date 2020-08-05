@@ -1,5 +1,5 @@
 import { NumeneraActor } from './module/actor/NumeneraActor.js';
-import { NumeneraNPCActor } from './module/actor/NumeneraNPCActor.js';
+import { NumeneraCommunityActorSheet } from './module/actor/sheets/NumeneraCommunityActorSheet.js';
 import { NumeneraNPCActorSheet } from './module/actor/sheets/NumeneraNPCActorSheet.js';
 import { NumeneraPCActorSheet } from './module/actor/sheets/NumeneraPCActorSheet.js';
 
@@ -50,6 +50,7 @@ Hooks.once("init", function() {
 
     // Register sheet application classes
     Actors.unregisterSheet("core", ActorSheet);
+    Actors.registerSheet("numenera", NumeneraCommunityActorSheet, { types: ["community"], makeDefault: true });
     Actors.registerSheet("numenera", NumeneraNPCActorSheet, { types: ["npc"], makeDefault: true });
     Actors.registerSheet("numenera", NumeneraPCActorSheet, { types: ["pc"], makeDefault: true });
 

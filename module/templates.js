@@ -10,6 +10,7 @@ export const preloadHandlebarsTemplates = async() => {
         // Actor Sheets
         "systems/numenera/templates/actor/characterSheet.html",
         "systems/numenera/templates/actor/characterSheetStrange.html",
+        "systems/numenera/templates/actor/communitySheet.html",
         "systems/numenera/templates/actor/npcSheet.html",
 
         // Actor partials

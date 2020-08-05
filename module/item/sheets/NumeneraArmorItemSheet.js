@@ -8,7 +8,7 @@ export class NumeneraArmorItemSheet extends ItemSheet {
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
             width: 600,
-            height: 450
+            height: 625
         });
     }
 

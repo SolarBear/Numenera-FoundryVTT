@@ -1,4 +1,5 @@
 import { numeneraRollFormula } from "../roll.js";
+import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 
 const effortObject = {
   cost: 0,
@@ -32,8 +33,19 @@ export class NumeneraPCActor extends Actor {
   setFocus(value) {
     //Add any game-specific logic to set a PC focus here
 
+    //TEMPORARY PATCH because of https://github.com/SolarBear/Numenera-FoundryVTT/issues/92
+    if (typeof this.data.data.focus === "string") {
+      const focus = this.data.data.focus;
+      this.data.data.focus = {};
+    }
+
     //Default case: there is no specific ID
     this.data.data.focus[""] = value;
+
+    const data = {_id: this._id};
+    data["data.focus['']"] = {"": value};
+
+    this.update(data);
   }
 
   getInitiativeFormula() {
@@ -69,18 +81,19 @@ export class NumeneraPCActor extends Actor {
     if (skill) {
       skillLevel = this.getSkillLevel(skill);
     }
-    
+
     return numeneraRollFormula(skillLevel);
   }
-/**
- * Given a skill ID, roll the related skill item for the character.
- *
- * @param {String} skillId
- * @param {boolean} [gmRoll=false]
- * @returns {Roll}
- * @memberof NumeneraPCActor
- */
-rollSkillById(skillId, gmRoll = false) {
+
+  /**
+   * Given a skill ID, roll the related skill item for the character.
+   *
+   * @param {String} skillId
+   * @param {boolean} [gmRoll=false]
+   * @returns {Roll}
+   * @memberof NumeneraPCActor
+   */
+  rollSkillById(skillId, gmRoll = false) {
     const skill = this.getOwnedItem(skillId);
     return this.rollSkill(skill, gmRoll);
   }
@@ -94,7 +107,7 @@ rollSkillById(skillId, gmRoll = false) {
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skill, gmRoll=false) {
+  rollSkill(skill, gmRoll = false) {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -112,8 +125,7 @@ rollSkillById(skillId, gmRoll = false) {
       if (game.user.isGM) {
         rollMode = DICE_ROLL_MODES.PRIVATE;
       }
-      else
-      {
+      else {
         rollMode = DICE_ROLL_MODES.BLIND;
       }
     }
@@ -125,9 +137,9 @@ rollSkillById(skillId, gmRoll = false) {
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       flavor: `${game.i18n.localize("NUMENERA.rolling")} ${skill.name}`,
     },
-    {
-      rollMode
-    });
+      {
+        rollMode
+      });
   }
 
   /**
@@ -166,7 +178,7 @@ rollSkillById(skillId, gmRoll = false) {
 
   getEffortCostFromStat(event) {
     //Return value, copy from template object
-    const value = {...effortObject};
+    const value = { ...effortObject };
 
     const effortLevel = event.target.value;
     if (effortLevel === 0) {
@@ -246,12 +258,107 @@ rollSkillById(skillId, gmRoll = false) {
   _isOverCypherLimitv1(cyphers) {
     //In v1 parlance, occultic cyphers count as 2
     return this.data.data.cypherLimit < cyphers.reduce((acc, cypher) =>
-      acc + (cypher.data.cypherType === "Occultic" ?  2 : 1)
-    , 0);
+      acc + (cypher.data.cypherType === "Occultic" ? 2 : 1)
+      , 0);
   }
 
   _isOverCypherLimitv2(cyphers) {
     return this.data.data.cypherLimit < cyphers.length;
+  }
+
+  /**
+   * Use an item, whatever its type, given its id.
+   *
+   * @param {String} itemId
+   * @memberof NumeneraPCActor
+   */
+  async useItemById(itemId) {
+    const item = await this.getOwnedItem(itemId);
+    return this.useItem(item);
+  }
+
+  /**
+   * Use an item, whatever its type.
+   *
+   * @param {String} itemId
+   * @memberof NumeneraPCActor
+   */
+  async useItem(item) {
+    switch (item.type) {
+      case NumeneraAbilityItem.type:
+        return this.useAbility(item);
+
+      default:
+        throw new Error("Item use not supported yet for item type " + item.type);
+    }
+  }
+
+  /**
+   * Checks whether a given Ability can be used, ie. if there are enough
+   * points available in the related pool.
+   *
+   * @param {Object} ability
+   * @returns {Boolean} true if the Ability can be used, false otherwise
+   * @memberof NumeneraPCActor
+   */
+  async canUseAbility(ability) {
+    if (ability.type !== NumeneraAbilityItem.type)
+      throw new Error("Not an ability item");
+
+    const cost = ability.getCost();
+    const stat = this.data.data.stats[cost.pool];
+
+    if (!stat)
+      throw new Error("No related pool for ability " + ability.name);
+
+    return stat.pool.value + stat.edge >= cost.amount;
+  }
+
+  /**
+   * Use an Ability, given its ID.
+   *
+   * @param {*} abilityId
+   * @returns  {Boolean} true if the Ability was used, false otherwise
+   * @memberof NumeneraPCActor
+   */
+  async useAbilityById(abilityId) {
+    const ability = await this.getOwnedItem(abilityId);
+    return this.useAbility(ability);
+  }
+
+  /**
+   * Use an Ability, given its ID. This will subtract any cost from the related pool, producing a
+   * warning if not enough points are left in the pool and performing the roll, if possible.
+   *
+   * @param {Object} ability
+   * @returns  {Boolean} true if the Ability was used, false otherwise
+   * @memberof NumeneraPCActor
+   */
+  async useAbility(ability) {
+    if (ability.type !== NumeneraAbilityItem.type)
+      throw new Error("Not an ability item");
+
+    if (!await this.canUseAbility(ability)) {
+      ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.notEnoughPointsInPoolForAbility"));
+      return false;
+    }
+
+    ability.use();
+
+    const cost = ability.getCost();
+    const stat = this.data.data.stats[cost.pool];
+
+    if (cost.amount > stat.edge) {
+      const newPoolValue = stat.pool.value + stat.edge - cost.amount;
+      const poolProp = `data.stats.${cost.pool}.pool.value`;
+
+      const data = { _id: this._id };
+      data[poolProp] = newPoolValue;
+
+      await this.update(data);
+    }
+
+    return true;
   }
 
   /**
@@ -270,26 +377,26 @@ rollSkillById(skillId, gmRoll = false) {
     switch (data.type) {
       case "artifact":
       case "cypher":
-      const itemData = data.data;
+        const itemData = data.data;
 
-      if (!itemData.level && itemData.levelDie) {
-        try {
+        if (!itemData.level && itemData.levelDie) {
+          try {
             //Try the formula as is first
             itemData.level = new Roll(itemData.levelDie).roll().total;
             await this.update({
-                _id: this._id,
-                "data.level": itemData.level,
+              _id: this._id,
+              "data.level": itemData.level,
             });
           } catch (Error) {
             try {
               itemData.level = parseInt(itemData.level);
             } catch (Error) {
-                //Leave it as it is
+              //Leave it as it is
             }
-        }
-      } else {
+          }
+        } else {
           itemData.level = itemData.level || null;
-      }
+        }
         break;
     }
 
@@ -344,7 +451,7 @@ rollSkillById(skillId, gmRoll = false) {
     return newItem;
   }
 
-  updateEmbeddedEntity(embeddedName, data, options={}) {
+  updateEmbeddedEntity(embeddedName, data, options = {}) {
     const updated = super.updateEmbeddedEntity(embeddedName, data, options);
 
     const updatedItem = this.getOwnedItem(updated._id);
