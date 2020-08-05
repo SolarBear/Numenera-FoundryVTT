@@ -330,8 +330,6 @@ test("Multiple migrations will be handled in ascending version order", async t =
 
   const migrated = await migrator4.migrate(o);
 
-  console.log(migrated);
-
   t.is(migrated["data.version"], 5);
   t.is(migrated.data.data.prop, "abcd");
 });
