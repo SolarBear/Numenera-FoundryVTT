@@ -451,8 +451,8 @@ export class NumeneraPCActor extends Actor {
     return newItem;
   }
 
-  updateEmbeddedEntity(embeddedName, data, options = {}) {
-    const updated = super.updateEmbeddedEntity(embeddedName, data, options);
+  async updateEmbeddedEntity(embeddedName, data, options = {}) {
+    const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
 
     const updatedItem = this.getOwnedItem(updated._id);
 
