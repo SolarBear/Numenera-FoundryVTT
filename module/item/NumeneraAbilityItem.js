@@ -79,4 +79,15 @@ export class NumeneraAbilityItem extends Item {
     
     this.actor.rollSkill(skill, gmRoll);
   }
+
+  async update(data, options) {
+    // Workaround since Foundry does not like inputs that are not checkboxes to be dtype "Boolean"
+    if (typeof data["data.isAction"] === "string") {
+      data["data.isAction"] = data["data.isAction"] === "true";
+      // TODO migrate isAction property into a string or number to avoid this workaround
+      // don't forget to change the form's dtype accordingly!
+    }
+
+    return super.update(data, options);
+  }
 }
