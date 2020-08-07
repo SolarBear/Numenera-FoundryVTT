@@ -5,8 +5,8 @@ export class NumeneraArtifactItemSheet extends ItemSheet {
      */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            width: 500,
-            height: 450
+            width: 550,
+            height: 640
         });
     }
 

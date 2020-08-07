@@ -1,18 +1,11 @@
 /**
- * Create a Macro from an Item drop.
- * Get an existing item macro if one exists, otherwise create a new one.
+ * Use an Item macro created by an Item drop.
  * @param {string} itemId
  * @return {Promise}
  */
 export function useItemMacro(actorId, itemId) {
   const actor = game.actors.entities.find(a => a._id === actorId);
-  const item = actor.items.find(i => i._id === itemId);
-
-  if (!item)
-      return ui.notifications.warn(game.i18n.localize("NUMENERA.macro.use.notActorsItem"));
-
-  // Trigger the item use
-  return item.use();
+  return actor.useItemById(itemId);
 }
 
 /**

@@ -27,6 +27,19 @@ export class NumeneraAbilityItem extends Item {
       itemData.notes = itemData.notes || "";
   }
 
+  /**
+   * Gets the Ability cost as an object representing the pool name and amount.
+   *
+   * @returns {Object}
+   * @memberof NumeneraAbilityItem
+   */
+  getCost() {
+    return {
+      pool: this.data.data.cost.pool.split(".").pop(), // pool is saved as "NUMENERA.pool.POOLNAME"
+      amount: this.data.data.cost.amount,
+    };
+  }
+
   async updateRelatedSkill(skill, options = {}) {
     //If it is not owned by an Actor, it has no related skill
     if (!this.actor || !skill)

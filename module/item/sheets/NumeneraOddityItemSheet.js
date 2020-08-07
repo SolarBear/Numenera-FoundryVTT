@@ -5,8 +5,8 @@ export class NumeneraOddityItemSheet extends ItemSheet {
      */
     static get defaultOptions() {
         return mergeObject(super.defaultOptions, {
-            width: 500,
-            height: 400
+            width: 675,
+            height: 425
         });
     }
 

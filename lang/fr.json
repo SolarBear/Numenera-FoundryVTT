@@ -6,6 +6,19 @@
     "NUMENERA.stat": "Caractéristique",
     "NUMENERA.unknown": "Inconnu",
 
+    "NUMENERA.community.combat": "Combat",
+    "NUMENERA.community.armor": "Armure",
+    "NUMENERA.community.damage": "Dommages",
+    "NUMENERA.community.health": "Santé",
+    "NUMENERA.community.infrastructure": "Infrastructure",
+    "NUMENERA.community.modifications": "Modifications",
+    "NUMENERA.community.rank": "Rang",
+
+    "NUMENERA.communityActorSheet.tab.combat": "Combat",
+    "NUMENERA.communityActorSheet.tab.government": "Gouvernement",
+    "NUMENERA.communityActorSheet.tab.information": "Information",
+    "NUMENERA.communityActorSheet.tab.overview": "Survol",
+
     "NUMENERA.gmIntrusion": "Intrusion du MJ",
     "NUMENERA.gmIntrusionContent": "<p>Le maître de jeu vous offre une intrusion. L'acceptez-vous ?</p><ul><li>Si vous l'acceptez, le MJ introduira une complication inattendue pour votre personnage ; cependant, vous recevres 2 PX dont 1 qui devra être remis à un autre joueur.</li><li>Si vous la refusez, la complication ne surviendra pas mais 1 PX vous sera enlevé.</li></ul>",
     "NUMENERA.gmIntrusionButtonAccept": "Accepter",
@@ -209,12 +222,15 @@
     "NUMENERA.item.armor.price": "Prix",
     "NUMENERA.item.armor.description": "Description",
     "NUMENERA.item.armor.newArmor": "Nouvelle armure",
+	
+	"NUMENERA.item.numenera.formPlaceholder": "Vous pouvez ajouter plusieurs formes en les séparant par ','",
 
     "NUMENERA.item.artifact.level": "Niveau",
     "NUMENERA.item.artifact.form": "Forme",
     "NUMENERA.item.artifact.depletion": "Épuisement",
     "NUMENERA.item.artifact.depletionDie": "Dé",
     "NUMENERA.item.artifact.depletionThreshold": "Seuil",
+    "NUMENERA.item.artifact.description": "Description",
     "NUMENERA.item.artifact.effect": "Effet",
     "NUMENERA.item.artifact.newArtifact": "Nouvel artefact",
 
@@ -276,6 +292,7 @@
     "NUMENERA.info.skillWithSameNameCreated": "Une compétence portant le même nom a aussi été créée",
 
     "NUMENERA.warnings.abilityWithSameNameExists": "Une aptitude portant le même nom existe déjà",
+    "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Pas suffisamment de points disponibles dans votre Réserve pour cette Aptitude",
     "NUMENERA.warnings.noSkillRelatedToAbility": "Aucune compétence n'est reliée à cette aptitude",
     "NUMENERA.warnings.skillWithSameNameExists": "Une compétence portant le même nom existe déjà",
 

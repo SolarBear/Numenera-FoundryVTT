@@ -232,7 +232,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     };
 
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
-    sheetData.data.focus = this.actor.getFocus();
+    sheetData.data.currentFocus = this.actor.getFocus();
 
     sheetData.settings.currency = game.settings.get("numenera", "currency");
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
@@ -532,21 +532,20 @@ export class NumeneraPCActorSheet extends ActorSheet {
     return this.actor.rollSkill(skill, event.shiftKey);
   }
 
-  onAbilityUse(event) {
+  /**
+   * Triggered whenever the use click the "Roll" button on an Ability.
+   *
+   * @param {Event} event
+   * @memberof NumeneraPCActorSheet
+   */
+  async onAbilityUse(event) {
     event.preventDefault();
     const abilityId = event.target.closest(".ability").dataset.itemId;
 
     if (!abilityId)
       return;
 
-    //Get related skill
-    const skill = this.actor.data.items.find(i => i.data.relatedAbilityId === abilityId);
-    if (!skill) {
-      ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.noSkillRelatedToAbility"));
-      return;
-    }
-
-    return this.actor.rollSkill(skill, event.shiftKey);
+    await this.actor.useAbilityById(abilityId);
   }
 
   onArtifactDepletionRoll(event) {
