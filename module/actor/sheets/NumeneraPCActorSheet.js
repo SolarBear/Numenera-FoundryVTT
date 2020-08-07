@@ -381,6 +381,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
 
+    html.find("div.stats").on("click", "a.rollable", this.onAttributeRoll.bind(this));
+
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
@@ -494,6 +496,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     if (update.length > 0)
       await this.object.updateEmbeddedEntity("OwnedItem", update);
+  }
+
+  /**
+   * Called when clicking on a "Roll" button next to an attribute
+   *
+   * @param {*} event
+   * @returns
+   * @memberof NumeneraPCActorSheet
+   */
+  onAttributeRoll(event) {
+    event.preventDefault();
+    return this.actor.rollAttribute(event.target.parentElement.dataset.stat);
   }
 
   onSkillUse(event) {
