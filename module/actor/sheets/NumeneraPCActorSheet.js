@@ -23,6 +23,14 @@ const dragulaOptions = {
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
 
+//Function to remove any HTML markup from eg. item descriptions
+function removeHtmlTags(str) {
+  // Replace any HTML tag ('<...>') by an empty string
+  return str.replace(/<.+?>/gi, "")
+  // Replace non-breaking spaces by a regular one
+            .replace("&nbsp;", " ");
+}
+
 /**
  * Higher order function that generates an item creation handler.
  *
@@ -267,6 +275,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
+    // TODO remove hardcoded value: 4
     sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
     .map(([key, value], idx) => {
       return {
@@ -305,7 +314,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
         artifact.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
         artifact.data.level = game.i18n.localize("NUMENERA.unknown");
         artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
-        artifact.data.depletion = null;
+        artifact.data.depletion = null;  
+      }
+      else {
+        artifact.data.effect = removeHtmlTags(artifact.data.effect);
       }
 
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
@@ -324,6 +336,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
           cypher.data.cypherType = game.i18n.localize("NUMENERA.unknown");
         }
       }
+      else {
+        cypher.data.effect = removeHtmlTags(cypher.data.effect);
+      }
 
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
       return cypher;
@@ -332,6 +347,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
       oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
       oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
+      oddity.data.notes = removeHtmlTags(oddity.data.notes);
       return oddity;
     });
 
@@ -342,6 +358,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
       ability.showIcon = ability.img && sheetData.settings.icons.abilities;
+      ability.data.notes = removeHtmlTags(ability.data.notes);
       return ability;
     });
 
@@ -356,14 +373,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     sheetData.data.items.weapons = sheetData.data.items.weapons.map(weapon => {
       weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
+      weapon.data.notes = removeHtmlTags(weapon.data.notes);
       return weapon;
     });
     sheetData.data.items.armor = sheetData.data.items.armor.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
+      armor.data.notes = removeHtmlTags(armor.data.notes);
       return armor;
     });
     sheetData.data.items.equipment = sheetData.data.items.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
+      equipment.data.notes = removeHtmlTags(equipment.data.notes);
       return equipment;
     });
 
@@ -380,6 +400,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
+
+    html.find("div.stats").on("click", "a.rollable", this.onAttributeRoll.bind(this));
 
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
@@ -494,6 +516,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     if (update.length > 0)
       await this.object.updateEmbeddedEntity("OwnedItem", update);
+  }
+
+  /**
+   * Called when clicking on a "Roll" button next to an attribute
+   *
+   * @param {*} event
+   * @returns
+   * @memberof NumeneraPCActorSheet
+   */
+  onAttributeRoll(event) {
+    event.preventDefault();
+    return this.actor.rollAttribute(event.target.parentElement.dataset.stat);
   }
 
   onSkillUse(event) {
