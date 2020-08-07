@@ -30,6 +30,12 @@ export class Transformer {
     throw new Error(`transform() method not implemented in class ${this.constructor.name}`);
   }
 
+  /**
+   * Undo the effects of the transform() method.
+   *
+   * @param {*} obj
+   * @memberof Transformer
+   */
   revert(obj) {
     throw new Error(`transform() method not implemented in class ${this.constructor.name}`);
   }

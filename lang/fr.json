@@ -241,6 +241,8 @@
     "NUMENERA.item.cypher.form": "Forme",
     "NUMENERA.item.cypher.effect": "Effet",
     "NUMENERA.item.cypher.newCypher": "Nouveau cypher",
+    
+    "NUMENERA.item.descriptor.newDescriptor": "Nouveau descripteur",
 
     "NUMENERA.item.equipment.price": "Prix",
     "NUMENERA.item.equipment.descripton": "Description",

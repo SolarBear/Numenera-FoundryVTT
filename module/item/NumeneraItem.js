@@ -8,6 +8,7 @@ import { NumeneraNpcAttackItem } from "./NumeneraNPCAttack.js";
 import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "./NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "./StrangeRecursionItem.js";
+import { NumeneraDescriptorItem } from "./NumeneraDescriptorItem.js";
 
 /**
  * Numenera item base class
@@ -36,6 +37,8 @@ export const NumeneraItem = new Proxy(function () {}, {
         return new NumeneraArtifactItem(...args);
       case "cypher":
         return new NumeneraCypherItem(...args);
+      case "descriptor":
+        return new NumeneraDescriptorItem(...args);
       case "equipment":
         return new NumeneraEquipmentItem(...args);
       case "npcAttack":
@@ -66,6 +69,8 @@ export const NumeneraItem = new Proxy(function () {}, {
               return NumeneraArtifactItem.create(data, options);
             case "cypher":
               return NumeneraCypherItem.create(data, options);
+            case "descriptor":
+              return NumeneraDescriptorItem.create(data, options);
             case "equipment":
               return NumeneraEquipmentItem.create(data, options);
             case "npcAttack":
@@ -89,6 +94,7 @@ export const NumeneraItem = new Proxy(function () {}, {
             instance instanceof NumeneraArmorItem ||
             instance instanceof NumeneraArtifactItem ||
             instance instanceof NumeneraCypherItem ||
+            instance instanceof NumeneraDescriptorItem ||
             instance instanceof NumeneraEquipmentItem ||
             instance instanceof NumeneraOddityItem ||
             instance instanceof NumeneraNpcAttackItem ||

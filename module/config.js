@@ -142,3 +142,9 @@ NUMENERA.units = {
   feet: "NUMENERA.canvas.unit.feet",
   meters: "NUMENERA.canvas.unit.meters",
 };
+
+// Effects related to transforms (ie. descriptors, types, foci)
+NUMENERA.effects = [
+  //TODO localize effect names
+  "skill",
+];

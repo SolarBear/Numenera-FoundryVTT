@@ -30,6 +30,7 @@ const toBundle = [
     "templates/item/armorSheet.html",
     "templates/item/artifactSheet.html",
     "templates/item/cypherSheet.html",
+    "templates/item/descriptorSheet.html",
     "templates/item/equipmentSheet.html",
     "templates/item/odditySheet.html",
     "templates/item/skillSheet.html",

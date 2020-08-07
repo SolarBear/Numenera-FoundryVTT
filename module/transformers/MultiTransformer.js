@@ -2,7 +2,8 @@ import { Transformer } from "./Transformer.js";
 
 /**
  * A specialization of the basic Transformer class that applies a series
- * of transformation in order on the object to transform.
+ * of transformations in order on the object to transform.  This way, one
+ * can apply a "single" transform on an object while actually performing
  *
  * @export
  * @class MultiTransformer
@@ -35,7 +36,8 @@ export class MultiTransformer extends Transformer {
 
     let newObj = obj;
 
-    for (const tr of this.transforms) {
+    // Transforms must be applied in the reverse order
+    for (const tr of this.transforms.reverse()) {
       newObj = tr.revert(newObj);
     }
 

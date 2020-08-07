@@ -71,6 +71,22 @@ export class NumeneraPCActor extends Actor {
       return stat.pool.value === 0;
     }).length;
   }
+  
+  /**
+   * Given a name, get all OwnedItems having that name.
+   *
+   * @param {string} name
+   * @param {string} type
+   * @memberof NumeneraPCActor
+   */
+  getItemsByName(name, type="") {
+    let items = this.getEmbeddedCollection("OwnedItem")
+    if (type) {
+      items = items.filter(i => i.type === type);
+    }
+
+    return items.filter(i => i.name === name);
+  }
 
   getSkillFormula(skill) {
     let skillLevel = 0;
