@@ -139,6 +139,25 @@ export class NumeneraPCActor extends Actor {
   }
 
   /**
+   * Roll an attribute as is, with no related skill.
+   *
+   * @param {String} attribute
+   * @param {boolean} [gmRoll=false] True if this is a GM roll (ie. blind)
+   * @returns
+   * @memberof NumeneraPCActor
+   */
+  rollAttribute(attribute, gmRoll = false) {
+    // Create a pseudo-skill to avoid repeating the roll logic
+    return this.rollSkill({
+      name: attribute,
+      data: {
+        skillLevel: 0,
+        inability: false,
+      },
+    }, gmRoll);
+  }
+
+  /**
    * Given a skill ID, return this skill's modifier as a a numeric value.
    *
    * @param {NumeneraSkillItem} skill item
@@ -457,8 +476,8 @@ export class NumeneraPCActor extends Actor {
     return newItem;
   }
 
-  updateEmbeddedEntity(embeddedName, data, options = {}) {
-    const updated = super.updateEmbeddedEntity(embeddedName, data, options);
+  async updateEmbeddedEntity(embeddedName, data, options = {}) {
+    const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
 
     const updatedItem = this.getOwnedItem(updated._id);
 
