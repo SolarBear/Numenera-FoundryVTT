@@ -221,6 +221,8 @@
     "NUMENERA.item.armor.price": "Price",
     "NUMENERA.item.armor.description": "Description",
     "NUMENERA.item.armor.newArmor": "New Armor",
+	
+	"NUMENERA.item.numenera.formPlaceholder": "You can add multiple forms by separating them with ','",
 
     "NUMENERA.item.artifact.level": "Level",
     "NUMENERA.item.artifact.form": "Form",

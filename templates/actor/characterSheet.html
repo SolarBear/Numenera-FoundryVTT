@@ -15,7 +15,10 @@
                 <div class="flexrow">
                     {{#each data.stats as |stat id|}}
                     <div class="stats" data-stat="{{id}}">
-                        <h2 class="stat">{{lookup ../stats id}}</h2>
+                        <h2 class="stat">
+                            {{lookup ../stats id}}
+                            <a class="rollable" data-stat="{{lookup ../stats id}}"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" ></a>
+                        </h2>
                         <h3>
                             {{localize "NUMENERA.stats.current"}} <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
                             /
