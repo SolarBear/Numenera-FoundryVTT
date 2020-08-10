@@ -45,6 +45,7 @@ Otherwise, I'm always looking for all kinds of help:
 * translations: any language translations are welcome! Already translated:
     * English
     * French
+    * Brazilian Portugese
 * layout: if you have any HTML and CSS skills, you're probably better at this than I am!
 * feature development: there's a LOT of work ahead, so if you're familiar with Javascript, there's work to be done
 

@@ -14,6 +14,7 @@ const toBundle = [
     "fonts/source.txt",
     "lang/en.json",
     "lang/fr.json",
+    "lang/pt-BR.json",
     "lib/dragula/dragula.min.css",
     "lib/dragula/dragula.min.js",
     "templates/actor/characterSheet.html",
