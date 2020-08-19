@@ -18,7 +18,7 @@
     "NUMENERA.communityActorSheet.tab.government": "Government",
     "NUMENERA.communityActorSheet.tab.information": "Information",
     "NUMENERA.communityActorSheet.tab.overview": "Overview",
-    
+
     "NUMENERA.gmIntrusion": "GM Intrusion",
     "NUMENERA.gmIntrusionContent": "<p>The game master offers you an intrusion. Do you accept?</p><ul><li>Should you accept, the GM will introduce an unexpected complication for your character; however, you will receive 2 XP, 1 of which you must give to another player.</li><li>Should you refuse, the complication will not happen but 1 XP will be subtracted from your current amount.</li></ul>",
     "NUMENERA.gmIntrusionButtonAccept": "Accept",
@@ -221,7 +221,7 @@
     "NUMENERA.item.armor.price": "Price",
     "NUMENERA.item.armor.description": "Description",
     "NUMENERA.item.armor.newArmor": "New Armor",
-	
+
 	"NUMENERA.item.numenera.formPlaceholder": "You can add multiple forms by separating them with ','",
 
     "NUMENERA.item.artifact.level": "Level",
@@ -260,6 +260,8 @@
     "NUMENERA.item.weapon.range": "Range",
     "NUMENERA.item.weapon.price": "Price",
     "NUMENERA.item.weapon.description": "Description",
+
+    "NUMENERA.pc.numenera.strange.alienation": "Alienation",
 
     "NUMENERA.item.recursion.name": "Name",
     "NUMENERA.item.recursion.newRecursion": "New Recursion",
