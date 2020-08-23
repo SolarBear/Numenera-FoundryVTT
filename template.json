@@ -61,7 +61,7 @@
             "movement": "short",
             "modifications": "",
             "image": null,
-            "version": 2
+            "version": 3
         },
         "community": {
             "level": 1,
@@ -83,7 +83,7 @@
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "descriptor", "equipment",  "focus", "npcAttack", "oddity", "recursion", "skill", "weapon"],
+        "types": ["ability", "armor", "artifact", "cypher", "descriptor", "equipment", "focus", "npcAttack", "oddity", "recursion", "skill", "weapon"],
         "templates": {
             "common": {
                 "notes": "",

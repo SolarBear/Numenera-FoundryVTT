@@ -7,7 +7,7 @@
 
         <div class="ability">
             <label>
-                <select name="data.isAction" data-dtype="Boolean">
+                <select name="data.isAction" data-dtype="String">
                     {{#select data.isAction}}
                     <option value="true">{{localize "NUMENERA.item.ability.type.action"}}</option>
                     <option value="false" >{{localize "NUMENERA.item.ability.type.enabler"}}</option>
@@ -16,7 +16,7 @@
             </label>
 
             <label>{{localize "NUMENERA.item.ability.cost"}}
-                <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="1" data-dtype="Number" />
+                <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="0" data-dtype="Number" />
                 <select name="data.cost.pool" data-dtype="String">
                     {{#select data.cost.pool}}
                     {{#each data.stats}}

@@ -1,5 +1,4 @@
 import { Migrator } from "./Migrator.js";
-import { NumeneraItem } from "../item/NumeneraItem.js";
 import { NumeneraNPCActor } from "../actor/NumeneraNPCActor.js";
 
 //Keep migrators in order: v1 to v2, v2 to v3, etc.
@@ -53,5 +52,31 @@ NPCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
+const NPCActorv2To32Migrator = Object.create(Migrator);
+
+NPCActorv2To32Migrator.forVersion = 3;
+NPCActorv2To32Migrator.forType = NumeneraNPCActor;
+
+/* Summary of changes:
+* - NPC "description" field was saved as "notes" because of obscure reasons
+*/
+NPCActorv2To32Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
+
+  if (actor.data.data.notes) {
+    let str = actor.data.data.notes;
+    if (actor.data.data.description && actor.data.data.description !== actor.data.data.notes) {
+      // Just in case they're both set, make sure not to lose any data
+      str += "<br />" + actor.data.data.description;
+    }
+
+    newData["data.description"]  = str;
+  }
+  
+  newData["data.version"] = this.forVersion;
+    
+  return newData;
+};
+
 //Only export the latest migrator
-export const NPCActorMigrator = NPCActorv1ToV2Migrator;
+export const NPCActorMigrator = NPCActorv2To32Migrator;
