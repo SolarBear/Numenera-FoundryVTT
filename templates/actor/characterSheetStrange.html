@@ -15,7 +15,10 @@
                 <div class="flexrow">
                     {{#each data.stats as |stat id|}}
                     <div class="stats" data-stat="{{id}}">
-                        <h2 class="stat">{{lookup ../stats id}}</h2>
+                        <h2 class="stat">
+                            {{lookup ../stats id}}
+                            <a class="rollable" data-stat="{{lookup ../stats id}}"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" ></a>
+                        </h2>
                         <h3>
                             {{localize "NUMENERA.stats.current"}} <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
                             /
@@ -143,7 +146,7 @@
                             <input class="skill-specialized" type="radio" value="2" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.specialized}} data-dtype="Number" />
                         </td>
                         <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.skill.tab.rollTooltip"}}" alt="d20" /></a>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
                             <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.item.skill.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
@@ -226,7 +229,7 @@
                             <textarea name="data.items.abilities.{{ability._id}}.data.notes">{{ability.data.notes}}</textarea>
                         </td>
                         <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.ability.tab.rollTooltip"}}" alt="d20" /></a>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
                             <a class="ability-delete" data-action="delete" title="{{localize "NUMENERA.item.ability.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
@@ -249,13 +252,16 @@
             {{> "systems/numenera/templates/actor/partials/cyphers.html" data=data}}
 
             <hr class="sheet-one" />
-
             {{> "systems/numenera/templates/actor/partials/artifacts.html" data=data}}
-        </div>
 
+        </div>
     <!-- recursion WIP-->
 
-        <div class="tab recursion" data-group="primary" data-tab="recursion">
+            <div class="tab recursion" data-group="primary" data-tab="recursion">
+
+              <h3>{{localize "NUMENERA.pc.numenera.strange.alienation"}}</h3>
+              <input type="text" name="data.alienation" value="{{data.alienation}}" class="alienation" data-dtype="Number" />
+
             <h2>{{localize "NUMENERA.pcActorSheet.tab.recursion"}}</h2>
             <table class="recursion">
                   <thead>
@@ -400,7 +406,7 @@
                             <input type="text" name="data.items.weapons.{{weapon._id}}.data.notes" value="{{weapon.data.notes}}" title="{{weapon.data.notes}}" />
                         </td>
                         <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.weapon.tab.rollTooltip"}}" alt="d20" /></a>
+                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
                             <a class="weapon-delete" data-action="delete" title="{{localize "NUMENERA.pc.weapons.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
@@ -481,7 +487,8 @@
             </table>
 
             <h2>{{localize "NUMENERA.pc.otherItems.sectionName"}}</h2>
-              <table class="equipment">
+
+            <table class="equipment">
                 <thead>
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
