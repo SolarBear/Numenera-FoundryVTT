@@ -16,7 +16,7 @@
             </label>
 
             <label>{{localize "NUMENERA.item.ability.cost"}}
-                <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="1" data-dtype="Number" />
+                <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="0" data-dtype="Number" />
                 <select name="data.cost.pool" data-dtype="String">
                     {{#select data.cost.pool}}
                     {{#each data.stats}}
