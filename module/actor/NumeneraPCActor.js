@@ -1,5 +1,6 @@
 import { numeneraRollFormula } from "../roll.js";
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
+import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 
 const effortObject = {
   cost: 0,
@@ -303,6 +304,9 @@ export class NumeneraPCActor extends Actor {
       case NumeneraAbilityItem.type:
         return this.useAbility(item);
 
+      case NumeneraSkillItem.type:
+        return item.use();
+
       default:
         throw new Error("Item use not supported yet for item type " + item.type);
     }
@@ -360,6 +364,7 @@ export class NumeneraPCActor extends Actor {
 
     ability.use();
 
+    //TODO extract to method
     const cost = ability.getCost();
     const stat = this.data.data.stats[cost.pool];
 

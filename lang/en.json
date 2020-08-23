@@ -261,6 +261,8 @@
     "NUMENERA.item.weapon.price": "Price",
     "NUMENERA.item.weapon.description": "Description",
 
+    "NUMENERA.pc.numenera.strange.alienation": "Alienation",
+
     "NUMENERA.item.recursion.name": "Name",
     "NUMENERA.item.recursion.newRecursion": "New Recursion",
     "NUMENERA.item.recursion.level": "Level",
