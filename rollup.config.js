@@ -48,7 +48,6 @@ export default [{
     },
     plugins: [
         terser({
-            sourcemap: !releaseBuild,
             compress: releaseBuild ? {} : false,
         }),
         scss({
