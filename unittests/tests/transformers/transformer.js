@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Transformer } from '../../module/transformers/Transformer.js';
+import { Transformer } from '../../../module/transformers/Transformer.js';
 
 test("A basic Transformer object throws when transforming", async t => {
   const tr = new Transformer();

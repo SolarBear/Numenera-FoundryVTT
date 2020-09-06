@@ -1,5 +1,5 @@
 /**
- * A Transformer is an abstract class with two methods: oneb to apply a transformation
+ * A Transformer is an abstract class with two methods: one to apply a transformation
  * to a given object, and another to undo that operation.
  * 
  * Each of these should act as a Redux-like reducer and return an updated copy of the
