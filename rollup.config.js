@@ -12,6 +12,7 @@ const toBundle = [
     'numenera.css',
     "fonts/ogirema.ttf",
     "fonts/source.txt",
+    "lang/de.json",
     "lang/en.json",
     "lang/fr.json",
     "lang/pt-BR.json",
