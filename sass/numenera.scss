@@ -3,6 +3,10 @@
     src: url("fonts/ogirema.ttf") format("ttf");
 }
 
+/// ----------
+/// ALL THE VARIABLES
+/// ----------
+
 $foundry-border-color: #4ec51f;
 $border-color: rgba(180, 180, 180, 0.5);
 $input-border-color: rgba(245, 245, 245, 0.15);
@@ -24,51 +28,28 @@ $font-edit-color: #1d757d;
     }
 }
 
+/// ----------
+/// MESSAGE WINDOWS
+/// ----------
+
 span.numenera-message-special {
     font-weight: bold;
     font-size: large;
     color: $font-color
 }
 
+/// ----------
+/// NUMENERA PC SHEET SETTINGS
+/// ----------
+
 form.numenera {
     height: 100%;
+    width: 100%;
+    max-width: 1200px;
     font-family: $font-stack;
     color: $font-color;
     border-radius: 10px;
     background-image: url("images/jpg/testbg.jpg");
-
-    button#recoveryRoll {
-        width: 75%;
-        transition-duration: 0.4s;
-        background-color: rgba(0, 0, 0, 0.15);
-        border: $input-border-color;
-
-        h2 {
-            font-family: $font-stack;
-            margin: 0;
-        }
-    }
-
-    #recoveryRoll:hover {
-        background-color: #4CAF50;
-        border: none;
-        color: white;
-    }
-
-    a i.handle {
-        cursor: move;
-    }
-
-    a.rollable {
-        height: auto;
-        width: auto;
-
-        & > img {
-            border: 0;
-            height: 24px;
-            width: 24px;
-        }
-    }
 
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
     .flewrow {
@@ -86,17 +67,23 @@ form.numenera {
         list-style-type: none;
     }
 
+    /// ----------
+    /// NAME / DESCRIPTOR / TYPE / FOCUS
+    /// ----------
+
     h1.character {
         font-size: 24px;
         margin: 5px;
         border: 5px;
         padding-bottom: 0.25em;
+        border-bottom-color: $font-color;
 
         input {
             margin-top: 0.5em;
             height: auto;
             color: $font-edit-color;
             border-color: $input-border-color;
+            transition: 0.3s;
 
             &.charname {
                 font-weight: bold;
@@ -115,6 +102,11 @@ form.numenera {
                 width: 25ch;
             }
         }
+
+        input:hover {
+            background-color: $font-edit-color;
+            color: whitesmoke;
+        }
     }
 
     h1 input[type="text"] {
@@ -122,6 +114,10 @@ form.numenera {
         width: auto;
         margin-bottom: 0.25em;
     }
+
+    /// ----------
+    /// PC STATS / TIER / ADVANCEMENT / RECOVERY
+    /// ----------
 
     h2 {
         border: none;
@@ -132,10 +128,6 @@ form.numenera {
         }
     }
 
-    p.description {
-        font-style: italic;
-    }
-
     label {
         margin: 0 0.5em 0 0.5em;
     }
@@ -144,10 +136,27 @@ form.numenera {
         input[data-dtype="Number"] {
             width: 2em;
 
+
             &.tier {
                 width: 1ch;
             }
+
+            &.dropdown {
+                background-color: $font-color;
+                border: $font-edit-color;
+            }
         }
+
+        input[type="text"] {
+            margin-bottom: 0.25em;
+            background-color: none;
+            border: $input-border-color;
+            color: $font-edit-color;
+        }
+    }
+
+    p.description {
+        font-style: italic;
     }
 
     div.header {
@@ -172,6 +181,43 @@ form.numenera {
                 max-height: 400px;
             }
         }
+
+/// ----------
+/// RECOVERY BUTTON
+/// ----------
+
+button#recoveryRoll {
+    width: 75%;
+    transition-duration: 0.4s;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: $input-border-color;
+
+    h2 {
+        font-family: $font-stack;
+        margin: 0;
+    }
+}
+
+#recoveryRoll:hover {
+    background-color: $font-edit-color;
+    border: none;
+    color: white;
+}
+
+a i.handle {
+    cursor: move;
+}
+
+a.rollable {
+    height: auto;
+    width: auto;
+
+    & > img {
+        border: 0;
+        height: 24px;
+        width: 24px;
+    }
+}
 
         div > div.npc-info,div.community-info {
             flex: 0.25;
@@ -304,7 +350,7 @@ form.numenera {
 
             tr {
                 background-color: none;
-                color: #whitesmoke;
+                color: whitesmoke;
                 text-shadow: none;
             }
 
