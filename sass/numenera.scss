@@ -12,7 +12,9 @@ $border-color: rgba(180, 180, 180, 0.5);
 $input-border-color: rgba(245, 245, 245, 0.15);
 $font-stack: Ogirema;
 $font-color: #131517;
-$font-edit-color: #1d757d;
+$font-edit-color: #093f55;
+$glow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+$bggrad: linear-gradient(225deg, rgba(0, 0, 0, 0) 0%, rgba(189, 107, 107, 0.267) 50%, #2294b133 80%);
 
 @mixin editor($class, $height, $id) {
     div.#{$class}  {
@@ -26,6 +28,12 @@ $font-edit-color: #1d757d;
             width: 99%;
         }
     }
+}
+
+body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 /// ----------
@@ -43,13 +51,12 @@ span.numenera-message-special {
 /// ----------
 
 form.numenera {
-    height: 100%;
-    width: 100%;
     max-width: 1200px;
     font-family: $font-stack;
     color: $font-color;
     border-radius: 10px;
     background-image: url("images/jpg/testbg.jpg");
+    background: $bggrad;
 
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
     .flewrow {
@@ -73,10 +80,11 @@ form.numenera {
 
     h1.character {
         font-size: 24px;
-        margin: 5px;
-        border: 5px;
-        padding-bottom: 0.25em;
+        padding-left: 5px;
+        ///padding-bottom: 0.25em;
+        border: 0px;
         border-bottom-color: $font-color;
+        background-position: center;
 
         input {
             margin-top: 0.5em;
@@ -104,7 +112,7 @@ form.numenera {
         }
 
         input:hover {
-            background-color: $font-edit-color;
+            text-shadow: $glow;
             color: whitesmoke;
         }
     }
@@ -122,6 +130,7 @@ form.numenera {
     h2 {
         border: none;
         padding-top: 0.5em;
+        margin-top: 1em;
 
         &:not(.stat) {
             margin-left: 1em;
@@ -139,11 +148,6 @@ form.numenera {
 
             &.tier {
                 width: 1ch;
-            }
-
-            &.dropdown {
-                background-color: $font-color;
-                border: $font-edit-color;
             }
         }
 
@@ -163,11 +167,11 @@ form.numenera {
 
         h2,h3 {
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: .8em;
         }
 
         h3 {
-            margin-top: 0.25em;
+            margin-top: 0.5em;
         }
 
         div.picture {
@@ -182,13 +186,17 @@ form.numenera {
             }
         }
 
+        .recovery {
+            margin-top: 1.5em;
+        }
+
 /// ----------
 /// RECOVERY BUTTON
 /// ----------
 
 button#recoveryRoll {
     width: 75%;
-    transition-duration: 0.4s;
+    transition-duration: 0.3s;
     background-color: rgba(0, 0, 0, 0.15);
     border: $input-border-color;
 
@@ -200,6 +208,7 @@ button#recoveryRoll {
 
 #recoveryRoll:hover {
     background-color: $font-edit-color;
+    box-shadow: $glow;
     border: none;
     color: white;
 }
@@ -334,7 +343,6 @@ a.rollable {
 
             h2 {
                 text-transform: capitalize;
-                padding-top: 0;
 
                 button.roll {
                     margin-left: 1em;
@@ -347,9 +355,13 @@ a.rollable {
         }
 
         table {
+            
+            .thead {
+                background-color: rgba(0, 0, 0, 0);
+            }
 
             tr {
-                background-color: none;
+                background-color: rgba(0, 0, 0, 0);
                 color: whitesmoke;
                 text-shadow: none;
             }
