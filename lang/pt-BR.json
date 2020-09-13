@@ -88,8 +88,6 @@
   "NUMENERA.pc.numenera.cypher.none": "Não há cifras",
   "NUMENERA.pc.numenera.cypher.overLimit": "Você ultrapassou seu limite de cifras!",
   "NUMENERA.pc.numenera.cypher.type.name": "Tipo",
-  "NUMENERA.pc.numenera.cypher.type.anoetic": "Anoéticas",
-  "NUMENERA.pc.numenera.cypher.type.occultic": "Ocultista",
   "NUMENERA.pc.numenera.cypher.unidentified": "Cifra não identificada",
 
   "NUMENERA.pc.numenera.oddity.name": "Esquisitices",
@@ -220,8 +218,8 @@
 
   "NUMENERA.item.cypher.level": "Nível",
   "NUMENERA.item.cypher.type": "Tipo",
-  "NUMENERA.item.cypher.typeAnoetic": "Anoética",
-  "NUMENERA.item.cypher.typeOccultic": "Ocultista",
+  "NUMENERA.item.cypher.type.anoetic": "Anoética",
+  "NUMENERA.item.cypher.type.occultic": "Ocultista",
   "NUMENERA.item.cypher.form": "forma",
   "NUMENERA.item.cypher.effect": "Efeito",
   "NUMENERA.item.cypher.newCypher": "Nova Cifra",

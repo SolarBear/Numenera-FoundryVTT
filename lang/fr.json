@@ -98,8 +98,6 @@
     "NUMENERA.pc.numenera.cypher.none": "Pas de cyphers",
     "NUMENERA.pc.numenera.cypher.overLimit": "Vous avez dépassé votre limite de cyphers !",
     "NUMENERA.pc.numenera.cypher.type.name": "Type",
-    "NUMENERA.pc.numenera.cypher.type.anoetic": "Anoëtique",
-    "NUMENERA.pc.numenera.cypher.type.occultic": "Occultique",
     "NUMENERA.pc.numenera.cypher.unidentified": "Cypher non identifié",
 
     "NUMENERA.pc.numenera.oddity.name": "Curiosités",
@@ -236,8 +234,11 @@
 
     "NUMENERA.item.cypher.level": "Niveau",
     "NUMENERA.item.cypher.type": "Type",
-    "NUMENERA.item.cypher.typeAnoetic": "Anoetique",
-    "NUMENERA.item.cypher.typeOccultic": "Occultique",
+    "NUMENERA.item.cypher.type.anoetic": "Anoetique",
+    "NUMENERA.item.cypher.type.occultic": "Occultique",
+    "NUMENERA.item.cypher.type.manifest": "Manifeste",
+    "NUMENERA.item.cypher.type.subtle": "Subtil",
+    "NUMENERA.item.cypher.type.fantastic": "Fantastique",
     "NUMENERA.item.cypher.form": "Forme",
     "NUMENERA.item.cypher.effect": "Effet",
     "NUMENERA.item.cypher.newCypher": "Nouveau cypher",
