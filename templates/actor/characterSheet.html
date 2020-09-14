@@ -352,9 +352,11 @@
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
                     </td>
+                    {{#if settings.icons.equipment}}
                     <td>
                         <!-- Extra empty table data for icon-->
                     </td>
+                    {{/if}}
                     <td>{{localize "NUMENERA.pc.armor.name"}}</td>
                     <td>{{localize "NUMENERA.pc.armor.armor"}}</td>
                     <td>{{localize "NUMENERA.pc.armor.type"}}</td>
@@ -400,7 +402,11 @@
                     </tr>
                 {{else}}
                 <tr>
+                    {{#if settings.icons.equipment}}
                     <td colspan="8">
+                    {{else}}
+                    <td colspan="7">
+                    {{/if}}
                         {{{localize "NUMENERA.pc.armor.none"}}}
                     </td>
                 </tr>
@@ -415,9 +421,11 @@
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
                     </td>
+                    {{#if settings.icons.equipment}}
                     <td>
                         <!-- Extra empty table data for icon-->
                     </td>
+                    {{/if}}
                     <td>{{localize "NUMENERA.pc.otherItems.name"}}</td>
                     <td>{{localize "NUMENERA.pc.otherItems.quantity"}}</td>
                     <td>{{localize "NUMENERA.pc.otherItems.description"}}</td>
@@ -449,7 +457,11 @@
                     </tr>
                 {{else}}
                 <tr>
+                    {{#if settings.icons.equipment}}
                     <td colspan="6">
+                    {{else}}
+                    <td colspan="5">
+                    {{/if}}
                         {{{localize "NUMENERA.pc.otherItems.none"}}}
                     </td>
                 </tr>
