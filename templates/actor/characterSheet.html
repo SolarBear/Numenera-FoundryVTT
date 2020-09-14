@@ -9,23 +9,23 @@
     <div class="flexcol">
         <div class="flexrow header">
             <div class="picture">
-                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
             </div>
             <div class="contents flexcol">
                 <div class="flexrow">
                     {{#each data.stats as |stat id|}}
                     <div class="stats" data-stat="{{id}}">
-                        <h2 class="stat">
-                            {{lookup ../stats id}}
+                        <div class="statroll flexcol">
                             <a class="rollable" data-stat="{{lookup ../stats id}}"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" ></a>
-                        </h2>
-                        <h3>
-                            {{localize "NUMENERA.stats.current"}} <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
-                            /
-                            {{localize "NUMENERA.stats.pool"}} <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0" />
-                        </h3>
-
-                        <h3>{{localize "NUMENERA.stats.edge"}} <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
+                            <h2 class="stat">{{lookup ../stats id}}</h2>
+                        </div>
+                    </div>
+                    <div class="stats" data-stat="{{id}}">
+                        <div class="statedit flexcol">
+                            <h3>{{localize "NUMENERA.stats.edge"}} <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
+                            <h3><input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
+                                 / <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0"></h3>
+                        </div>
                     </div>
                     {{/each}}
                 </div>

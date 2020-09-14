@@ -31,7 +31,6 @@ $bggrad: linear-gradient(225deg, rgba(0, 0, 0, 0) 0%, rgba(189, 107, 107, 0.267)
 }
 
 body {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
@@ -81,9 +80,7 @@ form.numenera {
     h1.character {
         font-size: 24px;
         padding-left: 5px;
-        ///padding-bottom: 0.25em;
-        border: 0px;
-        border-bottom-color: $font-color;
+        border-bottom: 1px solid $border-color;
         background-position: center;
 
         input {
@@ -132,6 +129,11 @@ form.numenera {
         padding-top: 0.5em;
         margin-top: 1em;
 
+        &.stat {
+            margin-top: 0.15em;
+            padding: 0.15em;
+        }
+
         &:not(.stat) {
             margin-left: 1em;
         }
@@ -167,12 +169,15 @@ form.numenera {
 
         h2,h3 {
             font-weight: bold;
-            margin-top: .8em;
         }
 
         h3 {
-            margin-top: 0.5em;
+            margin-top: 0.25em;
         }
+
+        /// ----------
+        /// IMAGE
+        /// ----------
 
         div.picture {
             padding: 0.25em 0.25em 0.25em 0.25em;
@@ -180,9 +185,15 @@ form.numenera {
 
             img.profile-img {
                 border: none;
+                z-index: 2;
                 width: inherit;
-                max-width: 250px;
+                max-width: 240px;
                 max-height: 400px;
+                transition: 0.3s;
+            }
+
+            img.profile-img:hover {
+                filter: brightness(50%);
             }
         }
 
@@ -199,6 +210,7 @@ button#recoveryRoll {
     transition-duration: 0.3s;
     background-color: rgba(0, 0, 0, 0.15);
     border: $input-border-color;
+    padding-bottom: 10px;
 
     h2 {
         font-family: $font-stack;
@@ -223,8 +235,8 @@ a.rollable {
 
     & > img {
         border: 0;
-        height: 24px;
-        width: 24px;
+        height: 36px;
+        width: 36px;
     }
 }
 
@@ -336,10 +348,12 @@ a.rollable {
         }
 
         div.stats {
-            padding: 0.3em 0 0.3em 0;
+            padding: 1.75em 0 0 0;
             margin-top: 0.3em;
             margin-bottom: 0.3em;
             text-align: center;
+            border-color: black;
+            border-width: 1px;
 
             h2 {
                 text-transform: capitalize;
@@ -347,6 +361,25 @@ a.rollable {
                 button.roll {
                     margin-left: 1em;
                 }
+            }
+
+            div.statroll {
+                padding-top: 1em;
+                background-image: url("images/svg/uparrow1.svg");
+                background-position: center;
+                background-repeat: no-repeat;
+                transition: 0.3s;
+            }
+
+            div.statroll:hover {
+                text-shadow: purple;
+                background-image: url("images/svg/uparrow2.svg");
+                filter: invert(100%) drop-shadow(0px 0px 10px purple);
+                color: black;
+            }
+
+            div.statedit {
+                padding-bottom: 4px;
             }
         }
 
@@ -756,7 +789,6 @@ form.numenera-recovery {
 
                 div.stats {
                     display: block;
-                    margin-top: 0.5em;
                     border-color: $input-border-color;
                 }
             }
