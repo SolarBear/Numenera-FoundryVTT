@@ -80,8 +80,8 @@ form.numenera {
     h1.character {
         font-size: 24px;
         padding-left: 5px;
-        border-bottom: 1px solid $border-color;
-        background-position: center;
+        border-bottom: 0 solid $border-color;
+        margin: 0 0 0 0;
 
         input {
             margin-top: 0.5em;
@@ -114,6 +114,16 @@ form.numenera {
         }
     }
 
+    h1.texp {
+        font-size: 18px;
+        text-align: right;
+        padding-right: 1em;
+        padding-top: 0.25em;
+        background-color: rgba(255, 255, 255, 0.25);
+        border-top: 1px solid $border-color;
+        border-bottom: 1px solid $border-color;
+    }
+
     h1 input[type="text"] {
         height: auto;
         width: auto;
@@ -132,6 +142,11 @@ form.numenera {
         &.stat {
             margin-top: 0.15em;
             padding: 0.15em;
+        }
+
+        &.damagetrack {
+            margin-top: 0.15em;
+            padding-top: 0.15em;
         }
 
         &:not(.stat) {
@@ -365,6 +380,7 @@ a.rollable {
 
             div.statroll {
                 padding-top: 1em;
+                text-shadow: 0 0 5px white;
                 background-image: url("images/svg/uparrow1.svg");
                 background-position: center;
                 background-repeat: no-repeat;
@@ -379,6 +395,7 @@ a.rollable {
             }
 
             div.statedit {
+                padding-top: 1em;
                 padding-bottom: 4px;
             }
         }
@@ -477,6 +494,13 @@ a.rollable {
                 font-size: 16px;
                 text-align: center;
                 vertical-align: center;
+            }
+
+            a.skill-delete {
+                padding-top: 0.65em;
+                display: block;
+                float: right;
+                margin: auto;
             }
 
             tbody td input[type="text"] {
