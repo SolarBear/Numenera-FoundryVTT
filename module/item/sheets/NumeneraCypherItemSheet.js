@@ -31,7 +31,7 @@ export class NumeneraCypherItemSheet extends ItemSheet {
     getData() {
         const sheetData = super.getData();
 
-        const useCypherTypes = (game.settings.get("numenera", "cypherFlavor") !== 1);
+        const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
         sheetData.useCypherTypes = useCypherTypes;
 
         if (useCypherTypes) {

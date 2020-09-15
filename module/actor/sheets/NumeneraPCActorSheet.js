@@ -236,7 +236,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
-    const useCypherTypes = (game.settings.get("numenera", "cypherFlavor") !== 1);
+    const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
     sheetData.displayCypherType = useCypherTypes;
 
     // Add relevant data from system settings

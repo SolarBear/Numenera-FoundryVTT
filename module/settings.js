@@ -1,37 +1,5 @@
 export const registerSystemSettings = function() {
 
-  /**
-   * Configure the Numenera version being used
-   */
-  // game.settings.register("numenera", "systemVersion", {
-  //   name: "Numenera Version",
-  //   hint: "Select the Numenera version you're using. Version 1 is the original 2013 edition with the orange cover; version 2 is the 2018 split into two books, Discovery and Destiny",
-  //   scope: "world",
-  //   config: true,
-  //   type: Number,
-  //   default: 2,
-  //   choices: {
-  //     1: "Version 1",
-  //     2: "Version 2",
-  //   },
-  // });
-
-  // /**
-  //     * Toggle for alnternate Cpyher System Settings
-  //     */
-  //   game.settings.register("numenera", "worldSetting", {
-  //     name: "Alternate Cypher Setting",
-  //     hint: "Choose an alternate Cypher System Setting",
-  //     scope: "world",
-  //     config: true,
-  //     type: Number,
-  //     default: 1,
-  //     choices: {
-  //       1: "Numenera",
-  //       2: "The Strange",
-  //     },
-  //   });
-
   game.settings.register("numenera", "characterSheet", {
     name: "Character Sheet",
     hint: "Select the PC character sheet to use.",
@@ -57,6 +25,15 @@ export const registerSystemSettings = function() {
       2: "Anoetic/occultic (Numenera, The Strange)", 
       3: "Subtle/fantastic/manifest (Cypher System)",
     },
+  });
+
+  game.settings.register("numenera", "useRecursions", {
+    name: "Recursions",
+    hint: "Toggle the use of Recursion in your game.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
   });
 
   /**
@@ -109,6 +86,18 @@ export const registerSystemSettings = function() {
       "NUMENERA.units.feet": "Feet",
       "NUMENERA.units.meters": "Meters",
     }
+  });
+
+  /**
+   * Configure whether or not to show skill icons
+   */
+  game.settings.register("numenera", "showSkillIcons", {
+    name: "Skill Icons",
+    hint: "Enable to show skill icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
   });
 
   /**
