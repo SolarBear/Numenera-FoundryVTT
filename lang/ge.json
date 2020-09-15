@@ -41,7 +41,7 @@
 
     "NUMENERA.canvas.unit.feet": "Fuß",
     "NUMENERA.canvas.unit.meters": "Meter",
-    "NUMENERA.canvas.unit.noUnitWarning": "Bereich konnte nicht gemessen werden: Keine Maßeinheit für diese Szene festgelegt",
+    "NUMENERA.canvas.unit.noUnitWarning": "Bereich konnte nicht gemessen werden: keine Maßeinheit für diese Szene festgelegt",
 
     "NUMENERA.pcActorSheet.header.name": "Name",
     "NUMENERA.pcActorSheet.header.isA": "ist",
@@ -70,9 +70,9 @@
     "NUMENERA.pc.damageTrack.hale.label": "Gesund",
     "NUMENERA.pc.damageTrack.hale.description": "Der Normalzustand des Charakters.",
     "NUMENERA.pc.damageTrack.impaired.label": "Beeinträchtigt",
-    "NUMENERA.pc.damageTrack.impaired.description": "Du bist verletzt. Anstrengungen kosten dich pro aufgewendeter Stufe 1 Punkt zusätzlich. Mindere und mächtige Effekte werden ignoriert.",
+    "NUMENERA.pc.damageTrack.impaired.description": "Du bist Verletzt. Anstrengungen kosten dich pro aufgewendeter Stufe 1 Punkt zusätzlich. Mindere und mächtige Effekte werden ignoriert.",
     "NUMENERA.pc.damageTrack.debilitated.label": "Geschwächt",
-    "NUMENERA.pc.damageTrack.debilitated.description": "Du bist kritisch verwundet. Du kannst keine Aktionen ausführen, außer dich kriechend zu bewegen (höchstens eine Nahdistanz). Liegt der Geschwindigkeits-Pool bei 0, ist keine Bewegung mehr möglich. Fällt ein Werte-Pool im geschwächten zustand auf 0, stirbst du.",
+    "NUMENERA.pc.damageTrack.debilitated.description": "Du bist kritisch verwundet. Du kannst keine Aktionen ausführen außer dich kriechend zu bewegen (höchstens eine Nahdistanz). Liegt der Geschwindigkeits-Pool bei 0, ist keine Bewegung mehr möglich. Fällt ein Werte-Pool im geschwächten zustand auf 0, stirbst du.",
     "NUMENERA.pc.damageTrack.debilitated.warning": "Du kannst keinen Wurf ablegen da du geschwächt bist.",
     "NUMENERA.pc.damageTrack.dead.label": "Tot",
     "NUMENERA.pc.damageTrack.dead.description": "Du bist tot.",
@@ -100,6 +100,8 @@
     "NUMENERA.pc.numenera.cypher.none": "Keine Cyphers vorhanden",
     "NUMENERA.pc.numenera.cypher.overLimit": "Du bist über deinem Cyper Limit!",
     "NUMENERA.pc.numenera.cypher.type.name": "Typ",
+    "NUMENERA.pc.numenera.cypher.type.anoetic": "Anoetisch",
+    "NUMENERA.pc.numenera.cypher.type.occultic": "Okkult",
     "NUMENERA.pc.numenera.cypher.unidentified": "Unidentifizierte Cypher",
 
     "NUMENERA.pc.numenera.oddity.name": "Kuriosität",
@@ -193,7 +195,7 @@
     "NUMENERA.item.tab.rollTooltip": "Würfeln (Klicke um öffentlich zu würfeln, Shift+klicken für einen verdeckten Wurf)",
 
     "NUMENERA.item.ability.newAbility": "Neue Sonderfähigkeit",
-    "NUMENERA.item.ability.name": "Sonderfähigkeiten",
+    "NUMENERA.item.ability.name": " Sonderfähigkeiten",
     "NUMENERA.item.ability.type.action": "Aktion",
     "NUMENERA.item.ability.type.enabler": "Befähigung",
     "NUMENERA.item.ability.tab.createTooltip": "Neu",
@@ -220,7 +222,7 @@
     "NUMENERA.item.armor.description": "Beschreibung",
     "NUMENERA.item.armor.newArmor": "Neue Rüstung",
 	
-	"NUMENERA.item.numenera.formPlaceholder": "Du kannst mehrere angeben, wenn du sie mit einem ',' trennst",
+	"NUMENERA.item.numenera.formPlaceholder": "Du kannst mehrere angeben wenn du sie mit einem ',' trennst",
 
     "NUMENERA.item.artifact.level": "Stufe",
     "NUMENERA.item.artifact.form": "Form",
@@ -233,8 +235,8 @@
 
     "NUMENERA.item.cypher.level": "Stufe",
     "NUMENERA.item.cypher.type": "Typ",
-    "NUMENERA.item.cypher.type.anoetic": "Anoetisch",
-    "NUMENERA.item.cypher.type.occultic": "Okkult",
+    "NUMENERA.item.cypher.typeAnoetic": "Anoetisch",
+    "NUMENERA.item.cypher.typeOccultic": "Okkult",
     "NUMENERA.item.cypher.form": "Form",
     "NUMENERA.item.cypher.effect": "Effekt",
     "NUMENERA.item.cypher.newCypher": "Neue Cypher",
@@ -289,13 +291,13 @@
     "NUMENERA.dialog.confirmDeletion.ok": "Löschen",
     "NUMENERA.dialog.confirmDeletion.cancel": "Abbrechen",
 
-    "NUMENERA.info.linkedToSkillWithSameName": "Die Fähigkeit wurde mit einer Fertigkeit mit demselben Namen verbunden",
-    "NUMENERA.info.skillWithSameNameCreated": "Eine Fertigkeit mir demselben Namen wurde auch mit dieser Fähigkeit verbunden",
+    "NUMENERA.info.linkedToSkillWithSameName": "Die Fähigkeit wurde mit einer Fertigkeit mit dem selben Namen verbunden",
+    "NUMENERA.info.skillWithSameNameCreated": "Eine Fertigkeit mir dem selben Namen wurde auch mit dieser Fähigkeit verbunden",
 
-    "NUMENERA.warnings.abilityWithSameNameExists": "Es existiert eine Fähigkeit mit demselben Namen",
+    "NUMENERA.warnings.abilityWithSameNameExists": "Es existiert eine Fähigkeit mit dem selben Namen",
     "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Nicht genug Punkte in deinem Pool übrig, um diese Fähigkeit zu nutzen",
     "NUMENERA.warnings.noSkillRelatedToAbility": "Mit dieser Fertigkeit wurde keine Fähigkeit verbunden",
-    "NUMENERA.warnings.skillWithSameNameExists": "Es existiert eine Fertigkeit mit demselben Namen",
+    "NUMENERA.warnings.skillWithSameNameExists": "Es existiert eine Fertigkeit mit dem selben Namen",
 
     "NUMENERA.macro.use.notActorsItem": "Der aktive Charakter hat diesen Gegenstand nicht",
     "NUMENERA.macro.create.onlyOwned": "Du kannst Macros nur für Gegenstände die du besitzt erstellen"

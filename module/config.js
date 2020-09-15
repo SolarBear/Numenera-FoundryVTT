@@ -126,10 +126,17 @@ NUMENERA.abilityTypes = [
   "NUMENERA.item.ability.type.enabler",
 ];
 
-NUMENERA.cypherTypes = [
-  "NUMENERA.pc.numenera.cypher.type.anoetic",
-  "NUMENERA.pc.numenera.cypher.type.occultic",
-];
+NUMENERA.cypherTypes = {
+  numenerav1: [
+    "NUMENERA.item.cypher.type.anoetic",
+    "NUMENERA.item.cypher.type.occultic",
+  ],
+  cypherSystem: [
+    "NUMENERA.item.cypher.type.subtle",
+    "NUMENERA.item.cypher.type.manifest",
+    "NUMENERA.item.cypher.type.fantastic",
+  ]
+};
 
 // Note that these colors do not get propagated to the CSS; that would be neat, though
 NUMENERA.attributeColors = {
