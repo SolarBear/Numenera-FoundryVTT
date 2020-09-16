@@ -66,6 +66,7 @@
     "NUMENERA.pc.advances.skillTraining": "Train/Specialize skill",
     "NUMENERA.pc.advances.other": "Other",
     "NUMENERA.pc.armor.label": "Armor",
+    "NUMENERA.pc.armorpenalty.label": "Speed Penalty",
     "NUMENERA.pc.damageTrack.name": "Damage Track",
     "NUMENERA.pc.damageTrack.hale.label": "Hale",
     "NUMENERA.pc.damageTrack.hale.description": "Normal state for a character.",
