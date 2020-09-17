@@ -3,9 +3,18 @@
     src: url("fonts/ogirema.ttf") format("ttf");
 }
 
-$foundry-border-color: #782e22;
-$border-color: #325d6d;
+/// ----------
+/// ALL THE VARIABLES
+/// ----------
+
+$foundry-border-color: #4ec51f;
+$border-color: rgba(180, 180, 180, 0.5);
+$input-border-color: rgba(245, 245, 245, 0.15);
 $font-stack: Ogirema;
+$font-color: #131517;
+$font-edit-color: #093f55;
+$glow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+$bggrad: linear-gradient(225deg, rgba(0, 0, 0, 0) 0%, rgba(189, 107, 107, 0.267) 50%, #2294b133 80%);
 
 @mixin editor($class, $height, $id) {
     div.#{$class}  {
@@ -21,38 +30,32 @@ $font-stack: Ogirema;
     }
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/// ----------
+/// MESSAGE WINDOWS
+/// ----------
+
 span.numenera-message-special {
     font-weight: bold;
     font-size: large;
+    color: $font-color
 }
 
+/// ----------
+/// NUMENERA PC SHEET SETTINGS
+/// ----------
+
 form.numenera {
-    height: 100%;
+    max-width: 1200px;
     font-family: $font-stack;
-
-    button#recoveryRoll {
-        width: 75%;
-
-        h2 {
-            font-family: $font-stack;
-            margin: 0;
-        }
-    }
-
-    a i.handle {
-        cursor: move;
-    }
-
-    a.rollable {
-        height: auto;
-        width: auto;
-
-        & > img {
-            border: 0;
-            height: 24px;
-            width: 24px;
-        }
-    }
+    color: $font-color;
+    border-radius: 10px;
+    background-image: url("images/jpg/testbg.jpg");
+    background: $bggrad;
 
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
     .flewrow {
@@ -70,15 +73,22 @@ form.numenera {
         list-style-type: none;
     }
 
+    /// ----------
+    /// NAME / DESCRIPTOR / TYPE / FOCUS
+    /// ----------
+
     h1.character {
         font-size: 24px;
-        margin: 0;
-        border: 0;
-        padding-bottom: 0.25em;
+        padding-left: 5px;
+        border-bottom: 0 solid $border-color;
+        margin: 0 0 0 0;
 
         input {
             margin-top: 0.5em;
             height: auto;
+            color: $font-edit-color;
+            border-color: $input-border-color;
+            transition: 0.3s;
 
             &.charname {
                 font-weight: bold;
@@ -97,6 +107,21 @@ form.numenera {
                 width: 25ch;
             }
         }
+
+        input:hover {
+            text-shadow: $glow;
+            color: whitesmoke;
+        }
+    }
+
+    h1.texp {
+        font-size: 18px;
+        text-align: right;
+        padding-right: 1em;
+        padding-top: 0.25em;
+        background-color: rgba(255, 255, 255, 0.25);
+        border-top: 1px solid $border-color;
+        border-bottom: 1px solid $border-color;
     }
 
     h1 input[type="text"] {
@@ -105,17 +130,28 @@ form.numenera {
         margin-bottom: 0.25em;
     }
 
+    /// ----------
+    /// PC STATS / TIER / ADVANCEMENT / RECOVERY
+    /// ----------
+
     h2 {
         border: none;
         padding-top: 0.5em;
+        margin-top: 1em;
+
+        &.stat {
+            margin-top: 0.15em;
+            padding: 0.15em;
+        }
+
+        &.damagetrack {
+            margin-top: 0.15em;
+            padding-top: 0.15em;
+        }
 
         &:not(.stat) {
             margin-left: 1em;
         }
-    }
-
-    p.description {
-        font-style: italic;
     }
 
     label {
@@ -126,14 +162,25 @@ form.numenera {
         input[data-dtype="Number"] {
             width: 2em;
 
+
             &.tier {
                 width: 1ch;
             }
         }
+
+        input[type="text"] {
+            margin-bottom: 0.25em;
+            background-color: none;
+            border: $input-border-color;
+            color: $font-edit-color;
+        }
+    }
+
+    p.description {
+        font-style: italic;
     }
 
     div.header {
-        border: 1px solid $border-color;
 
         h2,h3 {
             font-weight: bold;
@@ -143,23 +190,70 @@ form.numenera {
             margin-top: 0.25em;
         }
 
-        div.contents > div > div:not(:last-child) {
-            border-right: 1px solid $border-color;
-        }
+        /// ----------
+        /// IMAGE
+        /// ----------
 
         div.picture {
-            border-right: 1px solid $border-color;
             padding: 0.25em 0.25em 0.25em 0.25em;
             flex: 0.4;
 
             img.profile-img {
                 border: none;
+                z-index: 2;
                 width: inherit;
-                max-width: 250px;
+                max-width: 240px;
                 max-height: 400px;
-                margin-bottom: 1em;
+                transition: 0.3s;
+            }
+
+            img.profile-img:hover {
+                filter: brightness(50%);
             }
         }
+
+        .recovery {
+            margin-top: 1.5em;
+        }
+
+/// ----------
+/// RECOVERY BUTTON
+/// ----------
+
+button#recoveryRoll {
+    width: 75%;
+    transition-duration: 0.3s;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: $input-border-color;
+    padding-bottom: 10px;
+
+    h2 {
+        font-family: $font-stack;
+        margin: 0;
+    }
+}
+
+#recoveryRoll:hover {
+    background-color: $font-edit-color;
+    box-shadow: $glow;
+    border: none;
+    color: white;
+}
+
+a i.handle {
+    cursor: move;
+}
+
+a.rollable {
+    height: auto;
+    width: auto;
+
+    & > img {
+        border: 0;
+        height: 36px;
+        width: 36px;
+    }
+}
 
         div > div.npc-info,div.community-info {
             flex: 0.25;
@@ -269,16 +363,40 @@ form.numenera {
         }
 
         div.stats {
-            padding: 0.3em 0 0.3em 0;
+            padding: 1.75em 0 0 0;
+            margin-top: 0.3em;
+            margin-bottom: 0.3em;
             text-align: center;
+            border-color: black;
+            border-width: 1px;
 
             h2 {
                 text-transform: capitalize;
-                padding-top: 0;
 
                 button.roll {
                     margin-left: 1em;
                 }
+            }
+
+            div.statroll {
+                padding-top: 1em;
+                text-shadow: 0 0 5px white;
+                background-image: url("images/svg/uparrow1.svg");
+                background-position: center;
+                background-repeat: no-repeat;
+                transition: 0.3s;
+            }
+
+            div.statroll:hover {
+                text-shadow: purple;
+                background-image: url("images/svg/uparrow2.svg");
+                filter: invert(100%) drop-shadow(0px 0px 10px purple);
+                color: black;
+            }
+
+            div.statedit {
+                padding-top: 1em;
+                padding-bottom: 4px;
             }
         }
 
@@ -287,6 +405,21 @@ form.numenera {
         }
 
         table {
+            
+            .thead {
+                background-color: rgba(0, 0, 0, 0);
+            }
+
+            tr {
+                background-color: rgba(0, 0, 0, 0);
+                color: whitesmoke;
+                text-shadow: none;
+            }
+
+            tr:hover {
+                background-color: rgba(0, 0, 0, 0.1)
+            };
+
             td {
                 padding: 5px;
                 margin: 5px 0;
@@ -294,6 +427,7 @@ form.numenera {
                 font-size: 16px;
                 text-align: center;
                 vertical-align: center;
+                border-bottom: 1px solid $border-color;
             }
 
             &.armor {
@@ -362,9 +496,18 @@ form.numenera {
                 vertical-align: center;
             }
 
+            a.skill-delete {
+                padding-top: 0.65em;
+                display: block;
+                float: right;
+                margin: auto;
+            }
+
             tbody td input[type="text"] {
                 text-align: left;
-                width: 100%;
+                width: auto;
+                border: $input-border-color;
+                color: $font-edit-color;
 
                 &.skill-name-input, &.ability-name-input {
                     width: 95%; //HACK! find a better way plz
@@ -466,9 +609,8 @@ form.numenera {
 
     //Tabs
     nav {
-        margin: 0.5em 0 0.5em 0;
-        border: 1px solid black;
-        border-radius: 8px;
+        margin: 0.25em 0 0.25em 0;
+        background-color: #00000010;
 
         &.sheet-tabs {
             flex: 0;
@@ -481,13 +623,13 @@ form.numenera {
     }
 
     //Separators, borrowed from https://github.com/Roll20/roll20-character-sheets/blob/master/Numenera/Numenera.css
+    //Numenera
     hr.sheet-one {
         margin: 0;
         height: 20px;
         border-style: solid;
-        border-color: #056da1;
-        border-width: 1px 1px 0 0;
-        border-radius: 20px;
+        border-color: $border-color;
+        border-width: 10px 10px 0 0;
     }
 
     hr.sheet-one:before {
@@ -496,8 +638,8 @@ form.numenera {
         height: 20px;
         margin-top: -21px;
         border-style: solid;
-        border-color: #056da1;
-        border-width: 0 0 1px 1px;
+        border-color: $border-color;
+        border-width: 0 0 10px 10px;
         border-radius: 20px;
     }
 
@@ -626,10 +768,10 @@ form.numenera-recovery {
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            align-items: center;
+            align-items: left;
 
             &:first-child {
-                border-right: 2px solid $foundry-border-color;
+                border-right: 2px solid rgba(0,0,0,0);
             }
 
             &.disabled {
@@ -640,6 +782,14 @@ form.numenera-recovery {
                 margin-top: 1em;
                 justify-self: flex-end;
                 width: 60%;
+                border: none;
+                font-family: $font-stack;
+            }
+
+            button:hover {
+                background-color: #1d757d;
+                border: none;
+                color: white;
             }
 
             &.recoveries {
@@ -658,12 +808,12 @@ form.numenera-recovery {
                     font-size: 16px;
                     font-weight: bold;
                     text-transform: capitalize;
-                    margin-right: 0.4em;
+                    margin-right: 0.5em;
                 }
 
                 div.stats {
                     display: block;
-                    margin-top: 0.5em;
+                    border-color: $input-border-color;
                 }
             }
         }

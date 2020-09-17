@@ -6,41 +6,36 @@
         <input type="text" name="data.characterType" value="{{data.characterType}}" class="characterType" placeholder="{{localize "NUMENERA.pcActorSheet.header.type"}}" data-type="String">
         {{localize "NUMENERA.pcActorSheet.header.who"}} <input type="text" name="data.currentFocus" value="{{data.currentFocus}}" class="focus" placeholder="{{localize "NUMENERA.pcActorSheet.header.focus"}}" />
     </h1>
-    <h1 class="texp">
-        {{localize "NUMENERA.pc.tier"}}: <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
-         / {{localize "NUMENERA.pc.effort"}}: <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
-         / {{localize "NUMENERA.pcActorSheet.advancement.xp"}}: <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" />
-    </h1>
     <div class="flexcol">
         <div class="flexrow header">
             <div class="picture">
                 <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
+                <img class="edit-img" src="/icons/svg/_edit.svg">
             </div>
             <div class="contents flexcol">
                 <div class="flexrow">
                     {{#each data.stats as |stat id|}}
                     <div class="stats" data-stat="{{id}}">
-                        <div class="statroll flexcol">
+                        <h2 class="stat">
+                            {{lookup ../stats id}}
                             <a class="rollable" data-stat="{{lookup ../stats id}}"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" ></a>
-                            <h2 class="stat">{{lookup ../stats id}}</h2>
-                        </div>
-                    </div>
-                    <div class="stats" data-stat="{{id}}">
-                        <div class="statedit flexcol">
-                            <h3>{{localize "NUMENERA.stats.edge"}} <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
-                            <h3><input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
-                                 / <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0"></h3>
-                        </div>
+                        </h2>
+                        <h3>
+                            {{localize "NUMENERA.stats.current"}} <input name="data.stats.{{id}}.pool.value" type="text" value="{{stat.pool.value}}" class="stats" data-dtype="Number" placeholder="0" />
+                            /
+                            {{localize "NUMENERA.stats.pool"}} <input name="data.stats.{{id}}.pool.max" type="text" value="{{stat.pool.max}}" class="stats" data-dtype="Number" placeholder="0" />
+                        </h3>
+
+                        <h3>{{localize "NUMENERA.stats.edge"}} <input name="data.stats.{{id}}.edge" type="text" value="{{stat.edge}}" class="stats" data-dtype="Number" placeholder="0" /></h3>
                     </div>
                     {{/each}}
                 </div>
                 <div class="flexrow">
                     <div class="stats">
-                        <h2 class="damagetrack">{{localize "NUMENERA.pc.armor.label"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
-                        </2>
-                        <h3>{{localize "NUMENERA.pc.armorpenalty.label"}}&nbsp;<input type="text" name="data.armorpenalty" value="{{data.armorpenalty}}" class="armorpenalty" min="0" max="4" data-dtype="Number" placeholder="0" />
-                        </h3>
-                        <h2 class="damagetrack">{{localize "NUMENERA.pc.damageTrack.name"}}</h2>
+                        <h2>{{localize "NUMENERA.pc.tier"}} <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
+                            {{localize "NUMENERA.pc.effort"}} <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
+                        </h2>
+                        <h2>{{localize "NUMENERA.pc.damageTrack.name"}}</h2>
                         <p>
                             <select name="data.damageTrack" data-dtype="Number">
                             {{#select data.damageTrack}}
@@ -51,6 +46,20 @@
                             </select>
                         </p>
                         <p class="description">{{localize damageTrackDescription}}</p>
+                    </div>
+                    <div class="stats advances">
+                        <h2>{{localize "NUMENERA.pcActorSheet.advancement.title"}}</h2>
+                        <h3>
+                            <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> {{localize "NUMENERA.pcActorSheet.advancement.xp"}}
+                        </h3>
+                        <ul>
+                            {{#each advances as |advance|}}
+                            <li>
+                                <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean" {{checked advance.isChecked}}/>
+                                <label for="data.advances.{{advance.name}}">{{localize advance.label}}</label>
+                            </li>
+                            {{/each}}
+                        </ul>
                     </div>
                     <div class="stats recovery">
                         <button id="recoveryRoll">
@@ -64,17 +73,8 @@
                             </li>
                         {{/each}}
                         </ul>
-                    </div>
-                    <div class="stats advances">
-                        <h2>{{localize "NUMENERA.pcActorSheet.advancement.title"}}</h2>
-                        <ul>
-                            {{#each advances as |advance|}}
-                            <li>
-                                <input type="checkbox" name="data.advances.{{advance.name}}" id="data.advances.{{advance.name}}" data-dtype="Boolean" {{checked advance.isChecked}}/>
-                                <label for="data.advances.{{advance.name}}">{{localize advance.label}}</label>
-                            </li>
-                            {{/each}}
-                        </ul>
+                        <h2>{{localize "NUMENERA.pc.armor.label"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -338,7 +338,7 @@
                     {{#if settings.icons.equipment}}
                     <td colspan="8">
                     {{else}}
-                    <td colspan="7">
+                    <td colspan="7"></td>
                     {{/if}}
                         {{{localize "NUMENERA.pc.weapons.none"}}}
                     </td>
@@ -353,11 +353,9 @@
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
                     </td>
-                    {{#if settings.icons.equipment}}
                     <td>
                         <!-- Extra empty table data for icon-->
                     </td>
-                    {{/if}}
                     <td>{{localize "NUMENERA.pc.armor.name"}}</td>
                     <td>{{localize "NUMENERA.pc.armor.armor"}}</td>
                     <td>{{localize "NUMENERA.pc.armor.type"}}</td>
@@ -403,11 +401,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    {{#if settings.icons.equipment}}
                     <td colspan="8">
-                    {{else}}
-                    <td colspan="7">
-                    {{/if}}
                         {{{localize "NUMENERA.pc.armor.none"}}}
                     </td>
                 </tr>
@@ -422,11 +416,9 @@
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
                     </td>
-                    {{#if settings.icons.equipment}}
                     <td>
                         <!-- Extra empty table data for icon-->
                     </td>
-                    {{/if}}
                     <td>{{localize "NUMENERA.pc.otherItems.name"}}</td>
                     <td>{{localize "NUMENERA.pc.otherItems.quantity"}}</td>
                     <td>{{localize "NUMENERA.pc.otherItems.description"}}</td>
@@ -458,11 +450,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    {{#if settings.icons.equipment}}
                     <td colspan="6">
-                    {{else}}
-                    <td colspan="5">
-                    {{/if}}
                         {{{localize "NUMENERA.pc.otherItems.none"}}}
                     </td>
                 </tr>

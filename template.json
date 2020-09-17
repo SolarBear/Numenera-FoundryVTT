@@ -10,6 +10,7 @@
                 "other": false
             },
             "armor": 0,
+            "armorPenalty": "",
             "background": "",
             "characterType": "",
             "cypherLimit": 1,

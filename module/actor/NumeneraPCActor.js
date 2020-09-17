@@ -259,13 +259,13 @@ export class NumeneraPCActor extends Actor {
   isOverCypherLimit() {
     const cyphers = this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "cypher");
 
-    switch (game.settings.get("numenera", "systemVersion")) {
-      case 1:
-        return this._isOverCypherLimitv1(cyphers);
-
-      case 2:
+    //AFAIK, only systems using anoetic/occultic cyphers count them differently
+    switch (game.settings.get("numenera", "cypherTypesFlavor")) {
+      case 1: //Numenera v2-style
+      case 3: //Cypher Syste-style
         return this._isOverCypherLimitv2(cyphers);
-
+      case 2: //Numenera/The Strange-style
+        return this._isOverCypherLimitv1(cyphers);
       default:
         throw new Error("Unhandled version");
     }
@@ -325,6 +325,11 @@ export class NumeneraPCActor extends Actor {
       throw new Error("Not an ability item");
 
     const cost = ability.getCost();
+    //Ability costs 0? yeah, sure, use it, buddy
+    if (cost.amount === 0) {
+      return true;
+    }
+
     const stat = this.data.data.stats[cost.pool];
 
     if (!stat)
@@ -366,6 +371,10 @@ export class NumeneraPCActor extends Actor {
 
     //TODO extract to method
     const cost = ability.getCost();
+    if (cost.amount === 0) {
+      return true;
+    }
+
     const stat = this.data.data.stats[cost.pool];
 
     if (cost.amount > stat.edge) {

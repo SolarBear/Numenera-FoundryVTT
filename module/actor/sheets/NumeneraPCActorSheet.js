@@ -173,7 +173,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   static get advances() {
     return NUMENERA.advances;
-  }
+  } 
 
   constructor(...args) {
     super(...args);
@@ -217,11 +217,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-   get template() {
-    if (game.settings.get("numenera", "worldSetting") === 2)
-      return "systems/numenera/templates/actor/characterSheetStrange.html";
-    else
-      return "systems/numenera/templates/actor/characterSheet.html";
+  get template() {
+    switch (game.settings.get("numenera", "characterSheet"))
+    {
+      case 1:
+        return "systems/numenera/templates/actor/characterSheet.html";
+      case 2:
+        return "systems/numenera/templates/actor/characterSheetStrange.html";
+      default:
+        throw new Error("Invalid setting for NumeneraPCActorSheet template");
+    }
   }
 
   /**
@@ -231,7 +236,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
-    const useCypherTypes = (game.settings.get("numenera", "systemVersion") === 1);
+    const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
     sheetData.displayCypherType = useCypherTypes;
 
     // Add relevant data from system settings
