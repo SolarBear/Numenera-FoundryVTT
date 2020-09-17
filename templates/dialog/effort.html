@@ -1,0 +1,43 @@
+<form class="{{cssClass}} numenera-effort" autocomplete="off">
+    <h1>{{localize "NUMENERA.effort.title"}}</h1>
+    <div class="flexcol">
+        <div>
+            Roll&nbsp;
+            <select name="data.stat" data-dtype="String">
+                {{#select data.pool}}
+                {{#each stats}}
+                <option value="{{this}}">{{localize this}}</option>
+                {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div>
+            Skill&nbsp;
+            <select name="data.skills" data-dtype="String">
+                {{#select skill}}
+                {{#each skills}}
+                <option value="{{this.id}}">{{this.name}}</option>
+                {{/each}}
+                {{/select}}
+            </select>
+        </div>
+        <div>
+            Effort Level {{effortLevel}}<br/>
+            <input type="range" name="effortLevel" data-dtype="Number" value="0" min="0" max="{{maxEffortLevel}}" step="1" />
+            Pool&nbsp;
+            <label>
+                Before&nbsp;
+                <input type="number" name="before" value="1" disabled="disabled" />
+            </label>
+            <label>
+                After&nbsp;
+                <input type="number" name="after" value="{{newPoolValue}}" disabled="disabled" />
+            </label>
+        </div>
+        <div>
+            <button>
+                Roll
+            </button>
+        </div>
+    </div>
+</form>

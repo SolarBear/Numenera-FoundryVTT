@@ -12,6 +12,7 @@ import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 
 import  "../../../lib/dragula/dragula.js";
 import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
+import { EffortDialog } from "../../apps/EffortDialog.js";
 
 //Common Dragula options
 const dragulaOptions = {
@@ -637,7 +638,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   onRecoveryRoll(event) {
     event.preventDefault();
-    new RecoveryDialog(this.actor).render(true);
+    //new RecoveryDialog(this.actor).render(true);
+    new EffortDialog(this.actor).render(true);
   }
 
   /*
