@@ -55,7 +55,7 @@ function onItemCreate(itemType, itemClass, callback = null) {
       name: newName,
       type: itemType,
       data: new itemClass({}),
-    };u
+    };
 
     const newItem = await this.actor.createOwnedItem(itemData);
     if (callback)
