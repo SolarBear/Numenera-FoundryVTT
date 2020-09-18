@@ -1,6 +1,7 @@
 import { numeneraRollFormula } from "../roll.js";
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
+import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 
 const effortObject = {
   cost: 0,
@@ -305,6 +306,7 @@ export class NumeneraPCActor extends Actor {
         return this.useAbility(item);
 
       case NumeneraSkillItem.type:
+      case NumeneraWeaponItem.type:
         return item.use();
 
       default:
