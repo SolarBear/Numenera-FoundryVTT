@@ -152,6 +152,9 @@ export class EffortDialog extends FormApplication {
       this.object.stat = formData.stat;
       //If the stat did change, the skill is not relevant anymore
       this.object.skill = null;
+    } else if (!formData.skill) {
+      //Skill deselected
+      this.object.skill = null;
     }
     
     //Re-render the form since it's not provided for free in FormApplications
