@@ -18,7 +18,7 @@ export class NumeneraSkillItem extends Item {
       itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
       itemData.notes = itemData.notes || "";
       //To avoid problems, set the first stat in the list as the default one
-      itemData.stat = itemData.stat || Object.keys(NUMENERA.stats)[0];
+      itemData.stat = itemData.stat || Object.values(NUMENERA.stats)[0];
       itemData.inability = itemData.inability || false;
       itemData.skillLevel = itemData.skillLevel || 0;
   }
