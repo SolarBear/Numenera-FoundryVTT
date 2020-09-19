@@ -1,6 +1,7 @@
 import { numeneraRollFormula } from "../roll.js";
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
+import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 
 const effortObject = {
   cost: 0,
@@ -305,6 +306,7 @@ export class NumeneraPCActor extends Actor {
         return this.useAbility(item);
 
       case NumeneraSkillItem.type:
+      case NumeneraWeaponItem.type:
         return item.use();
 
       default:
@@ -325,6 +327,11 @@ export class NumeneraPCActor extends Actor {
       throw new Error("Not an ability item");
 
     const cost = ability.getCost();
+    //Ability costs 0? yeah, sure, use it, buddy
+    if (cost.amount === 0) {
+      return true;
+    }
+
     const stat = this.data.data.stats[cost.pool];
 
     if (!stat)
@@ -366,6 +373,10 @@ export class NumeneraPCActor extends Actor {
 
     //TODO extract to method
     const cost = ability.getCost();
+    if (cost.amount === 0) {
+      return true;
+    }
+
     const stat = this.data.data.stats[cost.pool];
 
     if (cost.amount > stat.edge) {

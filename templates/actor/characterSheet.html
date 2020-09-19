@@ -36,9 +36,6 @@
                 </div>
                 <div class="flexrow">
                     <div class="stats">
-                        <!--<h2>{{localize "NUMENERA.pc.tier"}} <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
-                            {{localize "NUMENERA.pc.effort"}} <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
-                        </h2>-->
                         <h2 class="damagetrack">{{localize "NUMENERA.pc.armor.label"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
                         </2>
                         <h3>{{localize "NUMENERA.pc.armorpenalty.label"}}&nbsp;<input type="text" name="data.armorpenalty" value="{{data.armorpenalty}}" class="armorpenalty" min="0" max="4" data-dtype="Number" placeholder="0" />
@@ -70,9 +67,6 @@
                     </div>
                     <div class="stats advances">
                         <h2>{{localize "NUMENERA.pcActorSheet.advancement.title"}}</h2>
-                        <!--<h3>
-                            <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" /> {{localize "NUMENERA.pcActorSheet.advancement.xp"}}
-                        </h3>-->
                         <ul>
                             {{#each advances as |advance|}}
                             <li>
@@ -344,7 +338,7 @@
                     {{#if settings.icons.equipment}}
                     <td colspan="8">
                     {{else}}
-                    <td colspan="7"></td>
+                    <td colspan="7">
                     {{/if}}
                         {{{localize "NUMENERA.pc.weapons.none"}}}
                     </td>
