@@ -1,15 +1,16 @@
-<form class="{{cssClass}} numenera-effort" autocomplete="off">
+<form class="{{cssClass}} numenera-dialog" autocomplete="off">
     <div class="flexcol">
         <div>
-            Rolling for
-            <select name="stat" data-dtype="String">
-                {{#select stat}}
-                <option value="">Select a stat</option>
-                {{#each stats}}
-                <option value="{{this}}">{{localize this}}</option>
-                {{/each}}
-                {{/select}}
-            </select>
+            <h1>Rolling for
+                <select name="stat" data-dtype="String">
+                    {{#select stat}}
+                    <option value="">Select a stat</option>
+                    {{#each stats}}
+                    <option value="{{this}}">{{localize this}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </h1>
         </div>
         <!-- <div>
             Skill&nbsp;
@@ -22,33 +23,37 @@
             </select>
         </div> -->
         <div>
-            Effort Level <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" />
-            <br/>
-            Max Effort Level {{ maxEffortLevel }}
-            <div>
-                <h4>Pool</h4>
-                <div class="flexrow">
-                    <div>
-                        Current {{current}}
-                    </div>
-                    <div>
-                        Cost {{cost}}
-                    </div>
-                    <div>
-                        Remaining {{remaining}}
-                    </div>
+            <h2>Effort</h2>
+            <div class="flexrow">
+                <div>
+                    Effort Level <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" />    
+                </div>
+                <div>
+                    Max Effort Level {{ maxEffortLevel }}
+                </div>
+            </div>
+        </div>
+        <div>
+            <h2>Pool</h2>
+            <div class="flexrow">
+                <div>
+                    Current {{current}}
+                </div>
+                <div>
+                    Cost {{cost}}
+                </div>
+                <div>
+                    Remaining {{remaining}}
                 </div>
             </div>
         </div>
         {{#if displayWarning}}
-        <div>
-        
+        <div class="warning">
             <i class="fas fa-exclamation-triangle"></i> {{warning}}
-        
         </div>
         {{/if}}
-        <div>
-            <button id="roll-with-effort"
+        <div class="flexrow">
+            <button id="roll-with-effort" class="animated"
                 {{#if displayWarning}}disabled="disabled"{{/if}}
             >
                 Apply {{currentEffort}} Effort and roll
