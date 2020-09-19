@@ -14,7 +14,7 @@ export class EffortDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 400,
-      height: 300,
+      height: 350,
     });
   }
 
@@ -54,15 +54,15 @@ export class EffortDialog extends FormApplication {
     const data = super.getData();
 
     data.stats = NUMENERA.stats;
-    // data.skills = this.object.actor.getEmbeddedCollection("OwnedItem")
-    //   .filter(i => i.type === "skill")
-    //   .map(sk => {
-    //     return {
-    //       id: sk._id,
-    //       name: sk.name,
-    //     };
-    //   });
-    // data.skill = this.object.skill;
+    data.skills = this.object.actor.getEmbeddedCollection("OwnedItem")
+      .filter(i => i.type === "skill")
+      .map(sk => {
+        return {
+          id: sk._id,
+          name: sk.name,
+        };
+      });
+    data.skill = this.object.skill;
 
     let shortStat = null,
         stat = null;
@@ -135,12 +135,26 @@ export class EffortDialog extends FormApplication {
   }
 
   _updateObject(event, formData) {
-    this.object.stat = formData.stat;
     this.object.currentEffort = formData.currentEffort;
+
+    // Did the skill change?
+    if (formData.skill && formData.skill !== this.object.skill) {
+      //In that case, update the stat to be the skill's stat
+      this.object.skill = formData.skill;
+      const skill = this.object.actor.getOwnedItem(formData.skill);
+
+      if (skill) {
+        this.object.stat = skill.data.data.stat;
+      }
+    }
+    // Otherwise, did the stat change?
+    else if (formData.stat && formData.stat !== this.object.stat) {
+      this.object.stat = formData.stat;
+      //If the stat did change, the skill is not relevant anymore
+      this.object.skill = null;
+    }
     
     //Re-render the form since it's not provided for free in FormApplications
     this.render();
   }
-
-
 }
