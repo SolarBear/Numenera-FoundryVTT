@@ -750,7 +750,7 @@ form.numenera-dialog {
     .warning {
         color: red;
         align-self: center;
-        margin: 0.75em 0 0.75em 0;
+        margin-bottom: 0.75em;
     }
 
     & > div.columns {
@@ -808,6 +808,16 @@ form.numenera-dialog {
             }
         }
     }
+
+    /// ----------
+    /// EFFORT DIALOG
+    /// ----------
+
+    &.effort {
+        .pools {
+            margin-bottom: 1em;
+        }
+    }
 }
 
 /// ----------
@@ -816,22 +826,27 @@ form.numenera-dialog {
 
 form.numenera button.animated,
 form.numenera-dialog button.animated {
-    width: 75%;
     transition-duration: 0.3s;
     background-color: rgba(0, 0, 0, 0.15);
     border: $input-border-color;
-    padding-bottom: 10px;
-
-    h2 {
-        font-family: $font-stack;
-        margin: 0;
-    }
+    font-family: $font-stack;
+    font-weight: bold;
 
     &:hover:enabled {
         background-color: $font-edit-color;
         box-shadow: $glow;
         border: none;
         color: white;
+    }
+}
+
+//Some exceptions
+form.numenera button.animated {
+    width: 75%;
+    padding-bottom: 10px;
+
+    h2 {
+        margin: 0;
     }
 }
 
