@@ -670,6 +670,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const item = Item.collection.entities.find(i => i._id == id)
 
+    //To avoid "false drops"
+    if (!item)
+      return;
+
     switch (item.data.type) {
       case "armor":
         //Necessary because dropping a new armor from the directory would not update the Armor field
