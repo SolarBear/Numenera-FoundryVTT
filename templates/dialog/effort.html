@@ -40,8 +40,17 @@
                 </div>
             </div>
         </div>
+        {{#if displayWarning}}
         <div>
-            <button id="roll-with-effort">
+        
+            <i class="fas fa-exclamation-triangle"></i> {{warning}}
+        
+        </div>
+        {{/if}}
+        <div>
+            <button id="roll-with-effort"
+                {{#if displayWarning}}disabled="disabled"{{/if}}
+            >
                 Apply {{currentEffort}} Effort and roll
             </button>
         </div>

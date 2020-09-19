@@ -28,6 +28,25 @@ export class EffortDialog extends FormApplication {
     }, {});
   }
 
+  get warning() {
+    if (!this.object.stat)
+    {
+      return "You must provide a stat before using Effort";
+    }
+
+    const actor = this.object.actor;
+    const shortStat = this.object.stat.split(".").pop();
+    const poolValue = actor.data.data.stats[shortStat].pool.value;
+    const cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
+    
+    if (cost > poolValue)
+    {
+      return "Insufficient points in this pool for this level of Effort";
+    }
+
+    return null;
+  }
+
   /**
    * @inheritdoc
    */
@@ -54,6 +73,8 @@ export class EffortDialog extends FormApplication {
       data.stat = this.object.stat;
     }
     
+    data.warning = this.warning;
+    data.displayWarning = !!data.warning;
     data.currentEffort = this.object.currentEffort;
     data.maxEffortLevel = this.object.actor.data.data.effort;
 
@@ -78,26 +99,48 @@ export class EffortDialog extends FormApplication {
   }
 
   async _rollWithEffort(event) {
-    debugger;
     const actor = this.object.actor;
+    //TODO make this into some kind of helper/static method
+    const shortStat = this.object.stat.split(".").pop();
+
+    if (!this.object.stat)
+      throw new Error("You must provide a stat before using Effort");
+
+    const poolValue = actor.data.data.stats[shortStat].pool.value;
+    const cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
+    
+    if (cost > poolValue)
+      throw new Error("You must provide a stat before using Effort");
 
     let skill = null;
     const skillId = this.object.skill;
     if (skillId) {
       skill = actor.getOwnedItem(skillId);
-      return actor.rollSkill(skill);
+      actor.rollSkill(skill);
     }
     else {
-      return actor.rollAttribute(this.object.stat);
+      actor.rollAttribute(shortStat);
     }
+
+    if (cost <= 0)
+      return;
+
+    const poolProp = `data.stats.${shortStat}.pool.value`;
+
+    const data = { _id: actor._id };
+    data[poolProp] = poolValue - cost;
+
+    //TIME TO PAY THE PRICE MWAHAHAHAHAHAHAH
+    actor.update(data);
   }
 
   _updateObject(event, formData) {
     this.object.stat = formData.stat;
     this.object.currentEffort = formData.currentEffort;
-    //this.object.skill = formData.skill;
     
     //Re-render the form since it's not provided for free in FormApplications
     this.render();
   }
+
+
 }
