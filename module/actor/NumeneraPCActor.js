@@ -3,12 +3,6 @@ import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 
-const effortObject = {
-  cost: 0,
-  effortLevel: 0,
-  warning: null,
-};
-
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
  */
@@ -54,11 +48,6 @@ export class NumeneraPCActor extends Actor {
     return this.getSkillFormula(initSkill);
   }
 
-  get effort() {
-    const data = this.data.data;
-
-    return data.tier + (data.advances.effort ? 1 : 0);
-  }
 
   /**
    * Get the current PC's level on the damage track as an integer, 0 being Hale and 3 being Dead.
@@ -193,41 +182,17 @@ export class NumeneraPCActor extends Actor {
     return this.data.data.skills.filter(id => id == statId);
   }
 
-  getEffortCostFromStat(event) {
-    //Return value, copy from template object
-    const value = { ...effortObject };
-
-    const effortLevel = event.target.value;
-    if (effortLevel === 0) {
-      return value;
-    }
+  getEffortCostFromStat(stat, effortLevel) {
+    if (!stat)
+      return null;
 
     const actorData = this.data.data;
-
-    const statId = event.target.dataset.statId;
-    const stat = actorData.stats[statId];
+    stat = actorData.stats[stat];
 
     //The first effort level costs 3 pts from the pool, extra levels cost 2
-    //Substract the related Edge, too
-    const availableEffortFromPool = (stat.pool.current + stat.edge - 1) / 2;
-
-    //A PC can use as much as their Effort score, but not more
-    //They're also limited by their current pool value
-    const finalEffort = Math.max(effortLevel, actorData.effort, availableEffortFromPool);
-    const cost = 1 + 2 * finalEffort - stat.edge;
-
-    //TODO take free levels of Effort into account here
-
-    let warning = null;
-    if (effortLevel > availableEffortFromPool) {
-      warning = null; // TODO put into localization file `Not enough points in your ${statId} pool for that level of Effort`;
-    }
-
-    value.cost = cost;
-    value.effortLevel = finalEffort;
-    value.warning = warning;
-
-    return value;
+    //Subtract the related Edge, too
+    const availableEffortFromPool = Math.floor((stat.pool.value + stat.edge - 1) / 2);
+    return Math.max(0, 1 + 2 * effortLevel - stat.edge);
   }
 
   getTotalArmor() {

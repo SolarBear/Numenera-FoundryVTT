@@ -18,6 +18,8 @@
     "NUMENERA.communityActorSheet.tab.government": "Government",
     "NUMENERA.communityActorSheet.tab.information": "Information",
     "NUMENERA.communityActorSheet.tab.overview": "Overview",
+
+    "NUMENERA.effort.title": "Effort",
     
     "NUMENERA.gmIntrusion": "GM Intrusion",
     "NUMENERA.gmIntrusionContent": "<p>The game master offers you an intrusion. Do you accept?</p><ul><li>Should you accept, the GM will introduce an unexpected complication for your character; however, you will receive 2 XP, 1 of which you must give to another player.</li><li>Should you refuse, the complication will not happen but 1 XP will be subtracted from your current amount.</li></ul>",
