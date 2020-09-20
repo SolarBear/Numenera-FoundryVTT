@@ -1,4 +1,5 @@
 import { NUMENERA } from "../config.js";
+import { getShortStat } from "../utils.js";
 
 export class EffortDialog extends FormApplication {
   /**
@@ -35,7 +36,7 @@ export class EffortDialog extends FormApplication {
     }
 
     const actor = this.object.actor;
-    const shortStat = this.object.stat.split(".").pop();
+    const shortStat = getShortStat(this.object.stat);
     const poolValue = actor.data.data.stats[shortStat].pool.value;
     const cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
     
@@ -67,7 +68,7 @@ export class EffortDialog extends FormApplication {
     let shortStat = null,
         stat = null;
     if (this.object.stat) {
-      shortStat = this.object.stat.split(".").pop(); // pool is saved as "NUMENERA.pool.POOLNAME";
+      shortStat = getShortStat(this.object.stat);
       stat = this.object.actor.data.data.stats[shortStat];
 
       data.stat = this.object.stat;
@@ -100,8 +101,7 @@ export class EffortDialog extends FormApplication {
 
   async _rollWithEffort(event) {
     const actor = this.object.actor;
-    //TODO make this into some kind of helper/static method
-    const shortStat = this.object.stat.split(".").pop();
+    const shortStat = getShortStat(this.object.stat);
 
     if (!this.object.stat)
       throw new Error("You must provide a stat before using Effort");
