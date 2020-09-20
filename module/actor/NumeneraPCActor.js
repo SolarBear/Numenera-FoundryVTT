@@ -43,12 +43,13 @@ export class NumeneraPCActor extends Actor {
 
   getInitiativeFormula() {
     //Check for an initiative skill
-    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative")
+    //TODO allow "initiative" in different languages if the current locale isn't "en"
+    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
+    const rollData = this.getSkillRollData(initSkill);
 
     //TODO possible assets, effort on init roll
-    return this.getSkillFormula(initSkill);
+    return rollData.getRollFormula();
   }
-
 
   /**
    * Get the current PC's level on the damage track as an integer, 0 being Hale and 3 being Dead.
@@ -72,13 +73,9 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   getSkillRollData(skill) {
-    let skillLevel = 0;
-    if (skill) {
-      skillLevel = this.getSkillLevel(skill);
-    }
-
     const rollOptions = new RollData();
-    rollOptions.skillLevel = skillLevel;
+    rollOptions.skillLevel = skill ? skill.data.data.skillLevel : 0;
+    rollOptions.isHindered = skill ? skill.data.data.inability : false;
 
     return rollOptions;
   }
@@ -159,25 +156,6 @@ export class NumeneraPCActor extends Actor {
         inability: false,
       },
     }, gmRoll);
-  }
-
-  /**
-   * Given a skill ID, return this skill's modifier as a a numeric value.
-   *
-   * @param {NumeneraSkillItem} skill item
-   * @returns {Number} Skill modifier in the [-1, 2] range
-   * @memberof ActorNumeneraPC
-   */
-  getSkillLevel(skill) {
-    if (!skill || !skill.data)
-      throw new Error("No skill provided");
-
-    skill = skill.data;
-    if (skill.hasOwnProperty("data"))
-      skill = skill.data;
-
-    //Inability subtracts 1 from overall level
-    return skill.skillLevel - Number(skill.inability);
   }
 
   /**

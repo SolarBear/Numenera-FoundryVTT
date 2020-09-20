@@ -22,19 +22,16 @@ export class RollData {
    */
   getRollFormula() {
     let formula = "d20";
-    let level = this.skillLevel;
+    let level = this.skillLevel || 0;
 
     if (this.isHindered)
       level--;
 
     if (level > 0)
       formula += "+";
-    else if (level < 0) {
-      formula += "-";
-    }
 
     if (level !== 0)
-      formula += 3 * this.skillLevel;
+      formula += (3 * level).toString();
 
     return formula;
   }
