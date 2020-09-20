@@ -1,5 +1,5 @@
 import { createNumeneraMacro } from './macro.js';
-import { rollText } from './roll.js';
+import { RollData } from './roll.js';
 import { NumeneraCommunityActor } from './actor/NumeneraCommunityActor.js';
 import { NumeneraNPCActor } from './actor/NumeneraNPCActor.js';
 
@@ -54,7 +54,7 @@ export async function registerHooks() {
 
         //Don't apply ChatMessage enhancement to recovery rolls
         if (roll && roll.dice[0].faces === 20) {
-            const special = rollText(roll.dice[0].rolls[0].roll);
+            const special = RollData.rollText(roll.dice[0].rolls[0].roll);
             const dt = html.find("h4.dice-total")[0];
 
             //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.

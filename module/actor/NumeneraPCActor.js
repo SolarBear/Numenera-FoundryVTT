@@ -1,4 +1,5 @@
-import { numeneraRollFormula } from "../roll.js";
+import { RollData } from "../roll.js";
+
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
@@ -63,13 +64,23 @@ export class NumeneraPCActor extends Actor {
     }).length;
   }
 
-  getSkillFormula(skill) {
+  /**
+   * Given a skill id, get the related RollData object.
+   *
+   * @param {NumeneraSkillItem} skill
+   * @returns {RollData}
+   * @memberof NumeneraPCActor
+   */
+  getSkillRollData(skill) {
     let skillLevel = 0;
     if (skill) {
       skillLevel = this.getSkillLevel(skill);
     }
 
-    return numeneraRollFormula(skillLevel);
+    const rollOptions = new RollData();
+    rollOptions.skillLevel = skillLevel;
+
+    return rollOptions;
   }
 
   /**
@@ -105,9 +116,11 @@ export class NumeneraPCActor extends Actor {
         return;
     }
 
-    const roll = new Roll(this.getSkillFormula(skill)).roll();
+    const rollData = this.getSkillRollData(skill);
+    const formula = rollData.getRollFormula();
+    const roll = new Roll(formula).roll();
 
-    let rollMode;
+    let rollMode = null;
     if (gmRoll) {
       if (game.user.isGM) {
         rollMode = DICE_ROLL_MODES.PRIVATE;
