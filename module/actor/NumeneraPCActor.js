@@ -88,13 +88,13 @@ export class NumeneraPCActor extends Actor {
    * Given a skill ID, roll the related skill item for the character.
    *
    * @param {String} skillId
-   * @param {boolean} [gmRoll=false]
+   * @param {RollData} rollData
    * @returns {Roll}
    * @memberof NumeneraPCActor
    */
-  rollSkillById(skillId, gmRoll = false) {
+  rollSkillById(skillId, rollData = null) {
     const skill = this.getOwnedItem(skillId);
-    return this.rollSkill(skill, gmRoll);
+    return this.rollSkill(skill, rollData);
   }
 
   /**
@@ -102,11 +102,11 @@ export class NumeneraPCActor extends Actor {
    * bonus.
    *
    * @param {NumeneraSkillItem} skill
-   * @param {Boolean} gmRoll
+   * @param {RollData} rollData
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skill, gmRoll = false) {
+  rollSkill(skill, rollData = null) {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -117,11 +117,18 @@ export class NumeneraPCActor extends Actor {
         return;
     }
 
-    const rollData = this.getSkillRollData(skill);
+    if (rollData) {
+      rollData.skillLevel = skill.data.data.skillLevel;
+      rollData.isHindered = skill.data.data.inability;
+    }
+    else {
+      rollData = this.getSkillRollData(skill);
+    }
+
     const roll = rollData.getRoll();
 
     let rollMode = null;
-    if (gmRoll) {
+    if (rollData.gmRoll) {
       if (game.user.isGM) {
         rollMode = DICE_ROLL_MODES.PRIVATE;
       }
@@ -146,19 +153,16 @@ export class NumeneraPCActor extends Actor {
    * Roll an attribute as is, with no related skill.
    *
    * @param {String} attribute
-   * @param {boolean} [gmRoll=false] True if this is a GM roll (ie. blind)
+   * @param {RollData} rollData
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollAttribute(attribute, gmRoll = false) {
+  rollAttribute(attribute, rollData = null) {
     // Create a pseudo-skill to avoid repeating the roll logic
-    return this.rollSkill({
-      name: attribute,
-      data: {
-        skillLevel: 0,
-        inability: false,
-      },
-    }, gmRoll);
+    const skill = new NumeneraSkillItem();
+    skill.name = attribute;
+
+    return this.rollSkill(skill, rollData);
   }
 
   /**

@@ -412,7 +412,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
 
-    html.find("div.stats").on("click", "a.rollable", this.onAttributeRoll.bind(this));
+    html.find("div.stats").on("click", "a.rollable", this.onAttributeUse.bind(this));
 
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
@@ -462,7 +462,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       odditiesTable.on("blur", "input", this.onOddityEdit.bind(this));
     }
 
-    html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
+    html.find("#recoveryRoll").on("click", this.onRollWithEffort.bind(this));
 
     //Make sure to make a copy of the options object, otherwise only the first call
     //to Dragula seems to work
@@ -536,7 +536,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @returns
    * @memberof NumeneraPCActorSheet
    */
-  onAttributeRoll(event) {
+  onAttributeUse(event) {
     event.preventDefault();
     return this.actor.rollAttribute(event.target.parentElement.dataset.stat);
   }
@@ -544,6 +544,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
   onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
+
+    //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
 
     return this.actor.rollSkillById(skillId, event.shiftKey);
   }
@@ -643,7 +645,20 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   onRecoveryRoll(event) {
     event.preventDefault();
-    //new RecoveryDialog(this.actor).render(true);
+    new RecoveryDialog(this.actor).render(true);
+  }
+
+  onRollWithEffort(event) {
+    event.preventDefault();
+
+    //Rolling from skill
+    //const skill = this.actor.getEmbeddedCollection("OwnedItem").filter(i => i.type === "skill" && i.name === "Speed Skill")[0];
+    //new EffortDialog(this.actor, null, skill).render(true);
+
+    //Rolling from stat
+    new EffortDialog(this.actor, "NUMENERA.stats.intellect").render(true);
+
+    //Plain Effort roll
     new EffortDialog(this.actor).render(true);
   }
 

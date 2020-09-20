@@ -12,6 +12,7 @@ export class RollData {
     this.skillLevel = 0;
     this.isHindered = false;
     this.effortLevel = 0;
+    this.gmRoll = false;
   }
 
   /**
@@ -26,6 +27,9 @@ export class RollData {
 
     if (this.isHindered)
       level--;
+
+    if (this.effortLevel)
+      level += this.effortLevel;
 
     if (level > 0)
       formula += "+";

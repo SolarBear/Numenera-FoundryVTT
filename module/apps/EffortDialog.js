@@ -1,5 +1,6 @@
 import { NUMENERA } from "../config.js";
 import { getShortStat } from "../utils.js";
+import { RollData } from "../roll.js";
 
 export class EffortDialog extends FormApplication {
   /**
@@ -20,10 +21,13 @@ export class EffortDialog extends FormApplication {
   }
 
   constructor(actor, stat=null, skill=null) {
+    if (!stat && skill)
+      stat = skill.data.stat;
+
     super({
       actor,
       stat,
-      skill,
+      skill: skill ? skill._id : null,
       currentEffort: 0,
       cost: 0,
     }, {});
@@ -67,6 +71,7 @@ export class EffortDialog extends FormApplication {
 
     let shortStat = null,
         stat = null;
+
     if (this.object.stat) {
       shortStat = getShortStat(this.object.stat);
       stat = this.object.actor.data.data.stats[shortStat];
@@ -114,12 +119,16 @@ export class EffortDialog extends FormApplication {
 
     let skill = null;
     const skillId = this.object.skill;
+
+    const rollData = new RollData();
+    rollData.effortLevel = this.object.currentEffort;
+
     if (skillId) {
       skill = actor.getOwnedItem(skillId);
-      actor.rollSkill(skill);
+      actor.rollSkill(skill, rollData);
     }
     else {
-      actor.rollAttribute(shortStat);
+      actor.rollAttribute(shortStat, rollData);
     }
 
     if (cost <= 0)

@@ -1,4 +1,5 @@
 import { NUMENERA } from "../config.js";
+import { RollData } from "../roll.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {
@@ -68,8 +69,8 @@ export class NumeneraSkillItem extends Item {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.skill.useNotLinkedToActor"));
     }
 
-    const gmRoll = window.event ? window.event.shiftKey : false;
-    
-    this.actor.rollSkill(this, gmRoll);
+    const rollData = new RollData();
+    rollData.gmRoll = window.event ? window.event.shiftKey : false;
+    this.actor.rollSkill(this, rollData);
   }
 }
