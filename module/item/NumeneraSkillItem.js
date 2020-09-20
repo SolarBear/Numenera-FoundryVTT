@@ -5,16 +5,32 @@ export class NumeneraSkillItem extends Item {
       return "skill";
   }
 
+  static fromOwnedItem(ownedItem, actor) {
+    let skillItem = new NumeneraSkillItem();
+    skillItem.data.name = ownedItem.name;
+    skillItem.data.data.notes = ownedItem.data.notes;
+    skillItem.data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
+    skillItem.data.data.stat = ownedItem.data.stat;
+    skillItem.data.data.inability = ownedItem.data.inability;
+    skillItem.data.data.skillLevel = ownedItem.data.skillLevel;
+    skillItem.options.actor = actor;
+
+    skillItem.prepareData();
+
+    return skillItem;
+  }
+
   prepareData() {
 	  // Override common default icon
 	  if (!this.data.img) this.data.img = 'icons/svg/book.svg';
 
       super.prepareData();
 
-      let itemData = this.data;
-      if (itemData.hasOwnProperty("data"))
-        itemData = itemData.data;
-
+      if (!this.data.hasOwnProperty("data")) {
+        this.data.data = {};
+      }
+      
+      const itemData = this.data.data;
       itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
       itemData.notes = itemData.notes || "";
       //To avoid problems, set the first stat in the list as the default one

@@ -37,12 +37,12 @@ export class RollData {
   }
 
   /**
-   * Given a RollData object, perform a die roll with that data.
+   * Given a RollData object, get the related Roll object.
    *
    * @export
    * @returns {Roll}
    */
-  roll() {
+  getRoll() {
     const rollFormula = this.getRollFormula();
     return new Roll(rollFormula);
   }

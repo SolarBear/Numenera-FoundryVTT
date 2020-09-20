@@ -21,9 +21,9 @@ export class NumeneraWeaponItem extends Item {
             itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.weapon.newWeapon");
 
         itemData.damage = itemData.damage || 1;
-        itemData.range = itemData.range || NUMENERA.ranges[0];
-        itemData.weaponType = itemData.weaponType || NUMENERA.weaponTypes[0];
-        itemData.weight = itemData.weight || NUMENERA.weightClasses[0];
+        itemData.range = itemData.range || Object.values(NUMENERA.ranges)[0];
+        itemData.weaponType = itemData.weaponType || Object.values(NUMENERA.weaponTypes)[0];
+        itemData.weight = itemData.weight || Object.values(NUMENERA.weightClasses)[0];
         itemData.notes = itemData.notes || "";
 
         itemData.ranges = NUMENERA.ranges;
@@ -53,6 +53,7 @@ export class NumeneraWeaponItem extends Item {
           return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
         }
 
+        //TODO allow the use of translated values (?)
         const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
 
         //Get the skill related to that ability
@@ -64,9 +65,10 @@ export class NumeneraWeaponItem extends Item {
             skill = new NumeneraSkillItem();
             skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
         }
+        else if (skill.prototype !== NumeneraSkillItem) {
+            skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
+        }
 
-        const gmRoll = window.event ? window.event.shiftKey : false;
-    
-        this.actor.rollSkill(skill, gmRoll);
+        skill.use();
       }
 }

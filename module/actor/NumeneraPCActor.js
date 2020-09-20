@@ -74,8 +74,12 @@ export class NumeneraPCActor extends Actor {
    */
   getSkillRollData(skill) {
     const rollOptions = new RollData();
-    rollOptions.skillLevel = skill ? skill.data.data.skillLevel : 0;
-    rollOptions.isHindered = skill ? skill.data.data.inability : false;
+    let data = skill.data;
+    if (data.hasOwnProperty("data"))
+      data = data.data;
+
+    rollOptions.skillLevel = data ? data.skillLevel : 0;
+    rollOptions.isHindered = data ? data.inability : false;
 
     return rollOptions;
   }
@@ -114,8 +118,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     const rollData = this.getSkillRollData(skill);
-    const formula = rollData.getRollFormula();
-    const roll = new Roll(formula).roll();
+    const roll = rollData.getRoll();
 
     let rollMode = null;
     if (gmRoll) {
