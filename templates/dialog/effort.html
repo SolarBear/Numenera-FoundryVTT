@@ -1,65 +1,89 @@
 <form class="{{cssClass}} numenera-dialog effort" autocomplete="off">
-    <div class="flexcol">
-        <div>
-            <h1>Rolling for
-                <select name="stat" data-dtype="String">
-                    {{#select stat}}
-                    <option value="">Select a stat</option>
-                    {{#each stats}}
-                    <option value="{{this}}">{{localize this}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
-            </h1>
-        </div>
-        <div>
-            <h2>Skill
-                <select name="skill" data-dtype="String">
-                    {{#select skill}}
-                    <option />
-                    {{#each skills}}
-                    <option value="{{this.id}}">{{this.name}}</option>
-                    {{/each}}
-                    {{/select}}
-                </select>
-            </h2>
-        </div>
-        <div>
-            <h2>Effort</h2>
-            <div class="flexrow">
-                <div>
-                    Effort Level <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" />    
-                </div>
-                <div>
-                    Max Effort Level {{ maxEffortLevel }}
+    <div class="flexrow">
+        <div class="flexcol">
+            <div>
+                <h1>Rolling for
+                    <select name="stat" data-dtype="String">
+                        {{#select stat}}
+                        <option value="">Select a stat</option>
+                        {{#each stats}}
+                        <option value="{{this}}">{{localize this}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </h1>
+            </div>
+            <div>
+                <h2>Skill
+                    <select name="skill" data-dtype="String">
+                        {{#select skill._id}}
+                        <option />
+                        {{#each skills}}
+                        <option value="{{this.id}}">{{this.name}}</option>
+                        {{/each}}
+                        {{/select}}
+                    </select>
+                </h2>
+            </div>
+            <div>
+                <h2>Assets <input type="number" name="assets" value="{{assets}}" max="2"  data-dtype="Number" /></h2>
+            </div>
+            <div>
+                <h2>Effort</h2>
+                <div class="flexrow">
+                    <div>
+                        Effort Level <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" />    
+                    </div>
+                    <div>
+                        Max Effort Level {{ maxEffortLevel }}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="pools">
-            <h2>Pool</h2>
-            <div class="flexrow">
-                <div>
-                    Current {{current}}
-                </div>
-                <div>
-                    Cost {{cost}}
-                </div>
-                <div>
-                    Remaining {{remaining}}
+            <div class="pools">
+                <h2>Pool</h2>
+                <div class="flexrow">
+                    <div>
+                        Current {{current}}
+                    </div>
+                    <div>
+                        Cost {{cost}}
+                    </div>
+                    <div>
+                        Remaining {{remaining}}
+                    </div>
                 </div>
             </div>
+            {{#if displayWarning}}
+            <div class="warning">
+                <i class="fas fa-exclamation-triangle"></i> {{warning}}
+            </div>
+            {{/if}}
         </div>
-        {{#if displayWarning}}
-        <div class="warning">
-            <i class="fas fa-exclamation-triangle"></i> {{warning}}
-        </div>
-        {{/if}}
-        <div class="flexrow">
-            <button id="roll-with-effort" class="animated"
-                {{#if displayWarning}}disabled="disabled"{{/if}}
-            >
-                Apply {{currentEffort}} Effort and roll
-            </button>
+        <div class="flexcol">
+            <div>
+                <h1>
+                    Initial Task Level <input type="number" name="taskLevel" data-dtype="Number" value="{{taskLevel}}" min="0" max="10" data-dtype="Number" />
+                </h1>
+            </div>
+            <ul>
+            {{#each taskModifiers}}
+            <li>
+                <em>{{this.title}}</em> {{this.value}}
+            </li>
+            </ul>
+            {{/each}}
+            <div>
+                <h1>
+                    Final Task Level <input type="number" data-dtype="Number" value="{{finalLevel}}" readonly="readonly" />
+                </h1>
+            </div>
         </div>
     </div>
+    
+        <button id="roll-with-effort" class="animated"
+            {{#if displayWarning}}disabled="disabled"{{/if}}
+        >
+            Apply {{currentEffort}} Effort and roll
+        </button>
+
 </form>

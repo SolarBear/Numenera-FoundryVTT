@@ -1,6 +1,8 @@
 import { NUMENERA } from "../config.js";
 import { getShortStat } from "../utils.js";
 import { RollData } from "../roll.js";
+import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
+import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 
 export class EffortDialog extends FormApplication {
   /**
@@ -15,21 +17,29 @@ export class EffortDialog extends FormApplication {
       submitOnChange: true,
       submitOnClose: false,
       editable: true,
-      width: 400,
-      height: 350,
+      width: 800,
+      height: 450,
     });
   }
-
-  constructor(actor, stat=null, skill=null) {
+/**
+ *Creates an instance of EffortDialog.
+ * @param {NumeneraPCActor} actor
+ * @param {string} [stat=null]
+ * @param {NumeneraSkillItem} [skill=null]
+ * @memberof EffortDialog
+ */
+constructor(actor, stat=null, skill=null) {
     if (!stat && skill)
-      stat = skill.data.stat;
+      stat = skill.data.data.stat;
 
     super({
       actor,
       stat,
       skill: skill ? skill._id : null,
+      assets: 0,
       currentEffort: 0,
       cost: 0,
+      taskLevel: 1,
     }, {});
   }
 
@@ -50,6 +60,59 @@ export class EffortDialog extends FormApplication {
     }
 
     return null;
+  }
+
+  get finalLevel() {
+    let level = this.object.taskLevel - this.object.currentEffort - this.object.assets;
+
+    if (this.object.skill) {
+      level = level - this.object.skill.data.data.skillLevel
+                    + (this.object.skill.data.data.inability ? 1 : 0);
+    }
+
+    return Math.max(level, 0); //Level cannot be negative
+  }
+
+  get taskModifiers() {
+    const modifiers = [];
+
+    if (this.object.skill) {
+      if (this.object.skill.data.data.skillLevel == 1) {
+        modifiers.push({
+          title: this.object.skill.name + " training",
+          value: (-this.object.skill.data.data.skillLevel).toString(),
+        });
+      }
+      else if (this.object.skill.data.data.skillLevel == 2) {
+        modifiers.push({
+          title: this.object.skill.name + " specialization",
+          value: (-this.object.skill.data.data.skillLevel).toString(),
+        });
+      }
+
+      if (this.object.skill.data.data.inability) {
+        modifiers.push({
+          title: this.object.skill.name + " inability",
+          value: "+ 1",
+        });
+      }
+    }
+
+    if (this.object.assets) {
+      modifiers.push({
+        title: this.object.assets + " Asset(s)",
+        value: `- ${this.object.assets}`,
+      });
+    }
+
+    if (this.object.currentEffort) {
+      modifiers.push({
+        title: this.object.assets + " Effort",
+        value: "- " + this.object.currentEffort,
+      });
+    }
+
+    return modifiers;
   }
 
   /**
@@ -81,8 +144,12 @@ export class EffortDialog extends FormApplication {
     
     data.warning = this.warning;
     data.displayWarning = !!data.warning;
+    data.assets = this.object.assets;
     data.currentEffort = this.object.currentEffort;
     data.maxEffortLevel = this.object.actor.data.data.effort;
+    data.taskLevel = this.object.taskLevel;
+    data.finalLevel = this.finalLevel;
+    data.taskModifiers = this.taskModifiers;
 
     if (data.stat) {
       data.current = stat.pool.value;
@@ -117,15 +184,11 @@ export class EffortDialog extends FormApplication {
     if (cost > poolValue)
       throw new Error("You must provide a stat before using Effort");
 
-    let skill = null;
-    const skillId = this.object.skill;
-
     const rollData = new RollData();
     rollData.effortLevel = this.object.currentEffort;
 
-    if (skillId) {
-      skill = actor.getOwnedItem(skillId);
-      actor.rollSkill(skill, rollData);
+    if (this.object.skill) {
+      actor.rollSkill(this.object.skill, rollData);
     }
     else {
       actor.rollAttribute(shortStat, rollData);
@@ -144,23 +207,22 @@ export class EffortDialog extends FormApplication {
   }
 
   _updateObject(event, formData) {
+    this.object.assets = formData.assets;
     this.object.currentEffort = formData.currentEffort;
+    this.object.taskLevel = formData.taskLevel;
 
     // Did the skill change?
-    if (formData.skill && formData.skill !== this.object.skill) {
+    if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
       //In that case, update the stat to be the skill's stat
-      this.object.skill = formData.skill;
-      const skill = this.object.actor.getOwnedItem(formData.skill);
+      this.object.skill = this.object.actor.getOwnedItem(formData.skill);
 
-      if (skill) {
-        this.object.stat = skill.data.data.stat;
+      if (this.object.skill) {
+        this.object.stat = this.object.skill.data.data.stat;
       }
     }
     // Otherwise, did the stat change?
     else if (formData.stat && formData.stat !== this.object.stat) {
       this.object.stat = formData.stat;
-      //If the stat did change, the skill is not relevant anymore
-      this.object.skill = null;
     } else if (!formData.skill) {
       //Skill deselected
       this.object.skill = null;
