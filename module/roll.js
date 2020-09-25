@@ -15,6 +15,14 @@ export class RollData {
     this.gmRoll = false;
   }
 
+  get flavorText() {
+    let text = `${game.i18n.localize("NUMENERA.rolling")} ${this.topic}`;
+    if (this.effortLevel)
+      text += `+ ${this.effortLevel} ${game.i18n.localize("NUMENERA.effortLevels")}`;
+
+    return text;
+  }
+
   /**
    * Get the roll formula for the Foundry Roll API (eg. "d20+3").
    *
@@ -36,6 +44,10 @@ export class RollData {
 
     if (level !== 0)
       formula += (3 * level).toString();
+
+    if (this.taskLevel) {
+      formula = `{${formula}}cs>=${3 * this.taskLevel}`;
+    }
 
     return formula;
   }

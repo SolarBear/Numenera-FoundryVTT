@@ -142,7 +142,7 @@ export class NumeneraPCActor extends Actor {
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `${game.i18n.localize("NUMENERA.rolling")} ${skill.name}`,
+      flavor: rollData.flavorText,
     },
       {
         rollMode

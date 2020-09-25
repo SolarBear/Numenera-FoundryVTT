@@ -186,6 +186,7 @@ constructor(actor, stat=null, skill=null) {
 
     const rollData = new RollData();
     rollData.effortLevel = this.object.currentEffort;
+    rollData.taskLevel = this.finalLevel;
 
     if (this.object.skill) {
       actor.rollSkill(this.object.skill, rollData);
