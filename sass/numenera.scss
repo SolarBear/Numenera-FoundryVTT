@@ -814,8 +814,36 @@ form.numenera-dialog {
     /// ----------
 
     &.effort {
+        div.line > div {
+            padding: 0.3em 0 0.3em 0;
+            margin-left: 0.4em;
+        }
+
+        h1.final {
+            border-bottom: 0;
+            border-top: 2px solid #782e22;
+            margin-bottom: 0.4em;
+        }
+
+        h2 {
+            display: inline;
+        }
+
+        input[type=number] {
+            width: 3em;
+            font-size: 16px;
+        }
+
         .pools {
             margin-bottom: 1em;
+            font-weight: bold;
+            font-size: 16px;
+            vertical-align: center;
+            align-items: center;;
+        }
+
+        button {
+            margin-top: 0.5em;
         }
     }
 }

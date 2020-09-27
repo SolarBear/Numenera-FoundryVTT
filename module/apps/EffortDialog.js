@@ -17,8 +17,8 @@ export class EffortDialog extends FormApplication {
       submitOnChange: true,
       submitOnClose: false,
       editable: true,
-      width: 800,
-      height: 450,
+      width: 360,
+      height: 425,
     });
   }
 
@@ -47,10 +47,18 @@ export class EffortDialog extends FormApplication {
       current: 0,
       currentEffort: 0,
       cost: 0,
-      taskLevel: 1,
+      taskLevel: null,
     }, {});
   }
 
+  /**
+   * Taking the current state of the EffortDialog, return a warning if any needs
+   * to be displayed; return null if none is appropriate.
+   *
+   * @readonly
+   * @returns {String|null} The warning to display, null if none.
+   * @memberof EffortDialog
+   */
   get warning() {
     if (!this.object.stat)
     {
@@ -65,7 +73,18 @@ export class EffortDialog extends FormApplication {
     return null;
   }
 
+  /**
+   * Get the final task level, taking into account the selected skill's level and
+   * inability, if any, the number of assets as well as effort level as modifiers.
+   *
+   * @readonly
+   * @returns {Number} The total task level.
+   * @memberof EffortDialog
+   */
   get finalLevel() {
+    if (this.object.taskLevel === null)
+      return null;
+
     let level = this.object.taskLevel - this.object.currentEffort - this.object.assets;
 
     if (this.object.skill) {
@@ -74,48 +93,6 @@ export class EffortDialog extends FormApplication {
     }
 
     return Math.max(level, 0); //Level cannot be negative
-  }
-
-  get taskModifiers() {
-    const modifiers = [];
-
-    if (this.object.skill) {
-      if (this.object.skill.data.data.skillLevel == 1) {
-        modifiers.push({
-          title: this.object.skill.name + " training",
-          value: (-this.object.skill.data.data.skillLevel).toString(),
-        });
-      }
-      else if (this.object.skill.data.data.skillLevel == 2) {
-        modifiers.push({
-          title: this.object.skill.name + " specialization",
-          value: (-this.object.skill.data.data.skillLevel).toString(),
-        });
-      }
-
-      if (this.object.skill.data.data.inability) {
-        modifiers.push({
-          title: this.object.skill.name + " inability",
-          value: "+ 1",
-        });
-      }
-    }
-
-    if (this.object.assets) {
-      modifiers.push({
-        title: this.object.assets + " Asset(s)",
-        value: `- ${this.object.assets}`,
-      });
-    }
-
-    if (this.object.currentEffort) {
-      modifiers.push({
-        title: this.object.assets + " Effort",
-        value: "- " + this.object.currentEffort,
-      });
-    }
-
-    return modifiers;
   }
 
   /**
@@ -161,7 +138,6 @@ export class EffortDialog extends FormApplication {
     data.maxEffortLevel = this.object.actor.data.data.effort;
     data.taskLevel = this.object.taskLevel;
     data.finalLevel = this.finalLevel;
-    data.taskModifiers = this.taskModifiers;
     data.current = this.object.current;
     data.rollMode = this.object.rollMode;
 
@@ -185,12 +161,21 @@ export class EffortDialog extends FormApplication {
     return data;
   }
 
+  /**
+   * @inheritdoc
+   */
   activateListeners(html) {
     super.activateListeners(html);
 
     html.find("#roll-with-effort").click(this._rollWithEffort.bind(this));
   }
 
+  /**
+   * Perform a roll with the values selected from the dialog.
+   *
+   * @param {Event} event
+   * @memberof EffortDialog
+   */
   async _rollWithEffort(event) {
     const actor = this.object.actor;
     const shortStat = getShortStat(this.object.stat);
@@ -233,8 +218,13 @@ export class EffortDialog extends FormApplication {
 
     //TIME TO PAY THE PRICE MWAHAHAHAHAHAHAH
     actor.update(data);
+
+    this.close();
   }
 
+  /**
+   * @inheritdoc
+   */
   _updateObject(event, formData) {
     this.object.assets = formData.assets;
     this.object.taskLevel = formData.taskLevel;
@@ -247,7 +237,6 @@ export class EffortDialog extends FormApplication {
     //TODO OMG clean this up
 
     // Did the skill change?
-    debugger;
     if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
       //In that case, update the stat to be the skill's stat
       this.object.skill = this.object.actor.getOwnedItem(formData.skill);
@@ -284,13 +273,11 @@ export class EffortDialog extends FormApplication {
       this.object.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.object.currentEffort);
     }
 
-    //If the stat changed (whether from UI interaction or from some other side effect), recompute current and remaining pool values
-    //if (formData.stat && formData.stat !== this.object.stat) {
-      const actor = this.object.actor;
-      const shortStat = getShortStat(this.object.stat);
-      this.object.current = actor.data.data.stats[shortStat].pool.value;
-      this.object.remaining = this.object.current - this.object.cost;
-    //}
+    //Recompute current and remaining pool values
+    const actor = this.object.actor;
+    const shortStat = getShortStat(this.object.stat);
+    this.object.current = actor.data.data.stats[shortStat].pool.value;
+    this.object.remaining = this.object.current - this.object.cost;
     
     //Re-render the form since it's not provided for free in FormApplications
     this.render();
