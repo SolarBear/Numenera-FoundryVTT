@@ -32,7 +32,7 @@ export class RollData {
    */
   getRollFormula() {
     let formula = "d20";
-    let level = this.skillLevel || 0;
+    let level = parseInt(this.skillLevel) || 0;
 
     if (this.isHindered)
       level--;
