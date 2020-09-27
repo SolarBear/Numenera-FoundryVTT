@@ -1,4 +1,4 @@
-import { RollData } from "../roll.js";
+import { RollData } from "../dice/RollData.js";
 
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
@@ -127,6 +127,7 @@ export class NumeneraPCActor extends Actor {
 
     const roll = rollData.getRoll();
 
+    //TODO move this to RollData
     let rollMode = null;
     if (rollData.gmRoll) {
       if (game.user.isGM) {
@@ -140,13 +141,21 @@ export class NumeneraPCActor extends Actor {
       rollMode = DICE_ROLL_MODES.PUBLIC;
     }
 
+    roll.roll();
+    const text = RollData.rollText(roll);
+
+    //TODO this is terrible.
+    if (rollData)
+      rollData.roll = null; //to avoid circular dependencies when serializing to JSON
+
+    //TODO move this to RollData, too
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: rollData.flavorText,
+      messageData: text,
     },
-      {
-        rollMode
-      });
+    {
+      rollMode
+    });
   }
 
   /**
@@ -160,7 +169,7 @@ export class NumeneraPCActor extends Actor {
   rollAttribute(attribute, rollData = null) {
     // Create a pseudo-skill to avoid repeating the roll logic
     const skill = new NumeneraSkillItem();
-    skill.name = attribute;
+    skill.data.data.name = attribute; //skill.name is a getter
 
     return this.rollSkill(skill, rollData);
   }

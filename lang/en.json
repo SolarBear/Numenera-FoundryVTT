@@ -3,7 +3,9 @@
     "NUMENERA.effortLevels": "Effort Levels",
     "NUMENERA.majorEffect": "Major Effect",
     "NUMENERA.minorEffect": "Minor Effect",
+    "NUMENERA.rollFailure": "Failure",
     "NUMENERA.rolling": "Rolling",
+    "NUMENERA.rollSuccess": "Success",
     "NUMENERA.stat": "Stat",
     "NUMENERA.unknown": "Unknown",
 
@@ -30,7 +32,7 @@
     "NUMENERA.gmIntrusionAccepts": "accepts the intrusion",
     "NUMENERA.gmIntrusionRefuses": "refuses the intrusion",
 
-    "NUMENERA.successLevel": "Success Level",
+    "NUMENERA.successLevel": "Succeed Task Level",
 
     "NUMENERA.weightClasses.Light": "Light",
     "NUMENERA.weightClasses.Medium": "Medium",

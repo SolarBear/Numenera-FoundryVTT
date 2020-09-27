@@ -1,5 +1,5 @@
 import { NUMENERA } from "../config.js";
-import { RollData } from "../roll.js";
+import { RollData } from "../dice/RollData.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {

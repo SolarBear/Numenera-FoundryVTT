@@ -1,5 +1,5 @@
 import { createNumeneraMacro } from './macro.js';
-import { RollData } from './roll.js';
+import { RollData } from './dice/RollData.js';
 import { NumeneraCommunityActor } from './actor/NumeneraCommunityActor.js';
 import { NumeneraNPCActor } from './actor/NumeneraNPCActor.js';
 
@@ -52,32 +52,27 @@ export async function registerHooks() {
 
         const roll = JSON.parse(data.message.roll);
 
-        //Don't apply ChatMessage enhancement to recovery rolls
-        if (roll && roll.dice[0].faces === 20) {
-            const special = RollData.rollText(roll.dice[0].rolls[0].roll);
+        //Only apply ChatMessage enhancement to rolls performed from RollData
+        if (roll && roll.hasOwnProperty("numenera")) {
+            const { special, text, color } = RollData.rollText(roll);
             const dt = html.find("h4.dice-total")[0];
 
-            //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
-            if (special) {
-                const { text, color } = special;
-                const newContent = `<span class="numenera-message-special">${text}</span>`;
+            if (roll.numenera.taskLevel === null) {
+                //"Old" behavior
 
-                $(newContent).insertBefore(dt);
-            }
-
-            if (game.settings.get("numenera", "d20Rolling") === "taskLevels") {
-                const rolled = roll.dice[0].rolls[0].roll;
-                const taskLevel = Math.floor(rolled / 3);
-                const skillLevel = (roll.total - rolled) / 3;
-                const sum = taskLevel + skillLevel;
-
-                let text = `${game.i18n.localize("NUMENERA.successLevel")} ${sum}`;
-
-                if (skillLevel !== 0) {
-                    const sign = skillLevel > 0 ? "+" : "";
-                    text += ` (${taskLevel}${sign}${skillLevel})`;
+                //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
+                if (special) {
+                    dt.textContent = text;
                 }
+                else {
+                    const rolled = roll.dice[0].rolls[0].roll;
+                    const taskLevel = Math.floor(rolled / 3);
 
+                    dt.textContent = `${game.i18n.localize("NUMENERA.successLevel")} ${taskLevel}`;
+                }
+            }
+            else {
+                //New behavior
                 dt.textContent = text;
             }
         }

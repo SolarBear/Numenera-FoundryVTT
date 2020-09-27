@@ -1,6 +1,6 @@
 import { NUMENERA } from "../config.js";
 import { getShortStat } from "../utils.js";
-import { RollData } from "../roll.js";
+import { RollData } from "../dice/RollData.js";
 import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 
