@@ -38,7 +38,7 @@ export class RollData {
       level--;
 
     if (this.effortLevel)
-      level += this.effortLevel;
+      level += parseInt(this.effortLevel);
 
     if (level > 0)
       formula += "+";
@@ -79,7 +79,6 @@ export class RollData {
     const die = roll.dice[0].rolls[0].roll;
 
     //TODO YUUUUUUUUUUUUUUUUCK
-    debugger;
     if (!roll.hasOwnProperty("numenera") || roll.numenera.taskLevel === null) {
       switch (roll.dice[0].rolls[0].roll) {
         case 1:
