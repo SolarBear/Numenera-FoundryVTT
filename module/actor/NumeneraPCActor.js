@@ -3,6 +3,7 @@ import { RollData } from "../dice/RollData.js";
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
+import { getShortStat } from "../utils.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
@@ -92,9 +93,9 @@ export class NumeneraPCActor extends Actor {
    * @returns {Roll}
    * @memberof NumeneraPCActor
    */
-  rollSkillById(skillId, rollData = null) {
+  rollSkillById(skillId, rollData = null, ability = null) {
     const skill = this.getOwnedItem(skillId);
-    return this.rollSkill(skill, rollData);
+    return this.rollSkill(skill, rollData, ability);
   }
 
   /**
@@ -106,7 +107,7 @@ export class NumeneraPCActor extends Actor {
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skill, rollData = null) {
+  rollSkill(skill, rollData = null, ability = null) {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -125,36 +126,30 @@ export class NumeneraPCActor extends Actor {
       rollData = this.getSkillRollData(skill);
     }
 
-    const roll = rollData.getRoll();
+    rollData.ability = ability;
 
-    //TODO move this to RollData
-    let rollMode = null;
     if (rollData.gmRoll) {
       if (game.user.isGM) {
-        rollMode = DICE_ROLL_MODES.PRIVATE;
+        rollData.rollMode = DICE_ROLL_MODES.PRIVATE;
       }
       else {
-        rollMode = DICE_ROLL_MODES.BLIND;
+        rollData.rollMode = DICE_ROLL_MODES.BLIND;
       }
     }
     else {
-      rollMode = DICE_ROLL_MODES.PUBLIC;
+      rollData.rollMode = DICE_ROLL_MODES.PUBLIC;
     }
 
+
+    const roll = rollData.getRoll();
     roll.roll();
-    const text = RollData.rollText(roll);
 
-    //TODO this is terrible.
-    if (rollData)
-      rollData.roll = null; //to avoid circular dependencies when serializing to JSON
-
-    //TODO move this to RollData, too
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      messageData: text,
+      messageData: RollData.rollText(roll),
     },
     {
-      rollMode
+      rollMode: rollData.rollMode,
     });
   }
 
@@ -189,17 +184,48 @@ export class NumeneraPCActor extends Actor {
     return this.data.data.skills.filter(id => id == statId);
   }
 
-  getEffortCostFromStat(stat, effortLevel) {
+  /**
+   * Get the Effort cost for a given stat and Effort level, with an
+   * optional extra cost (eg. Ability cost). Edge will be automatically
+   * included in the calculation.
+   *
+   * @param {String} shortStat  Short stat name
+   * @param {Number} effortLevel Number of levels of Effort used
+   * @param {Number} [extraCost=0] Any extra cost (eg. Ability cost)
+   * @returns {Number} The total pool cost for using that stat.
+   * @memberof NumeneraPCActor
+   */
+  getEffortCostFromStat(shortStat, effortLevel, extraCost = 0) {
     if (!stat)
       return null;
 
     const actorData = this.data.data;
-    stat = actorData.stats[stat];
+    const stat = actorData.stats[shortStat];
+
+    if (effortLevel === 0)
+      return Math.max(0, abilityCost - stat.edge);
 
     //The first effort level costs 3 pts from the pool, extra levels cost 2
-    //Subtract the related Edge, too
-    const availableEffortFromPool = Math.floor((stat.pool.value + stat.edge - 1) / 2);
-    return Math.max(0, 1 + 2 * effortLevel - stat.edge);
+    //Subtract the related Edge and add any extra cost
+    return Math.max(0, 1 + 2 * effortLevel + extraCost - stat.edge);
+  }
+
+  /**
+   * Get the Effort cost for a given Ability and Effort level.
+   *
+   * @param {NumeneraAbilityItem} ability  Ability object
+   * @param {Number} effortLevel Number of levels of Effort used
+   * @returns {Number} The total pool cost for using that Ability.
+   * @memberof NumeneraPCActor
+   */
+  getEffortCostFromAbility(ability, effortLevel) {
+    if (!ability)
+      return null;
+
+    let {pool, amount} = ability.data.data.cost;
+    amount = parseInt(amount);
+
+    return this.getEffortCostFromStat(getShortStat(pool), effortLevel, amount);
   }
 
   getTotalArmor() {

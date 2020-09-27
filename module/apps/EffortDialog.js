@@ -21,22 +21,30 @@ export class EffortDialog extends FormApplication {
       height: 450,
     });
   }
-/**
- *Creates an instance of EffortDialog.
- * @param {NumeneraPCActor} actor
- * @param {string} [stat=null]
- * @param {NumeneraSkillItem} [skill=null]
- * @memberof EffortDialog
- */
-constructor(actor, stat=null, skill=null) {
-    if (!stat && skill)
-      stat = skill.data.data.stat;
+
+  /**
+   *Creates an instance of EffortDialog.
+  * @param {NumeneraPCActor} actor
+  * @param {string} [stat=null]
+  * @param {NumeneraSkillItem} [skill=null]
+  * @memberof EffortDialog
+  */
+  constructor(actor, stat=null, skill=null, ability=null) {
+    if (!stat) {
+      if (ability)
+        stat = ability.data.data.cost.pool;
+        //TODO if ability but no skill, fetch skill by its related skill ID
+      else if (skill)
+        stat = skill.data.data.stat;
+    }
 
     super({
       actor,
       stat,
-      skill: skill ? skill._id : null,
+      skill,
+      ability,
       assets: 0,
+      current: 0,
       currentEffort: 0,
       cost: 0,
       taskLevel: 1,
@@ -49,12 +57,7 @@ constructor(actor, stat=null, skill=null) {
       return "You must provide a stat before using Effort";
     }
 
-    const actor = this.object.actor;
-    const shortStat = getShortStat(this.object.stat);
-    const poolValue = actor.data.data.stats[shortStat].pool.value;
-    const cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
-    
-    if (cost > poolValue)
+    if (this.object.remaining < 0)
     {
       return "Insufficient points in this pool for this level of Effort";
     }
@@ -141,18 +144,20 @@ constructor(actor, stat=null, skill=null) {
 
       data.stat = this.object.stat;
     }
-    
-    data.warning = this.warning;
-    data.displayWarning = !!data.warning;
+
     data.assets = this.object.assets;
     data.currentEffort = this.object.currentEffort;
     data.maxEffortLevel = this.object.actor.data.data.effort;
     data.taskLevel = this.object.taskLevel;
     data.finalLevel = this.finalLevel;
     data.taskModifiers = this.taskModifiers;
+    data.current = this.object.current;
 
-    if (data.stat) {
-      data.current = stat.pool.value;
+    if (this.object.ability) {
+      data.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
+      data.remaining = data.current - data.cost;
+    }
+    else if (data.stat) {
       data.cost = this.object.actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
       data.remaining = data.current - data.cost;
     }
@@ -161,6 +166,9 @@ constructor(actor, stat=null, skill=null) {
       data.current = null;
       data.remaining = null;
     }
+
+    data.warning = this.warning;
+    data.displayWarning = !!data.warning;
 
     return data;
   }
@@ -179,17 +187,24 @@ constructor(actor, stat=null, skill=null) {
       throw new Error("You must provide a stat before using Effort");
 
     const poolValue = actor.data.data.stats[shortStat].pool.value;
-    const cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
+
+    let cost;
+    if (this.object.ability)
+      cost = actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
+    else
+      cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
     
-    if (cost > poolValue)
-      throw new Error("You must provide a stat before using Effort");
+    if (cost > poolValue) {
+      ui.notifications.warn("Not enough points in your pool for this roll");
+      return;
+    }
 
     const rollData = new RollData();
     rollData.effortLevel = this.object.currentEffort;
     rollData.taskLevel = this.finalLevel;
 
     if (this.object.skill) {
-      actor.rollSkill(this.object.skill, rollData);
+      actor.rollSkill(this.object.skill, rollData, this.object.ability);
     }
     else {
       actor.rollAttribute(shortStat, rollData);
@@ -209,8 +224,9 @@ constructor(actor, stat=null, skill=null) {
 
   _updateObject(event, formData) {
     this.object.assets = formData.assets;
-    this.object.currentEffort = formData.currentEffort;
     this.object.taskLevel = formData.taskLevel;
+
+    //TODO OMG clean this up
 
     // Did the skill change?
     if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
@@ -219,14 +235,42 @@ constructor(actor, stat=null, skill=null) {
 
       if (this.object.skill) {
         this.object.stat = this.object.skill.data.data.stat;
+
+        //Check for a related ability, use for calculating the final cost
+        const relatedAbilityId = this.object.skill.data.data.relatedAbilityId;
+        if (relatedAbilityId) {
+          this.object.ability = this.object.actor.getOwnedItem(relatedAbilityId);
+          this.object.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
+        }
+        else {
+          this.object.ability = null;
+          this.object.cost = this.object.actor.getEffortCostFromStat(getShortStat(this.object.stat), this.object.currentEffort);
+        }
       }
     }
     // Otherwise, did the stat change?
     else if (formData.stat && formData.stat !== this.object.stat) {
       this.object.stat = formData.stat;
+      this.object.cost = this.object.actor.getEffortCostFromStat(getShortStat(this.object.stat), this.object.currentEffort);
+
+      //Changing the stat for a skill is fine, but not if an ability was linked to it
+      if (this.object.ability) {
+        this.object.skill = null;
+        this.object.ability = null;
+      }
     } else if (!formData.skill) {
       //Skill deselected
       this.object.skill = null;
+      this.object.ability = null;
+      this.object.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.object.currentEffort);
+    }
+
+    //If the stat changed (whether from UI interaction or from some other side effect), recompute current and remaining pool values
+    if (formData.stat && formData.stat !== this.object.stat) {
+      const actor = this.object.actor;
+      const shortStat = getShortStat(this.object.stat);
+      this.object.current = actor.data.data.stats[shortStat].pool.value;
+      this.object.remaining = this.object.current - this.object.cost;
     }
     
     //Re-render the form since it's not provided for free in FormApplications
