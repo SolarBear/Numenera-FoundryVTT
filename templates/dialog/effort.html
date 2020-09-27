@@ -79,11 +79,21 @@
             </div>
         </div>
     </div>
-    
+    <div>
+        <h3>Roll Type</h3>
+        <select name="rollMode">
+        {{#select rollMode}}
+        {{#each rollModes}}
+            <option value="{{this.value}}">{{this.label}}</option>
+        {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div>
         <button id="roll-with-effort" class="animated"
             {{#if displayWarning}}disabled="disabled"{{/if}}
         >
             Apply {{currentEffort}} Effort and roll
         </button>
-
+    </div>
 </form>

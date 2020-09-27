@@ -655,11 +655,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //const skill = this.actor.getEmbeddedCollection("OwnedItem").filter(i => i.type === "skill" && i.name === "Speed Skill")[0];
     //new EffortDialog(this.actor, null, skill).render(true);
 
+    //TODO remove this, obviously!
     //Rolling from stat
-    new EffortDialog(this.actor, "NUMENERA.stats.intellect").render(true);
-
-    //Plain Effort roll
-    new EffortDialog(this.actor).render(true);
+    new EffortDialog(this.actor, "intellect").render(true);
   }
 
   /*

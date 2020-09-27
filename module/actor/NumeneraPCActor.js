@@ -127,20 +127,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     rollData.ability = ability;
-
-    if (rollData.gmRoll) {
-      if (game.user.isGM) {
-        rollData.rollMode = DICE_ROLL_MODES.PRIVATE;
-      }
-      else {
-        rollData.rollMode = DICE_ROLL_MODES.BLIND;
-      }
-    }
-    else {
-      rollData.rollMode = DICE_ROLL_MODES.PUBLIC;
-    }
-
-
+    
     const roll = rollData.getRoll();
     roll.roll();
 
@@ -196,14 +183,14 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   getEffortCostFromStat(shortStat, effortLevel, extraCost = 0) {
-    if (!stat)
+    if (!shortStat)
       return null;
 
     const actorData = this.data.data;
     const stat = actorData.stats[shortStat];
 
     if (effortLevel === 0)
-      return Math.max(0, abilityCost - stat.edge);
+      return Math.max(0, extraCost - stat.edge);
 
     //The first effort level costs 3 pts from the pool, extra levels cost 2
     //Subtract the related Edge and add any extra cost

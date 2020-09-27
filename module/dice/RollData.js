@@ -12,7 +12,7 @@ export class RollData {
     this.skillLevel = 0;
     this.isHindered = false;
     this.effortLevel = 0;
-    this.rollMode = false;
+    this.rollMode = DICE_ROLL_MODES.PUBLIC;
   }
 
   get flavorText() {
@@ -45,7 +45,7 @@ export class RollData {
     if (level !== 0)
       formula += (3 * level).toString();
 
-    if (this.taskLevel) {
+    if (this.taskLevel !== null) {
       formula = `{${formula}}cs>=${3 * this.taskLevel}`;
     }
 

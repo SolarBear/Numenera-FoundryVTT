@@ -125,6 +125,24 @@ export class EffortDialog extends FormApplication {
     const data = super.getData();
 
     data.stats = NUMENERA.stats;
+    data.rollModes = [
+      {
+        label: "Public",
+        value: DICE_ROLL_MODES.PUBLIC,
+      },
+      {
+        label: "Private",
+        value: DICE_ROLL_MODES.PRIVATE,
+      },
+      {
+        label: "Blind",
+        value: DICE_ROLL_MODES.BLIND,
+      },
+      {
+        label: "Self",
+        value: DICE_ROLL_MODES.SELF,
+      }
+    ];
     data.skills = this.object.actor.getEmbeddedCollection("OwnedItem")
       .filter(i => i.type === "skill")
       .map(sk => {
@@ -135,15 +153,8 @@ export class EffortDialog extends FormApplication {
       });
     data.skill = this.object.skill;
 
-    let shortStat = null,
-        stat = null;
-
-    if (this.object.stat) {
-      shortStat = getShortStat(this.object.stat);
-      stat = this.object.actor.data.data.stats[shortStat];
-
-      data.stat = this.object.stat;
-    }
+    if (this.object.stat)
+      data.stat = "NUMENERA.stats." + this.object.stat;
 
     data.assets = this.object.assets;
     data.currentEffort = this.object.currentEffort;
@@ -152,13 +163,14 @@ export class EffortDialog extends FormApplication {
     data.finalLevel = this.finalLevel;
     data.taskModifiers = this.taskModifiers;
     data.current = this.object.current;
+    data.rollMode = this.object.rollMode;
 
     if (this.object.ability) {
       data.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
       data.remaining = data.current - data.cost;
     }
     else if (data.stat) {
-      data.cost = this.object.actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
+      data.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.object.currentEffort);
       data.remaining = data.current - data.cost;
     }
     else {
@@ -202,6 +214,7 @@ export class EffortDialog extends FormApplication {
     const rollData = new RollData();
     rollData.effortLevel = this.object.currentEffort;
     rollData.taskLevel = this.finalLevel;
+    rollData.rollMode = this.object.rollMode;
 
     if (this.object.skill) {
       actor.rollSkill(this.object.skill, rollData, this.object.ability);
@@ -225,16 +238,22 @@ export class EffortDialog extends FormApplication {
   _updateObject(event, formData) {
     this.object.assets = formData.assets;
     this.object.taskLevel = formData.taskLevel;
+    this.object.currentEffort = formData.currentEffort;
+    this.object.rollMode = formData.rollMode;
+
+    if (formData.stat)
+      formData.stat = getShortStat(formData.stat);
 
     //TODO OMG clean this up
 
     // Did the skill change?
+    debugger;
     if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
       //In that case, update the stat to be the skill's stat
       this.object.skill = this.object.actor.getOwnedItem(formData.skill);
 
       if (this.object.skill) {
-        this.object.stat = this.object.skill.data.data.stat;
+        this.object.stat = getShortStat(this.object.skill.data.data.stat);
 
         //Check for a related ability, use for calculating the final cost
         const relatedAbilityId = this.object.skill.data.data.relatedAbilityId;
@@ -266,12 +285,12 @@ export class EffortDialog extends FormApplication {
     }
 
     //If the stat changed (whether from UI interaction or from some other side effect), recompute current and remaining pool values
-    if (formData.stat && formData.stat !== this.object.stat) {
+    //if (formData.stat && formData.stat !== this.object.stat) {
       const actor = this.object.actor;
       const shortStat = getShortStat(this.object.stat);
       this.object.current = actor.data.data.stats[shortStat].pool.value;
       this.object.remaining = this.object.current - this.object.cost;
-    }
+    //}
     
     //Re-render the form since it's not provided for free in FormApplications
     this.render();
