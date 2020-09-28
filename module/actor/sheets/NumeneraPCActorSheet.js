@@ -538,7 +538,15 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   onAttributeUse(event) {
     event.preventDefault();
-    return this.actor.rollAttribute(event.target.parentElement.dataset.stat);
+    let stat = event.target.closest(".stats").dataset.stat;
+
+    if (event.ctrlKey) {
+      stat = stat.toLowerCase();
+      new EffortDialog(this.actor, { stat }).render(true);
+    }
+    else {
+      return this.actor.rollAttribute(stat);
+    }
   }
 
   onSkillUse(event) {
