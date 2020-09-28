@@ -462,7 +462,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       odditiesTable.on("blur", "input", this.onOddityEdit.bind(this));
     }
 
-    html.find("#recoveryRoll").on("click", this.onRollWithEffort.bind(this));
+    html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
 
     //Make sure to make a copy of the options object, otherwise only the first call
     //to Dragula seems to work
@@ -646,18 +646,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
   onRecoveryRoll(event) {
     event.preventDefault();
     new RecoveryDialog(this.actor).render(true);
-  }
-
-  onRollWithEffort(event) {
-    event.preventDefault();
-
-    //Rolling from skill
-    //const skill = this.actor.getEmbeddedCollection("OwnedItem").filter(i => i.type === "skill" && i.name === "Speed Skill")[0];
-    //new EffortDialog(this.actor, null, skill).render(true);
-
-    //TODO remove this, obviously!
-    //Rolling from stat
-    new EffortDialog(this.actor, "intellect").render(true);
   }
 
   /*
