@@ -605,7 +605,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!abilityId)
       return;
 
-    await this.actor.useAbilityById(abilityId);
+    //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
+
+    if (event.ctrlKey) {
+      new EffortDialog(this.actor, {ability: this.actor.getOwnedItem(abilityId)}).render(true);
+    }
+    else {
+      await this.actor.useAbilityById(abilityId);
+    }
   }
 
   onArtifactDepletionRoll(event) {

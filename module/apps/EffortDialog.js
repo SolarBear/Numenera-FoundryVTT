@@ -31,11 +31,17 @@ export class EffortDialog extends FormApplication {
   */
   constructor(actor, {stat=null, skill=null, ability=null}) {
     if (!stat) {
-      if (ability)
-        stat = ability.data.data.cost.pool;
-        //TODO if ability but no skill, fetch skill by its related skill ID
-      else if (skill)
+      if (ability) {
+        stat = getShortStat(ability.data.data.cost.pool);
+        if (!skill) {
+          skill = actor.data.items.find(
+            i => i.name === ability.name && i.type === NumeneraSkillItem.type
+          );
+        }
+      }
+      else if (skill) {
         stat = getShortStat(skill.data.data.stat);
+      }
     }
 
     let current = 0,
