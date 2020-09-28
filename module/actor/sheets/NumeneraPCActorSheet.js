@@ -547,7 +547,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
 
-    return this.actor.rollSkillById(skillId, event.shiftKey);
+    if (event.ctrlKey) {
+      new EffortDialog(this.actor, {skill: this.actor.getOwnedItem(skillId)}).render(true);
+    }
+    else {
+      return this.actor.rollSkillById(skillId);
+    }
   }
 
   async onWeaponUse(event) {

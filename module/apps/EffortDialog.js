@@ -18,7 +18,7 @@ export class EffortDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 360,
-      height: 425,
+      height: 460,
     });
   }
 
@@ -29,13 +29,24 @@ export class EffortDialog extends FormApplication {
   * @param {NumeneraSkillItem} [skill=null]
   * @memberof EffortDialog
   */
-  constructor(actor, stat=null, skill=null, ability=null) {
+  constructor(actor, {stat=null, skill=null, ability=null}) {
     if (!stat) {
       if (ability)
         stat = ability.data.data.cost.pool;
         //TODO if ability but no skill, fetch skill by its related skill ID
       else if (skill)
-        stat = skill.data.data.stat;
+        stat = getShortStat(skill.data.data.stat);
+    }
+
+    let current = 0,
+        remaining = 0;
+    if (stat) {
+      current = actor.data.data.stats[stat].pool.value;
+      remaining = current;
+
+      if (ability) {
+        remaining -= ability.data.data.cost.amount;
+      }
     }
 
     super({
@@ -43,8 +54,9 @@ export class EffortDialog extends FormApplication {
       stat,
       skill,
       ability,
+      current,
+      remaining,
       assets: 0,
-      current: 0,
       currentEffort: 0,
       cost: 0,
       taskLevel: null,
