@@ -131,9 +131,15 @@ export class NumeneraPCActor extends Actor {
     const roll = rollData.getRoll();
     roll.roll();
 
+    let flavor = "Rolling " + skill.data.data.name;
+    if (rollData.effortLevel > 0) {
+      flavor += ` with ${rollData.effortLevel} Effort`;
+    }
+
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
       messageData: RollData.rollText(roll),
+      flavor,
     },
     {
       rollMode: rollData.rollMode,
@@ -151,7 +157,9 @@ export class NumeneraPCActor extends Actor {
   rollAttribute(attribute, rollData = null) {
     // Create a pseudo-skill to avoid repeating the roll logic
     const skill = new NumeneraSkillItem();
-    skill.data.data.name = attribute; //skill.name is a getter
+
+    //Need to modify the deep property since skill.name is a getter
+    skill.data.data.name = attribute.replace(/^\w/, (c) => c.toUpperCase()); //capitalized
 
     return this.rollSkill(skill, rollData);
   }
