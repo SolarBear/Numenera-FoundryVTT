@@ -129,6 +129,29 @@ export class EffortDialog extends FormApplication {
   }
 
   /**
+   * Get the text to display on the roll button at the bottom of the dialog.
+   *
+   * @readonly
+   * @returns {String} The button text.
+   * @memberof EffortDialog
+   */
+  get rollButtonText() {
+    let text;
+    if (this.object.currentEffort > 0) {
+      text = `Apply ${this.object.currentEffort} Effort and roll`;
+    }
+    else {
+      text = "Roll";
+    }
+
+    if (this.object.taskLevel > 0) {
+      text += ` against task level ${this.finalLevel}`;
+    }
+
+    return text;
+  }
+
+  /**
    * @inheritdoc
    */
   getData() {
@@ -184,6 +207,7 @@ export class EffortDialog extends FormApplication {
 
     data.warning = this.warning;
     data.displayWarning = !!data.warning;
+    data.rollButtonText = this.rollButtonText;
 
     return data;
   }
