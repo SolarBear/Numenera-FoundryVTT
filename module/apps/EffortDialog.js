@@ -104,10 +104,13 @@ export class EffortDialog extends FormApplication {
       return null;
 
     let level = this.object.taskLevel - this.object.currentEffort - this.object.assets;
-
+    
     if (this.object.skill) {
-      level = level - this.object.skill.data.data.skillLevel
-                    + (this.object.skill.data.data.inability ? 1 : 0);
+      let skillData = this.object.skill.data;
+      if (skillData.hasOwnProperty("data"))
+        skillData = skillData.data;
+
+      level -= skillData.skillLevel - (skillData.inability ? 1 : 0);
     }
 
     return Math.max(level, 0); //Level cannot be negative
@@ -263,21 +266,17 @@ export class EffortDialog extends FormApplication {
         this.object.stat = getShortStat(this.object.skill.data.data.stat);
 
         //Check for a related ability, use for calculating the final cost
-        const relatedAbilityId = this.object.skill.data.data.relatedAbilityId;
-        if (relatedAbilityId) {
-          this.object.ability = this.object.actor.getOwnedItem(relatedAbilityId);
-          this.object.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
+        if (this.object.skill.data.data.relatedAbilityId) {
+          this.object.ability = this.object.actor.getOwnedItem(this.object.skill.data.data.relatedAbilityId);
         }
         else {
           this.object.ability = null;
-          this.object.cost = this.object.actor.getEffortCostFromStat(getShortStat(this.object.stat), this.object.currentEffort);
         }
       }
     }
     // Otherwise, did the stat change?
     else if (formData.stat && formData.stat !== this.object.stat) {
       this.object.stat = formData.stat;
-      this.object.cost = this.object.actor.getEffortCostFromStat(getShortStat(this.object.stat), this.object.currentEffort);
 
       //Changing the stat for a skill is fine, but not if an ability was linked to it
       if (this.object.ability) {
@@ -288,6 +287,12 @@ export class EffortDialog extends FormApplication {
       //Skill deselected
       this.object.skill = null;
       this.object.ability = null;
+    }
+
+    if (this.object.ability) {
+      this.object.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
+    }
+    else {
       this.object.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.object.currentEffort);
     }
 
