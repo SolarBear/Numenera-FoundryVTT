@@ -143,11 +143,13 @@ export class EffortDialog extends FormApplication {
     ];
     data.skills = this.object.actor.getEmbeddedCollection("OwnedItem")
       .filter(i => i.type === "skill")
+      .map(NumeneraSkillItem.fromOwnedItem)
       .map(sk => {
-        return {
-          id: sk._id,
-          name: sk.name,
-        };
+        //Append an extra label to tell which skills are related to an ability
+        if (sk.data.data.relatedAbilityId) {
+          sk.data.name += " (Ability)";
+        }
+        return sk;
       });
     data.skill = this.object.skill;
 
