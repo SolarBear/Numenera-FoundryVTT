@@ -1,5 +1,5 @@
 import { NUMENERA } from "../config.js";
-import { RollData } from "../dice/RollData.js";
+import { EffortDialog } from "../apps/EffortDialog.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {
@@ -8,6 +8,7 @@ export class NumeneraSkillItem extends Item {
 
   static fromOwnedItem(ownedItem, actor) {
     let skillItem = new NumeneraSkillItem();
+    skillItem.data._id = ownedItem._id;
     skillItem.data.name = ownedItem.name;
     skillItem.data.data.notes = ownedItem.data.notes;
     skillItem.data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
@@ -69,8 +70,10 @@ export class NumeneraSkillItem extends Item {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.skill.useNotLinkedToActor"));
     }
 
-    const rollData = new RollData();
-    rollData.gmRoll = window.event ? window.event.shiftKey : false;
-    this.actor.rollSkill(this, rollData);
+    if (window.event && window.event.ctrlKey) {
+      new EffortDialog(this.actor, {skill: this}).render(true);
+    } else {
+      await this.actor.rollSkill(this);
+    }
   }
 }
