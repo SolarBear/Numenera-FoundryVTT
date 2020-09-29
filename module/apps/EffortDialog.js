@@ -55,10 +55,22 @@ export class EffortDialog extends FormApplication {
       }
     }
 
+    const skills = actor.getEmbeddedCollection("OwnedItem")
+      .filter(i => i.type === "skill")
+      .map(NumeneraSkillItem.fromOwnedItem)
+      .map(sk => {
+        //Append an extra label to tell which skills are related to an ability
+        if (sk.data.data.relatedAbilityId) {
+          sk.data.name += " (Ability)";
+        }
+        return sk;
+      });
+
     super({
       actor,
       stat,
       skill,
+      skills,
       ability,
       current,
       remaining,
@@ -141,16 +153,8 @@ export class EffortDialog extends FormApplication {
         value: DICE_ROLL_MODES.SELF,
       }
     ];
-    data.skills = this.object.actor.getEmbeddedCollection("OwnedItem")
-      .filter(i => i.type === "skill")
-      .map(NumeneraSkillItem.fromOwnedItem)
-      .map(sk => {
-        //Append an extra label to tell which skills are related to an ability
-        if (sk.data.data.relatedAbilityId) {
-          sk.data.name += " (Ability)";
-        }
-        return sk;
-      });
+    
+    data.skills = this.object.skills;
     data.skill = this.object.skill;
 
     if (this.object.stat)
