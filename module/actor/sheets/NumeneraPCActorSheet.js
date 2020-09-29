@@ -589,7 +589,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
       skill.data.name = skillName;
     }
 
-    return this.actor.rollSkill(skill, event.shiftKey);
+    if (event.ctrlKey) {
+      new EffortDialog(this.actor, { skill }).render(true);
+    }
+    else {
+      this.actor.rollSkill(skill);
+    }
   }
 
   /**
