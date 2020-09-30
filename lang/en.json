@@ -219,7 +219,7 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Information",
 
-    "NUMENERA.item.tab.rollTooltip": "Roll (Click for public roll, Shift+click for a blind)",
+    "NUMENERA.item.tab.rollTooltip": "Roll: click for public roll, Ctrl+click for more options (Effort, GM rolls, etc.)",
 
     "NUMENERA.item.ability.newAbility": "New Ability",
     "NUMENERA.item.ability.name": "Abilities",

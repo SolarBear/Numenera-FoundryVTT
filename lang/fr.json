@@ -219,7 +219,7 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Informations",
 
-    "NUMENERA.item.tab.rollTooltip": "Jet (Clic pour un jet public, Shift+clic pour un jet a l'aveugle)",
+    "NUMENERA.item.tab.rollTooltip": "Jet: clic pour un jet public, Ctrl+clic pour plus d'options (Effort, jet au MJ, etc.)",
 
     "NUMENERA.item.ability.newAbility": "Nouvelle Aptitude",
     "NUMENERA.item.ability.name": "Aptitudes",
