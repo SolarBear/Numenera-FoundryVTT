@@ -1,10 +1,15 @@
 {
     "NUMENERA.N/A": "S/O",
+    "NUMENERA.effortLevels": "Niveaux d'Effort",
     "NUMENERA.majorEffect": "Effet majeur",
     "NUMENERA.minorEffect": "Effet mineur",
+    "NUMENERA.roll": "Jet",
+    "NUMENERA.rollFailure": "Échec",
     "NUMENERA.rolling": "Jet de",
+    "NUMENERA.rollSuccess": "Succès",
     "NUMENERA.stat": "Caractéristique",
     "NUMENERA.unknown": "Inconnu",
+    "NUMENERA.with": "avec",
 
     "NUMENERA.community.combat": "Combat",
     "NUMENERA.community.armor": "Armure",
@@ -20,6 +25,19 @@
     "NUMENERA.communityActorSheet.tab.overview": "Survol",
 
     "NUMENERA.effort.title": "Effort",
+    "NUMENERA.effort.againstTaskLevel": "contre tâche niveau",
+    "NUMENERA.effort.assets": "Atouts",
+    "NUMENERA.effort.cost": "Coût",
+    "NUMENERA.effort.effortLevels": "Niveaux d'Effort",
+    "NUMENERA.effort.finalTaskLevel": "Niveau final de la tâche",
+    "NUMENERA.effort.initialTaskLevel": "Niveau initial de la tâche",
+    "NUMENERA.effort.max": "Max",
+    "NUMENERA.effort.remaining": "Restant",
+    "NUMENERA.effort.rollType": "Type de jet",
+    "NUMENERA.effort.selectAStat": "Choisir une caractéristique",
+    "NUMENERA.effort.skillAbilitySuffix": " (Aptitude)",
+    "NUMENERA.effort.warning.provideStat": "Vous devez sélectionner une caractéristique avant d'ajouter un Effort",
+    "NUMENERA.effort.warning.notEnoughPoolPoints":"Points insuffisants dans cette Réserve",
 
     "NUMENERA.gmIntrusion": "Intrusion du MJ",
     "NUMENERA.gmIntrusionContent": "<p>Le maître de jeu vous offre une intrusion. L'acceptez-vous ?</p><ul><li>Si vous l'acceptez, le MJ introduira une complication inattendue pour votre personnage ; cependant, vous recevres 2 PX dont 1 qui devra être remis à un autre joueur.</li><li>Si vous la refusez, la complication ne surviendra pas mais 1 PX vous sera enlevé.</li></ul>",
@@ -28,6 +46,11 @@
     "NUMENERA.gmIntrusionText": "Le MJ offre une intrusion à",
     "NUMENERA.gmIntrusionAccepts": "accepte l'intrusion",
     "NUMENERA.gmIntrusionRefuses": "refuse l'intrusion",
+
+    "NUMENERA.rollMode.blind": "À l'aveugle",
+    "NUMENERA.rollMode.public": "Public",
+    "NUMENERA.rollMode.private": "Privé",
+    "NUMENERA.rollMode.self": "Personnel",
 
     "NUMENERA.successLevel": "Niveau de succès",
 
@@ -57,6 +80,8 @@
     "NUMENERA.pcActorSheet.tab.skills": "Compétences",
     "NUMENERA.pcActorSheet.tab.abilities": "Aptitudes",
     "NUMENERA.pcActorSheet.tab.numenera": "Numenera",
+    "NUMENERA.pcActorSheet.tab.strange": "Étrange",
+    "NUMENERA.pcActorSheet.tab.recursion": "Récursion",
     "NUMENERA.pcActorSheet.tab.equipment": "Équipement",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
 
@@ -66,6 +91,7 @@
     "NUMENERA.pc.advances.skillTraining": "Entraîner/Spécialiser",
     "NUMENERA.pc.advances.other": "Autre",
     "NUMENERA.pc.armor.label": "Armure",
+    "NUMENERA.pc.armorpenalty.label": "Pénalité de Célérité",
     "NUMENERA.pc.damageTrack.name": "Niveau de blessures",
     "NUMENERA.pc.damageTrack.hale.label": "Vigoureux",
     "NUMENERA.pc.damageTrack.hale.description": "État normal d'un personnage.",
@@ -100,6 +126,9 @@
     "NUMENERA.pc.numenera.cypher.none": "Pas de cyphers",
     "NUMENERA.pc.numenera.cypher.overLimit": "Vous avez dépassé votre limite de cyphers !",
     "NUMENERA.pc.numenera.cypher.type.name": "Type",
+    "NUMENERA.pc.numenera.cypher.type.subtle": "Subtil",
+    "NUMENERA.pc.numenera.cypher.type.manifest": "Manifeste",
+    "NUMENERA.pc.numenera.cypher.type.fantastic": "Fantastique",
     "NUMENERA.pc.numenera.cypher.unidentified": "Cypher non identifié",
 
     "NUMENERA.pc.numenera.oddity.name": "Curiosités",
@@ -120,7 +149,6 @@
     "NUMENERA.item.skill.tab.createTooltip": "Créer",
     "NUMENERA.item.skill.tab.deleteTooltip": "Supprimer",
     "NUMENERA.item.skill.tab.name": "Nom",
-    "NUMENERA.item.skill.tab.rollTooltip": "Jet de compétence",
     "NUMENERA.item.skill.tab.stat": "Caractéristique",
     "NUMENERA.item.skill.tab.instructions": "Pas de compétences. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
     "NUMENERA.item.skill.newSkill": "Nouvelle compétence",
@@ -138,7 +166,6 @@
     "NUMENERA.stats.edge": "Avantage",
 
     "NUMENERA.pc.weapons.sectionName": "Armes",
-    "NUMENERA.pc.weapon.newWeapon": "Nouvelle arme",
     "NUMENERA.pc.weapons.name": "Nom",
     "NUMENERA.pc.weapons.type": "Type",
     "NUMENERA.pc.weapons.damage": "Dommages",
@@ -200,7 +227,6 @@
     "NUMENERA.item.ability.type.enabler": "Catalyseur",
     "NUMENERA.item.ability.tab.createTooltip": "Créer",
     "NUMENERA.item.ability.tab.deleteTooltip": "Supprimer",
-    "NUMENERA.item.ability.tab.rollTooltip": "Jet d'aptitude",
     "NUMENERA.item.ability.tab.cost": "Coût",
     "NUMENERA.item.ability.tab.description": "Description",
     "NUMENERA.item.ability.tab.name": "Nom",
@@ -223,7 +249,7 @@
     "NUMENERA.item.armor.description": "Description",
     "NUMENERA.item.armor.newArmor": "Nouvelle armure",
 	
-	"NUMENERA.item.numenera.formPlaceholder": "Vous pouvez ajouter plusieurs formes en les séparant par ','",
+    "NUMENERA.item.numenera.formPlaceholder": "Vous pouvez ajouter plusieurs formes en les séparant par ','",
 
     "NUMENERA.item.artifact.level": "Niveau",
     "NUMENERA.item.artifact.form": "Forme",
@@ -254,6 +280,8 @@
 
     "NUMENERA.item.skill.stat": "Caractéristique",
     "NUMENERA.item.skill.description": "Description",
+    "NUMENERA.item.skill.relatedAbilityUpdated": "L'Aptitude liée à cette Compétence a été mise à jour",
+    "NUMENERA.item.skill.useNotLinkedToActor": "Cette Compétence n'est pas liée à un acteur",
 
     "NUMENERA.item.weapon.newWeapon": "New Weapon",
     "NUMENERA.item.weapon.weight": "Poids",
@@ -262,13 +290,15 @@
     "NUMENERA.item.weapon.range": "Portée",
     "NUMENERA.item.weapon.price": "Prix",
     "NUMENERA.item.weapon.description": "Description",
-    "NUMENERA.item.weapon.tab.rollTooltip": "Jet",
+
+    "NUMENERA.pc.numenera.strange.alienation": "Aliénation",
 
     "NUMENERA.item.recursion.name": "Nom",
     "NUMENERA.item.recursion.newRecursion": "Nouvelle Récursion",
     "NUMENERA.item.recursion.level": "Niveau",
     "NUMENERA.item.recursion.laws": "Lois",
     "NUMENERA.item.recursion.race": "Race",
+    "NUMENERA.item.recursion.trait": "Trait",
     "NUMENERA.item.recursion.focus": "Focus",
     "NUMENERA.item.recursion.focusAbilities": "Aptitudes de Focus",
     "NUMENERA.item.recursion.tab.instructions": "Pas de Récursions. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
