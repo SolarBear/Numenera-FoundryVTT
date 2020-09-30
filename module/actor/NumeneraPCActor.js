@@ -45,7 +45,12 @@ export class NumeneraPCActor extends Actor {
   getInitiativeFormula() {
     //Check for an initiative skill
     //TODO allow "initiative" in different languages if the current locale isn't "en"
-    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
+    let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
+    if (!initSkill) {
+      initSkill = new NumeneraSkillItem();
+      initSkill.data.data.name = "Initiative";
+    }
+
     const rollData = this.getSkillRollData(initSkill);
 
     //TODO possible assets, effort on init roll
@@ -75,6 +80,7 @@ export class NumeneraPCActor extends Actor {
    */
   getSkillRollData(skill) {
     const rollOptions = new RollData();
+    debugger;
     let data = skill.data;
     if (data.hasOwnProperty("data"))
       data = data.data;
