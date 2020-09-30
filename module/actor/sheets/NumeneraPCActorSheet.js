@@ -1,5 +1,11 @@
-import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
+import  "../../../lib/dragula/dragula.js";
+
 import { NUMENERA } from "../../config.js";
+
+import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
+import { EffortDialog } from "../../apps/EffortDialog.js";
+import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
+
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArtifactItem } from "../../item/NumeneraArtifactItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
@@ -9,10 +15,6 @@ import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
-
-import  "../../../lib/dragula/dragula.js";
-import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
-import { EffortDialog } from "../../apps/EffortDialog.js";
 
 //Common Dragula options
 const dragulaOptions = {

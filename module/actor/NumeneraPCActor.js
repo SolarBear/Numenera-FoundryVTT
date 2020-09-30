@@ -131,9 +131,9 @@ export class NumeneraPCActor extends Actor {
     const roll = rollData.getRoll();
     roll.roll();
 
-    let flavor = "Rolling " + skill.data.data.name;
+    let flavor = game.i18n.localize("NUMENERA.rolling") + " " + skill.data.data.name;
     if (rollData.effortLevel > 0) {
-      flavor += ` with ${rollData.effortLevel} Effort`;
+      flavor += ` ${game.i18n.localize("NUMENERA.effort.with")} ${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`;
     }
 
     roll.toMessage({

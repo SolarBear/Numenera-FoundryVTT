@@ -1,7 +1,10 @@
 import { NUMENERA } from "../config.js";
 import { getShortStat } from "../utils.js";
+
 import { RollData } from "../dice/RollData.js";
+
 import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
+
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 
 export class EffortDialog extends FormApplication {
@@ -11,7 +14,7 @@ export class EffortDialog extends FormApplication {
   static get defaultOptions() {
 	  return mergeObject(super.defaultOptions, {
       classes: ["numenera"],
-      title: "Roll with Effort",
+      title: game.i18n.localize("NUMENERA.effort.title"),
       template: "systems/numenera/templates/dialog/effort.html",
       closeOnSubmit: false,
       submitOnChange: true,
@@ -61,7 +64,7 @@ export class EffortDialog extends FormApplication {
       .map(sk => {
         //Append an extra label to tell which skills are related to an ability
         if (sk.data.data.relatedAbilityId) {
-          sk.data.name += " (Ability)";
+          sk.data.name += " " + game.i18n.localize("NUMENERA.effort.skillAbilitySuffix");
         }
         return sk;
       });
@@ -92,12 +95,12 @@ export class EffortDialog extends FormApplication {
   get warning() {
     if (!this.object.stat)
     {
-      return "You must provide a stat before using Effort";
+      return game.i18n.localize("NUMENERA.effort.warning.provideStat");
     }
 
     if (this.object.remaining < 0)
     {
-      return "Insufficient points in this pool for this level of Effort";
+      return game.i18n.localize("NUMENERA.effort.warning.notEnoughPoolPoints");
     }
 
     return null;
@@ -118,6 +121,7 @@ export class EffortDialog extends FormApplication {
     let level = this.object.taskLevel - this.object.currentEffort - this.object.assets;
     
     if (this.object.skill) {
+      //TODOO use the SkillItem method to convert it wwhen it's set instead of checking here
       let skillData = this.object.skill.data;
       if (skillData.hasOwnProperty("data"))
         skillData = skillData.data;
@@ -136,16 +140,13 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   get rollButtonText() {
-    let text;
+    let text = "Roll";
     if (this.object.currentEffort > 0) {
-      text = `Apply ${this.object.currentEffort} Effort and roll`;
-    }
-    else {
-      text = "Roll";
+      text += ` ${game.i18n.localize("NUMENERA.with")} ${this.object.currentEffort} ${game.i18n.localize("NUMENERA.effort.title")}`;
     }
 
     if (this.object.taskLevel > 0) {
-      text += ` against task level ${this.finalLevel}`;
+      text += ` ${game.i18n.localize("NUMENERA.effort.againstTaskLevel")} ${this.finalLevel}`;
     }
 
     return text;
@@ -158,21 +159,22 @@ export class EffortDialog extends FormApplication {
     const data = super.getData();
 
     data.stats = NUMENERA.stats;
+    //TODO setthis only once
     data.rollModes = [
       {
-        label: "Public",
+        label: game.i18n.localize("NUMENERA.rollMode.public"),
         value: DICE_ROLL_MODES.PUBLIC,
       },
       {
-        label: "Private",
+        label: game.i18n.localize("NUMENERA.rollMode.private"),
         value: DICE_ROLL_MODES.PRIVATE,
       },
       {
-        label: "Blind",
+        label: game.i18n.localize("NUMENERA.rollMode.blind"),
         value: DICE_ROLL_MODES.BLIND,
       },
       {
-        label: "Self",
+        label: game.i18n.localize("NUMENERA.rollMode.self"),
         value: DICE_ROLL_MODES.SELF,
       }
     ];
@@ -243,7 +245,7 @@ export class EffortDialog extends FormApplication {
       cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
     
     if (cost > poolValue) {
-      ui.notifications.warn("Not enough points in your pool for this roll");
+      ui.notifications.warn(game.i18n.localize("NUMENERA.effort.warning.notEnoughPoolPoints"));
       return;
     }
 
