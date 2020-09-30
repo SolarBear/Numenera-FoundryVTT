@@ -6,6 +6,7 @@ import { NumeneraEquipmentItem } from "./NumeneraEquipmentItem.js";
 import { NumeneraOddityItem } from "./NumeneraOddityItem.js";
 import { NumeneraNpcAttackItem } from "./NumeneraNPCAttack.js";
 import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
+import { NumeneraVehicleItem } from "./NumeneraVehicleItem.js";
 import { NumeneraWeaponItem } from "./NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "./StrangeRecursionItem.js";
 
@@ -44,6 +45,8 @@ export const NumeneraItem = new Proxy(function () {}, {
         return new NumeneraOddityItem(...args);
       case "skill":
         return new NumeneraSkillItem(...args);
+      case "vehicle":
+        return new NumeneraVehicleItem(...args);
       case "weapon":
         return new NumeneraWeaponItem(...args);
       case "recursion":
@@ -74,6 +77,8 @@ export const NumeneraItem = new Proxy(function () {}, {
               return NumeneraOddityItem.create(data, options);
             case "skill":
               return NumeneraSkillItem.create(data, options);
+            case "vehicle":
+              return NumeneraVehicleItem.create(data, options);
             case "weapon":
               return NumeneraWeaponItem.create(data, options);
             case "recursion":
@@ -93,6 +98,7 @@ export const NumeneraItem = new Proxy(function () {}, {
             instance instanceof NumeneraOddityItem ||
             instance instanceof NumeneraNpcAttackItem ||
             instance instanceof NumeneraSkillItem ||
+            instance instanceof NumeneraVehicleItem ||
             instance instanceof NumeneraWeaponItem ||
             instance instanceof StrangeRecursionItem
           );

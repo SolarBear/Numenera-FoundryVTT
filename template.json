@@ -84,7 +84,7 @@
         }
     },
     "Item": {
-        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "recursion", "skill", "weapon"],
+        "types": ["ability", "armor", "artifact", "cypher", "equipment", "npcAttack", "oddity", "recursion", "skill", "vehicle", "weapon"],
         "templates": {
             "common": {
                 "notes": "",
@@ -162,6 +162,14 @@
             "stat": "",
             "inability": false,
             "skillLevel": 0
+        },
+        "vehicle": {
+            "templates": ["common", "numenera"],
+            "depletion": {
+                "isDepleting": true,
+                "die": "d6",
+                "threshold": 1
+            }
         },
         "weapon": {
             "templates": ["common", "ranged", "sellable", "weight"],
