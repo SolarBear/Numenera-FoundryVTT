@@ -49,6 +49,8 @@ export class RecoveryDialog extends FormApplication {
       initialPoolsTotal: poolsTotal,
       initialRecoveriesLeft: [...actor.data.data.recoveriesLeft],
       recoveriesLeft: [...actor.data.data.recoveriesLeft],
+      initialUnspentRecoveryPoints: 0,
+      unspentRecoveryPoints: 0,
     };
 
     super(recoveryDialogObject, options);
@@ -283,6 +285,9 @@ export class RecoveryDialog extends FormApplication {
     for (let i = 0; i < this.object.recoveriesLeft.length; i++)
       if (!this.object.recoveriesLeft[i])
         highestChecked = i;
+
+    if (this.object.recoveriesLeft[clicked])
+      highestChecked = clicked;
 
     for (let i = 0; i < this.object.recoveriesLeft.length; i++) {
       this.object.recoveriesLeft[i] = (i > highestChecked);
