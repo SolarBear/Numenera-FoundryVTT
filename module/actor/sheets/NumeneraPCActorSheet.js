@@ -542,7 +542,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     event.preventDefault();
     let stat = event.target.closest(".stats").dataset.stat;
 
-    if (event.ctrlKey) {
+    if (event.ctrlKey || event.metaKey) {
       stat = stat.toLowerCase();
       new EffortDialog(this.actor, { stat }).render(true);
     }
@@ -557,7 +557,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
 
-    if (event.ctrlKey) {
+    if (event.ctrlKey || event.metaKey) {
       new EffortDialog(this.actor, {skill: this.actor.getOwnedItem(skillId)}).render(true);
     }
     else {
@@ -591,7 +591,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       skill.data.name = skillName;
     }
 
-    if (event.ctrlKey) {
+    if (event.ctrlKey || event.metaKey) {
       new EffortDialog(this.actor, { skill }).render(true);
     }
     else {
@@ -614,7 +614,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
 
-    if (event.ctrlKey) {
+    if (event.ctrlKey || event.metaKey) {
       new EffortDialog(this.actor, {ability: this.actor.getOwnedItem(abilityId)}).render(true);
     }
     else {
