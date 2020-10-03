@@ -106,16 +106,6 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   rollSkill(skill, gmRoll = false) {
-    switch (this.data.data.damageTrack) {
-      case 2:
-        ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
-        return;
-
-      case 3:
-        ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.dead.warning"));
-        return;
-    }
-
     const roll = new Roll(this.getSkillFormula(skill)).roll();
 
     let rollMode;
