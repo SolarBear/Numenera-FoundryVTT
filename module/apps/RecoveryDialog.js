@@ -38,15 +38,17 @@ export class RecoveryDialog extends FormApplication {
        sum + value.pool.value
     , 0);
 
+    //TODO REMOVE COMMIT THIS SHIT, Y'HEAR ME
+    actor.data.data.recoveriesLeft = [true, true, true, true];
+
     const recoveryDialogObject = {
       actor,
-      initialUnspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
-      unspentRecoveryPoints: actor.data.data.unspentRecoveryPoints,
-      initialRecoveriesLeft: actor.data.data.recoveriesLeft,
-      recoveriesLeft: actor.data.data.recoveriesLeft,
+      unspentRecoveryPoints: 0,
       pools,
       poolsTotal,
       initialPoolsTotal: poolsTotal,
+      initialRecoveriesLeft: [...actor.data.data.recoveriesLeft],
+      recoveriesLeft: [...actor.data.data.recoveriesLeft],
     };
 
     super(recoveryDialogObject, options);
@@ -58,19 +60,19 @@ export class RecoveryDialog extends FormApplication {
   getData() {
     const data = super.getData();
 
-    const recoveriesData = Object.entries(NUMENERA.recoveries)
-      .map(([key, value], idx) => {
-        return {
-          key,
-          label: value,
-          checked: 4 - this.object.recoveriesLeft > idx,
-          disabled: 4 - this.object.initialRecoveriesLeft > idx,
-        };
-      });
+    let recoveriesData;
+    recoveriesData = Object.entries(NUMENERA.recoveries)
+    .map(([key, value], idx) => {
+      return {
+        key,
+        label: value,
+        checked: !this.object.recoveriesLeft[idx],
+        disabled: !this.object.initialRecoveriesLeft[idx]
+      };
+    });
 
-    const rollSelectionEnabled = this.object.recoveriesLeft > 0;
-    const pointAttributionEnabled = this.object.initialUnspentRecoveryPoints > 0;
-    const formula = this._getFormula(this.object.initialRecoveriesLeft - this.object.recoveriesLeft);
+    const rollSelectionEnabled = this.object.recoveriesLeft.filter(Boolean).length > 0;
+    const formula = this._getFormula(this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length);
 
     const stats = {};
     for (const prop in NUMENERA.stats) {
@@ -79,13 +81,12 @@ export class RecoveryDialog extends FormApplication {
 
     return mergeObject(data, {
       rollSelectionEnabled,
-      pointAttributionEnabled,
       showFormula: formula !== false,
       formula,
       recoveriesData,
-      nbRecoveries: this.object.initialRecoveriesLeft - this.object.recoveriesLeft,
-      hasRecoveriesLeft: this.object.initialRecoveriesLeft > 0,
-      disallowReset: this.object.initialRecoveriesLeft >= 4,
+      nbRecoveries: this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length,
+      hasRecoveriesLeft: this.object.initialRecoveriesLeft.filter(Boolean).length > 0,
+      disallowReset: this.object.initialRecoveriesLeft.filter(Boolean).length === 0,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
       stats,
@@ -110,8 +111,8 @@ export class RecoveryDialog extends FormApplication {
       title: game.i18n.localize("NUMENERA.recoveries.resetDialog.title"),
       content: game.i18n.localize("NUMENERA.recoveries.resetDialog.content"),
       yes: () => {
-        this.object.recoveriesLeft = 4;
-        this.object.initialRecoveriesLeft = 4;
+        this.object.recoveriesLeft = [true, true, true, true];
+        this.object.initialRecoveriesLeft = [true, true, true, true];
         this.object.unspentRecoveryPoints = 0;
         this.object.hasUnspentRecoveryPoints = false;
 
@@ -138,8 +139,8 @@ export class RecoveryDialog extends FormApplication {
     event.preventDefault();
 
     //Make sure the Actor has enough unspent recoveries in the first place
-    const nbDice = this.object.initialRecoveriesLeft - this.object.recoveriesLeft;
-    if (this.object.initialRecoveriesLeft <= 0 || nbDice <= 0) {
+    const nbDice = this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length;
+    if (!this.object.initialRecoveriesLeft.some(Boolean) || nbDice <= 0) {
       ui.notifications.warn("No Recovery rolls left");
       return;
     }
@@ -221,27 +222,27 @@ export class RecoveryDialog extends FormApplication {
   }
 
   _updateObject(event, formData) {
-    //Update recovery checkboxes data
-    let nbChecked = 4 - this.object.recoveriesLeft;
     switch (event.target.name) {
       case "recovery[action]":
-        nbChecked = 1;
+        this.object.recoveriesLeft[0] = !this.object.recoveriesLeft[0];
         break;
+
       case "recovery[tenMin]":
-        nbChecked = 2;
+        this.object.recoveriesLeft[1] = !this.object.recoveriesLeft[1];
         break;
+
       case "recovery[oneHour]":
-        nbChecked = 3;
+        this.object.recoveriesLeft[2] = !this.object.recoveriesLeft[2];
         break;
+
       case "recovery[tenHours]":
-        nbChecked = 4;
+        this.object.recoveriesLeft[3] = !this.object.recoveriesLeft[3];
         break;
-      default:
     }
 
-    if (nbChecked !== this.object.recoveriesLeft) {
-      this.object.recoveriesLeft = 4 - nbChecked;
-    }
+    //Update recovery checkboxes data in order
+    if (!game.settings.get("numenera", "outOfOrderRecovery"))
+      this._getNbCheckedInOrder(event);
 
     //Update remaining points and pools
     let poolsTotal = 0;
@@ -257,11 +258,43 @@ export class RecoveryDialog extends FormApplication {
     this.render();
   }
 
+  _getNbCheckedInOrder(event) {
+    let clicked;
+    switch (event.target.name) {
+      case "recovery[action]":
+        clicked = 0;
+        break;
+
+      case "recovery[tenMin]":
+        clicked = 1;
+        break;
+
+      case "recovery[oneHour]":
+        clicked = 2;
+        break;
+
+      case "recovery[tenHours]":
+        clicked = 3;
+        break;
+    }
+
+    //Get the highest-valued box that's still checked
+    let highestChecked = -1;
+    for (let i = 0; i < this.object.recoveriesLeft.length; i++)
+      if (!this.object.recoveriesLeft[i])
+        highestChecked = i;
+
+    for (let i = 0; i < this.object.recoveriesLeft.length; i++) {
+      this.object.recoveriesLeft[i] = (i > highestChecked);
+    }
+  }
+
   close() {
     super.close();
 
     //Just a friendly warning :)
     if (this.object.unspentRecoveryPoints > 0) {
+      //TODO put this in language files
       ui.notifications.warn("You have unspent recovery points");
     }
   }
