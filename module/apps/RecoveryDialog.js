@@ -38,16 +38,13 @@ export class RecoveryDialog extends FormApplication {
        sum + value.pool.value
     , 0);
 
-    //TODO REMOVE COMMIT THIS SHIT, Y'HEAR ME
-    actor.data.data.recoveriesLeft = [true, true, true, true];
-
     const recoveryDialogObject = {
       actor,
       pools,
       poolsTotal,
       initialPoolsTotal: poolsTotal,
-      initialRecoveriesLeft: [...actor.data.data.recoveriesLeft],
-      recoveriesLeft: [...actor.data.data.recoveriesLeft],
+      initialRecoveriesLeft: [...actor.data.data.recoveries],
+      recoveriesLeft: [...actor.data.data.recoveries],
       initialUnspentRecoveryPoints: 0,
       unspentRecoveryPoints: 0,
     };
@@ -115,15 +112,16 @@ export class RecoveryDialog extends FormApplication {
         this.object.recoveriesLeft = [true, true, true, true];
         this.object.initialRecoveriesLeft = [true, true, true, true];
         this.object.unspentRecoveryPoints = 0;
-        this.object.hasUnspentRecoveryPoints = false;
+        //this.object.hasUnspentRecoveryPoints = false;
 
         this.object.actor.update({
-          "data.recoveriesLeft": 4,
-          "data.unspentRecoveryPoints": 0,
+          "data.recoveries": this.object.recoveriesLeft
         });
+
         ChatMessage.create({
           content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
         });
+
         this.render();
       }
     });
@@ -154,14 +152,13 @@ export class RecoveryDialog extends FormApplication {
 
     this.object.unspentRecoveryPoints += roll.total;
     this.object.initialUnspentRecoveryPoints += roll.total;
-    this.object.initialRecoveriesLeft = this.object.recoveriesLeft;
+    this.object.initialRecoveriesLeft = [...this.object.recoveriesLeft];
 
     //Update the actor with its newly-found pool points to attribute and its new checked recoveries
     const actor = this.object.actor;
     actor.update({
       _id: actor.data._id,
-      "data.unspentRecoveryPoints": this.object.unspentRecoveryPoints,
-      "data.recoveriesLeft": this.object.recoveriesLeft,
+      "data.recoveries": [...this.object.recoveriesLeft],
     });
 
     await this.render();
