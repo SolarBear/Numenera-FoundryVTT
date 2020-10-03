@@ -59,8 +59,6 @@ export class NumeneraAbilityItem extends Item {
     },
     options);
 
-    ui.notifications.info(game.i18n.localize("NUMENERA.item.ability.relatedSkillUpdated"));
-
     return updated;
   }
 

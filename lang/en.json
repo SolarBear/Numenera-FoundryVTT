@@ -214,7 +214,6 @@
     "NUMENERA.item.ability.tier": "Tier",
     "NUMENERA.item.ability.range": "Range",
     "NUMENERA.item.ability.description": "Description",
-    "NUMENERA.item.ability.relatedSkillUpdated": "Related skill information updated",
     "NUMENERA.item.ability.useNotLinkedToActor": "The ability is not linked to an actor",
 
     "NUMENERA.item.armor.weight": "Weight",

@@ -211,7 +211,6 @@
     "NUMENERA.item.ability.tier": "Rang",
     "NUMENERA.item.ability.range": "Portée",
     "NUMENERA.item.ability.description": "Description",
-    "NUMENERA.item.ability.relatedSkillUpdated": "Information sur la compétence reliée mise à jour",
     "NUMENERA.item.ability.useNotLinkedToActor": "L'aptitude n'est reliée à un acteur",
 
     "NUMENERA.item.armor.weight": "Poids",

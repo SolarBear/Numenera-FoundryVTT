@@ -210,7 +210,6 @@
     "NUMENERA.item.ability.tier": "Stufe",
     "NUMENERA.item.ability.range": "Reichweite",
     "NUMENERA.item.ability.description": "Beschreibung",
-    "NUMENERA.item.ability.relatedSkillUpdated": "Informationen aktualisiert",
     "NUMENERA.item.ability.useNotLinkedToActor": "Die Fähigkeit ist an keinen Charakter gebunden",
 
     "NUMENERA.item.armor.weight": "Gewicht",
