@@ -43,7 +43,6 @@ export class RecoveryDialog extends FormApplication {
 
     const recoveryDialogObject = {
       actor,
-      unspentRecoveryPoints: 0,
       pools,
       poolsTotal,
       initialPoolsTotal: poolsTotal,
@@ -295,13 +294,41 @@ export class RecoveryDialog extends FormApplication {
     }
   }
 
-  close() {
-    super.close();
+  async close() {
+    let closeMe = Promise.resolve(true);
 
-    //Just a friendly warning :)
-    if (this.object.unspentRecoveryPoints > 0) {
-      //TODO put this in language files
-      ui.notifications.warn("You have unspent recovery points");
+    let currentPoolsTotal = 0;
+    let maximumPoolsTotal = 0;
+    for (let pool of this.object.pools) {
+      currentPoolsTotal += pool.value;
+      maximumPoolsTotal += pool.max;
     }
+
+    if (this.object.unspentRecoveryPoints > 0 && currentPoolsTotal < maximumPoolsTotal) {
+      closeMe = new Promise((resolve, reject) => {
+        // //TODO put this in language files
+        new Dialog({
+          title: "Confirm",
+          content: "You have unspent points are your pools are not full yet. Do you really want to exit? These points will be lost.",
+          buttons: {
+            ok: {
+              icon: '<i class="fas fa-check"></i>',
+              label: game.i18n.localize("NUMENERA.dialog.confirmDeletion.ok"),
+              callback: () => resolve(true)
+            },
+            cancel: {
+              icon: '<i class="fas fa-times"></i>',
+              label: game.i18n.localize("NUMENERA.dialog.confirmDeletion.cancel"),
+              callback: () => resolve(false)
+            },
+          },
+          default: "cancel",
+          close: () => resolve(false),
+        }, {classes: ["numenera", "dialog"]}).render(true);
+      });
+    }
+
+    if (await closeMe)
+      super.close();
   }
 }
