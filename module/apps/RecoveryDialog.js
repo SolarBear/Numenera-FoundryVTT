@@ -286,11 +286,12 @@ export class RecoveryDialog extends FormApplication {
       if (!this.object.recoveriesLeft[i])
         highestChecked = i;
 
-    if (this.object.recoveriesLeft[clicked])
-      highestChecked = clicked;
+    if (this.object.recoveriesLeft[clicked] && highestChecked <= clicked) {
+      clicked--;
+    }
 
     for (let i = 0; i < this.object.recoveriesLeft.length; i++) {
-      this.object.recoveriesLeft[i] = (i > highestChecked);
+      this.object.recoveriesLeft[i] = (i > clicked);
     }
   }
 
