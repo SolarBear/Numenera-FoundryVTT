@@ -84,7 +84,7 @@ export class RecoveryDialog extends FormApplication {
       recoveriesData,
       nbRecoveries: this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length,
       hasRecoveriesLeft: this.object.initialRecoveriesLeft.filter(Boolean).length > 0,
-      disallowReset: this.object.initialRecoveriesLeft.filter(Boolean).length === 0,
+      disallowReset: this.object.initialRecoveriesLeft.filter(Boolean).length === NUMENERA.totalRecoveries,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
       stats,
@@ -274,6 +274,9 @@ export class RecoveryDialog extends FormApplication {
       case "recovery[tenHours]":
         clicked = 3;
         break;
+
+      default:
+        return;
     }
 
     //Get the highest-valued box that's still checked
