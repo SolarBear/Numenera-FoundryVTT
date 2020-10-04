@@ -70,7 +70,7 @@ export class NumeneraSkillItem extends Item {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.skill.useNotLinkedToActor"));
     }
 
-    if (window.event && window.event.ctrlKey) {
+    if (window.event && (window.event.ctrlKey || window.event.metaKey)) {
       new EffortDialog(this.actor, {skill: this}).render(true);
     } else {
       await this.actor.rollSkill(this);
