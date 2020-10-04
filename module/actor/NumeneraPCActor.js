@@ -80,7 +80,7 @@ export class NumeneraPCActor extends Actor {
    */
   getSkillRollData(skill) {
     const rollOptions = new RollData();
-    debugger;
+
     let data = skill.data;
     if (data.hasOwnProperty("data"))
       data = data.data;
