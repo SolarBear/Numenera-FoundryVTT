@@ -288,13 +288,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
-    // TODO remove hardcoded value: 4
     sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
     .map(([key, value], idx) => {
       return {
         key,
         label: value,
-        checked: 4 - this.actor.data.data.recoveriesLeft > idx
+        checked: !this.actor.data.data.recoveries[idx],
       };
     });
 

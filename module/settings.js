@@ -52,6 +52,18 @@ export const registerSystemSettings = function() {
     },
   });
 
+  /**
+   * Allow out of order use of recoveries
+   */
+  game.settings.register("numenera", "outOfOrderRecovery", {
+    name: "Out of order Recovery use",
+    hint: "Allow use of recoveries in any order. A popular house rule.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
   const permissionChoices = {};
   permissionChoices[USER_ROLES.PLAYER] = "PLAYER";
   permissionChoices[USER_ROLES.TRUSTED] = "TRUSTED";

@@ -1,3 +1,4 @@
+import { NUMENERA } from "../config.js";
 import { Migrator } from "./Migrator.js";
 import { NumeneraItem } from "../item/NumeneraItem.js";
 import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
@@ -275,5 +276,30 @@ PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
   return newData;
 };
 
+const PCActorv6ToV7Migrator = Object.create(Migrator);
+
+PCActorv6ToV7Migrator.forVersion = 7;
+PCActorv6ToV7Migrator.forType = NumeneraPCActor;
+
+/* Summary of changes:
+  - recoveriesLeft and unspentRecoveryPoints removed
+  - re-introducing recoveries field as an array of booleans
+*/
+PCActorv6ToV7Migrator.migrationFunction = async function(actor, obj = {}) {
+  const newData = Object.assign({ _id: actor._id}, obj);
+
+  const recoveries = actor.data.data.recoveries;
+
+  newData["data.recoveries"] = [];
+  for (let i = 0; i < NUMENERA.totalRecoveries; i++) {
+    newData["data.recoveries"][i] = (i + 1) <= recoveries;
+  }
+
+  newData["data.-=recoveriesLeft"] = null;
+  newData["data.-=unspentRecoveryPoints"] = null;
+
+  return newData;
+};
+
 //Only export the latest migrator
-export const PCActorMigrator = PCActorv5ToV6Migrator;
+export const PCActorMigrator = PCActorv6ToV7Migrator;
