@@ -1,8 +1,25 @@
 import { NUMENERA } from "../config.js";
+import { EffortDialog } from "../apps/EffortDialog.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {
       return "skill";
+  }
+
+  static fromOwnedItem(ownedItem, actor) {
+    let skillItem = new NumeneraSkillItem();
+    skillItem.data._id = ownedItem._id;
+    skillItem.data.name = ownedItem.name;
+    skillItem.data.data.notes = ownedItem.data.notes;
+    skillItem.data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
+    skillItem.data.data.stat = ownedItem.data.stat;
+    skillItem.data.data.inability = ownedItem.data.inability;
+    skillItem.data.data.skillLevel = ownedItem.data.skillLevel;
+    skillItem.options.actor = actor;
+
+    skillItem.prepareData();
+
+    return skillItem;
   }
 
   prepareData() {
@@ -11,10 +28,11 @@ export class NumeneraSkillItem extends Item {
 
       super.prepareData();
 
-      let itemData = this.data;
-      if (itemData.hasOwnProperty("data"))
-        itemData = itemData.data;
-
+      if (!this.data.hasOwnProperty("data")) {
+        this.data.data = {};
+      }
+      
+      const itemData = this.data.data;
       itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
       itemData.notes = itemData.notes || "";
       //To avoid problems, set the first stat in the list as the default one
@@ -52,8 +70,10 @@ export class NumeneraSkillItem extends Item {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.skill.useNotLinkedToActor"));
     }
 
-    const gmRoll = window.event ? window.event.shiftKey : false;
-    
-    this.actor.rollSkill(this, gmRoll);
+    if (window.event && (window.event.ctrlKey || window.event.metaKey)) {
+      new EffortDialog(this.actor, {skill: this}).render(true);
+    } else {
+      await this.actor.rollSkill(this);
+    }
   }
 }
