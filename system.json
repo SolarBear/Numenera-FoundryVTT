@@ -2,7 +2,7 @@
     "name": "numenera",
     "title": "Numenera",
     "description": "Simple support for Numenera and The Strange for the Fountry Virtual TableTop.",
-    "version": "0.17.2-EFFORT-BETA",
+    "version": "1.0.0",
     "author": "SolarBear",
     "scripts": ["lib/dragula/dragula.min.js"],
     "esmodules": ["numenera.js"],
@@ -34,6 +34,6 @@
     "compatibleCoreVersion": "0.6.6",
     "minimumCoreVersion" : "0.6.0",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",
-    "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/effort-test/system.json",
-    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/effort-test/numenera-foundryvtt-effort.zip"
+    "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json",
+    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/1.0.0/numenera-foundryvtt-1.0.0.zip"
 }
