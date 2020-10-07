@@ -370,7 +370,6 @@ export class NumeneraPCActor extends Actor {
 
     ability.use();
 
-    //TODO extract to method
     const cost = ability.getCost();
     if (cost.amount === 0) {
       return true;

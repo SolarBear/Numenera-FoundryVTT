@@ -25,6 +25,27 @@ export class EffortDialog extends FormApplication {
     });
   }
 
+  static get rollModes() {
+    return [
+      {
+        label: game.i18n.localize("NUMENERA.rollMode.public"),
+        value: DICE_ROLL_MODES.PUBLIC,
+      },
+      {
+        label: game.i18n.localize("NUMENERA.rollMode.private"),
+        value: DICE_ROLL_MODES.PRIVATE,
+      },
+      {
+        label: game.i18n.localize("NUMENERA.rollMode.blind"),
+        value: DICE_ROLL_MODES.BLIND,
+      },
+      {
+        label: game.i18n.localize("NUMENERA.rollMode.self"),
+        value: DICE_ROLL_MODES.SELF,
+      }
+    ];
+  }
+
   /**
    *Creates an instance of EffortDialog.
   * @param {NumeneraPCActor} actor
@@ -159,25 +180,7 @@ export class EffortDialog extends FormApplication {
     const data = super.getData();
 
     data.stats = NUMENERA.stats;
-    //TODO setthis only once
-    data.rollModes = [
-      {
-        label: game.i18n.localize("NUMENERA.rollMode.public"),
-        value: DICE_ROLL_MODES.PUBLIC,
-      },
-      {
-        label: game.i18n.localize("NUMENERA.rollMode.private"),
-        value: DICE_ROLL_MODES.PRIVATE,
-      },
-      {
-        label: game.i18n.localize("NUMENERA.rollMode.blind"),
-        value: DICE_ROLL_MODES.BLIND,
-      },
-      {
-        label: game.i18n.localize("NUMENERA.rollMode.self"),
-        value: DICE_ROLL_MODES.SELF,
-      }
-    ];
+    data.rollModes = EffortDialog.rollModes;
     
     data.skills = this.object.skills;
     data.skill = this.object.skill;
@@ -287,8 +290,6 @@ export class EffortDialog extends FormApplication {
     if (formData.stat)
       formData.stat = getShortStat(formData.stat);
 
-    //TODO OMG clean this up
-
     // Did the skill change?
     if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
       //In that case, update the stat to be the skill's stat
@@ -315,7 +316,8 @@ export class EffortDialog extends FormApplication {
         this.object.skill = null;
         this.object.ability = null;
       }
-    } else if (!formData.skill) {
+    } 
+    else if (!formData.skill) {
       //Skill deselected
       this.object.skill = null;
       this.object.ability = null;
