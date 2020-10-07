@@ -212,7 +212,7 @@ export class RecoveryDialog extends FormApplication {
       data["data.unspentRecoveryPoints"] = this.object.unspentRecoveryPoints;
       await this.object.actor.update(data);
 
-      ui.notifications.info("Pool changes have been applied");
+      ui.notifications.info(game.i18n.localize("NUMENERA.effort.poolChangesApplied"));
     }
 
     //Leave this accursed place
@@ -309,7 +309,7 @@ export class RecoveryDialog extends FormApplication {
         // //TODO put this in language files
         new Dialog({
           title: "Confirm",
-          content: "You have unspent points are your pools are not full yet. Do you really want to exit? These points will be lost.",
+          content:  game.i18n.localize("NUMENERA.effort.confirmUnspent"),
           buttons: {
             ok: {
               icon: '<i class="fas fa-check"></i>',
