@@ -12,6 +12,16 @@ const toBundle = [
     'numenera.css',
     "fonts/ogirema.ttf",
     "fonts/source.txt",
+    "images/jpg/testbg.jpg",
+    "images/svg/dblarrow1.svg",
+    "images/svg/dblarrow2.svg",
+    "images/svg/edit.svg",
+    "images/svg/int.svg",
+    "images/svg/mgt.svg",
+    "images/svg/spd.svg",
+    "images/svg/uparrow1.svg",
+    "images/svg/uparrow2.svg",
+    "lang/de.json",
     "lang/en.json",
     "lang/fr.json",
     "lang/pt-BR.json",
@@ -47,7 +57,6 @@ export default [{
     },
     plugins: [
         terser({
-            sourcemap: !releaseBuild,
             compress: releaseBuild ? {} : false,
         }),
         scss({

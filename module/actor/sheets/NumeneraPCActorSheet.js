@@ -23,12 +23,17 @@ const dragulaOptions = {
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
 
+// Stolen from https://stackoverflow.com/a/34064434/20043
+function htmlDecode(input) {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
+
 //Function to remove any HTML markup from eg. item descriptions
 function removeHtmlTags(str) {
   // Replace any HTML tag ('<...>') by an empty string
-  return str.replace(/<.+?>/gi, "")
-  // Replace non-breaking spaces by a regular one
-            .replace("&nbsp;", " ");
+  // and then un-escape any HTML escape codes (eg. &lt;)
+  return htmlDecode(str.replace(/<.+?>/gi, ""));
 }
 
 /**
@@ -173,7 +178,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   static get advances() {
     return NUMENERA.advances;
-  }
+  } 
 
   constructor(...args) {
     super(...args);
@@ -217,11 +222,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Get the correct HTML template path to use for rendering this particular sheet
    * @type {String}
    */
-   get template() {
-    if (game.settings.get("numenera", "worldSetting") === 2)
-      return "systems/numenera/templates/actor/characterSheetStrange.html";
-    else
-      return "systems/numenera/templates/actor/characterSheet.html";
+  get template() {
+    switch (game.settings.get("numenera", "characterSheet"))
+    {
+      case 1:
+        return "systems/numenera/templates/actor/characterSheet.html";
+      case 2:
+        return "systems/numenera/templates/actor/characterSheetStrange.html";
+      default:
+        throw new Error("Invalid setting for NumeneraPCActorSheet template");
+    }
   }
 
   /**
@@ -231,7 +241,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
-    const useCypherTypes = (game.settings.get("numenera", "systemVersion") === 1);
+    const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
     sheetData.displayCypherType = useCypherTypes;
 
     // Add relevant data from system settings

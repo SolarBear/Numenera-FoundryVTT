@@ -46,6 +46,7 @@ Otherwise, I'm always looking for all kinds of help:
     * English
     * French
     * Brazilian Portugese
+    * German
 * layout: if you have any HTML and CSS skills, you're probably better at this than I am!
 * feature development: there's a LOT of work ahead, so if you're familiar with Javascript, there's work to be done
 

@@ -10,6 +10,7 @@
                 "other": false
             },
             "armor": 0,
+            "armorPenalty": "",
             "background": "",
             "characterType": "",
             "cypherLimit": 1,
@@ -61,7 +62,7 @@
             "movement": "short",
             "modifications": "",
             "image": null,
-            "version": 2
+            "version": 3
         },
         "community": {
             "level": 1,
