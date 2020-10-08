@@ -178,7 +178,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   static get advances() {
     return NUMENERA.advances;
-  } 
+  }
 
   constructor(...args) {
     super(...args);
@@ -223,16 +223,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
-    switch (game.settings.get("numenera", "characterSheet"))
-    {
-      case 1:
-        return "systems/numenera/templates/actor/characterSheet.html";
-      case 2:
-        return "systems/numenera/templates/actor/characterSheetStrange.html";
-      default:
-        throw new Error("Invalid setting for NumeneraPCActorSheet template");
+    return "systems/numenera/templates/actor/characterSheet.html";
     }
-  }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
@@ -243,6 +235,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
     sheetData.displayCypherType = useCypherTypes;
+
+    //Is it The Strange?
+    if (game.settings.get("numenera", "characterSheet") == 2) {
+      sheetData.isTheStrange = true;
+    }
 
     // Add relevant data from system settings
     sheetData.settings = {
@@ -324,7 +321,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         artifact.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
         artifact.data.level = game.i18n.localize("NUMENERA.unknown");
         artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
-        artifact.data.depletion = null;  
+        artifact.data.depletion = null;
       }
       else {
         artifact.data.effect = removeHtmlTags(artifact.data.effect);

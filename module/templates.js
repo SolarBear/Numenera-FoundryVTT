@@ -17,6 +17,7 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/actor/partials/artifacts.html",
         "systems/numenera/templates/actor/partials/cyphers.html",
         "systems/numenera/templates/actor/partials/oddities.html",
+        "systems/numenera/templates/actor/partials/recursions.html",
 
         // Dialog Sheets
         "systems/numenera/templates/dialog/recovery.html",
