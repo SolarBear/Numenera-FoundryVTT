@@ -9,6 +9,12 @@
                 <input type="text" id="data.levelDie" name="data.levelDie" value="{{data.levelDie}}" data-dtype="String" />
             </label>
 
+            {{#if isTheStrange}}
+            <label>{{localize "NUMENERA.item.artifact.laws"}}
+                <input type="text" id="data.laws" name="data.laws" value="{{data.laws}}" placeholder="{{localize "NUMENERA.item.numenera.lawsPlaceholder"}}" data-dtype="String" />
+            </label>
+            {{/if}}
+
             <label>{{localize "NUMENERA.item.artifact.form"}}
                 <input type="text" id="data.form" name="data.form" value="{{data.form}}" placeholder="{{localize "NUMENERA.item.numenera.formPlaceholder"}}" data-dtype="String" />
             </label>

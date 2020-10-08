@@ -223,16 +223,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
-    switch (game.settings.get("numenera", "characterSheet"))
-    {
-      case 1:
-        return "systems/numenera/templates/actor/characterSheet.html";
-      case 2:
-        return "systems/numenera/templates/actor/characterSheetStrange.html";
-      default:
-        throw new Error("Invalid setting for NumeneraPCActorSheet template");
+    return "systems/numenera/templates/actor/characterSheet.html";
     }
-  }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
@@ -245,8 +237,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.displayCypherType = useCypherTypes;
 
     //Is it The Strange?
-    const isTheStrange = (game.settings.get("numenera", "characterSheet") == 2);
-    sheetData.isTheStrange = true;
+    if (game.settings.get("numenera", "characterSheet") == 2) {
+      sheetData.isTheStrange = true;
+    }
 
     // Add relevant data from system settings
     sheetData.settings = {

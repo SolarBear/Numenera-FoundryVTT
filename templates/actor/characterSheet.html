@@ -85,7 +85,15 @@
     <nav class="sheet-tabs tabs" data-group="primary">
         <a class="item" data-tab="skills">{{localize "NUMENERA.pcActorSheet.tab.skills"}}</a>
         <a class="item" data-tab="abilities">{{localize "NUMENERA.pcActorSheet.tab.abilities"}}</a>
+        {{#if isTheStrange}}
+        <a class="item" data-tab="numenera">{{localize "NUMENERA.pcActorSheet.tab.strange"}}</a>
+        {{else}}
         <a class="item" data-tab="numenera">{{localize "NUMENERA.pcActorSheet.tab.numenera"}}</a>
+        {{/if}}
+        {{#if isTheStrange}}
+        <a class="item" data-tab="recursion">{{localize "NUMENERA.pcActorSheet.tab.recursion"}}</a>
+        {{/if}}
+
         <a class="item" data-tab="equipment">{{localize "NUMENERA.pcActorSheet.tab.equipment"}}</a>
         <a class="item" data-tab="bio">{{localize "NUMENERA.pcActorSheet.tab.bio"}}</a>
     </nav>
@@ -256,6 +264,12 @@
             <hr class="sheet-one" />
             {{> "systems/numenera/templates/actor/partials/oddities.html" data=data}}
         </div>
+
+        {{#if isTheStrange}}
+    <div class="tab recursion" data-group="primary" data-tab="recursion">
+    {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
+    </div>
+        {{/if}}
 
         <div class="tab equipment" data-group="primary" data-tab="equipment">
             <h2>{{localize "NUMENERA.pc.weapons.sectionName"}}</h2>
