@@ -21,4 +21,13 @@ export class NumeneraArtifactItemSheet extends ItemSheet {
     get template() {
         return "systems/numenera/templates/item/artifactSheet.html";
     }
-}
+    getData() {
+      const sheetData = super.getData();
+
+      //Is it The Strange?
+      if (game.settings.get("numenera", "characterSheet") == 2) {
+        sheetData.isTheStrange = true;
+      }
+      return sheetData;
+    };
+  }
