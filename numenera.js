@@ -84,26 +84,3 @@ Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
 Hooks.once("ready", registerHooks);
-
-Hooks.once("ready", async () => {
-    const pcs = Actor.collection.filter(a => a.data.type === "pc");
-
-    for (let actor of pcs) {
-        const items = actor.items;
-        const abilities = items.filter(i => i.type === "ability");
-        const skills = items.filter(i => i.type === "skill");
-
-        for (let ability of abilities) {
-            let skill = skills.find(sk => sk.name === ability.name && sk.data.data.relatedAbilityId === ability.id);
-
-            if (!skill) {
-                skill = new NumeneraSkillItem();
-                skill.data.type = "skill";
-                skill.data.name = ability.name;
-                skill.data.data.relatedAbilityId = ability.id;
-
-                skill = await actor.createOwnedItem(skill);
-            }
-        }
-    }
-});
