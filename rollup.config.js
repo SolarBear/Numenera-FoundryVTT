@@ -35,6 +35,7 @@ const toBundle = [
     "templates/actor/partials/cyphers.html",
     "templates/actor/partials/oddities.html",
     "templates/actor/partials/recursions.html",
+    "templates/dialog/effort.html",
     "templates/dialog/recovery.html",
     "templates/hud/tokenHUD.html",
     "templates/item/abilitySheet.html",

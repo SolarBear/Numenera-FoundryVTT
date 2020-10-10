@@ -20,6 +20,7 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/actor/partials/recursions.html",
 
         // Dialog Sheets
+        "systems/numenera/templates/dialog/effort.html",
         "systems/numenera/templates/dialog/recovery.html",
 
         //Item sheets
