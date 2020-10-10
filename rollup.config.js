@@ -23,6 +23,7 @@ const toBundle = [
     "images/svg/uparrow2.svg",
     "lang/de.json",
     "lang/en.json",
+    "lang/es.json",
     "lang/fr.json",
     "lang/pt-BR.json",
     "lib/dragula/dragula.min.css",
