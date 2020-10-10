@@ -29,7 +29,6 @@ const toBundle = [
     "lib/dragula/dragula.min.css",
     "lib/dragula/dragula.min.js",
     "templates/actor/characterSheet.html",
-    "templates/actor/characterSheetStrange.html",
     "templates/actor/communitySheet.html",
     "templates/actor/npcSheet.html",
     "templates/actor/partials/artifacts.html",
