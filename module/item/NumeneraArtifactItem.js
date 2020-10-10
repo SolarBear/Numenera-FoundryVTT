@@ -17,6 +17,7 @@ export class NumeneraArtifactItem extends Item {
         itemData.price = itemData.price || 0;
         itemData.notes = itemData.notes || "";
         itemData.form = itemData.form || "";
+        itemData.laws = itemData.laws || "";
         itemData.effect = itemData.effect || "";
         itemData.range = itemData.range || "";
 

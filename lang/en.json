@@ -251,10 +251,11 @@
     "NUMENERA.item.armor.description": "Description",
     "NUMENERA.item.armor.newArmor": "New Armor",
 	
-     "NUMENERA.item.numenera.formPlaceholder": "You can add multiple forms by separating them with ','",
+    "NUMENERA.item.numenera.formPlaceholder": "You can add multiple forms by separating them with ','",
 
     "NUMENERA.item.artifact.level": "Level",
     "NUMENERA.item.artifact.form": "Form",
+    "NUMENERA.item.artifact.laws": "Laws",
     "NUMENERA.item.artifact.depletion": "Depletion",
     "NUMENERA.item.artifact.depletionDie": "Die",
     "NUMENERA.item.artifact.depletionThreshold": "Threshold",
