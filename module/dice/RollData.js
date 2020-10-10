@@ -31,6 +31,10 @@ export class RollData {
    */
   getRollFormula() {
     let formula = "d20";
+    if (this.taskLevel === null) {
+      return formula;
+    }
+
     let level = parseInt(this.skillLevel) || 0;
 
     if (this.isHindered)
@@ -45,11 +49,7 @@ export class RollData {
     if (level !== 0)
       formula += (3 * level).toString();
 
-    if (this.taskLevel !== null) {
-      formula = `{${formula}}cs>=${3 * this.taskLevel}`;
-    }
-
-    return formula;
+    return `{${formula}}cs>=${3 * this.taskLevel}`;
   }
 
   /**
