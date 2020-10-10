@@ -59,8 +59,6 @@ export class NumeneraAbilityItem extends Item {
     },
     options);
 
-    ui.notifications.info(game.i18n.localize("NUMENERA.item.ability.relatedSkillUpdated"));
-
     return updated;
   }
 
@@ -71,13 +69,19 @@ export class NumeneraAbilityItem extends Item {
     }
 
     //Get the skill related to that ability
-    const skill = this.actor.data.items.find(
+    let skill = this.actor.data.items.find(
       i => i.name === this.data.name && i.type === NumeneraSkillItem.type
     );
 
-    const gmRoll = window.event ? window.event.shiftKey : false;
-    
-    this.actor.rollSkill(skill, gmRoll);
+    if (!skill) {
+      skill = new NumeneraSkillItem();
+      skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+    }
+    else if (skill.prototype !== NumeneraSkillItem) {
+        skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
+    }
+
+    skill.use();
   }
 
   async update(data, options) {

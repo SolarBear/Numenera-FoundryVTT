@@ -1,10 +1,15 @@
 {
     "NUMENERA.N/A": "N/A",
+    "NUMENERA.effortLevels": "Effort Levels",
     "NUMENERA.majorEffect": "Major Effect",
     "NUMENERA.minorEffect": "Minor Effect",
+    "NUMENERA.roll": "Roll",
+    "NUMENERA.rollFailure": "Failure",
     "NUMENERA.rolling": "Rolling",
+    "NUMENERA.rollSuccess": "Success",
     "NUMENERA.stat": "Stat",
     "NUMENERA.unknown": "Unknown",
+    "NUMENERA.with": "with",
 
     "NUMENERA.community.combat": "Combat",
     "NUMENERA.community.armor": "Armor",
@@ -18,6 +23,24 @@
     "NUMENERA.communityActorSheet.tab.government": "Government",
     "NUMENERA.communityActorSheet.tab.information": "Information",
     "NUMENERA.communityActorSheet.tab.overview": "Overview",
+
+    "NUMENERA.effort.title": "Effort",
+    "NUMENERA.effort.againstTaskLevel": "against task level",
+    "NUMENERA.effort.other": "Other Enhancements",
+    "NUMENERA.effort.confirmUnspent": "You have unspent points are your pools are not full yet. Do you really want to exit? These points will be lost.",
+    "NUMENERA.effort.cost": "Cost",
+    "NUMENERA.effort.effortLevels": "Effort Level",
+    "NUMENERA.effort.finalTaskLevel": "Final Task Level",
+    "NUMENERA.effort.initialTaskLevel": "Initial Task Level",
+    "NUMENERA.effort.max": "Max",
+    "NUMENERA.effort.poolChangesApplied": "Your pools changes have been applied",
+    "NUMENERA.effort.remaining": "Remaining",
+    "NUMENERA.effort.rollType": "Roll Type",
+    "NUMENERA.effort.selectAStat": "Select a stat",
+    "NUMENERA.effort.skillAbilitySuffix": " (Ability)",
+    
+    "NUMENERA.effort.warning.provideStat": "You must provide a stat before using Effort",
+    "NUMENERA.effort.warning.notEnoughPoolPoints":"Insufficient points in this Pool",
     
     "NUMENERA.gmIntrusion": "GM Intrusion",
     "NUMENERA.gmIntrusionContent": "<p>The game master offers you an intrusion. Do you accept?</p><ul><li>Should you accept, the GM will introduce an unexpected complication for your character; however, you will receive 2 XP, 1 of which you must give to another player.</li><li>Should you refuse, the complication will not happen but 1 XP will be subtracted from your current amount.</li></ul>",
@@ -27,7 +50,12 @@
     "NUMENERA.gmIntrusionAccepts": "accepts the intrusion",
     "NUMENERA.gmIntrusionRefuses": "refuses the intrusion",
 
-    "NUMENERA.successLevel": "Success Level",
+    "NUMENERA.rollMode.blind": "Blind",
+    "NUMENERA.rollMode.public": "Public",
+    "NUMENERA.rollMode.private": "Private",
+    "NUMENERA.rollMode.self": "Self",
+
+    "NUMENERA.successLevel": "Succeed Task Level",
 
     "NUMENERA.weightClasses.Light": "Light",
     "NUMENERA.weightClasses.Medium": "Medium",
@@ -194,7 +222,7 @@
     "NUMENERA.npcActorSheet.tab.description": "Description",
     "NUMENERA.npcActorSheet.tab.information": "Information",
 
-    "NUMENERA.item.tab.rollTooltip": "Roll (Click for public roll, Shift+click for a blind)",
+    "NUMENERA.item.tab.rollTooltip": "Roll: click for public roll, Ctrl+click for more options (Effort, GM rolls, etc.)",
 
     "NUMENERA.item.ability.newAbility": "New Ability",
     "NUMENERA.item.ability.name": "Abilities",
@@ -214,7 +242,6 @@
     "NUMENERA.item.ability.tier": "Tier",
     "NUMENERA.item.ability.range": "Range",
     "NUMENERA.item.ability.description": "Description",
-    "NUMENERA.item.ability.relatedSkillUpdated": "Related skill information updated",
     "NUMENERA.item.ability.useNotLinkedToActor": "The ability is not linked to an actor",
 
     "NUMENERA.item.armor.weight": "Weight",
@@ -224,10 +251,11 @@
     "NUMENERA.item.armor.description": "Description",
     "NUMENERA.item.armor.newArmor": "New Armor",
 	
-	"NUMENERA.item.numenera.formPlaceholder": "You can add multiple forms by separating them with ','",
+    "NUMENERA.item.numenera.formPlaceholder": "You can add multiple forms by separating them with ','",
 
     "NUMENERA.item.artifact.level": "Level",
     "NUMENERA.item.artifact.form": "Form",
+    "NUMENERA.item.artifact.laws": "Laws",
     "NUMENERA.item.artifact.depletion": "Depletion",
     "NUMENERA.item.artifact.depletionDie": "Die",
     "NUMENERA.item.artifact.depletionThreshold": "Threshold",

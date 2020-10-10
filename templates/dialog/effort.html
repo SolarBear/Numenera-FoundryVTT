@@ -1,0 +1,81 @@
+<form class="{{cssClass}} numenera-dialog effort" autocomplete="off">
+    <div class="flexcol line">
+        <div>
+            <h1>
+                {{localize "NUMENERA.effort.initialTaskLevel"}} <input type="number" name="taskLevel" data-dtype="Number" value="{{taskLevel}}" min="0" data-dtype="Number" />
+            </h1>
+        </div>
+        <div>
+            <h2>{{localize "NUMENERA.rolling"}}
+                <select name="stat" data-dtype="String">
+                    {{#select stat}}
+                    <option value="">{{localize "NUMENERA.effort.selectAStat"}}</option>
+                    {{#each stats}}
+                    <option value="{{this}}">{{localize this}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </h2>
+        </div>
+        <div>
+            <h2>Skill
+                <select name="skill" data-dtype="String">
+                    {{#select skill._id}}
+                    <option value=""></option>
+                    {{#each skills}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                    {{/select}}
+                </select>
+            </h2>
+        </div>
+        <div>
+            <h2>{{localize "NUMENERA.effort.other"}} <input type="number" name="assets" value="{{assets}}" min="0" data-dtype="Number" /></h2>
+        </div>
+        <div>
+            <h2>{{localize "NUMENERA.effort.effortLevels"}} <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" /></h2>
+            {{localize "NUMENERA.effort.max"}}: <input type="number" class="max-effort" value="{{ maxEffortLevel }}" disabled />
+        </div>
+        <div class="pools">
+            <h2>{{localize stat}} {{localize "NUMENERA.stats.pool"}}</h2>
+            <div class="flexrow">
+                <div>
+                    {{localize "NUMENERA.stats.current"}} {{current}}
+                </div>
+                <div>
+                    {{localize "NUMENERA.effort.cost"}} {{cost}}
+                </div>
+                <div>
+                    {{localize "NUMENERA.effort.remaining"}} {{remaining}}
+                </div>
+            </div>
+        </div>
+        {{#if displayWarning}}
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i> {{warning}}
+        </div>
+        {{/if}}
+    </div>
+    <div>
+        <h1 class="final">
+            {{localize "NUMENERA.effort.finalTaskLevel"}} <input type="number" data-dtype="Number" value="{{finalLevel}}" readonly="readonly" />
+        </h1>
+    </div>
+    <div>
+        <h2>{{localize "NUMENERA.effort.rollType"}}</h2>
+        <select name="rollMode">
+        {{#select rollMode}}
+        {{#each rollModes}}
+            <option value="{{this.value}}">{{this.label}}</option>
+        {{/each}}
+        {{/select}}
+        </select>
+    </div>
+    <div>
+        <button id="roll-with-effort" class="animated"
+            {{#if displayWarning}}disabled="disabled"{{/if}}
+        >
+            {{rollButtonText}}
+        </button>
+    </div>
+</form>

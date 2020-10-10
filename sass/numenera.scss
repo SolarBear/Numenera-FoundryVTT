@@ -216,44 +216,20 @@ form.numenera {
             margin-top: 1.5em;
         }
 
-/// ----------
-/// RECOVERY BUTTON
-/// ----------
+        a i.handle {
+            cursor: move;
+        }
 
-button#recoveryRoll {
-    width: 75%;
-    transition-duration: 0.3s;
-    background-color: rgba(0, 0, 0, 0.15);
-    border: $input-border-color;
-    padding-bottom: 10px;
+        a.rollable {
+            height: auto;
+            width: auto;
 
-    h2 {
-        font-family: $font-stack;
-        margin: 0;
-    }
-}
-
-#recoveryRoll:hover {
-    background-color: $font-edit-color;
-    box-shadow: $glow;
-    border: none;
-    color: white;
-}
-
-a i.handle {
-    cursor: move;
-}
-
-a.rollable {
-    height: auto;
-    width: auto;
-
-    & > img {
-        border: 0;
-        height: 36px;
-        width: 36px;
-    }
-}
+            & > img {
+                border: 0;
+                height: 36px;
+                width: 36px;
+            }
+        }
 
         div > div.npc-info,div.community-info {
             flex: 0.25;
@@ -742,8 +718,16 @@ a.rollable {
     }
 }
 
-form.numenera-recovery {
+/// ----------
+/// DIALOGS (recovery, effort)
+/// ----------
+
+form.numenera-dialog {
     font-family: $font-stack;
+    color: $font-color;
+    border-radius: 10px;
+    background-image: url("images/jpg/testbg.jpg");
+    background: $bggrad;
 
     h1 {
         padding-bottom: 0.25em;
@@ -761,6 +745,12 @@ form.numenera-recovery {
         font-weight: bold;
         margin-top: 0.5em;
         border: 0;
+    }
+
+    .warning {
+        color: red;
+        align-self: center;
+        margin-bottom: 0.75em;
     }
 
     & > div.columns {
@@ -818,7 +808,79 @@ form.numenera-recovery {
             }
         }
     }
+
+    /// ----------
+    /// EFFORT DIALOG
+    /// ----------
+
+    &.effort {
+        div.line > div {
+            padding: 0.3em 0 0.3em 0;
+            margin-left: 0.4em;
+        }
+
+        h1.final {
+            border-bottom: 0;
+            border-top: 2px solid #782e22;
+            margin-bottom: 0.4em;
+        }
+
+        h2 {
+            display: inline;
+        }
+
+        input[type=number] {
+            width: 3em;
+            font-size: 16px;
+        }
+
+        .pools {
+            margin-bottom: 1em;
+            font-weight: bold;
+            font-size: 16px;
+            vertical-align: center;
+            align-items: center;;
+        }
+
+        button {
+            margin-top: 0.5em;
+        }
+    }
 }
+
+/// ----------
+/// DIALOG BUTTONS
+/// ----------
+
+form.numenera button.animated,
+form.numenera-dialog button.animated {
+    transition-duration: 0.3s;
+    background-color: rgba(0, 0, 0, 0.15);
+    border: $input-border-color;
+    font-family: $font-stack;
+    font-weight: bold;
+
+    &:hover:enabled {
+        background-color: $font-edit-color;
+        box-shadow: $glow;
+        border: none;
+        color: white;
+    }
+}
+
+//Some exceptions
+form.numenera button.animated {
+    width: 75%;
+    padding-bottom: 10px;
+
+    h2 {
+        margin: 0;
+    }
+}
+
+/// ----------
+/// HUD STUFF
+/// ----------
 
 #token-hud {
     #innerTokenHud {

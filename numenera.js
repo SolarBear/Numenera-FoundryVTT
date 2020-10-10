@@ -26,6 +26,7 @@ import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
 import { registerHooks } from './module/hooks.js';
 import { useItemMacro } from './module/macro.js';
 import { cypherRuler } from './module/ruler.js';
+import { cypherRoll } from './module/dice/cypherRoll.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -76,9 +77,33 @@ Hooks.once("init", function() {
 //Place asy clean, well-behaved hook here
 Hooks.once("init", cypherToken);
 Hooks.once("init", cypherRuler);
+Hooks.once("init", cypherRoll);
 Hooks.once("ready", add3rdBarToPCTokens);
 Hooks.once("ready", migrateWorld);
 Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
 Hooks.once("ready", registerHooks);
+
+Hooks.once("ready", async () => {
+    const pcs = Actor.collection.filter(a => a.data.type === "pc");
+
+    for (let actor of pcs) {
+        const items = actor.items;
+        const abilities = items.filter(i => i.type === "ability");
+        const skills = items.filter(i => i.type === "skill");
+
+        for (let ability of abilities) {
+            let skill = skills.find(sk => sk.name === ability.name && sk.data.data.relatedAbilityId === ability.id);
+
+            if (!skill) {
+                skill = new NumeneraSkillItem();
+                skill.data.type = "skill";
+                skill.data.name = ability.name;
+                skill.data.data.relatedAbilityId = ability.id;
+
+                skill = await actor.createOwnedItem(skill);
+            }
+        }
+    }
+});

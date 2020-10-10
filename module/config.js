@@ -97,6 +97,8 @@ NUMENERA.damageTrack = [
   }
 ];
 
+NUMENERA.totalRecoveries = 4;
+
 NUMENERA.recoveries = {
   "action": "NUMENERA.pc.recovery.action",
   "tenMin": "NUMENERA.pc.recovery.tenMin",

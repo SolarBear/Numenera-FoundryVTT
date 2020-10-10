@@ -1,13 +1,9 @@
-import { numeneraRollFormula } from "../roll.js";
+import { RollData } from "../dice/RollData.js";
+
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
-
-const effortObject = {
-  cost: 0,
-  effortLevel: 0,
-  warning: null,
-};
+import { getShortStat } from "../utils.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
@@ -48,16 +44,17 @@ export class NumeneraPCActor extends Actor {
 
   getInitiativeFormula() {
     //Check for an initiative skill
-    const initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative")
+    //TODO allow "initiative" in different languages if the current locale isn't "en"
+    let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
+    if (!initSkill) {
+      initSkill = new NumeneraSkillItem();
+      initSkill.data.data.name = "Initiative";
+    }
+
+    const rollData = this.getSkillRollData(initSkill);
 
     //TODO possible assets, effort on init roll
-    return this.getSkillFormula(initSkill);
-  }
-
-  get effort() {
-    const data = this.data.data;
-
-    return data.tier + (data.advances.effort ? 1 : 0);
+    return rollData.getRollFormula();
   }
 
   /**
@@ -74,26 +71,37 @@ export class NumeneraPCActor extends Actor {
     }).length;
   }
 
-  getSkillFormula(skill) {
-    let skillLevel = 0;
-    if (skill) {
-      skillLevel = this.getSkillLevel(skill);
-    }
+  /**
+   * Given a skill id, get the related RollData object.
+   *
+   * @param {NumeneraSkillItem} skill
+   * @returns {RollData}
+   * @memberof NumeneraPCActor
+   */
+  getSkillRollData(skill) {
+    const rollOptions = new RollData();
 
-    return numeneraRollFormula(skillLevel);
+    let data = skill.data;
+    if (data.hasOwnProperty("data"))
+      data = data.data;
+
+    rollOptions.skillLevel = data ? data.skillLevel : 0;
+    rollOptions.isHindered = data ? data.inability : false;
+
+    return rollOptions;
   }
 
   /**
    * Given a skill ID, roll the related skill item for the character.
    *
    * @param {String} skillId
-   * @param {boolean} [gmRoll=false]
+   * @param {RollData} rollData
    * @returns {Roll}
    * @memberof NumeneraPCActor
    */
-  rollSkillById(skillId, gmRoll = false) {
+  rollSkillById(skillId, rollData = null, ability = null) {
     const skill = this.getOwnedItem(skillId);
-    return this.rollSkill(skill, gmRoll);
+    return this.rollSkill(skill, rollData, ability);
   }
 
   /**
@@ -101,11 +109,11 @@ export class NumeneraPCActor extends Actor {
    * bonus.
    *
    * @param {NumeneraSkillItem} skill
-   * @param {Boolean} gmRoll
+   * @param {RollData} rollData
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skill, gmRoll = false) {
+  rollSkill(skill, rollData = null, ability = null) {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -116,66 +124,50 @@ export class NumeneraPCActor extends Actor {
         return;
     }
 
-    const roll = new Roll(this.getSkillFormula(skill)).roll();
-
-    let rollMode;
-    if (gmRoll) {
-      if (game.user.isGM) {
-        rollMode = DICE_ROLL_MODES.PRIVATE;
-      }
-      else {
-        rollMode = DICE_ROLL_MODES.BLIND;
-      }
+    if (rollData) {
+      rollData.skillLevel = skill.data.data.skillLevel;
+      rollData.isHindered = skill.data.data.inability;
     }
     else {
-      rollMode = DICE_ROLL_MODES.PUBLIC;
+      rollData = this.getSkillRollData(skill);
+    }
+
+    rollData.ability = ability;
+    
+    const roll = rollData.getRoll();
+    roll.roll();
+
+    let flavor = game.i18n.localize("NUMENERA.rolling") + " " + skill.data.data.name;
+    if (rollData.effortLevel > 0) {
+      flavor += ` + ${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`;
     }
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor: `${game.i18n.localize("NUMENERA.rolling")} ${skill.name}`,
+      messageData: RollData.rollText(roll),
+      flavor,
     },
-      {
-        rollMode
-      });
+    {
+      rollMode: rollData.rollMode,
+    });
   }
 
   /**
    * Roll an attribute as is, with no related skill.
    *
    * @param {String} attribute
-   * @param {boolean} [gmRoll=false] True if this is a GM roll (ie. blind)
+   * @param {RollData} rollData
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollAttribute(attribute, gmRoll = false) {
+  rollAttribute(attribute, rollData = null) {
     // Create a pseudo-skill to avoid repeating the roll logic
-    return this.rollSkill({
-      name: attribute,
-      data: {
-        skillLevel: 0,
-        inability: false,
-      },
-    }, gmRoll);
-  }
+    const skill = new NumeneraSkillItem();
 
-  /**
-   * Given a skill ID, return this skill's modifier as a a numeric value.
-   *
-   * @param {NumeneraSkillItem} skill item
-   * @returns {Number} Skill modifier in the [-1, 2] range
-   * @memberof ActorNumeneraPC
-   */
-  getSkillLevel(skill) {
-    if (!skill || !skill.data)
-      throw new Error("No skill provided");
+    //Need to modify the deep property since skill.name is a getter
+    skill.data.data.name = attribute.replace(/^\w/, (c) => c.toUpperCase()); //capitalized
 
-    skill = skill.data;
-    if (skill.hasOwnProperty("data"))
-      skill = skill.data;
-
-    //Inability subtracts 1 from overall level
-    return skill.skillLevel - Number(skill.inability);
+    return this.rollSkill(skill, rollData);
   }
 
   /**
@@ -193,41 +185,48 @@ export class NumeneraPCActor extends Actor {
     return this.data.data.skills.filter(id => id == statId);
   }
 
-  getEffortCostFromStat(event) {
-    //Return value, copy from template object
-    const value = { ...effortObject };
-
-    const effortLevel = event.target.value;
-    if (effortLevel === 0) {
-      return value;
-    }
+  /**
+   * Get the Effort cost for a given stat and Effort level, with an
+   * optional extra cost (eg. Ability cost). Edge will be automatically
+   * included in the calculation.
+   *
+   * @param {String} shortStat  Short stat name
+   * @param {Number} effortLevel Number of levels of Effort used
+   * @param {Number} [extraCost=0] Any extra cost (eg. Ability cost)
+   * @returns {Number} The total pool cost for using that stat.
+   * @memberof NumeneraPCActor
+   */
+  getEffortCostFromStat(shortStat, effortLevel, extraCost = 0) {
+    if (!shortStat)
+      return null;
 
     const actorData = this.data.data;
+    const stat = actorData.stats[shortStat];
 
-    const statId = event.target.dataset.statId;
-    const stat = actorData.stats[statId];
+    if (effortLevel === 0)
+      return Math.max(0, extraCost - stat.edge);
 
     //The first effort level costs 3 pts from the pool, extra levels cost 2
-    //Substract the related Edge, too
-    const availableEffortFromPool = (stat.pool.current + stat.edge - 1) / 2;
+    //Subtract the related Edge and add any extra cost
+    return Math.max(0, 1 + 2 * effortLevel + extraCost - stat.edge);
+  }
 
-    //A PC can use as much as their Effort score, but not more
-    //They're also limited by their current pool value
-    const finalEffort = Math.max(effortLevel, actorData.effort, availableEffortFromPool);
-    const cost = 1 + 2 * finalEffort - stat.edge;
+  /**
+   * Get the Effort cost for a given Ability and Effort level.
+   *
+   * @param {NumeneraAbilityItem} ability  Ability object
+   * @param {Number} effortLevel Number of levels of Effort used
+   * @returns {Number} The total pool cost for using that Ability.
+   * @memberof NumeneraPCActor
+   */
+  getEffortCostFromAbility(ability, effortLevel) {
+    if (!ability)
+      return null;
 
-    //TODO take free levels of Effort into account here
+    let {pool, amount} = ability.data.data.cost;
+    amount = parseInt(amount);
 
-    let warning = null;
-    if (effortLevel > availableEffortFromPool) {
-      warning = null; // TODO put into localization file `Not enough points in your ${statId} pool for that level of Effort`;
-    }
-
-    value.cost = cost;
-    value.effortLevel = finalEffort;
-    value.warning = warning;
-
-    return value;
+    return this.getEffortCostFromStat(getShortStat(pool), effortLevel, amount);
   }
 
   getTotalArmor() {
@@ -371,7 +370,6 @@ export class NumeneraPCActor extends Actor {
 
     ability.use();
 
-    //TODO extract to method
     const cost = ability.getCost();
     if (cost.amount === 0) {
       return true;

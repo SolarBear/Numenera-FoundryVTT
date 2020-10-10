@@ -34,8 +34,15 @@
             {{/if}}
             </td>
 
+
             <td class="artifact-description">
             {{#if artifact.editable}}
+              {{#if ../isTheStrange}}
+                <label>
+                  Laws
+                  <input type="text" name="data.items.artifacts.{{artifact._id}}.data.laws" value="{{artifact.data.laws}}" />
+                </label>
+              {{/if}}
                 <label>
                     Form
                     <input type="text" name="data.items.artifacts.{{artifact._id}}.data.form" value="{{artifact.data.form}}" />
@@ -45,6 +52,9 @@
                     <textarea name="data.items.artifacts.{{artifact._id}}.data.effect">{{artifact.data.effect}}</textarea>
                 </label>
             {{else}}
+              {{#if ../isTheStrange}}
+                <span><strong>{{localize "NUMENERA.pc.numenera.artifact.laws"}}:</strong></span> {{artifact.data.laws}}
+              {{/if}}
                 <p>
                     <span><strong>{{localize "NUMENERA.pc.numenera.artifact.form"}}:</strong></span> {{artifact.data.form}}
                 </p>

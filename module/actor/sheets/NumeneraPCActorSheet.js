@@ -1,5 +1,11 @@
-import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
+import  "../../../lib/dragula/dragula.js";
+
 import { NUMENERA } from "../../config.js";
+
+import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
+import { EffortDialog } from "../../apps/EffortDialog.js";
+import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
+
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
 import { NumeneraArtifactItem } from "../../item/NumeneraArtifactItem.js";
 import { NumeneraArmorItem } from "../../item/NumeneraArmorItem.js";
@@ -9,9 +15,6 @@ import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
-
-import  "../../../lib/dragula/dragula.js";
-import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
 
 //Common Dragula options
 const dragulaOptions = {
@@ -178,7 +181,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   static get advances() {
     return NUMENERA.advances;
-  } 
+  }
 
   constructor(...args) {
     super(...args);
@@ -223,16 +226,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
-    switch (game.settings.get("numenera", "characterSheet"))
-    {
-      case 1:
-        return "systems/numenera/templates/actor/characterSheet.html";
-      case 2:
-        return "systems/numenera/templates/actor/characterSheetStrange.html";
-      default:
-        throw new Error("Invalid setting for NumeneraPCActorSheet template");
+    return "systems/numenera/templates/actor/characterSheet.html";
     }
-  }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
@@ -243,6 +238,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
     sheetData.displayCypherType = useCypherTypes;
+
+    //Is it The Strange?
+    if (game.settings.get("numenera", "characterSheet") == 2) {
+      sheetData.isTheStrange = true;
+    }
 
     // Add relevant data from system settings
     sheetData.settings = {
@@ -285,13 +285,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
-    // TODO remove hardcoded value: 4
     sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
     .map(([key, value], idx) => {
       return {
         key,
         label: value,
-        checked: 4 - this.actor.data.data.recoveriesLeft > idx
+        checked: !this.actor.data.data.recoveries[idx],
       };
     });
 
@@ -324,7 +323,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         artifact.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
         artifact.data.level = game.i18n.localize("NUMENERA.unknown");
         artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
-        artifact.data.depletion = null;  
+        artifact.data.depletion = null;
       }
       else {
         artifact.data.effect = removeHtmlTags(artifact.data.effect);
@@ -411,7 +410,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
 
-    html.find("div.stats").on("click", "a.rollable", this.onAttributeRoll.bind(this));
+    html.find("div.stats").on("click", "a.rollable", this.onAttributeUse.bind(this));
 
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
@@ -535,16 +534,31 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @returns
    * @memberof NumeneraPCActorSheet
    */
-  onAttributeRoll(event) {
+  onAttributeUse(event) {
     event.preventDefault();
-    return this.actor.rollAttribute(event.target.parentElement.dataset.stat);
+    let stat = event.target.closest(".stats").dataset.stat;
+
+    if (event.ctrlKey || event.metaKey) {
+      stat = stat.toLowerCase();
+      new EffortDialog(this.actor, { stat }).render(true);
+    }
+    else {
+      return this.actor.rollAttribute(stat);
+    }
   }
 
   onSkillUse(event) {
     event.preventDefault();
     const skillId = event.target.closest(".skill").dataset.itemId;
 
-    return this.actor.rollSkillById(skillId, event.shiftKey);
+    //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
+
+    if (event.ctrlKey || event.metaKey) {
+      new EffortDialog(this.actor, {skill: this.actor.getOwnedItem(skillId)}).render(true);
+    }
+    else {
+      return this.actor.rollSkillById(skillId);
+    }
   }
 
   async onWeaponUse(event) {
@@ -573,7 +587,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
       skill.data.name = skillName;
     }
 
-    return this.actor.rollSkill(skill, event.shiftKey);
+    if (event.ctrlKey || event.metaKey) {
+      new EffortDialog(this.actor, { skill }).render(true);
+    }
+    else {
+      this.actor.rollSkill(skill);
+    }
   }
 
   /**
@@ -589,7 +608,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!abilityId)
       return;
 
-    await this.actor.useAbilityById(abilityId);
+    //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
+
+    if (event.ctrlKey || event.metaKey) {
+      new EffortDialog(this.actor, {ability: this.actor.getOwnedItem(abilityId)}).render(true);
+    }
+    else {
+      await this.actor.useAbilityById(abilityId);
+    }
   }
 
   onArtifactDepletionRoll(event) {
@@ -667,6 +693,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
 
     const item = Item.collection.entities.find(i => i._id == id)
+
+    //To avoid "false drops"
+    if (!item)
+      return;
 
     switch (item.data.type) {
       case "armor":
