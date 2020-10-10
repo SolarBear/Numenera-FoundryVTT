@@ -26,7 +26,7 @@
 
     "NUMENERA.effort.title": "Effort",
     "NUMENERA.effort.againstTaskLevel": "contre tâche niveau",
-    "NUMENERA.effort.assets": "Atouts",
+    "NUMENERA.effort.other": "Autres avantages",
     "NUMENERA.effort.confirmUnspent": "Vous n'avez pas dépensé tous vos points et vos Réserves ne sont pas encore pleines. Voulvez-vous vraiment quitter? Ces points seront perdus.",
     "NUMENERA.effort.cost": "Coût",
     "NUMENERA.effort.effortLevels": "Niveaux d'Effort",
