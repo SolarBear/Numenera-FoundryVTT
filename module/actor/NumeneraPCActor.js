@@ -143,7 +143,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      speaker: ChatMessage.getSpeaker(),
       messageData: RollData.rollText(roll),
       flavor,
     },

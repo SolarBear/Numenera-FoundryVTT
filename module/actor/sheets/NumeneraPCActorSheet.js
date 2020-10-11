@@ -634,7 +634,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const roll = new Roll(depletion.die).roll();
 
     roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      speaker: ChatMessage.getSpeaker(),
       flavor: `Depletion roll for ${artifact.name}<br/>${game.i18n.localize("NUMENERA.item.artifact.depletionThreshold")}: ${depletion.threshold}`,
     });
   }
