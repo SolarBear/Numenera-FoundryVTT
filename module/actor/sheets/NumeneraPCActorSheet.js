@@ -19,8 +19,8 @@ import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 //Common Dragula options
 const dragulaOptions = {
   moves: function (el, container, handle) {
-    return handle.classList.contains('handle');
-  }
+    return handle.classList.contains('fa-grip-vertical');
+  },
 };
 
 //Sort function for order
@@ -480,18 +480,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     drakes.map(drake => drake.on("drop", this.reorderElements.bind(this)));
 
     if (this.actor.owner) {
-      const handler = ev => this._onDragItemStart(ev);
+      const handler = ev => this._onDragStart(ev);
 
-      // Find all abilitiy items on the character sheet.
-      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, tr) => {
+      // Find all abilitiy, skill, weapon and recursion items on the character sheet.
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, elem) => {
         // Add draggable attribute and dragstart listener.
-        tr.setAttribute("draggable", true);
-        tr.addEventListener("dragstart", handler, false);
+        elem.setAttribute("draggable", true);
+        elem.addEventListener("dragstart", handler, false);
       });
     }
   }
 
-  _onDragItemStart(event) {
+  _onDragStart(event) {
     const itemId = event.currentTarget.dataset.itemId;
 
     const clickedItem = duplicate(
@@ -509,7 +509,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       })
     );
 
-    return super._onDragItemStart(event);
+    return super._onDragStart(event);
   }
 
   async reorderElements(el, target, source, sibling) {
@@ -684,12 +684,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super._onChangeInput(event);
   }
 
-  _onDrop(event) {
-    super._onDrop(event);
+  _onDropItem(event, data) {
+    super._onDropItem(event, data);
 
-    const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
+    const { id } = JSON.parse(event.dataTransfer.getData("text/plain"));
 
-    if (type !== "Item")
+    if (!id)
       return;
 
     const item = Item.collection.entities.find(i => i._id == id)
