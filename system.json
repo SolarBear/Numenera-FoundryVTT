@@ -36,7 +36,7 @@
         }
     ],
     "socket": true,
-    "compatibleCoreVersion": "0.6.6",
+    "compatibleCoreVersion": "0.7.3",
     "minimumCoreVersion" : "0.6.0",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",
     "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json",
