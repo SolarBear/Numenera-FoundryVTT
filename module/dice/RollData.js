@@ -84,9 +84,16 @@ export class RollData {
   }
 
   static _rollTextWithTaskLevel(roll) {
-    const die = roll.dice[0].rolls[0].roll;
+    let die;
+    if (roll.hasOwnProperty("results")) {
+      die = roll.results[0];
+    }
+    else {
+      die = roll.results[0].result;
+    }
+      
 
-    switch (parseInt(roll.result)) {
+    switch (parseInt(roll.total)) {
       case 0:
         //Sorry.
         switch (die) {
@@ -136,7 +143,13 @@ export class RollData {
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    switch (roll.dice[0].rolls[0].roll) {
+    let results;
+    if (roll.hasOwnProperty("results"))
+      results = roll.results;
+    else
+      results = roll.dice.map(d => d.results);
+
+    switch (results[0].roll) {
       case 1:
         return {
           special: true,
@@ -159,7 +172,7 @@ export class RollData {
         }
 
       default:
-        const rolled = roll.dice[0].rolls[0].roll;
+        const rolled = results[0].result;
         const taskLevel = Math.floor(rolled / 3);
 
         return {

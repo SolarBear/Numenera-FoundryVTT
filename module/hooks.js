@@ -65,9 +65,13 @@ export async function registerHooks() {
                     dt.textContent = text;
                 }
                 else {
-                    const rolled = roll.dice[0].rolls[0].roll;
-                    const taskLevel = Math.floor(rolled / 3);
+                    let rolled;
+                    if (roll.hasOwnProperty("results"))
+                      rolled = roll.results;
+                    else
+                      rolled = roll.dice.map(d => d.results);
 
+                    const taskLevel = Math.floor(rolled / 3);
                     dt.textContent = `${game.i18n.localize("NUMENERA.successLevel")} ${taskLevel}`;
                 }
             }
