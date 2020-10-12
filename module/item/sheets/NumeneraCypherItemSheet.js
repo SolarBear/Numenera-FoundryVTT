@@ -31,12 +31,26 @@ export class NumeneraCypherItemSheet extends ItemSheet {
     getData() {
         const sheetData = super.getData();
 
-        const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
-        sheetData.useCypherTypes = useCypherTypes;
+        //TODO improve this, c'mon man, you can do better!
+        let cypherTypeFlavor;
+        switch (game.settings.get("numenera", "cypherTypesFlavor")) {
+            case 1: //none
+                cypherTypeFlavor = null;
+                break;
 
-        if (useCypherTypes) {
-            sheetData.cypherTypes = NUMENERA.cypherTypes;
+            case 2: //anoetic/occultic
+                cypherTypeFlavor = "numenerav1";
+                break;
+
+            case 3: //subtle/manifest/fantastic
+                cypherTypeFlavor = "cypherSystem";
+                break;
         }
+
+        const useCypherTypes = !!cypherTypeFlavor;
+        sheetData.displayCypherType = useCypherTypes;
+        if (useCypherTypes)
+            sheetData.cypherTypes = NUMENERA.cypherTypes[cypherTypeFlavor];
 
         return sheetData;
     }

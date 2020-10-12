@@ -236,8 +236,26 @@ export class NumeneraPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
-    const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
+    //TODO improve this, c'mon man, you can do better!
+    let cypherTypeFlavor;
+    switch (game.settings.get("numenera", "cypherTypesFlavor")) {
+      case 1: //none
+        cypherTypeFlavor = null;
+        break;
+
+      case 2: //anoetic/occultic
+      cypherTypeFlavor = "numenerav1";
+        break;
+
+      case 3: //subtle/manifest/fantastic
+        cypherTypeFlavor = "cypherSystem";
+        break;
+    }
+
+    const useCypherTypes = !!cypherTypeFlavor;
     sheetData.displayCypherType = useCypherTypes;
+    if (useCypherTypes)
+      sheetData.cypherTypes = NUMENERA.cypherTypes[cypherTypeFlavor];
 
     //Is it The Strange?
     if (game.settings.get("numenera", "characterSheet") == 2) {
@@ -268,9 +286,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     for (const prop in NUMENERA.stats) {
       sheetData.stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
     }
-
-    if (useCypherTypes)
-      sheetData.cypherTypes = NUMENERA.cypherTypes;
 
     sheetData.advances = Object.entries(sheetData.actor.data.advances).map(
       ([key, value]) => {
@@ -347,6 +362,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
       }
       else {
         cypher.data.effect = removeHtmlTags(cypher.data.effect);
+      }
+
+      if (useCypherTypes && cypher.data.identified && !cypher.data.cypherType) {
+        //Use the very first object key as property since none has been defined yet
+        cypher.data.cypherType = Object.keys(NUMENERA.cypherTypes[cypherTypeFlavor]);
       }
 
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;

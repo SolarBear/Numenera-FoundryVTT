@@ -258,7 +258,6 @@
 
         <div class="tab numenera" data-group="primary" data-tab="numenera">
             {{> "systems/numenera/templates/actor/partials/cyphers.html" data=data}}
-
             <hr class="sheet-one" />
             {{> "systems/numenera/templates/actor/partials/artifacts.html" data=data}}
             <hr class="sheet-one" />
@@ -266,9 +265,9 @@
         </div>
 
         {{#if isTheStrange}}
-    <div class="tab recursion" data-group="primary" data-tab="recursion">
-    {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
-    </div>
+        <div class="tab recursion" data-group="primary" data-tab="recursion">
+            {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
+        </div>
         {{/if}}
 
         <div class="tab equipment" data-group="primary" data-tab="equipment">

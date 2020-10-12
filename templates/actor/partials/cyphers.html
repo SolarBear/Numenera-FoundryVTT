@@ -38,8 +38,9 @@
                             <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level"
                                 value="{{cypher.data.level}}" min="1" data-dtype="Number" />
                         </label>
+                        
                         {{#if ../displayCypherType}}
-                        <label>{{localize "NUMENERA.pc.numenera.cypher.type"}}
+                        <label>{{localize "NUMENERA.item.cypher.type.label"}}
                             <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String"
                                 class="cypher-type">
                                 {{#select cypher.data.cypherType}}
