@@ -247,7 +247,6 @@
 
     "NUMENERA.item.skill.stat": "Attribut",
     "NUMENERA.item.skill.description": "Beschreibung",
-    "NUMENERA.item.skill.relatedAbilityUpdated": "Informationen aktualisiert",
     "NUMENERA.item.skill.useNotLinkedToActor": "Die Fähigkeit ist mit keinem Charakter verbunden",
 
     "NUMENERA.item.weapon.newWeapon": "Neue Waffe",

@@ -264,7 +264,7 @@
     "NUMENERA.item.artifact.newArtifact": "New Artifact",
 
     "NUMENERA.item.cypher.level": "Level",
-    "NUMENERA.item.cypher.type": "Type",
+    "NUMENERA.item.cypher.type.label": "Type",
     "NUMENERA.item.cypher.type.anoetic": "Anoetic",
     "NUMENERA.item.cypher.type.occultic": "Occultic",
     "NUMENERA.item.cypher.type.manifest": "Manifest",
@@ -283,7 +283,6 @@
 
     "NUMENERA.item.skill.stat": "Stat",
     "NUMENERA.item.skill.description": "Description",
-    "NUMENERA.item.skill.relatedAbilityUpdated": "Related ability information updated",
     "NUMENERA.item.skill.useNotLinkedToActor": "The skill is not linked to an actor",
 
     "NUMENERA.item.weapon.newWeapon": "New Weapon",

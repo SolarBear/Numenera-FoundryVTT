@@ -232,7 +232,6 @@
 
   "NUMENERA.item.skill.stat": "Estado",
   "NUMENERA.item.skill.description": "Descrição",
-  "NUMENERA.item.skill.relatedAbilityUpdated": "Informação de habilidade especial relacionada foi atualizada",
   "NUMENERA.item.skill.useNotLinkedToActor": "A perícia não está relacionada a um ator",
 
   "NUMENERA.item.weapon.newWeapon": "Nova Arma",

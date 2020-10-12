@@ -281,7 +281,6 @@
 
     "NUMENERA.item.skill.stat": "Caractéristique",
     "NUMENERA.item.skill.description": "Description",
-    "NUMENERA.item.skill.relatedAbilityUpdated": "L'Aptitude liée à cette Compétence a été mise à jour",
     "NUMENERA.item.skill.useNotLinkedToActor": "Cette Compétence n'est pas liée à un acteur",
 
     "NUMENERA.item.weapon.newWeapon": "New Weapon",
