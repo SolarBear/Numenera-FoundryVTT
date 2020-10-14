@@ -120,6 +120,7 @@ function onItemDeleteGenerator(deleteType, callback = null) {
     event.preventDefault();
 
     if (await confirmDeletion(deleteType)) {
+      //TODO this is not 100% appropriate now that we might use grids
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
       const toDelete = this.actor.data.items.find(i => i._id === itemId);
@@ -142,7 +143,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "table.abilities",
       "table.armor",
       "table.equipment",
-      "table.skills",
+      "div.skills",
       "table.weapons",
       "ul.cyphers",
       "ul.artifacts",
@@ -161,7 +162,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera table.abilities",
         "form.numenera table.armor",
         "form.numenera table.equipment",
-        "form.numenera table.skills",
+        "form.numenera div.skills",
         "form.numenera table.weapons",
         "form.numenera ul.artifacts",
         "form.numenera ul.cyphers",
@@ -391,6 +392,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return ability;
     });
 
+    sheetData.skillGridClass = sheetData.settings.icons.skills ? "skills-grid-with-icon" : "skills-grid";
     sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
@@ -448,7 +450,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     equipmentTable.on("click", ".equipment-delete", this.onEquipmentDelete.bind(this));
     equipmentTable.on("blur", "input,select", this.onEquipmentEdit.bind(this));
 
-    const skillsTable = html.find("table.skills");
+    const skillsTable = html.find("div.skills");
     skillsTable.on("click", ".skill-create", this.onSkillCreate.bind(this));
     skillsTable.on("click", ".skill-delete", this.onSkillDelete.bind(this));
     skillsTable.on("change", "input,select", this.onSkillEdit.bind(this));
@@ -488,7 +490,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     drakes.push(dragula([document.querySelector("table.abilities > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.armor > tbody")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
+
+    //TODO HALP!!! div grids do not have a container element for rows... this is bad for Dragula :(
+    drakes.push(dragula([document.querySelector("div.skills:before")], Object.assign({}, dragulaOptions)));
     drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
 
     drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));

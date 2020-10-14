@@ -73,6 +73,21 @@ form.numenera {
         list-style-type: none;
     }
 
+    a i.handle {
+        cursor: move;
+    }
+
+    a.rollable {
+        height: auto;
+        width: auto;
+
+        & > img {
+            border: 0;
+            height: 32px;
+            width: 32px;
+        }
+    }
+
     /// ----------
     /// NAME / DESCRIPTOR / TYPE / FOCUS
     /// ----------
@@ -216,21 +231,6 @@ form.numenera {
             margin-top: 1.5em;
         }
 
-        a i.handle {
-            cursor: move;
-        }
-
-        a.rollable {
-            height: auto;
-            width: auto;
-
-            & > img {
-                border: 0;
-                height: 36px;
-                width: 36px;
-            }
-        }
-
         div > div.npc-info,div.community-info {
             flex: 0.25;
 
@@ -275,6 +275,160 @@ form.numenera {
     }
 
     div {
+        &.skills-grid {
+            display: grid;
+            grid-template-columns: [handle] 20px
+                                   [name] auto
+                                   [stat] 16ch
+                                   [inability] 90px
+                                   [untrained] 90px
+                                   [trained] 90px
+                                   [specialized] 90px
+                                   [actions] 120px;
+            grid-gap: 0;
+            width: 100%;
+            margin-top: 0.5em;
+            // justify-items: center;
+            // align-items: center;
+            overflow: hidden;
+
+            & > * {
+                position: relative;
+            }
+
+            & > div.full-line {
+                //span value must be the number of columns
+                grid-column: 1 / span 8;
+                padding: 5px;
+                margin-top: 5px;
+                font-weight: bold;
+                font-size: 16px;
+                text-align: center;
+            }
+
+            & > div.skill-grid-header {
+                height: 100%;
+                padding: 2px;
+                background: rgba(0, 0, 0, 0.5);
+                color: #f0f0e0;
+                border-bottom: 1px solid #000;
+
+                font-weight: bold;
+                font-size: 16px;
+                text-shadow: 1px 1px #000;
+                text-align: center;
+            }
+
+            & > div.skill-grid-item {
+                grid-auto-rows: 1fr; //to have all cells share the same height
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0);
+                color: whitesmoke;
+                text-shadow: none;
+                padding: 5px;
+                font-weight: bold;
+                font-size: 16px;
+                text-align: center;
+                border-bottom: 1px solid $border-color;
+                justify-content: center;
+                align-content: center;
+
+                //TRICK to handle a "row-less row hover" taken from https://stackoverflow.com/a/48109479/20043
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    right: -1000%;
+                    left: -1000%;
+                    z-index: 1;
+                }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    right: -1px;
+                    z-index: 2;
+                    background-color: #fff;
+                }
+
+                &:hover::before {
+                    background-color: rgba(0, 0, 0, 0.1)
+                }
+                //END TRICK
+
+                // &.skill-handle {
+                //     align-self: center;
+                // }
+
+                & > span {
+                    position: relative;
+                    z-index: 2;
+                    //line-height: 100%;
+
+                    & > input[type="text"] {
+                        text-align: left;
+                        width: 95%;
+                        border: $input-border-color;
+                        color: $font-edit-color;
+                    }
+                }
+
+                & a {
+                    padding-top: 0.65em;
+                    display: block;
+                    float: right;
+                    margin: auto;
+                }
+            }
+        }
+
+        //Extracted out of .skills-grid because I cannot cancel this pseudo-element and set the right o
+        //TODO perhaps a mixin would be more appropriate?
+        &.skills-grid:nth-child(8n+8)::after {
+            bottom: -1px;
+            right: 0;
+            left: -1000%;
+            height: 1px;
+            z-index: 3;
+            width: auto;
+            top: auto;
+            background-color: #fff;
+        }
+
+        //Extend the base CSS class, adding the icon column and adjusting accordingly
+        &.skills-grid-with-icon {
+            @extend .skills-grid;
+            
+            //TODO is it possible to simply add column, specifying its order position manually?
+            //that would be WAY more maintainable than copy+pasting+adding the column manually
+            grid-template-columns: [handle] 20px
+                                    [icon] 50px
+                                    [name] auto
+                                    [stat] 16ch
+                                    [inability] 90px
+                                    [untrained] 90px
+                                    [trained] 90px
+                                    [specialized] 90px
+                                    [actions] 120px;
+            & > div.full-line {
+                //span value must be the number of columns
+                grid-column: 1 / span 9;
+            }
+
+            &:nth-child(9n+9)::after {
+                bottom: -1px;
+                right: 0;
+                left: -1000%;
+                height: 1px;
+                z-index: 3;
+                width: auto;
+                top: auto;
+                background-color: #fff;
+            }
+        }
 
         &.pc-info {
             border: 0;
@@ -472,7 +626,8 @@ form.numenera {
                 vertical-align: center;
             }
 
-            a.skill-delete {
+            //a.skill-delete,
+            a.ability-delete {
                 padding-top: 0.65em;
                 display: block;
                 float: right;

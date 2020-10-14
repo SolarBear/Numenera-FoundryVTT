@@ -100,77 +100,78 @@
 
     <section id="pc-sheet-body">
         <div class="tab skills" data-group="primary" data-tab="skills">
-            <table class="skills">
-                <thead>
-                    <tr>
-                        <td class="">
-                            <!-- Extra empty table data for handle to properly center if we're showing icons-->
-                        </td>
-                    {{#if settings.icons.skills}}
-                        <td class="skill-icon"></td>
-                    {{/if}}
-                        <td class="skill-name">{{localize "NUMENERA.item.skill.tab.name"}}</td>
-                        <td class="skill-stat">{{localize "NUMENERA.item.skill.tab.stat"}}</td>
-                        <td class="skill-inability">{{localize "NUMENERA.skillLevels.Inability"}}</td>
-                        <td class="skill-untrained">{{localize "NUMENERA.skillLevels.Untrained"}}</td>
-                        <td class="skill-trained">{{localize "NUMENERA.skillLevels.Trained"}}</td>
-                        <td class="skill-specialized">{{localize "NUMENERA.skillLevels.Specialized"}}</td>
-                        <td><a class="skill-create" data-action="create" title="{{localize "NUMENERA.item.skill.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
-                    </tr>
-                </thead>
-                <tbody>
-                {{#each data.items.skills as |skill| }}
-                    <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
-                        <td class="handle">
-                            <a><i class="fas fa-grip-vertical"></i></a>
-                        </td>
+            <div class="{{skillGridClass}}">
+                <!-- Extra empty table data for handle to properly center if we're showing icons-->
+                <div class="skill-grid-header"></div>
+            {{#if settings.icons.skills}}
+                <div class="skill-grid-header skill-icon"></div>
+            {{/if}}
+                <div class="skill-grid-header skill-name">{{localize "NUMENERA.item.skill.tab.name"}}</div>
+                <div class="skill-grid-header skill-stat">{{localize "NUMENERA.item.skill.tab.stat"}}</div>
+                <div class="skill-grid-header skill-inability">{{localize "NUMENERA.skillLevels.Inability"}}</div>
+                <div class="skill-grid-header skill-untrained">{{localize "NUMENERA.skillLevels.Untrained"}}</div>
+                <div class="skill-grid-header skill-trained">{{localize "NUMENERA.skillLevels.Trained"}}</div>
+                <div class="skill-grid-header skill-specialized">{{localize "NUMENERA.skillLevels.Specialized"}}</div>
+                <div class="skill-grid-header">
+                    <a class="skill-create" data-action="create" title="{{localize "NUMENERA.item.skill.tab.createTooltip"}}">
+                        <i class="fas fa-plus"></i>
+                    </a>
+                </div>
+            {{#each data.items.skills as |skill| }}
+            <!-- row -->
+                <div class="skill-grid-item skill skill-handle" data-item-id="{{skill._id}}">
+                    <span>
+                        <a class="handle"><i class="fas fa-grip-vertical fa-lg"></i></a>
+                    </span>
+                    
+                </div>
+            {{#if ../settings.icons.skills}}
+                <div class="skill-grid-item  skill item-icon" data-item-id="{{skill._id}}">
                     {{#if skill.showIcon}}
-                        <td class="item-icon">
-                            <img src="{{skill.img}}" />
-                        </td>
+                    <span></span>
+                    <img src="{{skill.img}}" />
                     {{/if}}
-                        <td class="skill-name">
-                            <input type="text" name="data.items.skills.{{skill._id}}.name" placeholder="Skill Name" value="{{skill.name}}" class="skill-name-input"/>
-                        </td>
-                        <td class="skill-stat">
-                            <select name="data.items.skills.{{skill._id}}.data.stat">
-                            {{#select skill.data.stat}}
-                            {{#each stats}}
-                                <option value="{{this}}">{{localize this}}</option>
-                            {{/each}}
-                            {{/select}}
-                            </select>
-                        </td>
-                        <td class="skill-inability">
-                            <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
-                        </td>
-                        <td class="skill-untrained">
-                            <input class="skill-untrained" type="radio" value="0" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.untrained}} data-dtype="Number" />
-                        </td>
-                        <td class="skill-trained">
-                            <input class="skill-trained" type="radio" value="1" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.trained}} data-dtype="Number" />
-                        </td>
-                        <td class="skill-specialized">
-                            <input class="skill-specialized" type="radio" value="2" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.specialized}} data-dtype="Number" />
-                        </td>
-                        <td>
-                            <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
-                            <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.item.skill.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>
-                {{else}}
-                <tr>
-                    {{#if settings.icons.skills}}
-                    <td colspan="9">
-                    {{else}}
-                    <td colspan="8">
-                    {{/if}}
-                        {{{localize "NUMENERA.item.skill.tab.instructions"}}}
-                    </td>
-                </tr>
-                {{/each}}
-                </tbody>
-            </table>
+                </div>
+            {{/if}}
+                <div class="skill-grid-item skill" data-item-id="{{skill._id}}">
+                    <span></span>
+                    <input type="text" name="data.items.skills.{{skill._id}}.name" placeholder="Skill Name" value="{{skill.name}}" class="skill-name-input"/>
+                </div>
+                <div class="skill-grid-item skill" data-item-id="{{skill._id}}">
+                    <span></span>
+                    <select name="data.items.skills.{{skill._id}}.data.stat">
+                    {{#select skill.data.stat}}
+                    {{#each stats}}
+                        <option value="{{this}}">{{localize this}}</option>
+                    {{/each}}
+                    {{/select}}
+                    </select>
+                </div>
+                <div class="skill-grid-item skill" data-item-id="{{skill._id}}">
+                    <span></span>
+                    <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
+                </div>
+                <div class="skill-grid-item skill" data-item-id="{{skill._id}}">
+                    <span></span>
+                    <input class="skill-untrained" type="radio" value="0" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.untrained}} data-dtype="Number" />
+                </div>
+                <div class="skill-grid-item skill" data-item-id="{{skill._id}}">
+                    <span></span>
+                    <input class="skill-trained" type="radio" value="1" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.trained}} data-dtype="Number" />
+                </div>
+                <div class="skill-grid-item skill" data-item-id="{{skill._id}}">
+                    <span></span>
+                    <input class="skill-specialized" type="radio" value="2" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.specialized}} data-dtype="Number" />
+                </div>
+                <div class="skill-grid-item skill" data-item-id="{{skill._id}}">
+                    <span></span>
+                    <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
+                    <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.item.skill.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                </div>
+            {{else}}
+                <div class="full-line">{{{localize "NUMENERA.item.skill.tab.instructions"}}}</div>
+            {{/each}}
+            </div>
         </div>
 
         <div class="tab abilities" data-group="primary" data-tab="abilities">
