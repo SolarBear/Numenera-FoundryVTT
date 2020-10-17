@@ -1,4 +1,28 @@
+/* NOTE
+Please keep settings sorted alphabetically, because that's
+how Foundry renders them. Thank you!
+*/
+
 export const registerSystemSettings = function() {
+  //To use any of these settings in the code, use:
+  //game.settings.get("numenera", "SETTING_NAME");
+
+  /**
+   * Configure what version of armor-wearing penalty to use
+   */
+  game.settings.register("numenera", "armorPenalty", {
+    name: "Armor Penalty",
+    hint: "Select the type of armor penalty to use",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "new",
+    choices: {
+      "new": "Increase Speed Effort cost",
+      "old": "Reduce Speed pool, Might cost per hour",
+      "none": "Don't take armor penalties into account for rolls and calculations",
+    },
+  });
 
   game.settings.register("numenera", "characterSheet", {
     name: "Character Sheet",
