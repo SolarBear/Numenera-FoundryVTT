@@ -168,7 +168,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera ul.oddities",
         "form.numenera table.recursion"
       ],
-      width: 925,
+      width: 930,
       height: 1000,
       tabs: [
         {
