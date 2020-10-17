@@ -1,5 +1,12 @@
 import { NUMENERA } from "../config.js";
 
+const speedPoolReductions = {
+    "NUMENERA.N/A": 0,
+    "NUMENERA.weightClasses.Light": 2,
+    "NUMENERA.weightClasses.Medium": 3,
+    "NUMENERA.weightClasses.Heavy": 5,
+};
+
 export class NumeneraArmorItem extends Item {
     static get type() {
         return "armor";
@@ -8,13 +15,14 @@ export class NumeneraArmorItem extends Item {
     static fromOwnedItem(ownedItem, actor) {
         let armorItem = new NumeneraArmorItem();
         armorItem.data._id = ownedItem._id;
-        armorItem.data.name = ownedItem.name;
-        armorItem.data.armor = ownedItem.data.armor;
-        armorItem.data.notes = ownedItem.data.notes;
-        armorItem.data.price = ownedItem.data.price;
-        armorItem.data.weight = ownedItem.data.weight;
-        armorItem.data.skillLevel = ownedItem.data.skillLevel;
-        armorItem.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
+        armorItem.data.data = ownedItem.data.data || {};
+        armorItem.data.data.name = ownedItem.name;
+        armorItem.data.data.armor = ownedItem.data.armor;
+        armorItem.data.data.notes = ownedItem.data.notes;
+        armorItem.data.data.price = ownedItem.data.price;
+        armorItem.data.data.weight = ownedItem.data.weight;
+        armorItem.data.data.skillLevel = ownedItem.data.skillLevel;
+        armorItem.data.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
         armorItem.options.actor = actor;
     
         armorItem.prepareData();
@@ -45,11 +53,29 @@ export class NumeneraArmorItem extends Item {
         .findIndex(entry => {
             const [weight, label] = entry;
             let itemData = this.data;
+
             if (itemData.hasOwnProperty("data"))
-            itemData = itemData.data;
+                itemData = itemData.data;
 
             return itemData.weight === label;
         });
+    }
+
+    get armorSpeedPoolReduction() {
+        if (game.settings.get("numenera", "armorPenalty") !== "old") {
+            return 0;
+        }
+
+        return speedPoolReductions[this.data.weight];
+    }
+
+    get mightCostPerHour() {
+        if (game.settings.get("numenera", "armorPenalty") !== "old") {
+            return 0;
+        }
+
+        //N/A is simply 0, 1 for Light, 2 for Medium, 3 for Heavy
+        return this.weightIndex;
     }
 
     static compareArmorWeights(armor1, armor2) {

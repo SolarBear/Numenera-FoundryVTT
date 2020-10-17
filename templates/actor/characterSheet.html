@@ -36,10 +36,26 @@
                 </div>
                 <div class="flexrow">
                     <div class="stats">
-                        <h2 class="damagetrack">{{localize "NUMENERA.pc.armor.label"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
-                        </2>
-                        <h3>{{localize "NUMENERA.pc.armorpenalty.label"}}&nbsp;<input type="text" name="data.armorpenalty" value="{{data.armorpenalty}}" class="armorpenalty" min="0" max="4" data-dtype="Number" placeholder="0" />
+                        <h2 class="damagetrack">
+                            {{localize "NUMENERA.pc.armor.label"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
+                        </h2>
+                        {{#if displayMightCostPerHour}}
+                        <h3>
+                            Might Cost per Hour: {{armorMightCostPerHour}}
                         </h3>
+                        {{/if}}
+                        {{#if displaySpeedPoolReduction}}
+                        <h3>
+                            Speed Pool Reduction: {{armorSpeedPoolReduction}}
+                        </h3>
+                        {{/if}}
+                        {{#if displaySpeedEffortPenalty}}
+                        <h3>
+                            {{localize "NUMENERA.pc.armorpenalty.label"}}&nbsp;<input type="text" value="{{speedEffortPenalty}}" class="armorPenalty" min="0" data-dtype="Number" placeholder="0" 
+                            {{#if saveSpeedEffortPenalty}} name="data.armorPenalty" {{/if}}
+                            />
+                        </h3>
+                        {{/if}}
                         <h2 class="damagetrack">{{localize "NUMENERA.pc.damageTrack.name"}}</h2>
                         <p>
                             <select name="data.damageTrack" data-dtype="Number">

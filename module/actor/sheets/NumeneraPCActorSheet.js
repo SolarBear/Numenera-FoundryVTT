@@ -234,6 +234,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * to insert new values or mess with existing ones.
    */
   getData() {
+    //TODO split up this whole method, it's getting messy
+
     const sheetData = super.getData();
 
     //TODO improve this, c'mon man, you can do better!
@@ -299,6 +301,25 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
+
+    sheetData.displayMightCostPerHour = game.settings.get("numenera", "armorPenalty") === "old";
+    sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;
+
+    sheetData.displaySpeedPoolReduction = game.settings.get("numenera", "armorPenalty") === "old";
+    sheetData.armorSpeedPoolReduction = this.actor.speedPoolPenalty;
+
+    sheetData.displaySpeedEffortPenalty = ["none", "new"].some(s => s === game.settings.get("numenera", "armorPenalty"));
+
+    if (sheetData.displaySpeedEffortPenalty) {
+      if (game.settings.get("numenera", "armorPenalty") === "new") {
+        sheetData.saveSpeedEffortPenalty = false;
+        sheetData.speedEffortPenalty = this.actor.extraSpeedEffortCost;
+      }
+      else {
+        sheetData.saveSpeedEffortPenalty = true;
+        sheetData.speedEffortPenalty = this.actor.data.data.armorPenalty;
+      }
+    }
 
     sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
     .map(([key, value], idx) => {
@@ -405,11 +426,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
       weapon.data.notes = removeHtmlTags(weapon.data.notes);
       return weapon;
     });
+
     sheetData.data.items.armor = sheetData.data.items.armor.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
       armor.data.notes = removeHtmlTags(armor.data.notes);
       return armor;
     });
+
     sheetData.data.items.equipment = sheetData.data.items.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
       equipment.data.notes = removeHtmlTags(equipment.data.notes);

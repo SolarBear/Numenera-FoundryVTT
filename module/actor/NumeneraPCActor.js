@@ -241,6 +241,32 @@ export class NumeneraPCActor extends Actor {
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
   }
 
+  get mightCostPerHour() {
+    const heaviestArmor = this._getHeaviestArmor();
+
+    if (heaviestArmor === null) {
+      return 0;
+    }
+
+    return heaviestArmor.mightCostPerHour;
+  }
+
+  /**
+   * Compute the possible Speed pool penalty when wearing armor.
+   *
+   * @readonly
+   * @memberof NumeneraPCActor
+   */
+  get speedPoolPenalty() {
+    const heaviestArmor = this._getHeaviestArmor();
+
+    if (heaviestArmor === null) {
+      return 0;
+    }
+
+    return heaviestArmor.armorSpeedPoolReduction;
+  }
+
   /**
    * Compute how much a level of Speed Effort costs in extra
    * when wearing armor.
@@ -256,17 +282,10 @@ export class NumeneraPCActor extends Actor {
     //TODO we're hitting the embedded collections twice... maybe cache the result?
     //recompute whenever armor values change, are added or deleted
 
-    //Armor with weight "N/A" are considered to have 0 weight
-    const armor = this.getEmbeddedCollection("OwnedItem")
-      .filter(i => i.type === NumeneraArmorItem.type)
-      .map(NumeneraArmorItem.fromOwnedItem);
-
-    if (armor.length <= 0)
+    const heaviestArmor = this._getHeaviestArmor();
+    if (!heaviestArmor)
       return 0;
 
-    armor.sort(NumeneraArmorItem.compareArmorWeights);
-    const heaviestArmor = armor[armor.length - 1];
-    
     let speedEffortPenalty = heaviestArmor.weightIndex;
 
     //Local, utility function
@@ -286,6 +305,25 @@ export class NumeneraPCActor extends Actor {
 
     //Negative penalties are not allowed, for obvious reasons!
     return Math.max(speedEffortPenalty, 0);
+  }
+
+  /**
+   * Get the PC's heaviest piece of armor.
+   *
+   * @returns {NumeneraArmorItem | null}
+   * @memberof NumeneraPCActor
+   */
+  _getHeaviestArmor() {
+      //Armor with weight "N/A" are considered to have 0 weight
+      const armor = this.getEmbeddedCollection("OwnedItem")
+      .filter(i => i.type === NumeneraArmorItem.type)
+      .map(NumeneraArmorItem.fromOwnedItem);
+  
+      if (armor.length <= 0)
+        return null;
+  
+      armor.sort(NumeneraArmorItem.compareArmorWeights);
+      return armor[armor.length - 1];
   }
 
   async onGMIntrusion(accepted) {
