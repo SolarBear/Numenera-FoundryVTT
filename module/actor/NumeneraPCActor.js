@@ -1,6 +1,7 @@
 import { RollData } from "../dice/RollData.js";
 
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
+import { NumeneraArmorItem } from "../item/NumeneraArmorItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 import { getShortStat } from "../utils.js";
@@ -206,9 +207,15 @@ export class NumeneraPCActor extends Actor {
     if (effortLevel === 0)
       return Math.max(0, extraCost - stat.edge);
 
-    //The first effort level costs 3 pts from the pool, extra levels cost 2
-    //Subtract the related Edge and add any extra cost
-    return Math.max(0, 1 + 2 * effortLevel + extraCost - stat.edge);
+    let extraArmorCost = 0;
+    if (shortStat === "speed") {
+      extraArmorCost = this.extraSpeedEffortCost;
+    }
+
+    //The first effort level costs 3 pts from the pool, extra levels cost 2,
+    //If using the rule, Speed Effort's cost may be increased by armor use
+    //Then, subtract the related Edge and add any extra cost (eg. ability use cost)
+    return Math.max(0, 1 + (2 + extraArmorCost) * effortLevel + extraCost - stat.edge);
   }
 
   /**
@@ -230,8 +237,55 @@ export class NumeneraPCActor extends Actor {
   }
 
   getTotalArmor() {
-    return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "armor")
+    return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === NumeneraArmorItem.type)
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
+  }
+
+  /**
+   * Compute how much a level of Speed Effort costs in extra
+   * when wearing armor.
+   *
+   * @readonly
+   * @memberof NumeneraPCActor
+   */
+  get extraSpeedEffortCost() {
+    if (game.settings.get("numenera", "armorPenalty") !== "new") {
+      return 0; // does not apply
+    }
+
+    //TODO we're hitting the embedded collections twice... maybe cache the result?
+    //recompute whenever armor values change, are added or deleted
+
+    //Armor with weight "N/A" are considered to have 0 weight
+    const armor = this.getEmbeddedCollection("OwnedItem")
+      .filter(i => i.type === NumeneraArmorItem.type)
+      .map(NumeneraArmorItem.fromOwnedItem);
+
+    if (armor.length <= 0)
+      return 0;
+
+    armor.sort(NumeneraArmorItem.compareArmorWeights);
+    const heaviestArmor = armor[armor.length - 1];
+    
+    let speedEffortPenalty = heaviestArmor.weightIndex;
+
+    //Local, utility function
+    const searchArmorSkill = name => {
+      return !!this.getEmbeddedCollection("OwnedItem")
+      .some(i => i.type === NumeneraAbilityItem.type && i.name === name);
+    }
+
+    //Look for any reducing skill(s)
+    //TODO: allow for some flexibility over skill names
+    if (searchArmorSkill("Mastery with Armor")) {
+      speedEffortPenalty -= 2;
+    }
+    else if (searchArmorSkill("Trained in Armor")) {
+      speedEffortPenalty -= 1;
+    }
+
+    //Negative penalties are not allowed, for obvious reasons!
+    return Math.max(speedEffortPenalty, 0);
   }
 
   async onGMIntrusion(accepted) {

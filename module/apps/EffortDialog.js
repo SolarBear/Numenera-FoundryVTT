@@ -21,7 +21,7 @@ export class EffortDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 360,
-      height: 460,
+      height: 490,
     });
   }
 
@@ -102,6 +102,8 @@ export class EffortDialog extends FormApplication {
       currentEffort: 0,
       cost: 0,
       taskLevel: null,
+      useArmorSpeedEffortRule: (game.settings.get("numenera", "armorPenalty") === "new"),
+      armorSpeedEffortIncrease: actor.extraSpeedEffortCost,
     }, {});
   }
 
@@ -139,15 +141,20 @@ export class EffortDialog extends FormApplication {
     if (this.object.taskLevel === null)
       return null;
 
-    let level = this.object.taskLevel - this.object.currentEffort - this.object.assets;
+    let level = this.object.taskLevel
+              - this.object.currentEffort
+              - this.object.assets;
     
     if (this.object.skill) {
-      //TODOO use the SkillItem method to convert it wwhen it's set instead of checking here
+      //TODO use the SkillItem method to convert it when it's set instead of checking here
       let skillData = this.object.skill.data;
       if (skillData.hasOwnProperty("data"))
         skillData = skillData.data;
 
-      level -= skillData.skillLevel - (skillData.inability ? 1 : 0);
+      level = level - skillData.skillLevel + (skillData.inability ? 1 : 0);
+
+      if (skillData.stat === "speed")
+        level += this.object.speedEffortCostIncrease;
     }
 
     return Math.max(level, 0); //Level cannot be negative
@@ -187,6 +194,15 @@ export class EffortDialog extends FormApplication {
 
     if (this.object.stat)
       data.stat = "NUMENERA.stats." + this.object.stat;
+
+    data.useArmorSpeedEffortRule = this.object.useArmorSpeedEffortRule;
+
+    if (data.useArmorSpeedEffortRule) {
+      if (this.object.stat === "speed")
+        data.armorSpeedEffortIncrease = this.object.armorSpeedEffortIncrease;
+      else
+        data.armorSpeedEffortIncrease = "--";
+    }
 
     data.assets = this.object.assets;
     data.currentEffort = this.object.currentEffort;
