@@ -273,7 +273,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.settings.currency = game.settings.get("numenera", "currency");
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
-    sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
+    sheetData.settings.icons.numenera = game.settings.get("numenera", "showCypherIcons");
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
 
     //Copy labels to be used as is
