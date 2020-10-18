@@ -36,10 +36,26 @@
                 </div>
                 <div class="flexrow">
                     <div class="stats">
-                        <h2 class="damagetrack">{{localize "NUMENERA.pc.armor.label"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
-                        </2>
-                        <h3>{{localize "NUMENERA.pc.armorpenalty.label"}}&nbsp;<input type="text" name="data.armorpenalty" value="{{data.armorpenalty}}" class="armorpenalty" min="0" max="4" data-dtype="Number" placeholder="0" />
+                        <h2 class="damagetrack">
+                            {{localize "NUMENERA.pc.armor.label"}}&nbsp;<input type="text" name="data.armor" value="{{data.armor}}" class="armor" min="0" data-dtype="Number" disabled="disabled" />
+                        </h2>
+                        {{#if displayMightCostPerHour}}
+                        <h3>
+                            Might Cost per Hour: {{armorMightCostPerHour}}
                         </h3>
+                        {{/if}}
+                        {{#if displaySpeedPoolReduction}}
+                        <h3>
+                            Speed Pool Reduction: {{armorSpeedPoolReduction}}
+                        </h3>
+                        {{/if}}
+                        {{#if displaySpeedEffortPenalty}}
+                        <h3>
+                            {{localize "NUMENERA.pc.armorpenalty.label"}}&nbsp;<input type="text" value="{{speedEffortPenalty}}" class="armorPenalty" min="0" data-dtype="Number" placeholder="0" 
+                            {{#if saveSpeedEffortPenalty}} name="data.armorPenalty" {{/if}}
+                            />
+                        </h3>
+                        {{/if}}
                         <h2 class="damagetrack">{{localize "NUMENERA.pc.damageTrack.name"}}</h2>
                         <p>
                             <select name="data.damageTrack" data-dtype="Number">
@@ -118,7 +134,7 @@
                         <td><a class="skill-create" data-action="create" title="{{localize "NUMENERA.item.skill.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.skills as |skill| }}
                     <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
                         <td class="handle">
@@ -190,7 +206,7 @@
                         <td><a class="ability-create" data-action="create" title="{{localize "NUMENERA.item.ability.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.abilities as |ability| }}
                     <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.order}}">
                         <td class="handle">
@@ -258,7 +274,6 @@
 
         <div class="tab numenera" data-group="primary" data-tab="numenera">
             {{> "systems/numenera/templates/actor/partials/cyphers.html" data=data}}
-
             <hr class="sheet-one" />
             {{> "systems/numenera/templates/actor/partials/artifacts.html" data=data}}
             <hr class="sheet-one" />
@@ -266,9 +281,9 @@
         </div>
 
         {{#if isTheStrange}}
-    <div class="tab recursion" data-group="primary" data-tab="recursion">
-    {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
-    </div>
+        <div class="tab recursion" data-group="primary" data-tab="recursion">
+            {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
+        </div>
         {{/if}}
 
         <div class="tab equipment" data-group="primary" data-tab="equipment">
@@ -292,7 +307,7 @@
                         <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.weapons as |weapon|}}
                     <tr class="weapon" data-item-id="{{weapon._id}}" data-order="{{weapon.data.order}}">
                         <td class="handle">
@@ -379,7 +394,7 @@
                     <td>{{localize "NUMENERA.pc.armor.notes"}}</td>
                     <td><a class="armor-create" title="{{localize "NUMENERA.pc.armor.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.armor as |armor|}}
                     <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.order}}">
                         <td class="handle">
@@ -446,7 +461,7 @@
                     <td>{{localize "NUMENERA.pc.otherItems.description"}}</td>
                     <td><a class="equipment-create" title="{{localize "NUMENERA.pc.otherItems.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.equipment as |equipment|}}
                     <tr class="equipment" data-item-id="{{equipment._id}}" data-order="{{equipment.data.order}}">
                         <td class="handle">

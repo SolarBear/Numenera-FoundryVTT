@@ -56,25 +56,7 @@ export async function registerHooks() {
         if (roll && roll.hasOwnProperty("numenera")) {
             const { special, text, color } = RollData.rollText(roll);
             const dt = html.find("h4.dice-total")[0];
-
-            if (roll.numenera.taskLevel === null) {
-                //"Old" behavior
-
-                //"special" refers to special attributes: minor/major effect or GM intrusion text, special background, etc.
-                if (special) {
-                    dt.textContent = text;
-                }
-                else {
-                    const rolled = roll.dice[0].rolls[0].roll;
-                    const taskLevel = Math.floor(rolled / 3);
-
-                    dt.textContent = `${game.i18n.localize("NUMENERA.successLevel")} ${taskLevel}`;
-                }
-            }
-            else {
-                //New behavior
-                dt.textContent = text;
-            }
+            dt.textContent = text;
         }
     });
 

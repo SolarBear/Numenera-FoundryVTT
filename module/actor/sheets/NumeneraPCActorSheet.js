@@ -1,5 +1,3 @@
-import  "../../../lib/dragula/dragula.js";
-
 import { NUMENERA } from "../../config.js";
 
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
@@ -15,13 +13,6 @@ import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
-
-//Common Dragula options
-const dragulaOptions = {
-  moves: function (el, container, handle) {
-    return handle.classList.contains('handle');
-  }
-};
 
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
@@ -168,7 +159,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         "form.numenera ul.oddities",
         "form.numenera table.recursion"
       ],
-      width: 925,
+      width: 930,
       height: 1000,
       tabs: [
         {
@@ -234,10 +225,30 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * to insert new values or mess with existing ones.
    */
   getData() {
+    //TODO split up this whole method, it's getting messy
+
     const sheetData = super.getData();
 
-    const useCypherTypes = (game.settings.get("numenera", "cypherTypesFlavor") !== 1);
+    //TODO improve this, c'mon man, you can do better!
+    let cypherTypeFlavor;
+    switch (game.settings.get("numenera", "cypherTypesFlavor")) {
+      case 1: //none
+        cypherTypeFlavor = null;
+        break;
+
+      case 2: //anoetic/occultic
+      cypherTypeFlavor = "numenerav1";
+        break;
+
+      case 3: //subtle/manifest/fantastic
+        cypherTypeFlavor = "cypherSystem";
+        break;
+    }
+
+    const useCypherTypes = !!cypherTypeFlavor;
     sheetData.displayCypherType = useCypherTypes;
+    if (useCypherTypes)
+      sheetData.cypherTypes = NUMENERA.cypherTypes[cypherTypeFlavor];
 
     //Is it The Strange?
     if (game.settings.get("numenera", "characterSheet") == 2) {
@@ -255,7 +266,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.settings.currency = game.settings.get("numenera", "currency");
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
     sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
-    sheetData.settings.icons.numenera = game.settings.get("numenera", "showNumeneraIcons");
+    sheetData.settings.icons.numenera = game.settings.get("numenera", "showCypherIcons");
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
 
     //Copy labels to be used as is
@@ -269,9 +280,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
     }
 
-    if (useCypherTypes)
-      sheetData.cypherTypes = NUMENERA.cypherTypes;
-
     sheetData.advances = Object.entries(sheetData.actor.data.advances).map(
       ([key, value]) => {
         return {
@@ -284,6 +292,25 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
+
+    sheetData.displayMightCostPerHour = game.settings.get("numenera", "armorPenalty") === "old";
+    sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;
+
+    sheetData.displaySpeedPoolReduction = game.settings.get("numenera", "armorPenalty") === "old";
+    sheetData.armorSpeedPoolReduction = this.actor.speedPoolPenalty;
+
+    sheetData.displaySpeedEffortPenalty = ["none", "new"].some(s => s === game.settings.get("numenera", "armorPenalty"));
+
+    if (sheetData.displaySpeedEffortPenalty) {
+      if (game.settings.get("numenera", "armorPenalty") === "new") {
+        sheetData.saveSpeedEffortPenalty = false;
+        sheetData.speedEffortPenalty = this.actor.extraSpeedEffortCost;
+      }
+      else {
+        sheetData.saveSpeedEffortPenalty = true;
+        sheetData.speedEffortPenalty = this.actor.data.data.armorPenalty;
+      }
+    }
 
     sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
     .map(([key, value], idx) => {
@@ -349,6 +376,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
         cypher.data.effect = removeHtmlTags(cypher.data.effect);
       }
 
+      if (useCypherTypes && cypher.data.identified && !cypher.data.cypherType) {
+        //Use the very first object key as property since none has been defined yet
+        cypher.data.cypherType = Object.keys(NUMENERA.cypherTypes[cypherTypeFlavor]);
+      }
+
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
       return cypher;
     });
@@ -385,11 +417,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
       weapon.data.notes = removeHtmlTags(weapon.data.notes);
       return weapon;
     });
+
     sheetData.data.items.armor = sheetData.data.items.armor.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
       armor.data.notes = removeHtmlTags(armor.data.notes);
       return armor;
     });
+
     sheetData.data.items.equipment = sheetData.data.items.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
       equipment.data.notes = removeHtmlTags(equipment.data.notes);
@@ -462,37 +496,25 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
 
-    //Make sure to make a copy of the options object, otherwise only the first call
-    //to Dragula seems to work
-    const drakes = [];
-    drakes.push(dragula([document.querySelector("table.abilities > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.armor > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
-
-    drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("ul.cyphers")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("ul.oddities")], Object.assign({}, dragulaOptions)));
-
-    //Handle reordering on all these nice draggable elements
-    //Assumes they all have a "order" property: should be the case since it's defined in the template.json
-    drakes.map(drake => drake.on("drop", this.reorderElements.bind(this)));
-
     if (this.actor.owner) {
-      const handler = ev => this._onDragItemStart(ev);
-
-      // Find all abilitiy items on the character sheet.
-      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, tr) => {
+      // Find all abilitiy, skill, weapon and recursion items on the character sheet.
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,tr.equipment,tr.armor,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
         // Add draggable attribute and dragstart listener.
-        tr.setAttribute("draggable", true);
-        tr.addEventListener("dragstart", handler, false);
+        elem.setAttribute("draggable", true);
+        elem.addEventListener("dragstart", ev => this._onDragStart(ev), false);
       });
     }
   }
 
-  _onDragItemStart(event) {
-    const itemId = event.currentTarget.dataset.itemId;
+  _onDrop(event) {
+    super._onDrop(event);
+    this.reorderElements(event);
+  }
+
+  _onDragStart(event) {
+    const itemId = event.target.dataset.itemId;
+    
+    if (!itemId) return;
 
     const clickedItem = duplicate(
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
@@ -504,27 +526,45 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "text/plain",
       JSON.stringify({
         type: "Item",
+        itemId,
         actorId: this.actor.id,
         data: item,
       })
     );
 
-    return super._onDragItemStart(event);
+    return super._onDragStart(event);
   }
 
-  async reorderElements(el, target, source, sibling) {
-    const update = [];
+  async reorderElements(event) {
+    const dragged = JSON.parse(event.dataTransfer.getData("text/plain"));
+    const container = event.target.closest(".row-container");
 
-    for (let i = 0; i < source.children.length; i++) {
-      source.children[i].dataset.order = i;
+    if (!container || !("children" in container))
+      return;
 
-      //In case we're dealing with plain objects, they won't have an ID
-      if (source.children[i].dataset.itemId)
-        update.push({_id: source.children[i].dataset.itemId, "data.order": i});
+    const children = [...container.children];
+
+    const draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.data._id);
+    const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
+
+    const update = children.map((row, i) => {
+      return {
+        _id: row.dataset.itemId,
+      };
+    });
+
+    const deleted = update.splice(draggedRowIndex, 1);
+    update.splice(dragTargetIndex, 0, deleted[0]);
+
+    for (let i = 0; i < update.length; i++) {
+      update[i]["data.order"] = i;
+
+      const row = children.find(row => row.dataset.itemId == update[i]._id);
+      row.dataset.order = i;
     }
 
     if (update.length > 0)
-      await this.object.updateEmbeddedEntity("OwnedItem", update);
+      await this.actor.updateEmbeddedEntity("OwnedItem", update);
   }
 
   /**
@@ -634,7 +674,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const roll = new Roll(depletion.die).roll();
 
     roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      speaker: ChatMessage.getSpeaker(),
       flavor: `Depletion roll for ${artifact.name}<br/>${game.i18n.localize("NUMENERA.item.artifact.depletionThreshold")}: ${depletion.threshold}`,
     });
   }
@@ -684,12 +724,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super._onChangeInput(event);
   }
 
-  _onDrop(event) {
-    super._onDrop(event);
+  _onDropItem(event, data) {
+    //TODO remove this with 0.6 version support
+    if (game.data.version.startsWith("0.6.")) {
+      
+    }
+    else {
+      super._onDropItem(event, data);
+    }
 
-    const {type, id} = JSON.parse(event.dataTransfer.getData("text/plain"));
+    const { id } = JSON.parse(event.dataTransfer.getData("text/plain"));
 
-    if (type !== "Item")
+    if (!id)
       return;
 
     const item = Item.collection.entities.find(i => i._id == id)

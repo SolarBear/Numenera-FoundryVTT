@@ -729,6 +729,10 @@ form.numenera-dialog {
     background-image: url("images/jpg/testbg.jpg");
     background: $bggrad;
 
+    li {
+        list-style-type: none;
+    }
+
     h1 {
         padding-bottom: 0.25em;
         margin-bottom: 0;

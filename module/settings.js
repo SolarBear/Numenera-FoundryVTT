@@ -1,4 +1,28 @@
+/* NOTE
+Please keep settings sorted alphabetically, because that's
+how Foundry renders them. Thank you!
+*/
+
 export const registerSystemSettings = function() {
+  //To use any of these settings in the code, use:
+  //game.settings.get("numenera", "SETTING_NAME");
+
+  /**
+   * Configure what version of armor-wearing penalty to use
+   */
+  game.settings.register("numenera", "armorPenalty", {
+    name: "Armor Penalty",
+    hint: "Select the type of armor penalty to use",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "new",
+    choices: {
+      "new": "Increase Speed Effort cost",
+      "old": "Reduce Speed pool, Might cost per hour",
+      "none": "Don't take armor penalties into account for rolls and calculations",
+    },
+  });
 
   game.settings.register("numenera", "characterSheet", {
     name: "Character Sheet",
@@ -41,14 +65,14 @@ export const registerSystemSettings = function() {
    */
   game.settings.register("numenera", "d20Rolling", {
     name: "d20 rolling",
-    hint: "Select the behavior of d20 rolls in your game",
+    hint: "Select the behavior of rolls made from the character sheet or macros",
     scope: "world",
     config: true,
     type: String,
     default: "taskLevels",
     choices: {
-      "taskLevels": "Output task level success instead of numbers",
-      "straightNumbers": "Output numbers and modifiers as is",
+      "taskLevels": "Output plain task level success without modifiers",
+      "addModifiers": "Output task level success, adding any modifiers (eg. skill level)",
     },
   });
 
@@ -139,9 +163,9 @@ export const registerSystemSettings = function() {
   /**
    * Configure whether or not to show numenera icons
    */
-  game.settings.register("numenera", "showNumeneraIcons", {
+  game.settings.register("numenera", "showCypherIcons", {
     name: "Numenera Icons",
-    hint: "Enable to show cypher, artifact, and oddity icons in player character sheets",
+    hint: "Enable to show cypher and similar items' (eg. artifact, oddity, etc.) icons in player character sheets",
     scope: "world",
     config: true,
     type: Boolean,

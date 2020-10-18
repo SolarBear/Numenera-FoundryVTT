@@ -8,11 +8,11 @@
 <h3 class="cypher-limit-warning">{{localize "NUMENERA.pc.numenera.cypher.overLimit"}}</h3>
 {{/if}}
 
-<ul class="cyphers">
+<ul class="cyphers row-container">
     {{#each data.items.cyphers as |cypher|}}
     <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.order}}>
         <table class="cypher-header-table">
-            <tbody>
+            <tbody class="handle">
                 <tr class="cypher-header">
                     <td>
                         <h4>
@@ -38,8 +38,10 @@
                             <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level"
                                 value="{{cypher.data.level}}" min="1" data-dtype="Number" />
                         </label>
+                        
                         {{#if ../displayCypherType}}
-                        <label>{{localize "NUMENERA.pc.numenera.cypher.type"}}
+                        <br />
+                        <label>{{localize "NUMENERA.item.cypher.type.label"}}
                             <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String"
                                 class="cypher-type">
                                 {{#select cypher.data.cypherType}}

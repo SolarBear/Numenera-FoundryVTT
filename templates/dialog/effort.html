@@ -36,6 +36,11 @@
             <h2>{{localize "NUMENERA.effort.effortLevels"}} <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" /></h2>
             {{localize "NUMENERA.effort.max"}}: <input type="number" class="max-effort" value="{{ maxEffortLevel }}" disabled />
         </div>
+        {{#if useArmorSpeedEffortRule}}
+        <div>
+            <h3>Armor Effort Increase Per Level: {{ armorSpeedEffortIncrease }}</h3>
+        </div>
+        {{/if}}
         <div class="pools">
             <h2>{{localize stat}} {{localize "NUMENERA.stats.pool"}}</h2>
             <div class="flexrow">

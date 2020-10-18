@@ -146,7 +146,7 @@ export class RecoveryDialog extends FormApplication {
 
     const roll = new Roll(this._getFormula(nbDice)).roll();
     roll.toMessage({
-      speaker: ChatMessage.getSpeaker({ actor: this.object.actor }),
+      speaker: ChatMessage.getSpeaker(),
       flavor: `${this.object.actor.data.name} rolls for Recovery`,
     });
 

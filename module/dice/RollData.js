@@ -84,12 +84,19 @@ export class RollData {
   }
 
   static _rollTextWithTaskLevel(roll) {
-    const die = roll.dice[0].rolls[0].roll;
+    let dieRoll;
+    //TODO remove this with 0.6 version support
+    if (game.data.version.startsWith("0.6.")) {
+      dieRoll = roll.dice[0].total;
+    }
+    else { // 0.7
+      dieRoll = roll.terms[0].rolls[0].results[0];
+    }      
 
-    switch (parseInt(roll.result)) {
+    switch (parseInt(roll.total)) {
       case 0:
         //Sorry.
-        switch (die) {
+        switch (dieRoll) {
           case 1:
             return {
               special: true,
@@ -107,7 +114,7 @@ export class RollData {
 
       case 1:
         //Success!
-        switch (die) {  
+        switch (dieRoll) {  
           case 19:
             return {
               special: true,
@@ -136,7 +143,21 @@ export class RollData {
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    switch (roll.dice[0].rolls[0].roll) {
+    let results;
+    if (roll.hasOwnProperty("results"))
+      results = roll.results;
+    else
+      results = roll.dice.map(d => d.results);
+
+    let dieRoll;
+    //TODO remove this with 0.6 version support
+    if (game.data.version.startsWith("0.6.")) {
+      dieRoll = roll.total;
+    } else { // 0.7
+      dieRoll = roll.total;
+    }
+
+    switch (dieRoll) {
       case 1:
         return {
           special: true,
@@ -159,8 +180,16 @@ export class RollData {
         }
 
       default:
-        const rolled = roll.dice[0].rolls[0].roll;
-        const taskLevel = Math.floor(rolled / 3);
+        const rolled = dieRoll; // results[0].result;
+        let taskLevel = Math.floor(rolled / 3);
+
+        if (game.settings.get("numenera", "d20Rolling") === "addModifiers") {
+          const rollData = roll.numenera;
+          taskLevel += parseInt(rollData.skillLevel)
+                      + rollData.nbAssets
+                      - (rollData.isHindered ? 1 : 0)
+                      + rollData.effortLevel;
+        }
 
         return {
           special: false,

@@ -9,8 +9,8 @@
                 <input type="text" name="data.levelDie" value="{{data.levelDie}}" data-dtype="String" />
             </label>
 
-            {{#if useCypherTypes}}
-            <label>{{localize "NUMENERA.item.cypher.type"}}
+            {{#if displayCypherType}}
+            <label>{{localize "NUMENERA.item.cypher.type.label"}}
                 <select name="data.cypherType" data-dtype="String" class="cypher-type">
                     {{#select data.cypherType}}
                     {{#each cypherTypes}}

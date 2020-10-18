@@ -255,7 +255,6 @@
 
     "NUMENERA.item.skill.stat": "Estadística",
     "NUMENERA.item.skill.description": "Descripción",
-    "NUMENERA.item.skill.relatedAbilityUpdated": "Información de Habilidad relacionada actualizada",
     "NUMENERA.item.skill.useNotLinkedToActor": "La Habilidad no está enlazada a ningún Actor",
 
     "NUMENERA.item.weapon.newWeapon": "Nueva Arma",
