@@ -63,8 +63,8 @@ export class NumeneraWeaponItem extends Item {
 
         if (!skill) {
             skill = new NumeneraSkillItem();
-            skill.data.actor = this.actor;
             skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+            skill.options.actor = this.actor;
         }
         else if (skill.prototype !== NumeneraSkillItem) {
             skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);

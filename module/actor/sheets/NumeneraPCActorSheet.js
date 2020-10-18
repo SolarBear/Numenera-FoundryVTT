@@ -498,7 +498,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     if (this.actor.owner) {
       // Find all abilitiy, skill, weapon and recursion items on the character sheet.
-      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,tr.equipment,tr.armor,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
         // Add draggable attribute and dragstart listener.
         elem.setAttribute("draggable", true);
         elem.addEventListener("dragstart", ev => this._onDragStart(ev), false);
@@ -507,6 +507,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   _onDrop(event) {
+    super._onDrop(event);
     this.reorderElements(event);
   }
 
@@ -722,7 +723,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   _onDropItem(event, data) {
-    super._onDrop(event, data);
+    //TODO remove this with 0.6 version support
+    if (game.data.version.startsWith("0.6.")) {
+      
+    }
+    else {
+      super._onDropItem(event, data);
+    }
 
     const { id } = JSON.parse(event.dataTransfer.getData("text/plain"));
 

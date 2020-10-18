@@ -64,6 +64,7 @@ export class NumeneraAbilityItem extends Item {
 
   async use() {
     //An ability must be related to an Actor to be used
+    debugger;
     if (this.actor === null) {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
     }
@@ -76,9 +77,10 @@ export class NumeneraAbilityItem extends Item {
     if (!skill) {
       skill = new NumeneraSkillItem();
       skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
+      skill.options.actor = this.actor;
     }
     else if (skill.prototype !== NumeneraSkillItem) {
-        skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
+      skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
     }
 
     skill.use();

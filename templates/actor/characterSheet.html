@@ -116,7 +116,7 @@
 
     <section id="pc-sheet-body">
         <div class="tab skills" data-group="primary" data-tab="skills">
-            <table class="skills row-container">
+            <table class="skills">
                 <thead>
                     <tr>
                         <td class="">
@@ -134,7 +134,7 @@
                         <td><a class="skill-create" data-action="create" title="{{localize "NUMENERA.item.skill.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.skills as |skill| }}
                     <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
                         <td class="handle">
@@ -190,7 +190,7 @@
         </div>
 
         <div class="tab abilities" data-group="primary" data-tab="abilities">
-            <table class="abilities row-container">
+            <table class="abilities">
                 <thead>
                     <tr>
                         <td>
@@ -206,7 +206,7 @@
                         <td><a class="ability-create" data-action="create" title="{{localize "NUMENERA.item.ability.tab.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.abilities as |ability| }}
                     <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.order}}">
                         <td class="handle">
@@ -288,7 +288,7 @@
 
         <div class="tab equipment" data-group="primary" data-tab="equipment">
             <h2>{{localize "NUMENERA.pc.weapons.sectionName"}}</h2>
-            <table class="weapons row-container">
+            <table class="weapons">
                 <thead>
                     <tr>
                         <td>
@@ -307,7 +307,7 @@
                         <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.weapons as |weapon|}}
                     <tr class="weapon" data-item-id="{{weapon._id}}" data-order="{{weapon.data.order}}">
                         <td class="handle">
@@ -377,7 +377,7 @@
             </table>
 
             <h2>{{localize "NUMENERA.pc.armor.sectionName"}}</h2>
-            <table class="armor row-container">
+            <table class="armor">
                 <thead>
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
@@ -394,7 +394,7 @@
                     <td>{{localize "NUMENERA.pc.armor.notes"}}</td>
                     <td><a class="armor-create" title="{{localize "NUMENERA.pc.armor.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.armor as |armor|}}
                     <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.order}}">
                         <td class="handle">
@@ -446,7 +446,7 @@
 
             <h2>{{localize "NUMENERA.pc.otherItems.sectionName"}}</h2>
             <h3 class="shins"><i class="fas fa-coins"></i> {{settings.currency}} <input type="number" name="data.shins" value="{{data.shins}}" class="shins" data-dtype="Number" /></h3>
-            <table class="equipment row-container">
+            <table class="equipment">
                 <thead>
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
@@ -461,7 +461,7 @@
                     <td>{{localize "NUMENERA.pc.otherItems.description"}}</td>
                     <td><a class="equipment-create" title="{{localize "NUMENERA.pc.otherItems.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                 </thead>
-                <tbody>
+                <tbody class="row-container">
                 {{#each data.items.equipment as |equipment|}}
                     <tr class="equipment" data-item-id="{{equipment._id}}" data-order="{{equipment.data.order}}">
                         <td class="handle">
