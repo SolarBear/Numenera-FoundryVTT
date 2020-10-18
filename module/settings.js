@@ -65,14 +65,14 @@ export const registerSystemSettings = function() {
    */
   game.settings.register("numenera", "d20Rolling", {
     name: "d20 rolling",
-    hint: "Select the behavior of d20 rolls in your game",
+    hint: "Select the behavior of rolls made from the character sheet or macros",
     scope: "world",
     config: true,
     type: String,
     default: "taskLevels",
     choices: {
-      "taskLevels": "Output task level success instead of numbers",
-      "straightNumbers": "Output numbers and modifiers as is",
+      "taskLevels": "Output plain task level success without modifiers",
+      "addModifiers": "Output task level success, adding any modifiers (eg. skill level)",
     },
   });
 

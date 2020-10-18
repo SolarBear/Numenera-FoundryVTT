@@ -188,7 +188,15 @@ export class RollData {
 
       default:
         const rolled = dieRoll; // results[0].result;
-        const taskLevel = Math.floor(rolled / 3);
+        let taskLevel = Math.floor(rolled / 3);
+
+        if (game.settings.get("numenera", "d20Rolling") === "addModifiers") {
+          const rollData = roll.numenera;
+          taskLevel += parseInt(rollData.skillLevel)
+                      + rollData.nbAssets
+                      - (rollData.isHindered ? 1 : 0)
+                      + rollData.effortLevel;
+        }
 
         return {
           special: false,
