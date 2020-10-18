@@ -19,7 +19,10 @@ import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 //Common Dragula options
 const dragulaOptions = {
   moves: function (el, container, handle) {
-    return handle.classList.contains("handle");
+    const tr = handle.closest("tr");
+    if (!tr) return false;
+
+    return typeof tr.dataset.order !== "undefined";
   },
 };
 
