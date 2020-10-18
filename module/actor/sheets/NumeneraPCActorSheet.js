@@ -19,10 +19,17 @@ import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 //Common Dragula options
 const dragulaOptions = {
   moves: function (el, container, handle) {
-    const tr = handle.closest("tr");
-    if (!tr) return false;
+    // TODO rework when cyphers et al. are less messed up plz
+    let tr = handle;
 
-    return typeof tr.dataset.order !== "undefined";
+    do {
+      if (!tr) return false;
+
+      if (typeof tr.dataset.order !== "undefined")
+        return true;
+    } while (tr = tr.parentElement.closest("tr, li"));
+      
+    return false;
   },
 };
 
