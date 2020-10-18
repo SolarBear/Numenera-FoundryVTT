@@ -17,21 +17,21 @@ import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 
 //Common Dragula options
-const dragulaOptions = {
-  moves: function (el, container, handle) {
-    // TODO rework when cyphers et al. are less messed up plz
-    let tr = handle;
+// const dragulaOptions = {
+//   moves: function (el, container, handle) {
+//     // TODO rework when cyphers et al. are less messed up plz
+//     let tr = handle;
 
-    do {
-      if (!tr) return false;
+//     do {
+//       if (!tr) return false;
 
-      if (typeof tr.dataset.order !== "undefined")
-        return true;
-    } while (tr = tr.parentElement.closest("tr, li"));
+//       if (typeof tr.dataset.order !== "undefined")
+//         return true;
+//     } while (tr = tr.parentElement.closest("tr, li"));
       
-    return false;
-  },
-};
+//     return false;
+//   },
+// };
 
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
@@ -515,37 +515,22 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
 
-    //Make sure to make a copy of the options object, otherwise only the first call
-    //to Dragula seems to work
-    const drakes = [];
-    drakes.push(dragula([document.querySelector("table.abilities > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.armor > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.equipment > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.skills > tbody")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("table.weapons > tbody")], Object.assign({}, dragulaOptions)));
-
-    drakes.push(dragula([document.querySelector("ul.artifacts")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("ul.cyphers")], Object.assign({}, dragulaOptions)));
-    drakes.push(dragula([document.querySelector("ul.oddities")], Object.assign({}, dragulaOptions)));
-
-    //Handle reordering on all these nice draggable elements
-    //Assumes they all have a "order" property: should be the case since it's defined in the template.json
-    drakes.map(drake => drake.on("drop", this.reorderElements.bind(this)));
-
     if (this.actor.owner) {
-      const handler = ev => this._onDragStart(ev);
-
       // Find all abilitiy, skill, weapon and recursion items on the character sheet.
-      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion').each((i, elem) => {
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
         // Add draggable attribute and dragstart listener.
         elem.setAttribute("draggable", true);
-        elem.addEventListener("dragstart", handler, false);
+        elem.addEventListener("dragstart", ev => this._onDragStart(ev), false);
       });
     }
   }
 
+  _onDrop(event) {
+    this.reorderElements(event);
+  }
+
   _onDragStart(event) {
-    const itemId = event.currentTarget.dataset.itemId;
+    const itemId = event.target.dataset.itemId;
 
     const clickedItem = duplicate(
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
@@ -557,6 +542,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "text/plain",
       JSON.stringify({
         type: "Item",
+        itemId,
         actorId: this.actor.id,
         data: item,
       })
@@ -565,19 +551,36 @@ export class NumeneraPCActorSheet extends ActorSheet {
     return super._onDragStart(event);
   }
 
-  async reorderElements(el, target, source, sibling) {
-    const update = [];
+  async reorderElements(event) {
+    const dragged = JSON.parse(event.dataTransfer.getData("text/plain"));
+    const container = event.target.closest(".row-container");
 
-    for (let i = 0; i < source.children.length; i++) {
-      source.children[i].dataset.order = i;
+    if (!container || !("children" in container))
+      return;
 
-      //In case we're dealing with plain objects, they won't have an ID
-      if (source.children[i].dataset.itemId)
-        update.push({_id: source.children[i].dataset.itemId, "data.order": i});
+    const children = [...container.children];
+
+    const draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.data._id);
+    const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
+
+    const update = children.map((row, i) => {
+      return {
+        _id: row.dataset.itemId,
+      };
+    });
+
+    const deleted = update.splice(draggedRowIndex, 1);
+    update.splice(dragTargetIndex, 0, deleted[0]);
+
+    for (let i = 0; i < update.length; i++) {
+      update[i]["data.order"] = i;
+
+      const row = children.find(row => row.dataset.itemId == update[i]._id);
+      row.dataset.order = i;
     }
 
     if (update.length > 0)
-      await this.object.updateEmbeddedEntity("OwnedItem", update);
+      await this.actor.updateEmbeddedEntity("OwnedItem", update);
   }
 
   /**
@@ -738,7 +741,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   _onDropItem(event, data) {
-    super._onDropItem(event, data);
+    super._onDrop(event, data);
 
     const { id } = JSON.parse(event.dataTransfer.getData("text/plain"));
 

@@ -116,7 +116,7 @@
 
     <section id="pc-sheet-body">
         <div class="tab skills" data-group="primary" data-tab="skills">
-            <table class="skills">
+            <table class="skills row-container">
                 <thead>
                     <tr>
                         <td class="">
@@ -190,7 +190,7 @@
         </div>
 
         <div class="tab abilities" data-group="primary" data-tab="abilities">
-            <table class="abilities">
+            <table class="abilities row-container">
                 <thead>
                     <tr>
                         <td>
@@ -288,7 +288,7 @@
 
         <div class="tab equipment" data-group="primary" data-tab="equipment">
             <h2>{{localize "NUMENERA.pc.weapons.sectionName"}}</h2>
-            <table class="weapons">
+            <table class="weapons row-container">
                 <thead>
                     <tr>
                         <td>
@@ -377,7 +377,7 @@
             </table>
 
             <h2>{{localize "NUMENERA.pc.armor.sectionName"}}</h2>
-            <table class="armor">
+            <table class="armor row-container">
                 <thead>
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->
@@ -446,7 +446,7 @@
 
             <h2>{{localize "NUMENERA.pc.otherItems.sectionName"}}</h2>
             <h3 class="shins"><i class="fas fa-coins"></i> {{settings.currency}} <input type="number" name="data.shins" value="{{data.shins}}" class="shins" data-dtype="Number" /></h3>
-            <table class="equipment">
+            <table class="equipment row-container">
                 <thead>
                     <td>
                         <!-- Extra empty table data for handle to properly center if we're showing icons-->

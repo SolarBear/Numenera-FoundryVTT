@@ -8,7 +8,7 @@
 <h3 class="cypher-limit-warning">{{localize "NUMENERA.pc.numenera.cypher.overLimit"}}</h3>
 {{/if}}
 
-<ul class="cyphers">
+<ul class="cyphers row-container">
     {{#each data.items.cyphers as |cypher|}}
     <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.order}}>
         <table class="cypher-header-table">

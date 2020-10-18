@@ -1,7 +1,7 @@
 <h2>
     {{localize "NUMENERA.pc.numenera.oddity.name"}}
 </h2>
-<ul class="oddities">
+<ul class="oddities row-container">
     {{#each data.items.oddities as |oddity|}}
     <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
         <table class="oddity-header-table">
