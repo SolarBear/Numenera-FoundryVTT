@@ -26,6 +26,7 @@ const toBundle = [
     "lang/es.json",
     "lang/fr.json",
     "lang/pt-BR.json",
+    "packs/system-macros.db",
     "templates/actor/characterSheet.html",
     "templates/actor/communitySheet.html",
     "templates/actor/npcSheet.html",

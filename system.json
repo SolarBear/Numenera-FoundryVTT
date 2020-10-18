@@ -7,7 +7,15 @@
     "scripts": [],
     "esmodules": ["numenera.js"],
     "styles": ["numenera.css"],
-    "packs": [],
+    "packs": [
+        {
+          "name": "systemMacros",
+          "label": "System Macros",
+          "system": "numenera",
+          "path": "./packs/system-macros.db",
+          "entity": "Macro"
+        }
+    ],
     "languages": [
         {
             "lang": "en",

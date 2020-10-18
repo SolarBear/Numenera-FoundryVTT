@@ -1,5 +1,7 @@
 import { RollData } from "../dice/RollData.js";
 
+import { EffortDialog } from "../apps/EffortDialog.js";
+
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../item/NumeneraArmorItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
@@ -162,6 +164,11 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   rollAttribute(attribute, rollData = null) {
+    //This really shouldn't be in an Actor class, but it makes it SO easier to create stat macros...
+    if (window.event.ctrlKey || window.event.metaKey) {
+      return new EffortDialog(this, { stat: attribute }).render(true);
+    }
+
     // Create a pseudo-skill to avoid repeating the roll logic
     const skill = new NumeneraSkillItem();
 
