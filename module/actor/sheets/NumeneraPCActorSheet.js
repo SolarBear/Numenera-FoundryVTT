@@ -513,6 +513,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   _onDragStart(event) {
     const itemId = event.target.dataset.itemId;
+    
+    if (!itemId) return;
 
     const clickedItem = duplicate(
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
