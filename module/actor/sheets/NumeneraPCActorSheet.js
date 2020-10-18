@@ -1,5 +1,3 @@
-import  "../../../lib/dragula/dragula.js";
-
 import { NUMENERA } from "../../config.js";
 
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
@@ -15,23 +13,6 @@ import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
-
-//Common Dragula options
-// const dragulaOptions = {
-//   moves: function (el, container, handle) {
-//     // TODO rework when cyphers et al. are less messed up plz
-//     let tr = handle;
-
-//     do {
-//       if (!tr) return false;
-
-//       if (typeof tr.dataset.order !== "undefined")
-//         return true;
-//     } while (tr = tr.parentElement.closest("tr, li"));
-      
-//     return false;
-//   },
-// };
 
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;

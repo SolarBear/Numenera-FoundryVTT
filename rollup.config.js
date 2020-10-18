@@ -26,8 +26,6 @@ const toBundle = [
     "lang/es.json",
     "lang/fr.json",
     "lang/pt-BR.json",
-    "lib/dragula/dragula.min.css",
-    "lib/dragula/dragula.min.js",
     "templates/actor/characterSheet.html",
     "templates/actor/communitySheet.html",
     "templates/actor/npcSheet.html",
