@@ -14,17 +14,13 @@
         <p class="notes">{{localize "TOKEN.CharInstructions"}}</p>
         <div class="form-group">
             <label>{{localize "TOKEN.CharNameplate"}}</label>
-            <input type="text" name="name" placeholder="Name" value="{{object.name}}" data-dtype="String"/>
+            <input type="text" name="name" placeholder="Name" value="{{object.name}}"/>
         </div>
 
         <div class="form-group">
             <label>{{localize "TOKEN.CharShowNameplate"}}:</label>
             <select name="displayName" data-dtype="Number">
-                {{#select object.displayName}}
-                {{#each displayModes as |name mode|}}
-                <option value="{{mode}}">{{name}}</option>
-                {{/each}}
-                {{/select}}
+                {{selectOptions displayModes selected=object.displayName }}
             </select>
         </div>
 
@@ -48,11 +44,7 @@
         <div class="form-group">
             <label>{{localize "TOKEN.CharDisposition"}}:</label>
             <select name="disposition" data-dtype="Number">
-                {{#select object.disposition}}
-                {{#each dispositions as |value name|}}
-                <option value="{{value}}">{{name}}</option>
-                {{/each}}
-                {{/select}}
+                {{selectOptions dispositions selected=object.disposition }}
             </select>
         </div>
     </div>
@@ -88,12 +80,12 @@
 
         <div class="form-group">
             <label>{{localize "Width"}} <span class="units">({{localize "GridUnits"}})</span>:</label>
-            <input type="text" name="width" placeholder="units" value="{{object.width}}" data-dtype="Number"/>
+            <input type="number" step="0.1" name="width" placeholder="units" value="{{object.width}}"/>
         </div>
 
         <div class="form-group">
             <label>{{localize "Height"}} <span class="units">({{localize "GridUnits"}})</span>:</label>
-            <input type="text" name="height" placeholder="units" value="{{object.height}}" data-dtype="Number"/>
+            <input type="number" step="0.1" name="height" placeholder="units" value="{{object.height}}"/>
         </div>
 
         <div class="form-group">
@@ -113,6 +105,14 @@
             <label>{{localize "TOKEN.MirrorY"}}</label>
             <input type="checkbox" name="mirrorY" data-dtype="Boolean" {{checked object.mirrorY}}/>
         </div>
+
+        <div class="form-group">
+            <label>{{ localize "TOKEN.TintColor" }}</label>
+            <div class="form-fields">
+                <input class="color" type="text" name="tint" value="{{object.tint}}"/>
+                <input type="color" value="{{object.tint}}" data-edit="tint"/>
+            </div>
+        </div>
     </div>
 
     <!-- Token Position -->
@@ -120,19 +120,19 @@
         <p class="notes">{{localize "TOKEN.PositionInstructions"}}</p>
         <div class="form-group">
             <label>{{localize "XCoord"}} <span class="units">({{localize "Pixels"}})</span>:</label>
-            <input type="text" name="x" value="{{object.x}}" data-dtype="Number" disabled/>
+            <input type="number" name="x" value="{{object.x}}" {{#unless isGM}}disabled{{/unless}}/>
         </div>
         <div class="form-group">
             <label>{{localize "YCoord"}} <span class="units">({{localize "Pixels"}})</span>:</label>
-            <input type="text" name="y" value="{{object.y}}" data-dtype="Number" disabled/>
+            <input type="number" name="y" value="{{object.y}}" {{#unless isGM}}disabled{{/unless}}/>
         </div>
         <div class="form-group">
-            <label>{{localize "Elevation"}} <span class="units">({{localize "GridUnits"}})</span>:</label>
-            <input type="text" name="elevation" placeholder="units" value="{{object.elevation}}" data-dtype="Number"/>
+            <label>{{localize "Elevation"}} <span class="units">({{localize "Distance"}})</span>:</label>
+            <input type="number" name="elevation" placeholder="units" value="{{object.elevation}}"/>
         </div>
         <div class="form-group">
             <label>{{localize "Rotation"}} <span class="units">({{localize "Degrees"}})</span>:</label>
-            <input type="text" name="rotation" value="{{object.rotation}}" data-dtype="Number" disabled/>
+            <input type="number" name="rotation" value="{{object.rotation}}"/>
         </div>
         <div class="form-group">
             <label>{{localize "TOKEN.PositionLock"}}:</label>
@@ -148,29 +148,28 @@
             <input type="checkbox" name="vision" data-dtype="Boolean" {{checked object.vision}}/>
         </div>
         <div class="form-group">
-            <label>{{localize "TOKEN.VisionDimDist"}} <span class="units">({{localize "GridUnits"}})</span>:</label>
-            <input type="text" name="dimSight" placeholder="units" value="{{object.dimSight}}" data-dtype="Number"/>
+            <label>{{localize "TOKEN.VisionDimDist"}} <span class="units">({{localize "Distance"}})</span>:</label>
+            <input type="number" step="0.1" name="dimSight" placeholder="units" value="{{object.dimSight}}"/>
         </div>
         <div class="form-group">
-            <label>{{localize "TOKEN.VisionBrightDist"}} <span class="units">({{localize "GridUnits"}})</span>:</label>
-            <input type="text" name="brightSight" placeholder="units" value="{{object.brightSight}}" data-dtype="Number"/>
+            <label>{{localize "TOKEN.VisionBrightDist"}} <span class="units">({{localize "Distance"}})</span>:</label>
+            <input type="number" step="0.1" name="brightSight" placeholder="units" value="{{object.brightSight}}"/>
         </div>
         <div class="form-group">
             <label>{{localize "TOKEN.VisionSightAngle"}} <span class="units">({{localize "Degrees"}})</span>:</label>
-            <input type="text" name="sightAngle" placeholder="units" value="{{object.sightAngle}}" data-dtype="Number"/>
-        </div>
-
-        <div class="form-group">
-            <label>{{localize "TOKEN.VisionDimEmit"}} <span class="units">({{localize "GridUnits"}})</span>:</label>
-            <input type="text" name="dimLight" placeholder="units" value="{{object.dimLight}}" data-dtype="Number"/>
+            <input type="number" name="sightAngle" placeholder="units" value="{{object.sightAngle}}"/>
         </div>
         <div class="form-group">
-            <label>{{localize "TOKEN.VisionBrightEmit"}} <span class="units">({{localize "GridUnits"}})</span>:</label>
-            <input type="text" name="brightLight" placeholder="units" value="{{object.brightLight}}" data-dtype="Number"/>
+            <label>{{localize "LIGHT.LightDim"}} <span class="units">({{localize "Distance"}})</span>:</label>
+            <input type="number" step="0.1" name="dimLight" placeholder="units" value="{{object.dimLight}}"/>
         </div>
         <div class="form-group">
-            <label>{{localize "TOKEN.VisionLightAngle"}} <span class="units">({{localize "Degrees"}})</span>:</label>
-            <input type="text" name="lightAngle" placeholder="units" value="{{object.lightAngle}}" data-dtype="Number"/>
+            <label>{{localize "LIGHT.LightBright"}} <span class="units">({{localize "Distance"}})</span>:</label>
+            <input type="number" step="0.1" name="brightLight" placeholder="units" value="{{object.brightLight}}"/>
+        </div>
+        <div class="form-group">
+            <label>{{localize "LIGHT.LightAngle"}} <span class="units">({{localize "Degrees"}})</span>:</label>
+            <input type="number" name="lightAngle" placeholder="units" value="{{object.lightAngle}}"/>
         </div>
         <div class="form-group">
             <label>{{ localize "LIGHT.LightColor" }}</label>
@@ -178,11 +177,32 @@
             <input type="color" value="{{object.lightColor}}" data-edit="lightColor"/>
         </div>
         <div class="form-group">
-            <label>{{ localize "LIGHT.LightOpacity" }}</label>
+            <label>{{ localize "LIGHT.LightAlpha" }}</label>
             <div class="form-fields">
-                <input type="range" name="lightAlpha" value="{{object.lightAlpha}}" min="0.0" max="1.0" step="0.05"
-                       data-dtype="Number"/>
+                <input type="range" name="lightAlpha" value="{{object.lightAlpha}}" min="0.0" max="1.0" step="0.05"/>
                 <span class="range-value">{{object.lightAlpha}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "LIGHT.AnimationType"}}</label>
+            <div class="form-fields">
+                <select name="lightAnimation.type">
+                    {{selectOptions lightAnimations selected=object.lightAnimation.type}}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "LIGHT.AnimationSpeed"}}</label>
+            <div class="form-fields">
+                <input type="range" name="lightAnimation.speed" value="{{object.lightAnimation.speed}}" min="1" max="10" step="1"/>
+                <span class="range-value">{{object.lightAnimation.speed}}</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>{{localize "LIGHT.AnimationIntensity"}}</label>
+            <div class="form-fields">
+                <input type="range" name="lightAnimation.intensity" value="{{object.lightAnimation.intensity}}" min="1" max="10" step="1"/>
+                <span class="range-value">{{object.lightAnimation.intensity}}</span>
             </div>
         </div>
     </div>
@@ -192,63 +212,65 @@
         <p class="notes">{{localize "TOKEN.ResourceInstructions"}}</p>
         <div class="form-group">
             <label>{{localize "TOKEN.ResourceDisplay"}}:</label>
-            <select name="displayBars" data-dtype="Number">
-                {{#select object.displayBars}}
-                {{#each displayModes as |name mode|}}
-                <option value="{{mode}}">{{name}}</option>
-                {{/each}}
-                {{/select}}
-            </select>
+            <div class="form-fields">
+                <select name="displayBars" data-dtype="Number">
+                    {{selectOptions displayModes selected=object.displayBars }}
+                </select>
+            </div>
         </div>
 
         {{#unless isPC}}
         <div class="form-group">
             <label>{{localize "TOKEN.ResourceBar1A"}}:</label>
-            <select class="bar-attribute" name="bar1.attribute">
-                {{#select bar1.attribute}}
-                <option value="">None</option>
-                {{#each barAttributes as |attrs label|}}
-                <optgroup label="{{ label }}">
-                    {{#each attrs}}
-                    <option value="{{this}}">{{this}}</option>
+            <div class="form-fields">
+                <select class="bar-attribute" name="bar1.attribute">
+                    {{#select bar1.attribute}}
+                    <option value="">None</option>
+                    {{#each barAttributes as |attrs label|}}
+                    <optgroup label="{{ label }}">
+                        {{#each attrs}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </optgroup>
                     {{/each}}
-                </optgroup>
-                {{/each}}
-                {{/select}}
-            </select>
+                    {{/select}}
+                </select>
+            </div>
         </div>
 
         <div class="form-group">
             <label>{{localize "TOKEN.ResourceBar1D"}}:</label>
-            <div class="bar-data flexrow">
-                <input type="text" class="bar1-value" value="{{bar1.value}}" disabled/>
+            <div class="form-fields">
+                <input type="number" class="bar1-value" value="{{bar1.value}}" disabled/>
                 <span class="sep">/</span>
-                <input type="text" class="bar1-max" value="{{bar1.max}}" disabled/>
+                <input type="number" class="bar1-max" value="{{bar1.max}}" disabled/>
             </div>
         </div>
 
         <div class="form-group">
             <label>{{localize "TOKEN.ResourceBar2A"}}:</label>
-            <select class="bar-attribute" name="bar2.attribute">
-                {{#select bar2.attribute}}
-                <option value="">None</option>
-                 {{#each barAttributes as |attrs label|}}
-                <optgroup label="{{localize label}}">
-                    {{#each attrs}}
-                    <option value="{{this}}">{{this}}</option>
+            <div class="form-fields">
+                <select class="bar-attribute" name="bar2.attribute">
+                    {{#select bar2.attribute}}
+                    <option value="">None</option>
+                     {{#each barAttributes as |attrs label|}}
+                    <optgroup label="{{localize label}}">
+                        {{#each attrs}}
+                        <option value="{{this}}">{{this}}</option>
+                        {{/each}}
+                    </optgroup>
                     {{/each}}
-                </optgroup>
-                {{/each}}
-                {{/select}}
-            </select>
+                    {{/select}}
+                </select>
+            </div>
         </div>
 
         <div class="form-group">
             <label>{{localize "TOKEN.ResourceBar2D"}}:</label>
-            <div class="bar-data flexrow">
-                <input type="text" class="bar2-value" value="{{bar2.value}}" disabled/>
+            <div class="form-fields">
+                <input type="number" class="bar2-value" value="{{bar2.value}}" disabled/>
                 <span class="sep">/</span>
-                <input type="text" class="bar2-max" value="{{bar2.max}}" disabled/>
+                <input type="number" class="bar2-max" value="{{bar2.max}}" disabled/>
             </div>
         </div>
         {{else}}
