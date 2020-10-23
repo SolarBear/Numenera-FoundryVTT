@@ -12,7 +12,7 @@ export function cypherToken() {
         return async function() {
             await superFunction.apply(this, arguments);
             
-            if (this.actor.data.type == "pc" && this.actor.data.token) {
+            if (this.actor && this.actor.data.type == "pc" && this.actor.data.token) {
                 this.data.bar1 = {attribute: "stats.might.pool"};
                 this.data.bar2 = {attribute: "stats.speed.pool"};
                 this.data.bar3 = {attribute: "stats.intellect.pool"};
@@ -34,7 +34,7 @@ export function cypherToken() {
     Token.prototype.drawBars = (function() {
         let superFunction = Token.prototype.drawBars;
         return function() {
-            if (this.actor.data.type === "pc") {
+            if (this.actor && this.actor.data.type === "pc") {
                 return cypherTokenDrawBars.apply(this, arguments);
             } else {
                 return superFunction.apply(this, arguments);
@@ -48,7 +48,7 @@ export function cypherToken() {
     Token.prototype._drawBar = (function() {
         let superFunction = Token.prototype._drawBar;
         return function() {
-            if (this.actor.data.type === "pc") {
+            if (this.actor && this.actor.data.type === "pc") {
                 return drawCypherBar.apply(this, arguments);
             } else {
                 return superFunction.apply(this, arguments);
@@ -61,6 +61,9 @@ export function cypherToken() {
     Token.prototype.getBarAttribute = (function () {
         let superFunction = Token.prototype.getBarAttribute;
         return function (barName, { alternative } = {}) {
+            if (!this.actor)
+                return;
+
             switch (this.actor.data.type) {
                 case "pc":
                     return getCypherPCTokenBarAttribute.apply(this, arguments);
@@ -117,7 +120,8 @@ export function cypherToken() {
         const superFunction = TokenConfig.prototype.getData;
         return async function (options) {
             let result = await superFunction.apply(this, arguments);
-            result.isPC = this.actor.data.type === "pc";
+
+            result.isPC = this.actor && this.actor.data.type === "pc";
             if (result.isPC) {
                 result.bar3 = this.object.getBarAttribute("bar3");
             }
@@ -155,11 +159,16 @@ function cypherTokenDrawAttributeBars() {
  * Override to add and draw a third attribute bar
  */
 function cypherTokenDrawBars() {
-    if (!this.actor || (this.data.displayBars === CONST.TOKEN_DISPLAY_MODES.NONE)) return;
+    if (!this.actor || this.data.displayBars === CONST.TOKEN_DISPLAY_MODES.NONE)
+        return;
+
     ["bar1", "bar2", "bar3"].forEach((b, i) => {
         const bar = this.bars[b];
         const attr = this.getBarAttribute(b);
-        if (!attr || (attr.type !== "bar")) return bar.visible = false;
+
+        if (!attr || attr.type !== "bar")
+            return bar.visible = false;
+
         this._drawBar(i, bar, attr);
         bar.visible = true;
     });
@@ -171,9 +180,14 @@ function cypherTokenDrawBars() {
 function cypherOnUpdateBarAttributes(updateData) {
     const update = ["bar1", "bar2", "bar3"].some(b => {
       let bar = this.data[b];
+      if (!bar)
+        return false;
+
       return bar.attribute && hasProperty(updateData, "data."+bar.attribute);
     });
-    if ( update ) this.drawBars();
+
+    if (update)
+        this.drawBars();
   }
 
 /**
@@ -224,8 +238,10 @@ function getCypherPCTokenBarAttribute(barName, { alternative } = {}) {
     } else if (barName === "bar3") {
         stat = "stats.intellect.pool";
     }
+
     let data = getProperty(this.actor.data.data, stat);
     data = duplicate(data);
+
     return {
         type: "bar",
         attribute: stat,
@@ -244,7 +260,7 @@ function getCypherNPCTokenBarAttribute(barName, { alternative } = {}) {
     return {
         type: "bar",
         attribute: "health",
-        value: parseInt(data.value || 0),
+        value: parseInt(data.max || 0),
         max: parseInt(data.max || 0)
     }
 }
