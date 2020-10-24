@@ -77,10 +77,25 @@
         </select>
     </div>
     <div>
-        <button id="roll-with-effort" class="animated"
+        {{#if automaticFailure}}
+        <button id="failure-close" class="animated"
             {{#if displayWarning}}disabled="disabled"{{/if}}
-        >
-            {{rollButtonText}}
+        > COUCOU MAMAN
+            {{failureText}}
         </button>
+        {{else}}
+            {{#if automaticSuccess}}
+            <button id="succeed-automatically" class="animated"
+                {{#if displayWarning}}disabled="disabled"{{/if}}
+            >
+                {{automaticSuccessText}}
+            </button>
+            {{/if}}
+            <button id="roll-with-effort" class="animated"
+                {{#if displayWarning}}disabled="disabled"{{/if}}
+            >
+                {{rollButtonText}}
+            </button>
+        {{/if}}
     </div>
 </form>
