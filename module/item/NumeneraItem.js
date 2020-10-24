@@ -48,15 +48,22 @@ export const NumeneraItem = new Proxy(function () {}, {
         return new NumeneraWeaponItem(...args);
       case "recursion":
         return new StrangeRecursionItem(...args);
+      default:
+        throw new Error("Unsupported Entity type for create(): " + data.type);
 
     }
   },
   //Property access on this weird, dirty proxy object
-  get: function (target, prop, receiver) {
+  get: function (target, prop, receiver) {  
     switch (prop) {
       case "create":
         //Calling the class' create() static function
         return function (data, options) {
+          if (data.constructor === Array) {
+            //Array of data, this happens when creating Actors imported from a compendium
+            return data.map(a => NumeneraItem.create(a, options));
+          }
+
           switch (data.type) {
             case "ability":
               return NumeneraAbilityItem.create(data, options);
@@ -78,6 +85,10 @@ export const NumeneraItem = new Proxy(function () {}, {
               return NumeneraWeaponItem.create(data, options);
             case "recursion":
               return StrangeRecursionItem.create(data, options);
+            default:
+              throw new Error(
+                "Unsupported Entity type for create(): " + data.type
+              );
           }
         };
 
@@ -99,7 +110,7 @@ export const NumeneraItem = new Proxy(function () {}, {
         };
 
       default:
-        //Just forward any requested properties to the base Actor class
+        //Just forward any requested properties to the base Item class
         return Item[prop];
     }
   },

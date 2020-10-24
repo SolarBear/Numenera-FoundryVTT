@@ -38,7 +38,13 @@ export const NumeneraActor = new Proxy(function () {}, {
       case "create":
         //Calling the class' create() static function
         return function (data, options) {
+          if (data.constructor === Array) {
+            //Array of data, this happens when creating Actors imported from a compendium
+            return data.map(a => NumeneraActor.create(a, options));
+          }
+
           switch (data.type) {
+            
             case "pc":
               return NumeneraPCActor.create(data, options);
             case "npc":
