@@ -204,7 +204,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onEquipmentDelete = onItemDeleteGenerator("equipment");
     this.onOddityDelete = onItemDeleteGenerator("oddity");
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
-    this.onWeaponDelete = onItemDeleteGenerator("weapon");
+    this.onWeaponDelete = onItemDeleteGenerator("weapon", this.onWeaponDeleted.bind(this));
     this.onRecursionDelete = onItemDeleteGenerator("recursion");
   }
 
@@ -689,21 +689,40 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   onAbilityDeleted(ability) {
+    //TODO move to Ability class
     if (
       ability &&
       this.actor.data.items.find(i => i.type === "skill" &&
       i.data.relatedAbilityId === ability._id)
     )
       ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.skillWithSameNameExists"));
+
+    //Check for any macro related to that ability
+    game.macros.filter(m => m.data.command.indexOf(ability._id) !== -1)
+      .forEach(m => m.delete());      
   }
 
   onSkillDeleted(skill) {
+    //TODO move to Skill class
     if (
       skill &&
       skill.data.relatedAbilityId &&
       this.actor.data.items.find(i => i._id === skill.data.relatedAbilityId)
     )
       ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.abilityWithSameNameExists"));
+
+    //Check for any macro related to that skill
+    game.macros.filter(m => m.data.command.indexOf(skill._id) !== -1)
+      .forEach(m => m.delete());   
+  }
+
+  onWeaponDeleted(equipment) {
+    //TODO move to Weapon class
+    if (equipment.type === NumeneraWeaponItem.type) {
+      //Check for any macro related to that skill
+      game.macros.filter(m => m.data.command.indexOf(equipment._id) !== -1)
+        .forEach(m => m.delete());   
+    }
   }
 
   onRecoveryRoll(event) {
