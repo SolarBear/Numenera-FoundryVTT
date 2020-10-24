@@ -260,7 +260,7 @@ function getCypherNPCTokenBarAttribute(barName, { alternative } = {}) {
     return {
         type: "bar",
         attribute: "health",
-        value: parseInt(data.max || 0),
+        value: parseInt(data.value || 0),
         max: parseInt(data.max || 0)
     }
 }
