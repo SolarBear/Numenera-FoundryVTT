@@ -54,9 +54,12 @@ export async function registerHooks() {
 
         //Only apply ChatMessage enhancement to rolls performed from RollData
         if (roll && roll.hasOwnProperty("numenera")) {
-            const { special, text, color } = RollData.rollText(roll);
+            const { special, text, combat, color } = RollData.rollText(roll);
             const dt = html.find("h4.dice-total")[0];
             dt.textContent = text;
+
+            if (combat)
+                dt.insertAdjacentHTML('afterend', `<h4 class="dice-total">${combat}</h4>`);
         }
     });
 

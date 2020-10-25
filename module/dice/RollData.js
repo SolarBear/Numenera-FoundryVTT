@@ -101,6 +101,7 @@ export class RollData {
             return {
               special: true,
               text: game.i18n.localize("NUMENERA.gmIntrusion"),
+              combat: "",
               color: 0x000000,
             };
           
@@ -108,17 +109,23 @@ export class RollData {
             return {
               special: false,
               text: game.i18n.localize("NUMENERA.rollFailure"),
+              combat: "",
               color: 0x000000,
             };
         }
 
       case 1:
         //Success!
+        let combat = "";
+        if (dieRoll >= 17)
+          combat = `Combat: +${dieRoll - 16} damage`;
+
         switch (dieRoll) {  
           case 19:
             return {
               special: true,
               text: game.i18n.localize("NUMENERA.minorEffect"),
+              combat,
               color: 0x000000,
             };
     
@@ -126,6 +133,7 @@ export class RollData {
             return {
               special: true,
               text: game.i18n.localize("NUMENERA.majorEffect"),
+              combat,
               color: 0x000000,
             };
     
@@ -133,6 +141,7 @@ export class RollData {
             return {
               special: false,
               text: game.i18n.localize("NUMENERA.rollSuccess"),
+              combat,
               color: 0x000000,
             };
         }
@@ -157,11 +166,16 @@ export class RollData {
       dieRoll = roll.total;
     }
 
+    let combat = "";
+    if (dieRoll >= 17)
+      combat = `Combat: +${dieRoll - 16} damage`;
+
     switch (dieRoll) {
       case 1:
         return {
           special: true,
           text: game.i18n.localize("NUMENERA.gmIntrusion"),
+          combat,
           color: 0x000000,
         }
 
@@ -169,6 +183,7 @@ export class RollData {
         return {
           special: true,
           text: game.i18n.localize("NUMENERA.minorEffect"),
+          combat,
           color: 0x000000,
         }
 
@@ -176,6 +191,7 @@ export class RollData {
         return {
           special: true,
           text: game.i18n.localize("NUMENERA.majorEffect"),
+          combat,
           color: 0x000000,
         }
 
@@ -194,6 +210,7 @@ export class RollData {
         return {
           special: false,
           text: `${game.i18n.localize("NUMENERA.successLevel")} ${taskLevel}`,
+          combat,
           color: 0x000000,
         }
     }
