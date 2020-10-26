@@ -61,20 +61,6 @@ export class NumeneraPCActor extends Actor {
   }
 
   /**
-   * Get the current PC's level on the damage track as an integer, 0 being Hale and 3 being Dead.
-   * @type {Object} stats Stats object (see template.json)
-   */
-  damageTrackLevel(stats = null) {
-    if (stats === null)
-      stats = this.data.data.stats;
-
-    //Each stat pool whose value is 0 counts as being one step higher on the damage track
-    return Object.values(stats).filter(stat => {
-      return stat.pool.value === 0;
-    }).length;
-  }
-
-  /**
    * Given a skill id, get the related RollData object.
    *
    * @param {NumeneraSkillItem} skill
@@ -90,6 +76,7 @@ export class NumeneraPCActor extends Actor {
 
     rollOptions.skillLevel = data ? data.skillLevel : 0;
     rollOptions.isHindered = data ? data.inability : false;
+    rollOptions.damageTrackPenalty = this.data.data.damageTrack > 0;
 
     return rollOptions;
   }

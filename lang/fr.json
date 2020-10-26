@@ -26,9 +26,11 @@
 
     "NUMENERA.effort.title": "Effort",
     "NUMENERA.effort.againstTaskLevel": "contre tâche niveau",
+    "NUMENERA.effort.failAutomatically": "Échec automatique",
     "NUMENERA.effort.other": "Autres avantages",
     "NUMENERA.effort.confirmUnspent": "Vous n'avez pas dépensé tous vos points et vos Réserves ne sont pas encore pleines. Voulvez-vous vraiment quitter? Ces points seront perdus.",
     "NUMENERA.effort.cost": "Coût",
+    "NUMENERA.effort.damageTrackPenalty": "Pénalité de niveau de blessures",
     "NUMENERA.effort.effortLevels": "Niveaux d'Effort",
     "NUMENERA.effort.finalTaskLevel": "Niveau final de la tâche",
     "NUMENERA.effort.initialTaskLevel": "Niveau initial de la tâche",
@@ -38,6 +40,7 @@
     "NUMENERA.effort.rollType": "Type de jet",
     "NUMENERA.effort.selectAStat": "Choisir une caractéristique",
     "NUMENERA.effort.skillAbilitySuffix": " (Aptitude)",
+    "NUMENERA.effort.succeedAutomatically": "Succès automatique",
     "NUMENERA.effort.warning.provideStat": "Vous devez sélectionner une caractéristique avant d'ajouter un Effort",
     "NUMENERA.effort.warning.notEnoughPoolPoints":"Points insuffisants dans cette Réserve",
 

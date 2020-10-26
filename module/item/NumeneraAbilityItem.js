@@ -64,7 +64,6 @@ export class NumeneraAbilityItem extends Item {
 
   async use() {
     //An ability must be related to an Actor to be used
-    debugger;
     if (this.actor === null) {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
     }

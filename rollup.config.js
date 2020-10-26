@@ -47,6 +47,7 @@ const toBundle = [
     "templates/item/weaponSheet.html",
     "templates/item/recursionSheet.html",
     "templates/scene/tokenConfig.html",
+    "templates/scene/tokenConfig_06.html",
     "LICENSE"
 ];
 

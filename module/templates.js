@@ -18,6 +18,9 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/actor/partials/oddities.html",
         "systems/numenera/templates/actor/partials/recursions.html",
 
+        // Chat messages
+        "systems/numenera/templates/chat/automaticResult.html",
+
         // Dialog Sheets
         "systems/numenera/templates/dialog/effort.html",
         "systems/numenera/templates/dialog/recovery.html",
@@ -36,6 +39,7 @@ export const preloadHandlebarsTemplates = async() => {
         //Token stuff
         "systems/numenera/templates/hud/tokenHUD.html",
         "systems/numenera/templates/scene/tokenConfig.html",
+        "systems/numenera/templates/scene/tokenConfig_06.html",
     ];
 
     // Load the template parts

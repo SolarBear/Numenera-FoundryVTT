@@ -21,7 +21,7 @@ export class EffortDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 360,
-      height: 490,
+      height: 540,
     });
   }
 
@@ -143,7 +143,8 @@ export class EffortDialog extends FormApplication {
 
     let level = this.object.taskLevel
               - this.object.currentEffort
-              - this.object.assets;
+              - this.object.assets
+              + (this.object.actor.data.data.damageTrack > 0 ? 1 : 0);
     
     if (this.object.skill) {
       //TODO use the SkillItem method to convert it when it's set instead of checking here
@@ -161,6 +162,36 @@ export class EffortDialog extends FormApplication {
   }
 
   /**
+   * Checks whether the current task allows an automatic sucess.
+   *
+   * @readonly
+   * @memberof EffortDialog
+   */
+  get automaticSuccess() {
+    /* JS "fun" fact:
+    null == 0 returns false
+    null <= 0 and null >= 0 returns true
+
+    ¯\_(ツ)_/¯
+
+    #ididntchoosetheJSlife
+    */ 
+    return this.finalLevel !== null && this.finalLevel <= 0;
+  }
+
+  /**
+   *
+   *
+   * @readonly
+   * @memberof EffortDialog
+   */
+  get automaticFailure() {
+    //A task level of 7 would require rolling a 21 on a d20. Good luck with that!
+    //Also, see note in the automaticSuccess getter.
+    return this.finalLevel !== null && this.finalLevel >= 7;
+  }
+
+  /**
    * Get the text to display on the roll button at the bottom of the dialog.
    *
    * @readonly
@@ -168,7 +199,7 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   get rollButtonText() {
-    let text = "Roll";
+    let text = game.i18n.localize("NUMENERA.roll");
     if (this.object.currentEffort > 0) {
       text += ` ${game.i18n.localize("NUMENERA.with")} ${this.object.currentEffort} ${game.i18n.localize("NUMENERA.effort.title")}`;
     }
@@ -178,6 +209,14 @@ export class EffortDialog extends FormApplication {
     }
 
     return text;
+  }
+
+  get automaticSuccessText() {
+    return game.i18n.localize("NUMENERA.effort.succeedAutomatically");
+  }
+
+  get automaticFailureText() {
+    return game.i18n.localize("NUMENERA.effort.failAutomatically");
   }
 
   /**
@@ -205,6 +244,7 @@ export class EffortDialog extends FormApplication {
     }
 
     data.assets = this.object.assets;
+    data.damageTrackPenalty = this.object.actor.data.data.damageTrack > 0;
     data.currentEffort = this.object.currentEffort;
     data.maxEffortLevel = this.object.actor.data.data.effort;
     data.taskLevel = this.object.taskLevel;
@@ -229,6 +269,11 @@ export class EffortDialog extends FormApplication {
     data.warning = this.warning;
     data.displayWarning = !!data.warning;
     data.rollButtonText = this.rollButtonText;
+    data.automaticFailureText = this.automaticFailureText;
+    data.automaticSuccessText = this.automaticSuccessText;
+    data.rollButtonText = this.rollButtonText;
+    data.automaticFailure = this.automaticFailure;
+    data.automaticSuccess = this.automaticSuccess;
 
     return data;
   }
@@ -240,6 +285,8 @@ export class EffortDialog extends FormApplication {
     super.activateListeners(html);
 
     html.find("#roll-with-effort").click(this._rollWithEffort.bind(this));
+    html.find("#failure-close").click(this._failAutomatically.bind(this));
+    html.find("#succeed-automatically").click(this._succeedAutomatically.bind(this));
   }
 
   /**
@@ -272,6 +319,7 @@ export class EffortDialog extends FormApplication {
     rollData.effortLevel = this.object.currentEffort;
     rollData.taskLevel = this.finalLevel;
     rollData.rollMode = this.object.rollMode;
+    rollData.damageTrackPenalty = this.object.actor.data.data.damageTrack;
 
     if (this.object.skill) {
       actor.rollSkill(this.object.skill, rollData, this.object.ability);
@@ -290,6 +338,42 @@ export class EffortDialog extends FormApplication {
 
     //TIME TO PAY THE PRICE MWAHAHAHAHAHAHAH
     actor.update(data);
+
+    this.close();
+  }
+
+  async _failAutomatically() {
+    //Ensure that is really the case
+    if (!this.automaticFailure) {
+      throw new Error("Should not fail automatically in this case");
+    }
+
+    await ChatMessage.create({
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      sound: CONFIG.sounds.dice,
+      content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
+        result: game.i18n.localize("NUMENERA.effort.failAutomatically"),  
+      }),
+    });
+    
+    this.close();
+  }
+
+  async _succeedAutomatically() {
+    //Ensure that is really the case
+    if (this.automaticFailure || !this.automaticSuccess) {
+      throw new Error("Should not succeed automatically in this case");
+    }
+
+    await ChatMessage.create({
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      sound: CONFIG.sounds.dice,
+      content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
+        result: game.i18n.localize("NUMENERA.effort.succeedAutomatically"),  
+      }),
+    });
 
     this.close();
   }
