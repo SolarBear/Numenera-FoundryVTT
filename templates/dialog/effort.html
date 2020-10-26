@@ -32,6 +32,11 @@
         <div>
             <h2>{{localize "NUMENERA.effort.other"}} <input type="number" name="assets" value="{{assets}}" min="0" data-dtype="Number" /></h2>
         </div>
+        {{#if damageTrackPenalty}}
+        <div>
+            <h2>{{localize "NUMENERA.effort.damageTrackPenalty"}} <input type="number" value="-1" disabled="disabled" /></h2>
+        </div>
+        {{/if}}
         <div>
             <h2>{{localize "NUMENERA.effort.effortLevels"}} <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" /></h2>
             {{localize "NUMENERA.effort.max"}}: <input type="number" class="max-effort" value="{{ maxEffortLevel }}" disabled />

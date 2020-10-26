@@ -30,6 +30,7 @@
     "NUMENERA.effort.other": "Other Enhancements",
     "NUMENERA.effort.confirmUnspent": "You have unspent points are your pools are not full yet. Do you really want to exit? These points will be lost.",
     "NUMENERA.effort.cost": "Cost",
+    "NUMENERA.effort.damageTrackPenalty": "Damage Track Penalty",
     "NUMENERA.effort.effortLevels": "Effort Level",
     "NUMENERA.effort.finalTaskLevel": "Final Task Level",
     "NUMENERA.effort.initialTaskLevel": "Initial Task Level",

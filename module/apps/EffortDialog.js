@@ -21,7 +21,7 @@ export class EffortDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 360,
-      height: 490,
+      height: 540,
     });
   }
 
@@ -143,7 +143,8 @@ export class EffortDialog extends FormApplication {
 
     let level = this.object.taskLevel
               - this.object.currentEffort
-              - this.object.assets;
+              - this.object.assets
+              + (this.object.actor.data.data.damageTrack > 0 ? 1 : 0);
     
     if (this.object.skill) {
       //TODO use the SkillItem method to convert it when it's set instead of checking here
@@ -243,6 +244,7 @@ export class EffortDialog extends FormApplication {
     }
 
     data.assets = this.object.assets;
+    data.damageTrackPenalty = this.object.actor.data.data.damageTrack > 0;
     data.currentEffort = this.object.currentEffort;
     data.maxEffortLevel = this.object.actor.data.data.effort;
     data.taskLevel = this.object.taskLevel;
@@ -317,6 +319,7 @@ export class EffortDialog extends FormApplication {
     rollData.effortLevel = this.object.currentEffort;
     rollData.taskLevel = this.finalLevel;
     rollData.rollMode = this.object.rollMode;
+    rollData.damageTrackPenalty = this.object.actor.data.data.damageTrack;
 
     if (this.object.skill) {
       actor.rollSkill(this.object.skill, rollData, this.object.ability);

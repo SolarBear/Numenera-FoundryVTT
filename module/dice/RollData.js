@@ -11,6 +11,7 @@ export class RollData {
     this.nbAssets = 0;
     this.skillLevel = 0;
     this.isHindered = false;
+    this.damageTrackPenalty = false;
     this.effortLevel = 0;
     this.rollMode = DICE_ROLL_MODES.PUBLIC;
   }
@@ -184,6 +185,7 @@ export class RollData {
           taskLevel += parseInt(rollData.skillLevel)
                       + rollData.nbAssets
                       - (rollData.isHindered ? 1 : 0)
+                      - (rollData.damageTrackPenalty ? 1 : 0)
                       + rollData.effortLevel;
         }
 
