@@ -31,8 +31,8 @@ export class RollData {
    */
   getRollFormula() {
     let formula = "d20";
-    if (this.taskLevel === null) {
-      return formula;
+    if (this.taskLevel !== null) {
+      return `{${formula}}cs>=${3 * this.taskLevel}`;
     }
 
     let level = parseInt(this.skillLevel) || 0;
@@ -49,7 +49,7 @@ export class RollData {
     if (level !== 0)
       formula += (3 * level).toString();
 
-    return `{${formula}}cs>=${3 * this.taskLevel}`;
+    return formula;
   }
 
   /**
@@ -84,91 +84,84 @@ export class RollData {
   }
 
   static _rollTextWithTaskLevel(roll) {
-    let dieRoll;
+    let dieRoll, success;
     //TODO remove this with 0.6 version support
     if (game.data.version.startsWith("0.6.")) {
-      dieRoll = roll.dice[0].total;
+      dieRoll = roll.dice[0].rolls[0].roll;
+      success = !!parseInt(roll.result);
     }
     else { // 0.7
       dieRoll = roll.terms[0].rolls[0].results[0];
-    }      
+      success = !!parseInt(roll.total);
+    }
 
-    switch (parseInt(roll.total)) {
-      case 0:
-        //Sorry.
-        switch (dieRoll) {
-          case 1:
-            return {
-              special: true,
-              text: game.i18n.localize("NUMENERA.gmIntrusion"),
-              combat: "",
-              color: 0x000000,
-            };
-          
-          default:
-            return {
-              special: false,
-              text: game.i18n.localize("NUMENERA.rollFailure"),
-              combat: "",
-              color: 0x000000,
-            };
-        }
+    if (success) {
+      let combat = "";
+      if (dieRoll >= 17) {  
+        combat = `Combat: +${dieRoll - 16} damage`;
+      }
 
-      case 1:
-        //Success!
-        let combat = "";
-        if (dieRoll >= 17)
-          combat = `Combat: +${dieRoll - 16} damage`;
-
-        switch (dieRoll) {  
-          case 19:
-            return {
-              special: true,
-              text: game.i18n.localize("NUMENERA.minorEffect"),
-              combat,
-              color: 0x000000,
-            };
-    
-          case 20:
-            return {
-              special: true,
-              text: game.i18n.localize("NUMENERA.majorEffect"),
-              combat,
-              color: 0x000000,
-            };
-    
-          default:
-            return {
-              special: false,
-              text: game.i18n.localize("NUMENERA.rollSuccess"),
-              combat,
-              color: 0x000000,
-            };
-        }
-
-      default:
-        throw new Error("Unhandled case in _rollTextWithTaskLevel");
+      switch (dieRoll) {  
+        case 19:
+          return {
+            special: true,
+            text: game.i18n.localize("NUMENERA.minorEffect"),
+            combat,
+            color: 0x000000,
+          };
+  
+        case 20:
+          return {
+            special: true,
+            text: game.i18n.localize("NUMENERA.majorEffect"),
+            combat,
+            color: 0x000000,
+          };
+  
+        default:
+          return {
+            special: false,
+            text: game.i18n.localize("NUMENERA.rollSuccess"),
+            combat,
+            color: 0x000000,
+          };
+      }
+    }
+    else {
+      //Sorry.
+      switch (dieRoll) {
+        case 1:
+          return {
+            special: true,
+            text: game.i18n.localize("NUMENERA.gmIntrusion"),
+            combat: "",
+            color: 0x000000,
+          };
+        
+        default:
+          return {
+            special: false,
+            text: game.i18n.localize("NUMENERA.rollFailure"),
+            combat: "",
+            color: 0x000000,
+          };
+      }
     }
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    let results;
-    if (roll.hasOwnProperty("results"))
-      results = roll.results;
-    else
-      results = roll.dice.map(d => d.results);
-
     let dieRoll;
     //TODO remove this with 0.6 version support
     if (game.data.version.startsWith("0.6.")) {
-      dieRoll = roll.total;
+      dieRoll = roll.dice[0].rolls[0].roll;
     } else { // 0.7
       dieRoll = roll.total;
     }
 
     let combat = "";
-    if (dieRoll >= 17)
+    if (dieRoll >= 17) {
       combat = `Combat: +${dieRoll - 16} damage`;
+    }
 
     switch (dieRoll) {
       case 1:
@@ -196,7 +189,7 @@ export class RollData {
         }
 
       default:
-        const rolled = dieRoll; // results[0].result;
+        const rolled = dieRoll;
         let taskLevel = Math.floor(rolled / 3);
 
         if (game.settings.get("numenera", "d20Rolling") === "addModifiers") {
