@@ -30,26 +30,11 @@ export class RollData {
    * @returns {string}
    */
   getRollFormula() {
-    let formula = "d20";
-    if (this.taskLevel !== null) {
-      return `{${formula}}cs>=${3 * this.taskLevel}`;
+    if (this.taskLevel === null) {
+      return "d20";
     }
 
-    let level = parseInt(this.skillLevel) || 0;
-
-    if (this.isHindered)
-      level--;
-
-    if (this.effortLevel)
-      level += parseInt(this.effortLevel);
-
-    if (level > 0)
-      formula += "+";
-
-    if (level !== 0)
-      formula += (3 * level).toString();
-
-    return formula;
+    return `{d20}cs>=${3 * this.taskLevel}`;
   }
 
   /**
@@ -150,12 +135,14 @@ export class RollData {
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    let dieRoll;
+    let dieRoll, total;
     //TODO remove this with 0.6 version support
     if (game.data.version.startsWith("0.6.")) {
       dieRoll = roll.dice[0].rolls[0].roll;
+      total = roll.total;
     } else { // 0.7
-      dieRoll = roll.total;
+      dieRoll = roll.results[0];
+      total = roll.total;
     }
 
     let combat = "";
@@ -189,7 +176,7 @@ export class RollData {
         }
 
       default:
-        const rolled = dieRoll;
+        const rolled = total;
         let taskLevel = Math.floor(rolled / 3);
 
         if (game.settings.get("numenera", "d20Rolling") === "addModifiers") {
