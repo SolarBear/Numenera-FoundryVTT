@@ -9,5 +9,8 @@
  * @returns {string}
  */
 export function getShortStat(stat) {
+  if (typeof stat !== "string")
+    return null;
+    
   return stat.split(".").pop().toLowerCase();
 }

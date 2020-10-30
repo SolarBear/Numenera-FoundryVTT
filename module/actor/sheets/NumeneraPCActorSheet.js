@@ -149,15 +149,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       scrollY: [
-        "form.numenera table.abilities",
-        "form.numenera table.armor",
-        "form.numenera table.equipment",
-        "form.numenera table.skills",
-        "form.numenera table.weapons",
-        "form.numenera ul.artifacts",
-        "form.numenera ul.cyphers",
-        "form.numenera ul.oddities",
-        "form.numenera table.recursion"
+        "#pc-sheet-body",
       ],
       width: 885,
       height: 870,

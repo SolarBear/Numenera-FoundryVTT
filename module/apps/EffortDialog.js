@@ -6,6 +6,7 @@ import { RollData } from "../dice/RollData.js";
 import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
+import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 
 export class EffortDialog extends FormApplication {
   /**
@@ -46,14 +47,50 @@ export class EffortDialog extends FormApplication {
     ];
   }
 
+
+  /**
+  * Creates an instance of EffortDialog, using IDs instead of items.
+  * @param {NumeneraPCActor} actor
+  * @param {string} [stat=null]
+  * @param {string} [skill=null]
+  * @param {string} [ability=null]
+  * @param {Number} [assets=0]
+  * @memberof EffortDialog
+  */
+  static async create(actor, options={}) {
+    if (!actor) {
+      ui.notifications.error("Tried calling EffortDialog.create without an actor");
+    }
+
+    if (options.ability) {
+      options.ability = await actor.getOwnedItem(options.ability);
+      if (!options.ability)
+        ui.notifications.error("The ability does not exist");
+      else if (options.ability.constructor !== NumeneraAbilityItem)
+        ui.notifications.error("Ability ID is not a ability item");
+    }
+
+    if (options.skill) {
+      options.skill = await actor.getOwnedItem(options.skill);
+      if (!options.skill)
+        ui.notifications.error("The skill does not exist");
+      else if (options.skill.constructor !== NumeneraSkillItem)
+        ui.notifications.error("Skill ID is not a skill item");
+    }
+
+    (new EffortDialog(actor, options)).render(true);
+  }
+
   /**
    *Creates an instance of EffortDialog.
   * @param {NumeneraPCActor} actor
   * @param {string} [stat=null]
   * @param {NumeneraSkillItem} [skill=null]
+  * @param {NumeneraAbilityItem} [ability=null]
+  * @param {Number} [assets=0]
   * @memberof EffortDialog
   */
-  constructor(actor, {stat=null, skill=null, ability=null}) {
+  constructor(actor, {stat=null, skill=null, ability=null, assets=0, taskLevel=null}) {
     if (!stat) {
       if (ability) {
         stat = getShortStat(ability.data.data.cost.pool);
@@ -98,10 +135,10 @@ export class EffortDialog extends FormApplication {
       ability,
       current,
       remaining,
-      assets: 0,
+      assets,
       currentEffort: 0,
       cost: 0,
-      taskLevel: null,
+      taskLevel,
       useArmorSpeedEffortRule: (game.settings.get("numenera", "armorPenalty") === "new"),
       armorSpeedEffortIncrease: actor.extraSpeedEffortCost,
     }, {});
