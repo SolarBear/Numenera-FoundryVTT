@@ -1,0 +1,38 @@
+<table class="powerShifts">
+    <thead>
+        <tr>
+            <td><!-- drag handle --></td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.name"}}</td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.effectsLabel"}}</td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.value"}}</td>
+            <td>
+                <a class="power-shift-create" data-action="create" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.createTooltip"}}">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody class="row-container">
+    {{#each data.items.powerShifts as |powerShift|}}
+        <tr class="recursion" data-item-id="{{recursion._id}}" data-order="{{recursion.data.order}}">
+            <td class="handle">
+                <a><i class="fas fa-grip-vertical"></i></a>
+            </td>
+            <td class="recursion-active">
+                <input type="checkbox" name="data.items.recursion.{{recursion._id}}.data.active" {{checked recursion.data.active}} data-dtype="Boolean" />
+            </td>
+            <td>
+                <a class="power-shift-delete" data-action="delete" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip"}}">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    {{else}}
+        <tr>
+            <td colspan="4">
+                {{{localize "NUMENERA.pcActorSheet.features.powerShifts.instructions"}}}
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

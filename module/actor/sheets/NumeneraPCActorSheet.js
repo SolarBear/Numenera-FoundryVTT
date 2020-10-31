@@ -242,12 +242,40 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (useCypherTypes)
       sheetData.cypherTypes = NUMENERA.cypherTypes[cypherTypeFlavor];
 
+
+    // SETTINGS AND FEATURES
+    sheetData.featuresUsed = [];
+    sheetData.featureSectionNames = [];
+
     //Is it The Strange?
-    if (game.settings.get("numenera", "characterSheet") == 2) {
+    if (game.settings.get("numenera", "useRecursions")) {
       sheetData.isTheStrange = true;
+      sheetData.featuresUsed.push("recursions");
+      sheetData.featureSectionNames.push("NUMENERA.pcActorSheet.tab.recursion");
+    }
+
+    if (game.settings.get("numenera", "usePowerShifts")) {
+      sheetData.powerShifts = true;
+      sheetData.featuresUsed.push("powerShifts");
+      sheetData.featureSectionNames.push("NUMENERA.pcActorSheet.features.powerShifts.title");
+    }
+
+    sheetData.showFeaturesTab = sheetData.featuresUsed.length > 0;
+    sheetData.showMultipleFeatures = sheetData.featuresUsed.length > 1;
+    sheetData.featuresTabName = "";
+    sheetData.selectedFeature = 0;
+
+    if (sheetData.featuresUsed.length === 1) {
+      sheetData.featuresTabName = game.i18n.localize(sheetData.featureSectionNames[0]);
+      sheetData.selectedFeature = sheetData.featuresUsed[0];
+    }
+    else if (sheetData.featuresUsed.length > 1) {
+      sheetData.featuresTabName = game.i18n.localize("NUMENERA.pcActorSheet.tab.features");
+      sheetData.selectedFeature = sheetData.featuresUsed[0];
     }
 
     sheetData.useOddities = game.settings.get("numenera", "useOddities");
+    
     // Add relevant data from system settings
     sheetData.settings = {
       icons: {}
@@ -384,12 +412,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     if (sheetData.useOddities) {
-    sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
-      oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
-      oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
-      oddity.data.notes = removeHtmlTags(oddity.data.notes);
-      return oddity;
-    });
+      sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+        oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
+        oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
+        oddity.data.notes = removeHtmlTags(oddity.data.notes);
+        return oddity;
+      });
     }
 
     sheetData.displayCypherLimitWarning = this.actor.isOverCypherLimit();

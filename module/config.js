@@ -151,3 +151,16 @@ NUMENERA.units = {
   feet: "NUMENERA.canvas.unit.feet",
   meters: "NUMENERA.canvas.unit.meters",
 };
+
+NUMENERA.tabbedFeatures = [
+  "recursions",
+  "powerShifts",
+];
+
+NUMENERA.powerShiftEffects = {
+  easePower: "NUMENERA.pcActorSheet.features.powerShifts.effects.easePower",
+  easeTasks: "NUMENERA.pcActorSheet.features.powerShifts.effects.easeTasks",
+  extraRecoveries: "NUMENERA.pcActorSheet.features.powerShifts.effects.extraRecoveries",
+  increaseArmor: "NUMENERA.pcActorSheet.features.powerShifts.effects.increaseArmor",
+  singleAttack: "NUMENERA.pcActorSheet.features.powerShifts.effects.singleAttack",
+};

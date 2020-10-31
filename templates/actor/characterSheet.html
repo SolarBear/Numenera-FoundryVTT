@@ -105,8 +105,8 @@
         {{else}}
         <a class="item" data-tab="numenera">{{localize "NUMENERA.pcActorSheet.tab.numenera"}}</a>
         {{/if}}
-        {{#if isTheStrange}}
-        <a class="item" data-tab="recursion">{{localize "NUMENERA.pcActorSheet.tab.recursion"}}</a>
+        {{#if showFeaturesTab}}
+        <a class="item" data-tab="features">{{localize featuresTabName}}</a>
         {{/if}}
 
         <a class="item" data-tab="equipment">{{localize "NUMENERA.pcActorSheet.tab.equipment"}}</a>
@@ -281,9 +281,9 @@
             {{/if}}
         </div>
 
-        {{#if isTheStrange}}
-        <div class="tab recursion" data-group="primary" data-tab="recursion">
-            {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
+        {{#if showFeaturesTab}}
+        <div class="tab features" data-group="primary" data-tab="features">
+            {{> "systems/numenera/templates/actor/partials/features.html" data=data}}
         </div>
         {{/if}}
 

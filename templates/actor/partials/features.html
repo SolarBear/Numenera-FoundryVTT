@@ -1,0 +1,21 @@
+<div class="tab features" data-group="primary" data-tab="features">
+{{#if showMultipleFeatures}}
+    <select name="selectedFeature">
+    {{#select selectedFeatures}}
+    {{#each featuresUsed}}
+        <option value="{{this}}">{{localize this}}</option>
+    {{/each}}
+    {{/select}}
+    </select>
+{{/if}}
+
+{{#switch selectedFeature}}
+    {{#case "recursions"}}
+    {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
+    {{/case}}
+
+    {{#case "powerShifts"}}
+    {{> "systems/numenera/templates/actor/partials/powerShifts.html" data=data}}
+    {{/case}}
+{{/switch}}
+</div>
