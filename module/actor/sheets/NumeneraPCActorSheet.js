@@ -247,6 +247,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.isTheStrange = true;
     }
 
+    sheetData.useOddities = game.settings.get("numenera", "useOddities");
     // Add relevant data from system settings
     sheetData.settings = {
       icons: {}
@@ -317,18 +318,23 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const items = sheetData.data.items;
 
-    Object.entries({
+    const itemClassMap = {
       abilities: NumeneraAbilityItem.type,
       armor: NumeneraArmorItem.type,
       artifacts: NumeneraArtifactItem.type,
       cyphers: NumeneraCypherItem.type,
       equipment: NumeneraEquipmentItem.type,
-      oddities: NumeneraOddityItem.type,
       skills: NumeneraSkillItem.type,
       weapons: NumeneraWeaponItem.type,
-      recursion: StrangeRecursionItem.type,
+    };
 
-    }).forEach(([val, type]) => {
+    if (sheetData.isTheStrange)
+      itemClassMap.recursion = StrangeRecursionItem.type;
+
+    if (sheetData.useOddities)
+      itemClassMap.oddities = NumeneraOddityItem.type;
+
+    Object.entries(itemClassMap).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
         sheetData.data.items[val] = items.filter(i => i.type === type).sort(sortFunction)
     });
@@ -377,12 +383,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return cypher;
     });
 
+    if (sheetData.useOddities) {
     sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
       oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
       oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
       oddity.data.notes = removeHtmlTags(oddity.data.notes);
       return oddity;
     });
+    }
 
     sheetData.displayCypherLimitWarning = this.actor.isOverCypherLimit();
 

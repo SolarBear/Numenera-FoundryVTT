@@ -275,8 +275,10 @@
             {{> "systems/numenera/templates/actor/partials/cyphers.html" data=data}}
             <hr class="sheet-one" />
             {{> "systems/numenera/templates/actor/partials/artifacts.html" data=data}}
+            {{#if useOddities}}
             <hr class="sheet-one" />
             {{> "systems/numenera/templates/actor/partials/oddities.html" data=data}}
+            {{/if}}
         </div>
 
         {{#if isTheStrange}}

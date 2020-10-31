@@ -185,6 +185,17 @@ export const registerSystemSettings = function() {
   });
 
   /**
+   * Configure whether or not to use oddities
+   */
+  game.settings.register("numenera", "useOddities", {
+    name: "Feature: Oddities",
+    hint: "Enable the use of Oddities in your game.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+  /**
    * Configure whether or not to show skill icons
    */
   game.settings.register("numenera", "currency", {
