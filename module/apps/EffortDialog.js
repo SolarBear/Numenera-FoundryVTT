@@ -7,6 +7,7 @@ import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
+import { NumeneraPowerShiftItem } from "../item/NumeneraPowerShiftItem.js";
 
 export class EffortDialog extends FormApplication {
   /**
@@ -22,7 +23,7 @@ export class EffortDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 360,
-      height: 540,
+      height: 555,
     });
   }
 
@@ -88,9 +89,11 @@ export class EffortDialog extends FormApplication {
   * @param {NumeneraSkillItem} [skill=null]
   * @param {NumeneraAbilityItem} [ability=null]
   * @param {Number} [assets=0]
+  * @param {Number} [taskLevel=null]
+  * @param {NumeneraPowerShiftItem} [powerShift=null]
   * @memberof EffortDialog
   */
-  constructor(actor, {stat=null, skill=null, ability=null, assets=0, taskLevel=null}) {
+  constructor(actor, {stat=null, skill=null, ability=null, assets=0, taskLevel=null, powerShift=null}) {
     if (!stat) {
       if (ability) {
         stat = getShortStat(ability.data.data.cost.pool);
@@ -127,6 +130,13 @@ export class EffortDialog extends FormApplication {
         return sk;
       });
 
+    let powerShifts = null;
+    if (game.settings.get("numenera", "usePowerShifts")) {
+      powerShifts = actor.getEmbeddedCollection("OwnedItem")
+        .filter(i => i.type === "powerShift")
+        .map(NumeneraPowerShiftItem.fromOwnedItem);
+    }
+
     super({
       actor,
       stat,
@@ -141,6 +151,8 @@ export class EffortDialog extends FormApplication {
       taskLevel,
       useArmorSpeedEffortRule: (game.settings.get("numenera", "armorPenalty") === "new"),
       armorSpeedEffortIncrease: actor.extraSpeedEffortCost,
+      powerShifts,
+      powerShift,
     }, {});
   }
 
@@ -195,6 +207,10 @@ export class EffortDialog extends FormApplication {
         level += this.object.speedEffortCostIncrease;
     }
 
+    if (this.object.powerShifts && this.object.powerShift) {
+      level -= this.object.powerShift.data.data.level;
+    }
+
     return Math.max(level, 0); //Level cannot be negative
   }
 
@@ -207,13 +223,14 @@ export class EffortDialog extends FormApplication {
   get automaticSuccess() {
     /* JS "fun" fact:
     null == 0 returns false
-    null <= 0 and null >= 0 returns true
+    null <= 0 and null >= 0 both return true
 
     ¯\_(ツ)_/¯
 
     #ididntchoosetheJSlife
-    */ 
-    return this.finalLevel !== null && this.finalLevel <= 0;
+    */
+    const finalLevel = this.finalLevel;
+    return finalLevel !== null && finalLevel <= 0;
   }
 
   /**
@@ -223,9 +240,10 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   get automaticFailure() {
+    const finalLevel = this.finalLevel;
     //A task level of 7 would require rolling a 21 on a d20. Good luck with that!
     //Also, see note in the automaticSuccess getter.
-    return this.finalLevel !== null && this.finalLevel >= 7;
+    return finalLevel !== null && finalLevel >= 7;
   }
 
   /**
@@ -267,6 +285,9 @@ export class EffortDialog extends FormApplication {
     
     data.skills = this.object.skills;
     data.skill = this.object.skill;
+
+    data.powerShifts = this.object.powerShifts;
+    data.powerShift = this.object.powerShift;
 
     if (this.object.stat)
       data.stat = "NUMENERA.stats." + this.object.stat;
@@ -472,6 +493,15 @@ export class EffortDialog extends FormApplication {
     const shortStat = getShortStat(this.object.stat);
     this.object.current = actor.data.data.stats[shortStat].pool.value;
     this.object.remaining = this.object.current - this.object.cost;
+
+    if (formData.powerShift) {
+      const powerShift = actor.getEmbeddedCollection("OwnedItem")
+                          .find(i => i._id === formData.powerShift);
+      this.object.powerShift = NumeneraPowerShiftItem.fromOwnedItem(powerShift);
+    }
+    else {
+      this.object.powerShift = null;
+    }
     
     //Re-render the form since it's not provided for free in FormApplications
     this.render();

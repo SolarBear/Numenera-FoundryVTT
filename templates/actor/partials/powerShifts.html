@@ -15,16 +15,16 @@
     </thead>
     <tbody class="row-container">
     {{#each data.items.powerShifts as |powerShift|}}
-        <tr class="powerShift" data-item-id="{{powerShift._id}}" data-order="{{powerShift.data.data.order}}">
+        <tr class="powerShift" data-item-id="{{powerShift._id}}" data-order="{{powerShift.data.order}}">
             <td class="handle">
                 <a><i class="fas fa-grip-vertical"></i></a>
             </td>
             <td class="powerShift-name">
-                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.data.data.name" value="{{powerShift.data.data.name}}" data-dtype="String" />
+                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.name" value="{{powerShift.name}}" data-dtype="String" />
             </td>
             <td class="powerShift-effect">
-                <select name="data.items.powerShifts.{{powerShift._id}}.data.data.effect">
-                {{#select powerShift.data.data.effect}}
+                <select name="data.items.powerShifts.{{powerShift._id}}.data.effect">
+                {{#select powerShift.data.effect}}
                     <option value=""></option>
                     {{#each ../powerShiftEffects as |key value|}}
                     <option value="{{value}}">{{localize key}}</option>
@@ -33,10 +33,10 @@
                 </select>
             </td>
             <td class="powerShift-description">
-                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.data.data.notes" value="{{powerShift.data.data.notes}}" data-dtype="String" />
+                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.data.notes" value="{{powerShift.data.notes}}" data-dtype="String" />
             </td>
             <td class="powerShift-level">
-                <input type="number" name="data.items.powerShifts.{{powerShift._id}}.data.data.level" value="{{powerShift.data.data.level}}" min="0" data-dtype="Number" />
+                <input type="number" name="data.items.powerShifts.{{powerShift._id}}.data.level" value="{{powerShift.data.level}}" min="0" data-dtype="Number" />
             </td>
             <td>
                 <a class="powerShift-delete" data-action="delete" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip"}}">

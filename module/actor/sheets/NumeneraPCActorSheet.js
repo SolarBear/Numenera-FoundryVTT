@@ -139,7 +139,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       "ul.cyphers",
       "ul.artifacts",
       "ul.oddities",
-      "table.recursion"
+      "table.recursion",
+      "table.powerShifts",
     ];
   }
 

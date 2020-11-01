@@ -46,10 +46,7 @@
             "shins": 0,
             "tier": 1,
             "version": 7,
-            "xp": 0,
-            "features": {
-                "powerShifts": []
-            }
+            "xp": 0
         },
         "npc": {
             "level": 1,

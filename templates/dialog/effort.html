@@ -18,7 +18,7 @@
             </h2>
         </div>
         <div>
-            <h2>Skill
+            <h2>{{localize "NUMENERA.skill"}}
                 <select name="skill" data-dtype="String">
                     {{#select skill._id}}
                     <option value=""></option>
@@ -29,6 +29,20 @@
                 </select>
             </h2>
         </div>
+        {{#if powerShifts}}
+        <div>
+            <h2>{{localize "NUMENERA.powerShift"}}
+                <select name="powerShift">
+                {{#select powerShift._id}}
+                    <option value=""></option>
+                    {{#each powerShifts}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </h2>
+        </div>
+        {{/if}}
         <div>
             <h2>{{localize "NUMENERA.effort.other"}} <input type="number" name="assets" value="{{assets}}" min="0" data-dtype="Number" /></h2>
         </div>
@@ -85,7 +99,7 @@
         {{#if automaticFailure}}
         <button id="failure-close" class="animated"
             {{#if displayWarning}}disabled="disabled"{{/if}}
-        > COUCOU MAMAN
+        >
             {{failureText}}
         </button>
         {{else}}
