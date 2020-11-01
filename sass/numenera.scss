@@ -810,6 +810,10 @@ form.numenera-dialog {
                 }
             }
 
+            input[type="number"].tempBonus {
+                width: 3em;
+            }
+
             &.pools {
                 input[type="number"].pool {
                     width: 3em;

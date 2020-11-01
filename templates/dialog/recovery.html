@@ -13,12 +13,12 @@
                 </li>
                 {{/each}}
             </ul>
+            <label>Temp. Bonus: <input type="number" name="tempBonus" value="{{tempBonus}}" min=0 data-dtype="Number" class="tempBonus"></label>
             {{#if showFormula}}
             <p>{{localize "NUMENERA.rolling"}} {{formula}}</p>
             {{else}}
             <p>{{localize "NUMENERA.recoveries.noDice"}}</p>
             {{/if}}
-            
         </div>
         <div class="pools{{#unless hasUnspentRecoveryPoints}} disabled{{/unless}}">
             <h2>{{localize "NUMENERA.recoveries.pools"}}</h2>

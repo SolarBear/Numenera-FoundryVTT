@@ -47,6 +47,7 @@ export class RecoveryDialog extends FormApplication {
       recoveriesLeft: [...actor.data.data.recoveries],
       initialUnspentRecoveryPoints: 0,
       unspentRecoveryPoints: 0,
+      tempBonus: null,
     };
 
     super(recoveryDialogObject, options);
@@ -73,7 +74,7 @@ export class RecoveryDialog extends FormApplication {
     );
 
     const rollSelectionEnabled = this.object.recoveriesLeft.filter(Boolean).length > 0;
-    const formula = this._getFormula(this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length);
+    const formula = this._getFormula(this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length, this.object.tempBonus);
 
     const stats = {};
     for (const prop in NUMENERA.stats) {
@@ -93,6 +94,7 @@ export class RecoveryDialog extends FormApplication {
       stats,
       hasUnspentRecoveryPoints: this.object.unspentRecoveryPoints !== null,
       unspentRecoveryPoints: this.object.unspentRecoveryPoints || 0,
+      tempBonus: this.object.tempBonus || null,
     });
   }
 
@@ -146,7 +148,7 @@ export class RecoveryDialog extends FormApplication {
       return;
     }
 
-    const roll = new Roll(this._getFormula(nbDice)).roll();
+    const roll = new Roll(this._getFormula(nbDice, this.object.tempBonus)).roll();
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
       flavor: `${this.object.actor.data.name} rolls for Recovery`,
@@ -173,12 +175,16 @@ export class RecoveryDialog extends FormApplication {
    * @returns {} false if no formula could be generated, a formula String otherwise
    * @memberof RecoveryDialog
    */
-  _getFormula(n) {
+  _getFormula(n, tempBonus = 0) {
     if (typeof n !== "number" || n <= 0) {
       return false;
     }
 
-    const constant = n * this.object.actor.data.data.recovery;
+    if (typeof tempBonus !== "number") {
+      tempBonus = 0;
+    }
+
+    const constant = n * (this.object.actor.data.data.recovery + tempBonus);
     return `${n}d6+${constant}`;
   }
 
@@ -241,6 +247,7 @@ export class RecoveryDialog extends FormApplication {
 
     this.object.poolsTotal = poolsTotal;
     this.object.unspentRecoveryPoints = this.object.initialUnspentRecoveryPoints - poolsTotal + this.object.initialPoolsTotal;
+    this.object.tempBonus = formData.tempBonus;
 
     //Re-render the form since it's not provided for free in FormApplications
     this.render();
