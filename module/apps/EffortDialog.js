@@ -55,6 +55,7 @@ export class EffortDialog extends FormApplication {
   * @param {string} [stat=null]
   * @param {string} [skill=null]
   * @param {string} [ability=null]
+  * @param {string} [powerShift=null]
   * @param {Number} [assets=0]
   * @memberof EffortDialog
   */
@@ -63,20 +64,40 @@ export class EffortDialog extends FormApplication {
       ui.notifications.error("Tried calling EffortDialog.create without an actor");
     }
 
+    //For all items we allow lookup by 
+    // - ID
+    // - name, filtered by item type
     if (options.ability) {
-      options.ability = await actor.getOwnedItem(options.ability);
+      const temp = options.ability;
+      options.ability = await actor.getOwnedItem(temp);
+
+      if (!options.ability)
+        options.ability = actor.items.find(ab => ab.name === temp && ab.type === NumeneraAbilityItem.type);
+
       if (!options.ability)
         ui.notifications.error("The ability does not exist");
-      else if (options.ability.constructor !== NumeneraAbilityItem)
-        ui.notifications.error("Ability ID is not a ability item");
     }
 
     if (options.skill) {
-      options.skill = await actor.getOwnedItem(options.skill);
+      const temp = options.skill;
+      options.skill = await actor.getOwnedItem(temp);
+
+      if (!options.skill)
+        options.skill = actor.items.find(sk => sk.name === temp && sk.type === NumeneraSkillItem.type);
+
       if (!options.skill)
         ui.notifications.error("The skill does not exist");
-      else if (options.skill.constructor !== NumeneraSkillItem)
-        ui.notifications.error("Skill ID is not a skill item");
+    }
+
+    if (options.powerShift) {
+      const temp = options.powerShift;
+      options.powerShift = await actor.getOwnedItem(temp);
+
+      if (!options.powerShift)
+        options.powerShift = actor.items.find(ps => ps.name === temp && ps.type === NumeneraPowerShiftItem.type);
+
+      if (!options.powerShift)
+        ui.notifications.error("The power shift does not exist");
     }
 
     (new EffortDialog(actor, options)).render(true);
