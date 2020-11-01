@@ -115,7 +115,7 @@ function onItemDeleteGenerator(deleteType, callback = null) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
       const toDelete = this.actor.data.items.find(i => i._id === itemId);
-      this.actor.deleteOwnedItem(itemId);
+      await this.actor.deleteOwnedItem(itemId);
 
       if (callback)
         callback(toDelete);
@@ -176,7 +176,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem, this.onArmorUpdated.bind(this));
     this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
-    this.onPowerShiftCreate = onItemCreate("powerShift", NumeneraPowerShiftItem);
+    this.onPowerShiftCreate = onItemCreate("powerShift", NumeneraPowerShiftItem, this.onPowerShiftUpdated.bind(this));
     this.onRecursionCreate = onItemCreate("recursion", StrangeRecursionItem);
     this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
 
@@ -199,7 +199,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onCypherDelete = onItemDeleteGenerator("cypher");
     this.onEquipmentDelete = onItemDeleteGenerator("equipment");
     this.onOddityDelete = onItemDeleteGenerator("oddity");
-    this.onPowerShiftDelete = onItemDeleteGenerator("powerShift");
+    this.onPowerShiftDelete = onItemDeleteGenerator("powerShift", this.onPowerShiftUpdated.bind(this));
     this.onRecursionDelete = onItemDeleteGenerator("recursion");
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon", this.onWeaponDeleted.bind(this));
@@ -751,20 +751,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
-  async onPowerShiftUpdated(powerShift) {
-    if (!powerShift)
-      return;
+  async onPowerShiftUpdated() {
+    const expectedRecoveries = this.actor.nbRecoveries;
 
-    if (powerShift.constructor !== NumeneraPowerShiftItem)
-      powerShift = await this.actor.getOwnedItem(powerShift._id);
+    if (expectedRecoveries !== this.actor.data.data.recoveries.length) {
+      //TODO  handle in PCActor class plz
+      const deltaRecoveries = expectedRecoveries - this.actor.data.data.recoveries.length;
 
-    //TODO  handle in PCActor class plz
-    if (powerShift.data.data.effect === NUMENERA.powerShiftEffects.extraRecoveries) {
-      const extraRecoveries = parseInt(powerShift.data.data.level) + NUMENERA.totalRecoveries - this.actor.data.data.recoveries.length;
-
-      if (extraRecoveries > 0) {
+      if (deltaRecoveries > 0) {
         //Increased the level, create an array of unused recoveries (ie. "true" values)
-        const newRecoveries = new Array(extraRecoveries).fill(true);
+        const newRecoveries = new Array(deltaRecoveries).fill(true);
 
         //Prepend to the recoveries array; unshift() mutates the Array in place so make a copy first
         const recoveries = Array.from(this.actor.data.data.recoveries);
@@ -772,14 +768,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
         await this.actor.update({ "data.recoveries": recoveries });
       }
-      else if (extraRecoveries < 0) {
+      else if (deltaRecoveries < 0) {
         //Decreased the level, must remove some recoveries
         //slice() does not act in place, it returns a new array
-        await this.actor.update({ "data.recoveries": this.actor.data.data.recoveries.slice(-extraRecoveries) });
+        await this.actor.update({ "data.recoveries": this.actor.data.data.recoveries.slice(-deltaRecoveries) });
       }
 
       //If recoveries changed, update the sheet, the number of recoveries has changed
-      if (extraRecoveries !== 0)
+      if (deltaRecoveries !== 0)
         this.render();
     }
   }
@@ -867,7 +863,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       case NumeneraPowerShiftItem.type:
         //Necessary because dropping a new PS from the directory would not update some values such as recoveries
-        this.onPowerShiftUpdated(item);
+        this.onPowerShiftUpdated();
         return;
     }
   }

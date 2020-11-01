@@ -313,8 +313,9 @@ export class NumeneraPCActor extends Actor {
     let recoveries = NUMENERA.totalRecoveries;
 
     if (game.settings.get("numenera", "usePowerShifts")) {
-      recoveries = this.items.filter(i => i.type === NumeneraPowerShiftItem.type && i.data.data.effect === NUMENERA.powerShiftEffects.extraRecoveries)
-        .reduce((total, current) => total + parseInt(current.data.data.level), recoveries)
+      recoveries = this.getEmbeddedCollection("OwnedItem")
+        .filter(i => i.type === NumeneraPowerShiftItem.type && i.data.effect === NUMENERA.powerShiftEffects.extraRecoveries)
+        .reduce((total, current) => total + parseInt(current.data.level), recoveries)
     }
 
     return recoveries;
