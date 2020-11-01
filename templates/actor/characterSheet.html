@@ -7,9 +7,10 @@
         {{localize "NUMENERA.pcActorSheet.header.who"}} <input type="text" name="data.currentFocus" value="{{data.currentFocus}}" class="focus" placeholder="{{localize "NUMENERA.pcActorSheet.header.focus"}}" />
     </h1>
     <h1 class="texp">
-        {{localize "NUMENERA.pc.tier"}}: <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
-         / {{localize "NUMENERA.pc.effort"}}: <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
-         / {{localize "NUMENERA.pcActorSheet.advancement.xp"}}: <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" />
+        {{localize "NUMENERA.pc.tier"}}: <input type="text" name="data.tier" value="{{data.tier}}" min="1" max="6" data-dtype="Number" class="tier" />
+         / {{localize "NUMENERA.pc.effort"}}: <input type="text" name="data.effort" value="{{data.effort}}" min="1" data-dtype="Number" class="tier" />
+         / {{localize "NUMENERA.pc.recovery.name"}}: <input type="text" name="data.recovery" value="{{data.recovery}}" min="1" data-dtype="Number" class="tier" />
+         / {{localize "NUMENERA.pcActorSheet.advancement.xp"}}: <input type="text" name="data.xp" value="{{data.xp}}" min="0" data-dtype="Number" class="tier" />
     </h1>
     <div class="flexcol">
         <div class="flexrow header">
@@ -74,7 +75,7 @@
                         <ul>
                         {{#each recoveriesData as |recovery|}}
                             <li>
-                                <input type="checkbox" id="{{recovery.label}}" {{checked recovery.checked}} disabled/>
+                                <input type="checkbox" {{checked recovery.checked}} disabled/>
                                 <label>{{localize recovery.label}}</label>
                             </li>
                         {{/each}}

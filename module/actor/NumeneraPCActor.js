@@ -550,7 +550,7 @@ export class NumeneraPCActor extends Actor {
             _id: relatedSkill.data._id,
             "data.relatedAbilityId": actorAbility._id,
           };
-          await this.updateEmbeddedEntity("OwnedItem", updated);
+          await this.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
 
           ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
         } else {
@@ -584,8 +584,6 @@ export class NumeneraPCActor extends Actor {
     if (!updatedItem)
       return;
 
-    if (options.fromActorUpdateEmbeddedEntity)
-      return updated;
 
     switch (updatedItem.type) {
       case "ability":
@@ -621,5 +619,8 @@ export class NumeneraPCActor extends Actor {
         skill.updateRelatedAbility(relatedAbility, options);
         break;
     }
+
+    if (options.fromActorUpdateEmbeddedEntity)
+      return updated;
   }
 }

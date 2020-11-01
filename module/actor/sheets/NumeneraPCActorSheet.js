@@ -101,7 +101,7 @@ function onItemEditGenerator(editClass, callback = null) {
       }
     }
 
-    const updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated);
+    const updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
     if (callback)
       callback(updatedItem);
   }
@@ -187,7 +187,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onCypherEdit = onItemEditGenerator(".cypher");
     this.onEquipmentEdit = onItemEditGenerator(".equipment");
     this.onOddityEdit = onItemEditGenerator(".oddity");
-    this.onPowerShiftEdit = onItemEditGenerator(".powerShift");
+    this.onPowerShiftEdit = onItemEditGenerator(".powerShift", this.onPowerShiftUpdated.bind(this));
     this.onRecursionEdit = onItemEditGenerator(".recursion");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
@@ -340,15 +340,19 @@ export class NumeneraPCActorSheet extends ActorSheet {
         sheetData.speedEffortPenalty = this.actor.data.data.armorPenalty;
       }
     }
-
-    sheetData.recoveriesData = Object.entries(NUMENERA.recoveries)
-    .map(([key, value], idx) => {
-      return {
-        key,
-        label: value,
-        checked: !this.actor.data.data.recoveries[idx],
-      };
-    });
+    
+    const recoveriesLabels = Object.entries(NUMENERA.recoveries);
+    sheetData.recoveriesData = this.actor.data.data.recoveries
+      .map((recovery, index) => {
+        const recoveryIndex = Math.max(0, index - (this.actor.data.data.recoveries.length - NUMENERA.totalRecoveries));
+        const [key, label] = recoveriesLabels[recoveryIndex];
+        return {
+          key,
+          label,
+          checked: !recovery,
+        };
+      }
+    );
 
     sheetData.data.items = sheetData.actor.items || {};
 
@@ -747,6 +751,39 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
+  async onPowerShiftUpdated(powerShift) {
+    if (!powerShift)
+      return;
+
+    if (powerShift.constructor !== NumeneraPowerShiftItem)
+      powerShift = await this.actor.getOwnedItem(powerShift._id);
+
+    //TODO  handle in PCActor class plz
+    if (powerShift.data.data.effect === NUMENERA.powerShiftEffects.extraRecoveries) {
+      const extraRecoveries = parseInt(powerShift.data.data.level) + NUMENERA.totalRecoveries - this.actor.data.data.recoveries.length;
+
+      if (extraRecoveries > 0) {
+        //Increased the level, create an array of unused recoveries (ie. "true" values)
+        const newRecoveries = new Array(extraRecoveries).fill(true);
+
+        //Prepend to the recoveries array; unshift() mutates the Array in place so make a copy first
+        const recoveries = Array.from(this.actor.data.data.recoveries);
+        recoveries.unshift(...newRecoveries);
+
+        await this.actor.update({ "data.recoveries": recoveries });
+      }
+      else if (extraRecoveries < 0) {
+        //Decreased the level, must remove some recoveries
+        //slice() does not act in place, it returns a new array
+        await this.actor.update({ "data.recoveries": this.actor.data.data.recoveries.slice(-extraRecoveries) });
+      }
+
+      //If recoveries changed, update the sheet, the number of recoveries has changed
+      if (extraRecoveries !== 0)
+        this.render();
+    }
+  }
+
   onAbilityDeleted(ability) {
     //TODO move to Ability class
     if (
@@ -823,9 +860,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
 
     switch (item.data.type) {
-      case "armor":
+      case NumeneraArmorItem.type:
         //Necessary because dropping a new armor from the directory would not update the Armor field
         this.onArmorUpdated();
+        return;
+
+      case NumeneraPowerShiftItem.type:
+        //Necessary because dropping a new PS from the directory would not update some values such as recoveries
+        this.onPowerShiftUpdated(item);
         return;
     }
   }

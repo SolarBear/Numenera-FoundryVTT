@@ -462,7 +462,7 @@ form.numenera {
             }
         }
 
-        table.skills, table.abilities {
+        table.skills, table.abilities, table.powerShifts {
             background-color: transparent;
 
             td {
@@ -487,7 +487,7 @@ form.numenera {
                 border: $input-border-color;
                 color: $font-edit-color;
 
-                &.skill-name-input, &.ability-name-input {
+                &.skill-name-input, &.ability-name-input, &.powerShift-description-input {
                     width: 95%; //HACK! find a better way plz
                 }
             }
@@ -495,11 +495,7 @@ form.numenera {
 
         table.powerShifts tbody tr {
             td.powerShift-name {
-                width: 20ch;
-            }
-            
-            td.powerShift-description {
-                width: auto;
+                width: 18ch;
             }
         }
     }
