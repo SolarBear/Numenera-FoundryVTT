@@ -163,6 +163,18 @@ export const registerSystemSettings = function() {
   });
 
   /**
+   * Configure whether or not to show numenera icons
+   */
+  game.settings.register("numenera", "showPowerShiftIcons", {
+    name: "Power Shift Icons",
+    hint: "Enable to show power shift icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+
+  /**
    * Configure whether or not to use oddities
    */
   game.settings.register("numenera", "useOddities", {

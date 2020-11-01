@@ -4,9 +4,10 @@
             <td><!-- drag handle --></td>
             <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.name"}}</td>
             <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.effectsLabel"}}</td>
-            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.value"}}</td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.description"}}</td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.level"}}</td>
             <td>
-                <a class="power-shift-create" data-action="create" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.createTooltip"}}">
+                <a class="powerShift-create" data-action="create" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.createTooltip"}}">
                     <i class="fas fa-plus"></i>
                 </a>
             </td>
@@ -14,22 +15,38 @@
     </thead>
     <tbody class="row-container">
     {{#each data.items.powerShifts as |powerShift|}}
-        <tr class="recursion" data-item-id="{{recursion._id}}" data-order="{{recursion.data.order}}">
+        <tr class="powerShift" data-item-id="{{powerShift._id}}" data-order="{{powerShift.data.data.order}}">
             <td class="handle">
                 <a><i class="fas fa-grip-vertical"></i></a>
             </td>
-            <td class="recursion-active">
-                <input type="checkbox" name="data.items.recursion.{{recursion._id}}.data.active" {{checked recursion.data.active}} data-dtype="Boolean" />
+            <td class="powerShift-name">
+                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.data.data.name" value="{{powerShift.data.data.name}}" data-dtype="String" />
+            </td>
+            <td class="powerShift-effect">
+                <select name="data.items.powerShifts.{{powerShift._id}}.data.data.effect">
+                {{#select powerShift.data.data.effect}}
+                    <option value=""></option>
+                    {{#each ../powerShiftEffects as |key value|}}
+                    <option value="{{value}}">{{localize key}}</option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </td>
+            <td class="powerShift-description">
+                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.data.data.notes" value="{{powerShift.data.data.notes}}" data-dtype="String" />
+            </td>
+            <td class="powerShift-level">
+                <input type="number" name="data.items.powerShifts.{{powerShift._id}}.data.data.level" value="{{powerShift.data.data.level}}" min="0" data-dtype="Number" />
             </td>
             <td>
-                <a class="power-shift-delete" data-action="delete" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip"}}">
+                <a class="powerShift-delete" data-action="delete" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip"}}">
                     <i class="fas fa-trash"></i>
                 </a>
             </td>
         </tr>
     {{else}}
         <tr>
-            <td colspan="4">
+            <td colspan="6">
                 {{{localize "NUMENERA.pcActorSheet.features.powerShifts.instructions"}}}
             </td>
         </tr>

@@ -13,6 +13,7 @@ import { NumeneraOddityItem } from "../../item/NumeneraOddityItem.js";
 import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
+import { NumeneraPowerShiftItem } from "../../item/NumeneraPowerShiftItem.js";
 
 //Sort function for order
 const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
@@ -174,8 +175,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem, this.onArmorUpdated.bind(this));
     this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
     this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
-    this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
+    this.onPowerShiftCreate = onItemCreate("powerShift", NumeneraPowerShiftItem);
     this.onRecursionCreate = onItemCreate("recursion", StrangeRecursionItem);
+    this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
@@ -184,9 +186,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onCypherEdit = onItemEditGenerator(".cypher");
     this.onEquipmentEdit = onItemEditGenerator(".equipment");
     this.onOddityEdit = onItemEditGenerator(".oddity");
+    this.onPowerShiftEdit = onItemEditGenerator(".powerShift");
+    this.onRecursionEdit = onItemEditGenerator(".recursion");
     this.onSkillEdit = onItemEditGenerator(".skill");
     this.onWeaponEdit = onItemEditGenerator(".weapon");
-    this.onRecursionEdit = onItemEditGenerator(".recursion");
 
     //Delete event handlers
     this.onAbilityDelete = onItemDeleteGenerator("ability", this.onAbilityDeleted.bind(this));
@@ -195,9 +198,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     this.onCypherDelete = onItemDeleteGenerator("cypher");
     this.onEquipmentDelete = onItemDeleteGenerator("equipment");
     this.onOddityDelete = onItemDeleteGenerator("oddity");
+    this.onPowerShiftDelete = onItemDeleteGenerator("powerShift");
+    this.onRecursionDelete = onItemDeleteGenerator("recursion");
     this.onSkillDelete = onItemDeleteGenerator("skill", this.onSkillDeleted.bind(this));
     this.onWeaponDelete = onItemDeleteGenerator("weapon", this.onWeaponDeleted.bind(this));
-    this.onRecursionDelete = onItemDeleteGenerator("recursion");
   }
 
   /* -------------------------------------------- */
@@ -242,7 +246,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (useCypherTypes)
       sheetData.cypherTypes = NUMENERA.cypherTypes[cypherTypeFlavor];
 
-
     // SETTINGS AND FEATURES
     sheetData.featuresUsed = [];
     sheetData.featureSectionNames = [];
@@ -255,9 +258,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
 
     if (game.settings.get("numenera", "usePowerShifts")) {
-      sheetData.powerShifts = true;
+      sheetData.usePowerShifts = true;
       sheetData.featuresUsed.push("powerShifts");
       sheetData.featureSectionNames.push("NUMENERA.pcActorSheet.features.powerShifts.title");
+      sheetData.powerShiftEffects = NUMENERA.powerShiftEffects;
     }
 
     sheetData.showFeaturesTab = sheetData.featuresUsed.length > 0;
@@ -285,10 +289,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.currentFocus = this.actor.getFocus();
 
     sheetData.settings.currency = game.settings.get("numenera", "currency");
+
+    //Icon display settings
     sheetData.settings.icons.abilities = game.settings.get("numenera", "showAbilityIcons");
-    sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
-    sheetData.settings.icons.numenera = game.settings.get("numenera", "showCypherIcons");
     sheetData.settings.icons.equipment = game.settings.get("numenera", "showEquipmentIcons");
+    sheetData.settings.icons.numenera = game.settings.get("numenera", "showCypherIcons");
+    sheetData.settings.icons.powerShifts = game.settings.get("numenera", "showPowerShiftIcons");
+    sheetData.settings.icons.skills = game.settings.get("numenera", "showSkillIcons");
 
     //Copy labels to be used as is
     sheetData.ranges = NUMENERA.ranges
@@ -361,6 +368,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     if (sheetData.useOddities)
       itemClassMap.oddities = NumeneraOddityItem.type;
+      
+    if (sheetData.usePowerShifts)
+      itemClassMap.powerShifts = NumeneraPowerShiftItem.type;
 
     Object.entries(itemClassMap).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
@@ -411,15 +421,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return cypher;
     });
 
-    if (sheetData.useOddities) {
-      sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
-        oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
-        oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
-        oddity.data.notes = removeHtmlTags(oddity.data.notes);
-        return oddity;
-      });
-    }
-
     sheetData.displayCypherLimitWarning = this.actor.isOverCypherLimit();
 
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
@@ -457,6 +458,23 @@ export class NumeneraPCActorSheet extends ActorSheet {
       equipment.data.notes = removeHtmlTags(equipment.data.notes);
       return equipment;
     });
+
+    if (sheetData.useOddities) {
+      sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+        oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
+        oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
+        oddity.data.notes = removeHtmlTags(oddity.data.notes);
+        return oddity;
+      });
+    }
+
+    if (sheetData.usePowerShifts) {
+      sheetData.data.items.powerShifts = sheetData.data.items.powerShifts.map(powerShift => {
+        powerShift.showIcon = powerShift.img && sheetData.settings.icons.powerShifts;
+        powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
+        return powerShift;
+      });
+    }
 
     return sheetData;
   }
@@ -502,8 +520,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("blur", "input,select", this.onWeaponEdit.bind(this));
     weaponsTable.on("click", "a.rollable", this.onWeaponUse.bind(this));
 
-    const odditiesTable = html.find("ul.oddities");
-    odditiesTable.on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+    if (game.settings.get("numenera", "useOddities")) {
+      html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+    }
 
     const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
@@ -512,21 +531,32 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
 
-    const recursionTable = html.find("table.recursion");
-    recursionTable.on("blur", "input,select,textarea", this.onRecursionEdit.bind(this));
-    recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+    if (game.settings.get("numenera", "usePowerShifts")) {
+      const powerShiftsTable = html.find("table.powerShifts");
+      powerShiftsTable.on("click", ".powerShift-create", this.onPowerShiftCreate.bind(this));
+      powerShiftsTable.on("click", ".powerShift-delete", this.onPowerShiftDelete.bind(this));
+      powerShiftsTable.on("blur", "input,select", this.onPowerShiftEdit.bind(this));
+    }
+
+    if (game.settings.get("numenera", "useRecursions")) {
+      const recursionTable = html.find("table.recursion");
+      recursionTable.on("blur", "input,select,textarea", this.onRecursionEdit.bind(this));
+      recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+    }
 
     if (game.user.isGM) {
       artifactsList.on("blur", "input,textarea", this.onArtifactEdit.bind(this));
       cyphersList.on("blur", "input,textarea", this.onCypherEdit.bind(this));
-      odditiesTable.on("blur", "input", this.onOddityEdit.bind(this));
+
+      if (game.settings.get("numenera", "useOddities"))
+        html.find("ul.oddities").on("blur", "input", this.onOddityEdit.bind(this));
     }
 
     html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
 
     if (this.actor.owner) {
       // Find all abilitiy, skill, weapon and recursion items on the character sheet.
-      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,tr.equipment,tr.armor,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
+      html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,tr.equipment,tr.armor,tr.powerShift,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
         // Add draggable attribute and dragstart listener.
         elem.setAttribute("draggable", true);
         elem.addEventListener("dragstart", ev => this._onDragStart(ev), false);

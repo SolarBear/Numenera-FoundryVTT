@@ -9,9 +9,10 @@
             <label>{{localize "NUMENERA.item.powerShift.effects"}}</label>
             <select name="data.effect">
             {{#select data.effect}}
-            {{#each effects as |key value|}}
+                <option value=""></option>
+                {{#each effects as |key value|}}
                 <option value="{{value}}">{{localize key}}</option>
-            {{/each}}
+                {{/each}}
             {{/select}}
             </select>
         </div>

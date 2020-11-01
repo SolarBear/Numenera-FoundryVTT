@@ -492,6 +492,16 @@ form.numenera {
                 }
             }
         }
+
+        table.powerShifts tbody tr {
+            td.powerShift-name {
+                width: 20ch;
+            }
+            
+            td.powerShift-description {
+                width: auto;
+            }
+        }
     }
 
     div.flexrow:not(:last-child) {

@@ -85,8 +85,9 @@
 
     "NUMENERA.pcActorSheet.features.powerShifts.title": "Power Shifts",
     "NUMENERA.pcActorSheet.features.powerShifts.name": "Name",
+    "NUMENERA.pcActorSheet.features.powerShifts.description": "Description",
     "NUMENERA.pcActorSheet.features.powerShifts.effectsLabel": "Effects",
-    "NUMENERA.pcActorSheet.features.powerShifts.value": "Value",
+    "NUMENERA.pcActorSheet.features.powerShifts.level": "Level",
     "NUMENERA.pcActorSheet.features.powerShifts.instructions": "No power shifts yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
     "NUMENERA.pcActorSheet.features.powerShifts.createTooltip": "Create",
     "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip": "Delete",
