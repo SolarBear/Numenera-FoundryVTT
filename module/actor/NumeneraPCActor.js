@@ -7,6 +7,8 @@ import { NumeneraArmorItem } from "../item/NumeneraArmorItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 import { getShortStat } from "../utils.js";
+import { NUMENERA } from "../config.js";
+import { NumeneraPowerShiftItem } from "../item/NumeneraPowerShiftItem.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
@@ -299,6 +301,23 @@ export class NumeneraPCActor extends Actor {
 
     //Negative penalties are not allowed, for obvious reasons!
     return Math.max(speedEffortPenalty, 0);
+  }
+
+  /**
+   * Return the amount of recoveries available to that Actor.
+   *
+   * @readonly
+   * @memberof NumeneraPCActor
+   */
+  get nbRecoveries() {
+    let recoveries = NUMENERA.totalRecoveries;
+
+    if (game.settings.get("numenera", "usePowerShifts")) {
+      recoveries = this.items.filter(i => i.type === NumeneraPowerShiftItem.type && i.data.data.effect === NUMENERA.powerShiftEffects.extraRecoveries)
+        .reduce((total, current) => total + parseInt(current.data.data.level), recoveries)
+    }
+
+    return recoveries;
   }
 
   /**
