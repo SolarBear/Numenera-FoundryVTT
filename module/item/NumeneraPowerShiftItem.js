@@ -33,7 +33,7 @@ export class NumeneraPowerShiftItem extends Item {
     }
 
     const itemData = this.data.data;
-    itemData.name = this.name ? this.name : game.i18n.localize("NUMENERA.item.skill.newpowerShift");
+    itemData.name = this.name ? this.name : game.i18n.localize("NUMENERA.item.powerShift.newPowerShift");
     itemData.notes = itemData.notes || "";
     //To avoid problems, set the first stat in the list as the default one
     itemData.effect = itemData.effect || Object.keys(NUMENERA.powerShiftEffects)[0];
