@@ -607,7 +607,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const children = [...container.children];
 
-    const draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.data._id);
+    const draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.id);
     const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
 
     const update = children.map((row, i) => {
