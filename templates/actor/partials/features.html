@@ -1,9 +1,9 @@
 <div class="tab features" data-group="primary" data-tab="features">
 {{#if showMultipleFeatures}}
     <select name="selectedFeature">
-    {{#select selectedFeatures}}
+    {{#select selectedFeature}}
     {{#each featuresUsed}}
-        <option value="{{this}}">{{localize this}}</option>
+        <option value="{{this.key}}">{{localize this.label}}</option>
     {{/each}}
     {{/select}}
     </select>

@@ -152,10 +152,10 @@ NUMENERA.units = {
   meters: "NUMENERA.canvas.unit.meters",
 };
 
-NUMENERA.tabbedFeatures = [
-  "recursions",
-  "powerShifts",
-];
+NUMENERA.tabbedFeatures = {
+  "recursions": "NUMENERA.pcActorSheet.tab.recursion",
+  "powerShifts": "NUMENERA.pcActorSheet.features.powerShifts.title",
+};
 
 NUMENERA.powerShiftEffects = {
   easePower: "NUMENERA.pcActorSheet.features.powerShifts.effects.easePower",

@@ -281,12 +281,6 @@
             {{/if}}
         </div>
 
-        {{#if showFeaturesTab}}
-        <div class="tab features" data-group="primary" data-tab="features">
-            {{> "systems/numenera/templates/actor/partials/features.html" data=data}}
-        </div>
-        {{/if}}
-
         <div class="tab equipment" data-group="primary" data-tab="equipment">
             <h2>{{localize "NUMENERA.pc.weapons.sectionName"}}</h2>
             <table class="weapons">
@@ -500,6 +494,12 @@
                 </tbody>
             </table>
         </div>
+
+        {{#if showFeaturesTab}}
+        <div class="tab features" data-group="primary" data-tab="features">
+            {{> "systems/numenera/templates/actor/partials/features.html" data=data}}
+        </div>
+        {{/if}}
 
         <div class="tab description" data-group="primary" data-tab="bio">
             {{editor content=data.background target="data.background" button=true editable=editable}}

@@ -254,29 +254,38 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //Is it The Strange?
     if (game.settings.get("numenera", "useRecursions")) {
       sheetData.isTheStrange = true;
-      sheetData.featuresUsed.push("recursions");
+      sheetData.featuresUsed.push({
+        key: "recursions",
+        label: NUMENERA.tabbedFeatures.recursions,
+      });
       sheetData.featureSectionNames.push("NUMENERA.pcActorSheet.tab.recursion");
     }
 
     if (game.settings.get("numenera", "usePowerShifts")) {
       sheetData.usePowerShifts = true;
-      sheetData.featuresUsed.push("powerShifts");
+      sheetData.featuresUsed.push({
+        key: "powerShifts",
+        label: NUMENERA.tabbedFeatures.powerShifts,
+      });
       sheetData.featureSectionNames.push("NUMENERA.pcActorSheet.features.powerShifts.title");
       sheetData.powerShiftEffects = NUMENERA.powerShiftEffects;
     }
 
+    //TODO clean this up, can probably remove a value or two
     sheetData.showFeaturesTab = sheetData.featuresUsed.length > 0;
     sheetData.showMultipleFeatures = sheetData.featuresUsed.length > 1;
-    sheetData.featuresTabName = "";
-    sheetData.selectedFeature = 0;
 
     if (sheetData.featuresUsed.length === 1) {
       sheetData.featuresTabName = game.i18n.localize(sheetData.featureSectionNames[0]);
-      sheetData.selectedFeature = sheetData.featuresUsed[0];
+      sheetData.selectedFeature = sheetData.featuresUsed[0].key;
     }
     else if (sheetData.featuresUsed.length > 1) {
       sheetData.featuresTabName = game.i18n.localize("NUMENERA.pcActorSheet.tab.features");
-      sheetData.selectedFeature = sheetData.featuresUsed[0];
+      sheetData.selectedFeature = sheetData.featuresUsed[0].key;
+    }
+
+    if (this.selectedFeature) {
+      sheetData.selectedFeature = this.selectedFeature;
     }
 
     sheetData.useOddities = game.settings.get("numenera", "useOddities");
@@ -866,5 +875,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
         this.onPowerShiftUpdated();
         return;
     }
+  }
+
+  _updateObject(event, formData) {
+    this.selectedFeature = formData.selectedFeature;
+    return super._updateObject(event, formData);
   }
 }
