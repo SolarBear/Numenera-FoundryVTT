@@ -20,6 +20,7 @@ import { preloadHandlebarsTemplates } from './module/templates.js';
 import { registerSystemSettings } from './module/settings.js';
 import { migrateWorld } from './module/migrations/migrate.js';
 import { numeneraSocketListeners } from './module/socket.js';
+import { EffortDialog } from './module/apps/EffortDialog.js';
 import { RecoveryDialog } from './module/apps/RecoveryDialog.js';
 import { registerHandlebarHelpers } from './module/handlebarHelpers.js';
 import { add3rdBarToPCTokens, cypherToken } from './module/token.js';
@@ -33,6 +34,7 @@ Hooks.once("init", function() {
 
     game.numenera = {
         applications: {
+            EffortDialog,
             RecoveryDialog,
         },
         useItemMacro,
