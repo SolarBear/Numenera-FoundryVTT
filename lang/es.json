@@ -236,7 +236,7 @@
     "NUMENERA.item.artifact.newArtifact": "Nuevo Artefacto",
 
     "NUMENERA.item.cypher.level": "Nivel",
-    "NUMENERA.item.cypher.type": "Tipo",
+    "NUMENERA.item.cypher.type.label": "Tipo",
     "NUMENERA.item.cypher.type.anoetic": "Anoético",
     "NUMENERA.item.cypher.type.occultic": "Esotérico",
     "NUMENERA.item.cypher.type.manifest": "Evidente",

@@ -265,7 +265,7 @@
     "NUMENERA.item.artifact.newArtifact": "Nouvel artefact",
 
     "NUMENERA.item.cypher.level": "Niveau",
-    "NUMENERA.item.cypher.type": "Type",
+    "NUMENERA.item.cypher.type.label": "Type",
     "NUMENERA.item.cypher.type.anoetic": "Anoetique",
     "NUMENERA.item.cypher.type.occultic": "Occultique",
     "NUMENERA.item.cypher.type.manifest": "Manifeste",
