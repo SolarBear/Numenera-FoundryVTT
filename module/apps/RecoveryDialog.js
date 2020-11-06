@@ -39,7 +39,7 @@ export class RecoveryDialog extends FormApplication {
   /**
    * @inheritdoc
    */
-  constructor(actor, {tempBonus=null}, options = {}) {
+  constructor(actor, {tempBonus=null}) {
     const pools = Object.entries(actor.data.data.stats)
     .map(([key, value]) => {
       return {
@@ -67,7 +67,7 @@ export class RecoveryDialog extends FormApplication {
       tempBonus,
     };
 
-    super(recoveryDialogObject, options);
+    super(recoveryDialogObject, {});
   }
 
   /**
