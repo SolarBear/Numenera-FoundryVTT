@@ -828,7 +828,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
   onRecoveryRoll(event) {
     event.preventDefault();
-    new RecoveryDialog(this.actor).render(true);
+    (new RecoveryDialog(this.actor, {})).render(true);
   }
 
   /*
