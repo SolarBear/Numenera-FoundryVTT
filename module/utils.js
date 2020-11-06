@@ -14,3 +14,13 @@ export function getShortStat(stat) {
     
   return stat.split(".").pop().toLowerCase();
 }
+
+export function useAlternateButtonBehavior() {
+  debugger;
+  let useAlt = window.event.ctrlKey || window.event.metaKey;
+  
+  if (game.settings.get("numenera", "defaultToTaskDialog"))
+    useAlt = !useAlt;
+
+  return useAlt;
+}

@@ -7,6 +7,18 @@ export const registerSystemSettings = function() {
   //To use any of these settings in the code, use:
   //game.settings.get("numenera", "SETTING_NAME");
 
+    /**
+   * Configure what version of armor-wearing penalty to use
+   */
+  game.settings.register("numenera", "defaultToTaskDialog", {
+    name: "Use Task dialog by default",
+    hint: "If enabled, will invert the behavior of roll buttons macros: clicking one will open the Task dialog and Ctrl+Click will perform a regular roll.",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
   /**
    * Configure what version of armor-wearing penalty to use
    */

@@ -6,7 +6,7 @@ import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../item/NumeneraArmorItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
-import { getShortStat } from "../utils.js";
+import { getShortStat, useAlternateButtonBehavior } from "../utils.js";
 import { NUMENERA } from "../config.js";
 import { NumeneraPowerShiftItem } from "../item/NumeneraPowerShiftItem.js";
 
@@ -154,7 +154,7 @@ export class NumeneraPCActor extends Actor {
    */
   rollAttribute(attribute, rollData = null) {
     //This really shouldn't be in an Actor class, but it makes it SO easier to create stat macros...
-    if (window.event.ctrlKey || window.event.metaKey) {
+    if (useAlternateButtonBehavior()) {
       return new EffortDialog(this, { stat: attribute }).render(true);
     }
 
