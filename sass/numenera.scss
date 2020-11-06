@@ -338,6 +338,10 @@ form.numenera {
             input[type="checkbox"] {
                 display: inline-block;
             }
+
+            input.tempBonus {
+                width: 4ch;
+            }
         }
 
         div.stats {

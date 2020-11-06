@@ -1,3 +1,4 @@
+import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 import { NUMENERA } from "../config.js";
 
 export class RecoveryDialog extends FormApplication {
@@ -20,9 +21,25 @@ export class RecoveryDialog extends FormApplication {
   }
 
   /**
+   * Creates an instance of RecoveryDialog. Useful to be called
+   * from a macro.
+   *
+   * @static
+   * @param {NumeneraPCActor} actor
+   * @param {Number} [tempBonus=null] A temporary bonus to add to recovery rolls.
+   * @memberof RecoveryDialog
+   */
+  static create(actor, options={}) {
+    if (!actor)
+      ui.notifications.error("Tried calling RecoveryDialog.create without an actor");
+
+    (new RecoveryDialog(actor, options)).render(true);
+  }
+
+  /**
    * @inheritdoc
    */
-  constructor(actor, options = {}) {
+  constructor(actor, {tempBonus=null}, options = {}) {
     const pools = Object.entries(actor.data.data.stats)
     .map(([key, value]) => {
       return {
@@ -47,7 +64,7 @@ export class RecoveryDialog extends FormApplication {
       recoveriesLeft: [...actor.data.data.recoveries],
       initialUnspentRecoveryPoints: 0,
       unspentRecoveryPoints: 0,
-      tempBonus: null,
+      tempBonus,
     };
 
     super(recoveryDialogObject, options);
