@@ -1,0 +1,63 @@
+<table class="powerShifts">
+    <thead>
+        <tr>
+            <td><!-- drag handle --></td>
+            {{#if settings.icons.powerShifts}}
+            <td><!-- icon column --></td>
+            {{/if}}
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.name"}}</td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.effectsLabel"}}</td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.description"}}</td>
+            <td>{{localize "NUMENERA.pcActorSheet.features.powerShifts.level"}}</td>
+            <td>
+                <a class="powerShift-create" data-action="create" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.createTooltip"}}">
+                    <i class="fas fa-plus"></i>
+                </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody class="row-container">
+    {{#each data.items.powerShifts as |powerShift|}}
+        <tr class="powerShift" data-item-id="{{powerShift._id}}" data-order="{{powerShift.data.order}}">
+            <td class="handle">
+                <a><i class="fas fa-grip-vertical"></i></a>
+            </td>
+            {{#if powerShift.showIcon}}
+            <td class="powerShift-icon">
+                <img src="{{powerShift.img}}" />
+            </td>
+            {{/if}}
+            <td class="powerShift-name">
+                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.name" value="{{powerShift.name}}" data-dtype="String" />
+            </td>
+            <td class="powerShift-effect">
+                <select name="data.items.powerShifts.{{powerShift._id}}.data.effect">
+                {{#select powerShift.data.effect}}
+                    <option value=""></option>
+                    {{#each ../powerShiftEffects}}
+                    <option value="{{this}}">{{localize this}}</option>
+                    {{/each}}
+                {{/select}}
+                </select>
+            </td>
+            <td class="powerShift-description">
+                <input type="text" name="data.items.powerShifts.{{powerShift._id}}.data.notes" value="{{powerShift.data.notes}}" data-dtype="String" class="powerShift-description-input" />
+            </td>
+            <td class="powerShift-level">
+                <input type="number" name="data.items.powerShifts.{{powerShift._id}}.data.level" value="{{powerShift.data.level}}" min="0" data-dtype="Number" />
+            </td>
+            <td>
+                <a class="powerShift-delete" data-action="delete" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip"}}">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+    {{else}}
+        <tr>
+            <td colspan="6">
+                {{{localize "NUMENERA.pcActorSheet.features.powerShifts.instructions"}}}
+            </td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

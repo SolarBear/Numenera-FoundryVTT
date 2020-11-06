@@ -25,7 +25,7 @@ export class NumeneraArtifactItemSheet extends ItemSheet {
       const sheetData = super.getData();
 
       //Is it The Strange?
-      if (game.settings.get("numenera", "characterSheet") == 2) {
+      if (game.settings.get("numenera", "useRecurions")) {
         sheetData.isTheStrange = true;
       }
       return sheetData;

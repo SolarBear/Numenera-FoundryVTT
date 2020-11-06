@@ -24,19 +24,6 @@ export const registerSystemSettings = function() {
     },
   });
 
-  game.settings.register("numenera", "characterSheet", {
-    name: "Character Sheet",
-    hint: "Select the PC character sheet to use.",
-    scope: "world",
-    config: true,
-    type: Number,
-    default: 1,
-    choices: {
-      1: "Numenera",
-      2: "The Strange"
-    },
-  });
-
   game.settings.register("numenera", "cypherTypesFlavor", {
     name: "Cypher Types",
     hint: "Select the cypher types you wish to use.",
@@ -49,15 +36,6 @@ export const registerSystemSettings = function() {
       2: "Anoetic/occultic (Numenera, The Strange)", 
       3: "Subtle/fantastic/manifest (Cypher System)",
     },
-  });
-
-  game.settings.register("numenera", "useRecursions", {
-    name: "Recursions",
-    hint: "Toggle the use of Recursion in your game.",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: false,
   });
 
   /**
@@ -182,6 +160,51 @@ export const registerSystemSettings = function() {
     config: true,
     type: Boolean,
     default: true
+  });
+
+  /**
+   * Configure whether or not to show numenera icons
+   */
+  game.settings.register("numenera", "showPowerShiftIcons", {
+    name: "Power Shift Icons",
+    hint: "Enable to show power shift icons in player character sheets",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+
+  /**
+   * Configure whether or not to use oddities
+   */
+  game.settings.register("numenera", "useOddities", {
+    name: "Feature: Oddities",
+    hint: "Enable the use of Oddities in your game.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: true
+  });
+
+  /**
+   * Configure whether or not to use Power Shifts
+   */
+  game.settings.register("numenera", "usePowerShifts", {
+    name: "Feature: Power Shifts",
+    hint: "Enable the use of Power Shifts in your game.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false
+  });
+
+  game.settings.register("numenera", "useRecursions", {
+    name: "Feature: Recursions",
+    hint: "Enable the use of Recursions in your game.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false,
   });
 
   /**

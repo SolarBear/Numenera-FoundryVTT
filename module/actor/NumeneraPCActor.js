@@ -7,6 +7,8 @@ import { NumeneraArmorItem } from "../item/NumeneraArmorItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 import { getShortStat } from "../utils.js";
+import { NUMENERA } from "../config.js";
+import { NumeneraPowerShiftItem } from "../item/NumeneraPowerShiftItem.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
@@ -302,6 +304,24 @@ export class NumeneraPCActor extends Actor {
   }
 
   /**
+   * Return the amount of recoveries available to that Actor.
+   *
+   * @readonly
+   * @memberof NumeneraPCActor
+   */
+  get nbRecoveries() {
+    let recoveries = NUMENERA.totalRecoveries;
+
+    if (game.settings.get("numenera", "usePowerShifts")) {
+      recoveries = this.getEmbeddedCollection("OwnedItem")
+        .filter(i => i.type === NumeneraPowerShiftItem.type && i.data.effect === NUMENERA.powerShiftEffects.extraRecoveries)
+        .reduce((total, current) => total + parseInt(current.data.level), recoveries)
+    }
+
+    return recoveries;
+  }
+
+  /**
    * Get the PC's heaviest piece of armor.
    *
    * @returns {NumeneraArmorItem | null}
@@ -550,7 +570,7 @@ export class NumeneraPCActor extends Actor {
             _id: relatedSkill.data._id,
             "data.relatedAbilityId": actorAbility._id,
           };
-          await this.updateEmbeddedEntity("OwnedItem", updated);
+          await this.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
 
           ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
         } else {
@@ -584,8 +604,6 @@ export class NumeneraPCActor extends Actor {
     if (!updatedItem)
       return;
 
-    if (options.fromActorUpdateEmbeddedEntity)
-      return updated;
 
     switch (updatedItem.type) {
       case "ability":
@@ -621,5 +639,8 @@ export class NumeneraPCActor extends Actor {
         skill.updateRelatedAbility(relatedAbility, options);
         break;
     }
+
+    if (options.fromActorUpdateEmbeddedEntity)
+      return updated;
   }
 }

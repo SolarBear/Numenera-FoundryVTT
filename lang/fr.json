@@ -3,10 +3,12 @@
     "NUMENERA.effortLevels": "Niveaux d'Effort",
     "NUMENERA.majorEffect": "Effet majeur",
     "NUMENERA.minorEffect": "Effet mineur",
+    "NUMENERA.powerShift": "Power Shift",
     "NUMENERA.roll": "Jet",
     "NUMENERA.rollFailure": "Échec",
     "NUMENERA.rolling": "Jet de",
     "NUMENERA.rollSuccess": "Succès",
+    "NUMENERA.skill": "Aptitude",
     "NUMENERA.stat": "Caractéristique",
     "NUMENERA.unknown": "Inconnu",
     "NUMENERA.with": "avec",
@@ -41,6 +43,7 @@
     "NUMENERA.effort.selectAStat": "Choisir une caractéristique",
     "NUMENERA.effort.skillAbilitySuffix": " (Aptitude)",
     "NUMENERA.effort.succeedAutomatically": "Succès automatique",
+
     "NUMENERA.effort.warning.provideStat": "Vous devez sélectionner une caractéristique avant d'ajouter un Effort",
     "NUMENERA.effort.warning.notEnoughPoolPoints":"Points insuffisants dans cette Réserve",
 
@@ -82,13 +85,28 @@
     "NUMENERA.pcActorSheet.advancement.title": "Progression",
     "NUMENERA.pcActorSheet.advancement.xp": "PX",
 
+    "NUMENERA.pcActorSheet.features.powerShifts.title": "Power Shifts",
+    "NUMENERA.pcActorSheet.features.powerShifts.name": "Nom",
+    "NUMENERA.pcActorSheet.features.powerShifts.description": "Description",
+    "NUMENERA.pcActorSheet.features.powerShifts.effectsLabel": "Effets",
+    "NUMENERA.pcActorSheet.features.powerShifts.level": "Level",
+    "NUMENERA.pcActorSheet.features.powerShifts.instructions": "Pas de Power Shifts. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
+    "NUMENERA.pcActorSheet.features.powerShifts.createTooltip": "Créer",
+    "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip": "Supprimer",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.easePower": "Facilite un ",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.easeTasks": "Facilite tâches",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.extraRecoveries": "Extra Recoveries",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.increaseArmor": "Augmente l'armure",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.singleAttack": "Attaque unique",
+
     "NUMENERA.pcActorSheet.tab.skills": "Compétences",
     "NUMENERA.pcActorSheet.tab.abilities": "Aptitudes",
-    "NUMENERA.pcActorSheet.tab.numenera": "Numenera",
+    "NUMENERA.pcActorSheet.tab.cyphers": "Cypher",
     "NUMENERA.pcActorSheet.tab.strange": "Étrange",
     "NUMENERA.pcActorSheet.tab.recursion": "Récursion",
     "NUMENERA.pcActorSheet.tab.equipment": "Équipement",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
+    "NUMENERA.pcActorSheet.tab.features": "Fonctions",
 
     "NUMENERA.pc.advances.statPools": "+4 aux Réserves",
     "NUMENERA.pc.advances.effort": "+1 en Effort",
@@ -257,6 +275,7 @@
 
     "NUMENERA.item.artifact.level": "Niveau",
     "NUMENERA.item.artifact.form": "Forme",
+    "NUMENERA.item.artifact.laws": "Lois",
     "NUMENERA.item.artifact.depletion": "Épuisement",
     "NUMENERA.item.artifact.depletionDie": "Dé",
     "NUMENERA.item.artifact.depletionThreshold": "Seuil",
@@ -295,6 +314,9 @@
     "NUMENERA.item.weapon.description": "Description",
 
     "NUMENERA.pc.numenera.strange.alienation": "Aliénation",
+
+    "NUMENERA.item.powerShift.effects": "Effets",
+    "NUMENERA.item.powerShift.newPowerShift": "Nouveau Power Shift",
 
     "NUMENERA.item.recursion.name": "Nom",
     "NUMENERA.item.recursion.newRecursion": "Nouvelle Récursion",

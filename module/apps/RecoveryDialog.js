@@ -1,3 +1,4 @@
+import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 import { NUMENERA } from "../config.js";
 
 export class RecoveryDialog extends FormApplication {
@@ -15,14 +16,30 @@ export class RecoveryDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 480,
-      height: 340,
+      height: 400,
     });
+  }
+
+  /**
+   * Creates an instance of RecoveryDialog. Useful to be called
+   * from a macro.
+   *
+   * @static
+   * @param {NumeneraPCActor} actor
+   * @param {Number} [tempBonus=null] A temporary bonus to add to recovery rolls.
+   * @memberof RecoveryDialog
+   */
+  static create(actor, options={}) {
+    if (!actor)
+      ui.notifications.error("Tried calling RecoveryDialog.create without an actor");
+
+    (new RecoveryDialog(actor, options)).render(true);
   }
 
   /**
    * @inheritdoc
    */
-  constructor(actor, options = {}) {
+  constructor(actor, {tempBonus=null}, options = {}) {
     const pools = Object.entries(actor.data.data.stats)
     .map(([key, value]) => {
       return {
@@ -47,6 +64,7 @@ export class RecoveryDialog extends FormApplication {
       recoveriesLeft: [...actor.data.data.recoveries],
       initialUnspentRecoveryPoints: 0,
       unspentRecoveryPoints: 0,
+      tempBonus,
     };
 
     super(recoveryDialogObject, options);
@@ -58,19 +76,22 @@ export class RecoveryDialog extends FormApplication {
   getData() {
     const data = super.getData();
 
-    let recoveriesData;
-    recoveriesData = Object.entries(NUMENERA.recoveries)
-    .map(([key, value], idx) => {
-      return {
-        key,
-        label: value,
-        checked: !this.object.recoveriesLeft[idx],
-        disabled: !this.object.initialRecoveriesLeft[idx]
-      };
-    });
+    const recoveriesLabels = Object.entries(NUMENERA.recoveries);
+    const recoveriesData = this.object.recoveriesLeft
+      .map((recovery, index) => {
+        const recoveryIndex = Math.max(0, index - (this.object.actor.data.data.recoveries.length - NUMENERA.totalRecoveries));
+        const [key, label] = recoveriesLabels[recoveryIndex];
+        return {
+          key,
+          label,
+          checked: !recovery,
+          disabled: !this.object.initialRecoveriesLeft[index],
+        };
+      }
+    );
 
     const rollSelectionEnabled = this.object.recoveriesLeft.filter(Boolean).length > 0;
-    const formula = this._getFormula(this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length);
+    const formula = this._getFormula(this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length, this.object.tempBonus);
 
     const stats = {};
     for (const prop in NUMENERA.stats) {
@@ -84,12 +105,13 @@ export class RecoveryDialog extends FormApplication {
       recoveriesData,
       nbRecoveries: this.object.initialRecoveriesLeft.filter(Boolean).length - this.object.recoveriesLeft.filter(Boolean).length,
       hasRecoveriesLeft: this.object.initialRecoveriesLeft.filter(Boolean).length > 0,
-      disallowReset: this.object.initialRecoveriesLeft.filter(Boolean).length === NUMENERA.totalRecoveries,
+      disallowReset: this.object.initialRecoveriesLeft.filter(Boolean).length === this.object.actor.data.data.recoveries.length,
       recoveries: NUMENERA.recoveries,
       pools: this.object.pools,
       stats,
       hasUnspentRecoveryPoints: this.object.unspentRecoveryPoints !== null,
       unspentRecoveryPoints: this.object.unspentRecoveryPoints || 0,
+      tempBonus: this.object.tempBonus || null,
     });
   }
 
@@ -109,10 +131,9 @@ export class RecoveryDialog extends FormApplication {
       title: game.i18n.localize("NUMENERA.recoveries.resetDialog.title"),
       content: game.i18n.localize("NUMENERA.recoveries.resetDialog.content"),
       yes: () => {
-        this.object.recoveriesLeft = [true, true, true, true];
-        this.object.initialRecoveriesLeft = [true, true, true, true];
+        this.object.recoveriesLeft = new Array(this.object.actor.nbRecoveries).fill(true);
+        this.object.initialRecoveriesLeft = Array.from(this.object.recoveriesLeft);
         this.object.unspentRecoveryPoints = 0;
-        //this.object.hasUnspentRecoveryPoints = false;
 
         this.object.actor.update({
           "data.recoveries": this.object.recoveriesLeft
@@ -144,7 +165,7 @@ export class RecoveryDialog extends FormApplication {
       return;
     }
 
-    const roll = new Roll(this._getFormula(nbDice)).roll();
+    const roll = new Roll(this._getFormula(nbDice, this.object.tempBonus)).roll();
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
       flavor: `${this.object.actor.data.name} rolls for Recovery`,
@@ -171,12 +192,16 @@ export class RecoveryDialog extends FormApplication {
    * @returns {} false if no formula could be generated, a formula String otherwise
    * @memberof RecoveryDialog
    */
-  _getFormula(n) {
+  _getFormula(n, tempBonus = 0) {
     if (typeof n !== "number" || n <= 0) {
       return false;
     }
 
-    const constant = n * this.object.actor.data.data.tier;
+    if (typeof tempBonus !== "number") {
+      tempBonus = 0;
+    }
+
+    const constant = n * (this.object.actor.data.data.recovery + tempBonus);
     return `${n}d6+${constant}`;
   }
 
@@ -220,27 +245,15 @@ export class RecoveryDialog extends FormApplication {
   }
 
   _updateObject(event, formData) {
-    switch (event.target.name) {
-      case "recovery[action]":
-        this.object.recoveriesLeft[0] = !this.object.recoveriesLeft[0];
-        break;
-
-      case "recovery[tenMin]":
-        this.object.recoveriesLeft[1] = !this.object.recoveriesLeft[1];
-        break;
-
-      case "recovery[oneHour]":
-        this.object.recoveriesLeft[2] = !this.object.recoveriesLeft[2];
-        break;
-
-      case "recovery[tenHours]":
-        this.object.recoveriesLeft[3] = !this.object.recoveriesLeft[3];
-        break;
+    let index = null;
+    const matches = event.target.name.match(/recovery\[(\d+)\]/);
+    if (matches) {
+      index = parseInt(matches[1]);
+      this.object.recoveriesLeft[index] = !this.object.recoveriesLeft[index];
     }
-
     //Update recovery checkboxes data in order
     if (!game.settings.get("numenera", "outOfOrderRecovery"))
-      this._getNbCheckedInOrder(event);
+      this._getNbCheckedInOrder(index);
 
     //Update remaining points and pools
     let poolsTotal = 0;
@@ -251,46 +264,25 @@ export class RecoveryDialog extends FormApplication {
 
     this.object.poolsTotal = poolsTotal;
     this.object.unspentRecoveryPoints = this.object.initialUnspentRecoveryPoints - poolsTotal + this.object.initialPoolsTotal;
+    this.object.tempBonus = formData.tempBonus;
 
     //Re-render the form since it's not provided for free in FormApplications
     this.render();
   }
 
-  _getNbCheckedInOrder(event) {
-    let clicked;
-    switch (event.target.name) {
-      case "recovery[action]":
-        clicked = 0;
-        break;
-
-      case "recovery[tenMin]":
-        clicked = 1;
-        break;
-
-      case "recovery[oneHour]":
-        clicked = 2;
-        break;
-
-      case "recovery[tenHours]":
-        clicked = 3;
-        break;
-
-      default:
-        return;
-    }
-
+  _getNbCheckedInOrder(index) {
     //Get the highest-valued box that's still checked
     let highestChecked = -1;
     for (let i = 0; i < this.object.recoveriesLeft.length; i++)
       if (!this.object.recoveriesLeft[i])
         highestChecked = i;
 
-    if (this.object.recoveriesLeft[clicked] && highestChecked <= clicked) {
-      clicked--;
+    if (this.object.recoveriesLeft[index] && highestChecked <= index) {
+      index--;
     }
 
     for (let i = 0; i < this.object.recoveriesLeft.length; i++) {
-      this.object.recoveriesLeft[i] = (i > clicked);
+      this.object.recoveriesLeft[i] = (i > index);
     }
   }
 

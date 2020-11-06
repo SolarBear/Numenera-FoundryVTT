@@ -7,9 +7,10 @@
         {{localize "NUMENERA.pcActorSheet.header.who"}} <input type="text" name="data.currentFocus" value="{{data.currentFocus}}" class="focus" placeholder="{{localize "NUMENERA.pcActorSheet.header.focus"}}" />
     </h1>
     <h1 class="texp">
-        {{localize "NUMENERA.pc.tier"}}: <input type="text" name="data.tier" value="{{data.tier}}" placeholder="1" min="1" max="6" data-dtype="Number" class="tier" />
-         / {{localize "NUMENERA.pc.effort"}}: <input type="text" name="data.effort" value="{{data.effort}}" placeholder="1" min="1" data-dtype="Number" class="tier" />
-         / {{localize "NUMENERA.pcActorSheet.advancement.xp"}}: <input type="text" name="data.xp" value="{{data.xp}}" placeholder="0" min="0" data-dtype="Number" />
+        {{localize "NUMENERA.pc.tier"}}: <input type="text" name="data.tier" value="{{data.tier}}" min="1" max="6" data-dtype="Number" class="tier" />
+         / {{localize "NUMENERA.pc.effort"}}: <input type="text" name="data.effort" value="{{data.effort}}" min="1" data-dtype="Number" class="tier" />
+         / {{localize "NUMENERA.pc.recovery.name"}}: <input type="text" name="data.recovery" value="{{data.recovery}}" min="1" data-dtype="Number" class="tier" />
+         / {{localize "NUMENERA.pcActorSheet.advancement.xp"}}: <input type="text" name="data.xp" value="{{data.xp}}" min="0" data-dtype="Number" class="tier" />
     </h1>
     <div class="flexcol">
         <div class="flexrow header">
@@ -74,7 +75,7 @@
                         <ul>
                         {{#each recoveriesData as |recovery|}}
                             <li>
-                                <input type="checkbox" id="{{recovery.label}}" {{checked recovery.checked}} disabled/>
+                                <input type="checkbox" {{checked recovery.checked}} disabled/>
                                 <label>{{localize recovery.label}}</label>
                             </li>
                         {{/each}}
@@ -103,13 +104,12 @@
         {{#if isTheStrange}}
         <a class="item" data-tab="numenera">{{localize "NUMENERA.pcActorSheet.tab.strange"}}</a>
         {{else}}
-        <a class="item" data-tab="numenera">{{localize "NUMENERA.pcActorSheet.tab.numenera"}}</a>
+        <a class="item" data-tab="numenera">{{localize "NUMENERA.pcActorSheet.tab.cyphers"}}</a>
         {{/if}}
-        {{#if isTheStrange}}
-        <a class="item" data-tab="recursion">{{localize "NUMENERA.pcActorSheet.tab.recursion"}}</a>
-        {{/if}}
-
         <a class="item" data-tab="equipment">{{localize "NUMENERA.pcActorSheet.tab.equipment"}}</a>
+        {{#if showFeaturesTab}}
+        <a class="item" data-tab="features">{{localize featuresTabName}}</a>
+        {{/if}}
         <a class="item" data-tab="bio">{{localize "NUMENERA.pcActorSheet.tab.bio"}}</a>
     </nav>
 
@@ -275,15 +275,11 @@
             {{> "systems/numenera/templates/actor/partials/cyphers.html" data=data}}
             <hr class="sheet-one" />
             {{> "systems/numenera/templates/actor/partials/artifacts.html" data=data}}
+            {{#if useOddities}}
             <hr class="sheet-one" />
             {{> "systems/numenera/templates/actor/partials/oddities.html" data=data}}
+            {{/if}}
         </div>
-
-        {{#if isTheStrange}}
-        <div class="tab recursion" data-group="primary" data-tab="recursion">
-            {{> "systems/numenera/templates/actor/partials/recursions.html" data=data}}
-        </div>
-        {{/if}}
 
         <div class="tab equipment" data-group="primary" data-tab="equipment">
             <h2>{{localize "NUMENERA.pc.weapons.sectionName"}}</h2>
@@ -498,6 +494,12 @@
                 </tbody>
             </table>
         </div>
+
+        {{#if showFeaturesTab}}
+        <div class="tab features" data-group="primary" data-tab="features">
+            {{> "systems/numenera/templates/actor/partials/features.html" data=data}}
+        </div>
+        {{/if}}
 
         <div class="tab description" data-group="primary" data-tab="bio">
             {{editor content=data.background target="data.background" button=true editable=editable}}

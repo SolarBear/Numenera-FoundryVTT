@@ -3,10 +3,12 @@
     "NUMENERA.effortLevels": "Effort Levels",
     "NUMENERA.majorEffect": "Major Effect",
     "NUMENERA.minorEffect": "Minor Effect",
+    "NUMENERA.powerShift": "Power Shift",
     "NUMENERA.roll": "Roll",
     "NUMENERA.rollFailure": "Failure",
     "NUMENERA.rolling": "Rolling",
     "NUMENERA.rollSuccess": "Success",
+    "NUMENERA.skill": "Skill",
     "NUMENERA.stat": "Stat",
     "NUMENERA.unknown": "Unknown",
     "NUMENERA.with": "with",
@@ -83,6 +85,20 @@
     "NUMENERA.pcActorSheet.advancement.title": "Advancement",
     "NUMENERA.pcActorSheet.advancement.xp": "XP",
 
+    "NUMENERA.pcActorSheet.features.powerShifts.title": "Power Shifts",
+    "NUMENERA.pcActorSheet.features.powerShifts.name": "Name",
+    "NUMENERA.pcActorSheet.features.powerShifts.description": "Description",
+    "NUMENERA.pcActorSheet.features.powerShifts.effectsLabel": "Effects",
+    "NUMENERA.pcActorSheet.features.powerShifts.level": "Level",
+    "NUMENERA.pcActorSheet.features.powerShifts.instructions": "No power shifts yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.pcActorSheet.features.powerShifts.createTooltip": "Create",
+    "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip": "Delete",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.easePower": "Ease a Power",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.easeTasks": "Ease Tasks",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.extraRecoveries": "Extra Recoveries",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.increaseArmor": "Increase Armor",
+    "NUMENERA.pcActorSheet.features.powerShifts.effects.singleAttack": "Single Attack",
+
     "NUMENERA.pcActorSheet.tab.skills": "Skills",
     "NUMENERA.pcActorSheet.tab.abilities": "Abilities",
     "NUMENERA.pcActorSheet.tab.numenera": "Numenera",
@@ -90,6 +106,7 @@
     "NUMENERA.pcActorSheet.tab.recursion": "Recursions",
     "NUMENERA.pcActorSheet.tab.equipment": "Equipment",
     "NUMENERA.pcActorSheet.tab.bio": "Bio",
+    "NUMENERA.pcActorSheet.tab.features": "Features",
 
     "NUMENERA.pc.advances.statPools": "+4 to stat pools",
     "NUMENERA.pc.advances.effort": "+1 to Effort",
@@ -297,6 +314,9 @@
     "NUMENERA.item.weapon.description": "Description",
 
     "NUMENERA.pc.numenera.strange.alienation": "Alienation",
+
+    "NUMENERA.item.powerShift.effects": "Effects",
+    "NUMENERA.item.powerShift.newPowerShift": "New Power Shift",
 
     "NUMENERA.item.recursion.name": "Name",
     "NUMENERA.item.recursion.newRecursion": "New Recursion",

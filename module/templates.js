@@ -15,7 +15,9 @@ export const preloadHandlebarsTemplates = async() => {
         // Actor partials
         "systems/numenera/templates/actor/partials/artifacts.html",
         "systems/numenera/templates/actor/partials/cyphers.html",
+        "systems/numenera/templates/actor/partials/features.html",
         "systems/numenera/templates/actor/partials/oddities.html",
+        "systems/numenera/templates/actor/partials/powerShifts.html",
         "systems/numenera/templates/actor/partials/recursions.html",
 
         // Chat messages
@@ -32,6 +34,7 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/item/cypherSheet.html",
         "systems/numenera/templates/item/equipmentSheet.html",
         "systems/numenera/templates/item/odditySheet.html",
+        "systems/numenera/templates/item/powerShiftSheet.html",
         "systems/numenera/templates/item/skillSheet.html",
         "systems/numenera/templates/item/weaponSheet.html",
         "systems/numenera/templates/item/recursionSheet.html",
