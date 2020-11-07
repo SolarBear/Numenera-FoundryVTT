@@ -222,9 +222,9 @@
                         <td class="ability-cost">
                             <select name="data.items.abilities.{{ability._id}}.data.abilityType" data-dtype="String">
                                 {{#select ability.data.abilityType}}
-                                <option value="NUMENERA.item.ability.type.action">{{localize "NUMENERA.item.ability.type.action"}}</option>
-                                <option value="NUMENERA.item.ability.type.enabler">{{localize "NUMENERA.item.ability.type.enabler"}}</option>
-                                <option value="NUMENERA.item.ability.type.spell">{{localize "NUMENERA.item.ability.type.spell"}}</option>
+                                {{#each ../abilityTypes}}
+                                <option value="{{this}}">{{localize this}}</option>
+                                {{/each}}
                                 {{/select}}
                             </select>
                             <br/>

@@ -30,6 +30,11 @@ export class NumeneraAbilityItemSheet extends ItemSheet {
         sheetData.data.ranges = NUMENERA.optionalRanges;
         sheetData.data.stats = NUMENERA.stats;
 
+        if (game.settings.get("numenera", "useSpells"))
+            sheetData.abilityTypes = NUMENERA.abilityTypesWithSpells;
+        else
+            sheetData.abilityTypes = NUMENERA.abilityTypes;
+
         return sheetData;
     }
 }

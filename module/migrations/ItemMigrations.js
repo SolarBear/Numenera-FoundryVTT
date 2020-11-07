@@ -94,8 +94,8 @@ Itemv4ToV5Migrator.migrationFunction = async function(item, obj = {}) {
   const newData = Object.assign({ _id: item._id}, obj);
   
   if (item.type === "ability") {
-    debugger;
-    const abilityType = item.data.data.isAction ? "action" : "enabler";
+    const abilityType = item.data.data.isAction ? "NUMENERA.item.ability.type.action" 
+                                                : "NUMENERA.item.ability.type.enabler";
 
     newData["data.abilityType"] = abilityType;
     newData["data.-=isAction"] = null;

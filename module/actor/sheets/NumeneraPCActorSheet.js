@@ -533,6 +533,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setAbilitiesData(sheetData) {
+    if (game.settings.get("numenera", "useSpells"))
+      sheetData.abilityTypes = NUMENERA.abilityTypesWithSpells;
+    else
+      sheetData.abilityTypes = NUMENERA.abilityTypes;
+
     sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;

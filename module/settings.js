@@ -210,6 +210,9 @@ export const registerSystemSettings = function() {
     default: false
   });
 
+  /**
+   * Configure whether or not to use Recursions
+   */
   game.settings.register("numenera", "useRecursions", {
     name: "Feature: Recursions",
     hint: "Enable the use of Recursions in your game.",
@@ -217,6 +220,18 @@ export const registerSystemSettings = function() {
     config: true,
     type: Boolean,
     default: false,
+  });
+
+  /**
+   * Configure whether or not to use Spells
+   */
+  game.settings.register("numenera", "useSpells", {
+    name: "Feature: Spells",
+    hint: "Enable the use of Spells in your game, as a sub-type of Abilities.",
+    scope: "world",
+    config: true,
+    type: Boolean,
+    default: false
   });
 
   /**
