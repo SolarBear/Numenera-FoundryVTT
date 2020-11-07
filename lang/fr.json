@@ -248,6 +248,7 @@
     "NUMENERA.item.ability.name": "Aptitudes",
     "NUMENERA.item.ability.type.action": "Action",
     "NUMENERA.item.ability.type.enabler": "Catalyseur",
+    "NUMENERA.item.ability.type.spell": "Sort",
     "NUMENERA.item.ability.tab.createTooltip": "Créer",
     "NUMENERA.item.ability.tab.deleteTooltip": "Supprimer",
     "NUMENERA.item.ability.tab.cost": "Coût",

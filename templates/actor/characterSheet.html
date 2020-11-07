@@ -220,10 +220,11 @@
                             <input type="text" name="data.items.abilities.{{ability._id}}.name" placeholder="Ability Name" value="{{ability.name}}" class="ability-name-input"/>
                         </td>
                         <td class="ability-cost">
-                            <select name="data.items.abilities.{{ability._id}}.data.isAction" data-dtype="Boolean">
-                                {{#select ability.data.isAction}}
-                                <option value="true">{{localize "NUMENERA.item.ability.type.action"}}</option>
-                                <option value="false">{{localize "NUMENERA.item.ability.type.enabler"}}</option>
+                            <select name="data.items.abilities.{{ability._id}}.data.abilityType" data-dtype="String">
+                                {{#select ability.data.abilityType}}
+                                <option value="NUMENERA.item.ability.type.action">{{localize "NUMENERA.item.ability.type.action"}}</option>
+                                <option value="NUMENERA.item.ability.type.enabler">{{localize "NUMENERA.item.ability.type.enabler"}}</option>
+                                <option value="NUMENERA.item.ability.type.spell">{{localize "NUMENERA.item.ability.type.spell"}}</option>
                                 {{/select}}
                             </select>
                             <br/>

@@ -248,6 +248,7 @@
     "NUMENERA.item.ability.name": "Abilities",
     "NUMENERA.item.ability.type.action": "Action",
     "NUMENERA.item.ability.type.enabler": "Enabler",
+    "NUMENERA.item.ability.type.spell": "Spell",
     "NUMENERA.item.ability.tab.createTooltip": "Create",
     "NUMENERA.item.ability.tab.deleteTooltip": "Delete",
     "NUMENERA.item.ability.tab.cost": "Cost",

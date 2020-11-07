@@ -126,6 +126,7 @@ NUMENERA.optionalRanges = ["N/A"].concat(NUMENERA.ranges);
 NUMENERA.abilityTypes = [
   "NUMENERA.item.ability.type.action",
   "NUMENERA.item.ability.type.enabler",
+  "NUMENERA.item.ability.type.spell",
 ];
 
 NUMENERA.cypherTypes = {

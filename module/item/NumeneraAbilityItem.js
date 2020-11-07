@@ -18,7 +18,7 @@ export class NumeneraAbilityItem extends Item {
       itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.ability.newAbility");
       itemData.category = itemData.category || "";
       itemData.categoryValue = itemData.categoryValue || "";
-      itemData.isAction = itemData.isAction || false;
+      itemData.abilityType = itemData.abilityType || false;
       itemData.cost = itemData.cost || {};
       itemData.cost.amount = itemData.cost.amount || 0;
       itemData.cost.pool = itemData.cost.pool || "";
@@ -85,14 +85,14 @@ export class NumeneraAbilityItem extends Item {
     skill.use();
   }
 
-  async update(data, options) {
-    // Workaround since Foundry does not like inputs that are not checkboxes to be dtype "Boolean"
-    if (typeof data["data.isAction"] === "string") {
-      data["data.isAction"] = data["data.isAction"] === "true";
-      // TODO migrate isAction property into a string or number to avoid this workaround
-      // don't forget to change the form's dtype accordingly!
-    }
+  // async update(data, options) {
+  //   // Workaround since Foundry does not like inputs that are not checkboxes to be dtype "Boolean"
+  //   if (typeof data["data.isAction"] === "string") {
+  //     data["data.isAction"] = data["data.isAction"] === "true";
+  //     // TODO migrate isAction property into a string or number to avoid this workaround
+  //     // don't forget to change the form's dtype accordingly!
+  //   }
 
-    return super.update(data, options);
-  }
+  //   return super.update(data, options);
+  // }
 }

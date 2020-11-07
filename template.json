@@ -88,7 +88,7 @@
             "common": {
                 "notes": "",
                 "order": -1,
-                "version": 4
+                "version": 5
             },
             "numenera": {
                 "identified": false,
@@ -109,13 +109,13 @@
         },
         "ability": {
             "templates": ["common", "ranged"],
+            "abilityType": "",
             "category": "",
             "categoryValue": "",
             "cost": {
                 "amount": 0,
                 "pool": ""
             },
-            "isAction": false,
             "tier": ""
         },
         "armor": {
