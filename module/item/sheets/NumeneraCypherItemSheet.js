@@ -1,4 +1,5 @@
 import { NUMENERA } from "../../config.js";
+import { NumeneraCypherItem } from "../NumeneraCypherItem.js";
 
 export class NumeneraCypherItemSheet extends ItemSheet {
     /**
@@ -31,26 +32,12 @@ export class NumeneraCypherItemSheet extends ItemSheet {
     getData() {
         const sheetData = super.getData();
 
-        //TODO improve this, c'mon man, you can do better!
-        let cypherTypeFlavor;
-        switch (game.settings.get("numenera", "cypherTypesFlavor")) {
-            case 1: //none
-                cypherTypeFlavor = null;
-                break;
-
-            case 2: //anoetic/occultic
-                cypherTypeFlavor = "numenerav1";
-                break;
-
-            case 3: //subtle/manifest/fantastic
-                cypherTypeFlavor = "cypherSystem";
-                break;
-        }
-
-        const useCypherTypes = !!cypherTypeFlavor;
+        const flavor = NumeneraCypherItem.cypherTypeFlavor;
+        const useCypherTypes = !!flavor;
+        
         sheetData.displayCypherType = useCypherTypes;
         if (useCypherTypes)
-            sheetData.cypherTypes = NUMENERA.cypherTypes[cypherTypeFlavor];
+            sheetData.cypherTypes = NUMENERA.cypherTypes[flavor];
 
         return sheetData;
     }

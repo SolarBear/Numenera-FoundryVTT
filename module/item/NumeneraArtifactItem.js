@@ -30,4 +30,16 @@ export class NumeneraArtifactItem extends Item {
         itemData.levelDie = itemData.levelDie || "";
         itemData.level = itemData.level || "";
     }
+
+    /**
+     * Transform the current artifact so it doesn't look identified.
+     *
+     * @memberof NumeneraArtifactItem
+     */
+    asUnidentified() {
+        this.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
+        this.data.level = game.i18n.localize("NUMENERA.unknown");
+        this.data.effect = game.i18n.localize("NUMENERA.unknown");
+        this.data.depletion = null;
+    }
 }
