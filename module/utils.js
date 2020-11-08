@@ -16,7 +16,6 @@ export function getShortStat(stat) {
 }
 
 export function useAlternateButtonBehavior() {
-  debugger;
   let useAlt = window.event.ctrlKey || window.event.metaKey;
   
   if (game.settings.get("numenera", "defaultToTaskDialog"))
