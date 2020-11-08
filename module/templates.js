@@ -27,6 +27,7 @@ export const preloadHandlebarsTemplates = async() => {
         // Dialog Sheets
         "systems/numenera/templates/dialog/effort.html",
         "systems/numenera/templates/dialog/recovery.html",
+        "systems/numenera/templates/dialog/spellUse.html",
 
         //Item sheets
         "systems/numenera/templates/item/abilitySheet.html",

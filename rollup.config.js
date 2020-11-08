@@ -39,6 +39,7 @@ const toBundle = [
     "templates/actor/partials/weapons.html",
     "templates/dialog/effort.html",
     "templates/dialog/recovery.html",
+    "templates/dialog/spellUse.html",
     "templates/hud/tokenHUD.html",
     "templates/item/abilitySheet.html",
     "templates/item/armorSheet.html",
