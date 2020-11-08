@@ -134,10 +134,6 @@ export class EffortDialog extends FormApplication {
     if (stat) {
       current = actor.data.data.stats[stat].pool.value;
       remaining = current;
-
-      if (ability) {
-        remaining -= ability.data.data.cost.amount;
-      }
     }
 
     const skills = actor.getEmbeddedCollection("OwnedItem")
@@ -401,7 +397,13 @@ export class EffortDialog extends FormApplication {
     rollData.damageTrackPenalty = this.object.actor.data.data.damageTrack;
 
     if (this.object.skill) {
-      actor.rollSkill(this.object.skill, rollData, this.object.ability);
+      let skill = this.object.skill;
+      
+      //Fetch the skill, might be one of these weird kind-of-Item objects
+      if (skill._id)
+        skill = this.object.actor.getOwnedItem(this.object.skill._id);
+
+      actor.rollSkill(skill, rollData, this.object.ability);
     }
     else {
       actor.rollAttribute(shortStat, rollData);
