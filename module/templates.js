@@ -19,6 +19,7 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/actor/partials/oddities.html",
         "systems/numenera/templates/actor/partials/powerShifts.html",
         "systems/numenera/templates/actor/partials/recursions.html",
+        "systems/numenera/templates/actor/partials/weapons.html",
 
         // Chat messages
         "systems/numenera/templates/chat/automaticResult.html",

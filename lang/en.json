@@ -189,6 +189,7 @@
     "NUMENERA.stats.edge": "Edge",
 
     "NUMENERA.pc.weapons.sectionName": "Weapons",
+    "NUMENERA.pc.weapons.ammo": "Ammo",
     "NUMENERA.pc.weapons.name": "Name",
     "NUMENERA.pc.weapons.type": "Type",
     "NUMENERA.pc.weapons.damage": "Damage",

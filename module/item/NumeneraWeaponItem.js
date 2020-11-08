@@ -19,6 +19,7 @@ export class NumeneraWeaponItem extends Item {
         if (desc && desc.writable)
             itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.weapon.newWeapon");
 
+        itemData.ammo = itemData.ammo || 0;
         itemData.damage = itemData.damage || 1;
         itemData.range = itemData.range || Object.values(NUMENERA.ranges)[0];
         itemData.weaponType = itemData.weaponType || Object.values(NUMENERA.weaponTypes)[0];

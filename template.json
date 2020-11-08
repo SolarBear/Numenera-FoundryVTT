@@ -169,6 +169,7 @@
         },
         "weapon": {
             "templates": ["common", "ranged", "sellable", "weight"],
+            "ammo": 0,
             "damage": 0,
             "weaponType": ""
           }

@@ -36,6 +36,7 @@ const toBundle = [
     "templates/actor/partials/oddities.html",
     "templates/actor/partials/powerShifts.html",
     "templates/actor/partials/recursions.html",
+    "templates/actor/partials/weapons.html",
     "templates/dialog/effort.html",
     "templates/dialog/recovery.html",
     "templates/hud/tokenHUD.html",
