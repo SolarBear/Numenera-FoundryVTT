@@ -66,7 +66,7 @@
                 </select>
                 <div class="ammo">
                     <label>{{localize "NUMENERA.pc.weapons.ammo"}}</label>
-                    <input type="number" name="data.items.weapons.{{weapon._id}}.data.ammo" value="{{weapon.data.ammo}}" class="weapon-ammo" />
+                    <input type="number" name="data.items.weapons.{{weapon._id}}.data.ammo" value="{{weapon.data.ammo}}" min="0" class="weapon-ammo" />
                 </div>
             </td>
             <td class="weapon-notes">
