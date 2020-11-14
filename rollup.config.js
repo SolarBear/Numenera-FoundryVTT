@@ -52,6 +52,7 @@ const toBundle = [
     "templates/item/recursionSheet.html",
     "templates/scene/tokenConfig.html",
     "templates/scene/tokenConfig_06.html",
+    "templates/settings/features.html",
     "LICENSE"
 ];
 
