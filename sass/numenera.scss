@@ -56,6 +56,11 @@ form.numenera {
     border-radius: 10px;
     background-image: url("images/jpg/testbg.jpg");
     background: $bggrad;
+
+    //How to make child div scrollable when it exceeds parent height?
+    //https://stackoverflow.com/a/49107669/20043
+    display: flex;
+    flex-direction: column;
     overflow-y: hidden;
 
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
@@ -675,8 +680,7 @@ form.numenera {
     }
 
 	#pc-sheet-body {
-        overflow: auto;
-        max-height: 400px;
+        overflow-y: auto;
 
         & > div {
             overflow: auto;
