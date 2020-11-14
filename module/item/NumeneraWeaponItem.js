@@ -53,7 +53,6 @@ export class NumeneraWeaponItem extends Item {
           return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
         }
 
-        //TODO allow the use of translated values (?)
         const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
 
         //Get the skill related to that ability

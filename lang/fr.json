@@ -30,6 +30,7 @@
     "NUMENERA.effort.againstTaskLevel": "contre tâche niveau",
     "NUMENERA.effort.failAutomatically": "Échec automatique",
     "NUMENERA.effort.other": "Autres avantages",
+    "NUMENERA.effort.confirmUnspentTitle": "Confirmation : points non dépensés",
     "NUMENERA.effort.confirmUnspent": "Vous n'avez pas dépensé tous vos points et vos Réserves ne sont pas encore pleines. Voulvez-vous vraiment quitter? Ces points seront perdus.",
     "NUMENERA.effort.cost": "Coût",
     "NUMENERA.effort.damageTrackPenalty": "Pénalité de niveau de blessures",

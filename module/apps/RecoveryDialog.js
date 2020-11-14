@@ -298,9 +298,8 @@ export class RecoveryDialog extends FormApplication {
 
     if (this.object.unspentRecoveryPoints > 0 && currentPoolsTotal < maximumPoolsTotal) {
       closeMe = new Promise((resolve, reject) => {
-        // //TODO put this in language files
         new Dialog({
-          title: "Confirm",
+          title: game.i18n.localize("NUMENERA.effort.confirmUnspentTitle"),
           content:  game.i18n.localize("NUMENERA.effort.confirmUnspent"),
           buttons: {
             ok: {

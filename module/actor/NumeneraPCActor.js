@@ -49,7 +49,6 @@ export class NumeneraPCActor extends Actor {
 
   getInitiativeFormula() {
     //Check for an initiative skill
-    //TODO allow "initiative" in different languages if the current locale isn't "en"
     let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
     if (!initSkill) {
       initSkill = new NumeneraSkillItem();
@@ -290,7 +289,6 @@ export class NumeneraPCActor extends Actor {
     }
 
     //Look for any reducing skill(s)
-    //TODO: allow for some flexibility over skill names
     if (searchArmorSkill("Mastery with Armor")) {
       speedEffortPenalty -= 2;
     }
