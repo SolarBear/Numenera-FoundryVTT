@@ -473,7 +473,8 @@ export class NumeneraPCActor extends Actor {
       return false;
     }
 
-    ability.use();
+    if (!await ability.use())
+      return false;
 
     const cost = ability.getCost();
     if (cost.amount === 0) {

@@ -41,6 +41,17 @@ export class NumeneraAbilityItem extends Item {
   }
 
   /**
+   * Checks whether the ability is a spell.
+   *
+   * @readonly
+   * @return {Boolean} True if it is a spell, false otherwise.
+   * @memberof NumeneraAbilityItem
+   */
+  get isSpell() {
+    return this.data.data.abilityType === "NUMENERA.item.ability.type.spell";
+  }
+
+  /**
    * Gets the Ability cost as an object representing the pool name and amount.
    *
    * @returns {Object}
@@ -75,16 +86,32 @@ export class NumeneraAbilityItem extends Item {
     return updated;
   }
 
+  /**
+   * Use the Ability: gets the related skill, if any, then checks whether it is a spell.
+   * Performs the roll and returns whether the ability was successfully used.
+   *
+   * @returns {Boolean} True if the ability was used, false otherwise.
+   * @memberof NumeneraAbilityItem
+   */
   async use() {
     //An ability must be related to an Actor to be used
     if (this.actor === null) {
-      return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+      ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+      return false;
     }
 
     //Get the skill related to that ability
     let skill = this.actor.data.items.find(
       i => i.name === this.data.name && i.type === NumeneraSkillItem.type
     );
+
+    //Is this a spell?
+    if (this.isSpell) {
+      const isCast = await this._castAsSpell();
+
+      if (!isCast) //User might change their mind
+        return false;
+    }
 
     if (!skill) {
       skill = new NumeneraSkillItem();
@@ -95,46 +122,57 @@ export class NumeneraAbilityItem extends Item {
       skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
     }
 
-    //Is this a spell?
-    if (this.data.data.abilityType === "NUMENERA.item.ability.type.spell") {
-      //Hold on! We need to know how they wish to cast that spell      
-      const use = await confirmSpellUse(this);
+    skill.use();
+    return true;
+  }
 
-      switch (use) {
-        case "time":
-          //TODO add extra label to ability use
-          break;
-        case "recovery":
-          const recoveries = this.actor.data.data.recoveries;
-          switch (await selectRecoveryToUse(this.actor)) {
-            case "1-action":
-              //Get the first 1-action that is available
-              //We've already confirmed that at least one is available
-              for (let i = 0; i < recoveries.length - 3; i++)
-                if (recoveries[i]) {
-                  recoveries[i] = false;
-                  break;
-                }
-              break;
-            case "10-minutes":
-              recoveries[recoveries.length - 3] = false;
-              break;
-            case "1-hour":
-              recoveries[recoveries.length - 2] = false;
-              break;
-            default:
-              return;
-          }
+  /**
+   * If the current ability is a spell
+   *
+   * @returns
+   * @memberof NumeneraAbilityItem
+   */
+  async _castAsSpell() {
+    if (!this.isSpell)
+      throw new Error("Trying to cast a non-spell ability as a spell");
 
-          //Save the actor data for that recovery's use
-          await this.actor.update({"data.recoveries": recoveries});
-          break;
-        default:
-          //That one's easy.
-          return;
-      }
+    //Hold on! We need to know how they wish to cast that spell      
+    const use = await confirmSpellUse(this);
+
+    switch (use) {
+      case "time":
+        //TODO add extra label to ability use
+        break;
+      case "recovery":
+        const recoveries = this.actor.data.data.recoveries;
+        switch (await selectRecoveryToUse(this.actor)) {
+          case "1-action":
+            //Get the first 1-action that is available
+            //We've already confirmed that at least one is available
+            for (let i = 0; i < recoveries.length - 3; i++)
+              if (recoveries[i]) {
+                recoveries[i] = false;
+                break;
+              }
+            break;
+          case "10-minutes":
+            recoveries[recoveries.length - 3] = false;
+            break;
+          case "1-hour":
+            recoveries[recoveries.length - 2] = false;
+            break;
+          default:
+            return false;
+        }
+
+        //Save the actor data for that recovery's use
+        await this.actor.update({"data.recoveries": recoveries});
+        break;
+      default:
+        //That one's easy.
+        return false;
     }
 
-    skill.use();
+    return true;
   }
 }
