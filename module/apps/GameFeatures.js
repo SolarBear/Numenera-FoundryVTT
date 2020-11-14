@@ -6,12 +6,8 @@ export class GameFeatures extends FormApplication
       id: "game-features",
       template: "systems/numenera/templates/settings/features.html",
       popOut: true,
-      submitOnChange: false,
       width: 380,
       height: "auto",
-      tabs: [
-        {navSelector: ".tabs", contentSelector: "form", initial: "general"}
-      ],
     });
   }
 
