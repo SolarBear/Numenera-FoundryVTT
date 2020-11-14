@@ -25,6 +25,7 @@ export const registerSystemSettings = function() {
     icon: "",
     scope: "world",
     type: String,
+    default: "custom",
     restricted: true,
   });
 
