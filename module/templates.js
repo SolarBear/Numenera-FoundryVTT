@@ -45,6 +45,8 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/hud/tokenHUD.html",
         "systems/numenera/templates/scene/tokenConfig.html",
         "systems/numenera/templates/scene/tokenConfig_06.html",
+
+        "systems/numenera/templates/settings/features.html",
     ];
 
     // Load the template parts

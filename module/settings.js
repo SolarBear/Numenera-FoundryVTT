@@ -3,13 +3,12 @@ Please keep settings sorted alphabetically, because that's
 how Foundry renders them. Thank you!
 */
 
+import { GameFeatures } from "./apps/GameFeatures.js";
+
 export const registerSystemSettings = function() {
   //To use any of these settings in the code, use:
   //game.settings.get("numenera", "SETTING_NAME");
 
-    /**
-   * Configure what version of armor-wearing penalty to use
-   */
   game.settings.register("numenera", "defaultToTaskDialog", {
     name: "Use Task dialog by default",
     hint: "If enabled, will invert the behavior of roll buttons macros: clicking one will open the Task dialog and Ctrl+Click will perform a regular roll.",
@@ -17,6 +16,25 @@ export const registerSystemSettings = function() {
     config: true,
     type: Boolean,
     default: false,
+  });
+
+  game.settings.register("numenera", "gameFeaturesPreset", {
+    name: "Game Features Preset",
+    label: "Game Features Preset",
+    hint: "Some feature presets for various game. You can always choose to override individual settings after setting a preset.",
+    icon: "",
+    scope: "world",
+    type: String,
+    restricted: true,
+  });
+
+  game.settings.registerMenu("numenera", "gameFeatures", {
+    name: "Game Features",
+    label: "Game Features",
+    hint: "Use game presets or toggle individual game features such as oddities, recursions, power shifts, etc.",
+    icon: "fa fa-bars",
+    type: GameFeatures,
+    restricted: true,
   });
 
   /**
@@ -193,7 +211,7 @@ export const registerSystemSettings = function() {
     name: "Feature: Oddities",
     hint: "Enable the use of Oddities in your game.",
     scope: "world",
-    config: true,
+    config: false,
     type: Boolean,
     default: true
   });
@@ -205,7 +223,7 @@ export const registerSystemSettings = function() {
     name: "Feature: Power Shifts",
     hint: "Enable the use of Power Shifts in your game.",
     scope: "world",
-    config: true,
+    config: false,
     type: Boolean,
     default: false
   });
@@ -217,7 +235,7 @@ export const registerSystemSettings = function() {
     name: "Feature: Recursions",
     hint: "Enable the use of Recursions in your game.",
     scope: "world",
-    config: true,
+    config: false,
     type: Boolean,
     default: false,
   });
@@ -229,7 +247,7 @@ export const registerSystemSettings = function() {
     name: "Feature: Spells",
     hint: "Enable the use of Spells in your game, as a sub-type of Abilities.",
     scope: "world",
-    config: true,
+    config: false,
     type: Boolean,
     default: false
   });

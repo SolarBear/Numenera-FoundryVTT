@@ -1,0 +1,41 @@
+<form class="{{cssClass}} numenera-dialog" autocomplete="off">
+    <h1>Game Features</h1>
+    <h2>Game Presets
+        <select name="preset">
+            {{#select preset}}
+            <option value="custom">Cypher System / Custom</option>
+            <option value="numenera">Numenera</option>
+            <option value="theStrange">The Strange</option>
+            <option value="godsOfTheFall">Gods of the Fall</option>
+            {{/select}}
+        </select>
+    </h2>
+    <h2>Individual Features</h2>
+    <ul>
+        <li>
+            <label>
+                Oddities
+                <input type="checkbox" name="features.useOddities" {{checked features.useOddities}} />
+            </label>
+        </li>
+        <li>
+            <label>
+                Power Shifts
+                <input type="checkbox" name="features.usePowerShifts" {{checked features.usePowerShifts}} />
+            </label>
+        </li>
+        <li>
+            <label>
+                Recursions
+                <input type="checkbox" name="features.useRecursions" {{checked features.useRecursions}} />
+            </label>
+        </li>
+        <li>
+            <label>
+                Spells
+                <input type="checkbox" name="features.useSpells" {{checked features.useSpells}} />
+            </label>
+        </li>
+    </ul>
+    <button>Close</button>
+</form>
