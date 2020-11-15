@@ -57,7 +57,7 @@ export class NumeneraPCActor extends Actor {
 
     const rollData = this.getSkillRollData(initSkill);
 
-    return rollData.getRollFormula();
+    return rollData.getInitiativeRollFormula();
   }
 
   /**
