@@ -3,6 +3,52 @@ export class NumeneraCypherItem extends Item {
     return "cypher";
   }
 
+  /**
+     * Transform the current cypher so it doesn't look identified.
+     *
+     * @memberof NumeneraCypherItem
+     */
+    static asUnidentified(cypher) {
+      if (cypher.constructor === Object)
+        cypher = NumeneraCypherItem.fromOwnedItem(cypher);
+
+      cypher.data.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
+      cypher.data.level = game.i18n.localize("NUMENERA.unknown");
+      cypher.data.effect = game.i18n.localize("NUMENERA.unknown");
+      cypher.data.cypherType = null;
+
+      return cypher;
+  }
+
+  /**
+   * Convert a cypher POJO to a NumeneraCypherItem.
+   *
+   * @static
+   * @param {Object} ownedItem
+   * @param {NumeneraPCActor} actor
+   * @returns
+   * @memberof NumeneraCypherItem
+   */
+  static fromOwnedItem(ownedItem, actor) {
+      let cypherItem = new NumeneraCypherItem();
+      cypherItem.data._id = ownedItem._id;
+      cypherItem.data.name = ownedItem.name;
+      cypherItem.data.data = {};
+      cypherItem.data.data.price = ownedItem.data.price;
+      cypherItem.data.data.notes = ownedItem.data.notes;
+      cypherItem.data.data.efffect = ownedItem.data.effect;
+      cypherItem.data.data.form = ownedItem.data.form;
+      cypherItem.data.data.level = ownedItem.data.level;
+      cypherItem.data.data.levelDie = ownedItem.data.levelDie;
+      cypherItem.data.data.range = ownedItem.data.range;
+
+      cypherItem.options.actor = actor;
+
+      cypherItem.prepareData();
+
+      return cypherItem;
+  }
+
   prepareData() {
     // Override common default icon
     if (!this.data.img) this.data.img = 'icons/svg/pill.svg';
@@ -20,21 +66,6 @@ export class NumeneraCypherItem extends Item {
     itemData.range = itemData.range || "Immediate";
     itemData.effect = itemData.effect || "";
     itemData.cypherType = itemData.cypherType || "";
-  }
-
-  /**
-   * Transform the current artifact so it doesn't look identified.
-   *
-   * @memberof NumeneraArtifactItem
-   */
-  asUnidentified() {
-    this.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
-    this.data.level = game.i18n.localize("NUMENERA.unknown");
-    this.data.effect = game.i18n.localize("NUMENERA.unknown");
-
-    if (game.settings.get("numenera", "useCypherTypes")) {
-      this.data.cypherType = game.i18n.localize("NUMENERA.unknown");
-    }
   }
 
   /**

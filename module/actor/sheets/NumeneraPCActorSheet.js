@@ -453,8 +453,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   /**
-   * Processes cypher-related data for getData(). If you're calling this from another
-   * function, please consider reviewing your life's priorities.
+   * Processes cypher- and artifact-related data for getData(). If you're calling this
+   * from another function, please consider reviewing your life's priorities.
    *
    * @param {*} sheetData
    * @memberof NumeneraPCActorSheet
@@ -465,7 +465,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       if (!artifact.data.identified && !artifact.editable) {
         //Make it so that unidentified artifacts appear as blank items
-        artifact.asUnidentified();
+        artifact = NumeneraArtifactItem.asUnidentified(artifact);
       }
       else {
         artifact.data.effect = removeHtmlTags(artifact.data.effect);
@@ -480,7 +480,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       if (!cypher.data.identified && !cypher.editable) {
         //Make it so that unidentified cyphers appear as blank items
-        cypher.asUnidentified();
+        cypher = NumeneraCypherItem.asUnidentified(cypher);
       }
       else {
         cypher.data.effect = removeHtmlTags(cypher.data.effect);

@@ -132,10 +132,12 @@ NUMENERA.abilityTypesWithSpells = NUMENERA.abilityTypes.concat("NUMENERA.item.ab
 
 NUMENERA.cypherTypes = {
   numenerav1: {
+    "unknown": "NUMENERA.unknown",
     "anoetic": "NUMENERA.item.cypher.type.anoetic",
     "occultic": "NUMENERA.item.cypher.type.occultic",
   },
   cypherSystem: {
+    "unknown": "NUMENERA.unknown",
     "subtle": "NUMENERA.item.cypher.type.subtle",
     "manifest": "NUMENERA.item.cypher.type.manifest",
     "fantastic": "NUMENERA.item.cypher.type.fantastic",
