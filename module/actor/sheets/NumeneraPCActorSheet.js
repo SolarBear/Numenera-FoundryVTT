@@ -625,20 +625,28 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
+  /**
+   * Called when clicking on a "Roll" button next to a skill.
+   *
+   * @param {Event} event
+   * @memberof NumeneraPCActorSheet
+   */
   onSkillUse(event) {
     event.preventDefault();
+
     const skillId = event.target.closest(".skill").dataset.itemId;
+    if (!skillId)
+      return;
 
-    //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
-
-    if (useAlternateButtonBehavior()) {
-      new EffortDialog(this.actor, {skill: this.actor.getOwnedItem(skillId)}).render(true);
-    }
-    else {
-      return this.actor.rollSkillById(skillId);
-    }
+    this.actor.getOwnedItem(skillId).use();
   }
 
+  /**
+   * Called when clicking on a "Roll" button next to a weapon.
+   *
+   * @param {Event} event
+   * @memberof NumeneraPCActorSheet
+   */
   async onWeaponUse(event) {
     event.preventDefault();
 
@@ -646,31 +654,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!weaponId)
       return;
 
-    const weapon = await this.actor.getOwnedItem(weaponId);
-    const weight = game.i18n.localize(weapon.data.data.weight);
-    const weaponType = game.i18n.localize(weapon.data.data.weaponType);
-    const skillName = `${weight} ${weaponType}`;
-
-    //Get related skill, if any
-    const skillId = this.actor.data.items.find(i => i.name.toLowerCase() === skillName.toLowerCase());
-    let skill;
-
-    if (skillId) {
-      skill = await this.actor.getOwnedItem(skillId._id);
-    }
-
-    if (!skill) {
-      //No appropriate skill? Create a fake one, just to ensure a nice chat output
-      skill = new NumeneraSkillItem();
-      skill.data.name = skillName;
-    }
-
-    if (useAlternateButtonBehavior()) {
-      new EffortDialog(this.actor, { skill }).render(true);
-    }
-    else {
-      this.actor.rollSkill(skill);
-    }
+    this.actor.getOwnedItem(weaponId).use();
   }
 
   /**
@@ -681,19 +665,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   async onAbilityUse(event) {
     event.preventDefault();
-    const abilityId = event.target.closest(".ability").dataset.itemId;
 
+    const abilityId = event.target.closest(".ability").dataset.itemId;
     if (!abilityId)
       return;
 
-    //TODO use the use() method of NumeneraSkillItem, do the same for other Item types
-
-    if (useAlternateButtonBehavior()) {
-      new EffortDialog(this.actor, {ability: this.actor.getOwnedItem(abilityId)}).render(true);
-    }
-    else {
-      await this.actor.useAbilityById(abilityId);
-    }
+    this.actor.getOwnedItem(abilityId).use();
   }
 
   onArtifactDepletionRoll(event) {
