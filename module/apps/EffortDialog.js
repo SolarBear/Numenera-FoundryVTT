@@ -23,7 +23,7 @@ export class EffortDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 360,
-      height: 555,
+      height: "auto",
     });
   }
 

@@ -16,7 +16,7 @@ export class RecoveryDialog extends FormApplication {
       submitOnClose: false,
       editable: true,
       width: 480,
-      height: 400,
+      height: "auto",
     });
   }
 
