@@ -5,6 +5,14 @@
  * @class RollData
  */
 export class RollData {
+  static getTotalModifier(obj) {
+    return parseInt(obj.skillLevel)
+      + obj.nbAssets
+      - (obj.isHindered ? 1 : 0)
+      - (obj.damageTrackPenalty ? 1 : 0)
+      + obj.effortLevel;
+  }
+
   constructor() {
     this.topic = "";
     this.taskLevel = null;
@@ -24,14 +32,6 @@ export class RollData {
     return text;
   }
 
-  get totalModifier() {
-    return parseInt(this.skillLevel)
-      + this.nbAssets
-      - (this.isHindered ? 1 : 0)
-      - (this.damageTrackPenalty ? 1 : 0)
-      + this.effortLevel;
-  }
-
   /**
    * Initiative-specific to get the roll formula for an Actor. Foundry does not use
    * the same "level" scale we use in Cypher and when in Rome...
@@ -40,7 +40,7 @@ export class RollData {
    * @returns {String} The formula to use for initiative.
    */
   getInitiativeRollFormula() {
-    const bonus = 3 * this.totalModifier;
+    const bonus = 3 * RollData.getTotalModifier(this);
 
     let formula = "d20";
     if (bonus > 0)
@@ -208,7 +208,7 @@ export class RollData {
         let taskLevel = Math.floor(rolled / 3);
 
         if (game.settings.get("numenera", "d20Rolling") === "addModifiers")
-          taskLevel += roll.numenera.totalModifier;
+          taskLevel += RollData.getTotalModifier(roll.numenera);
 
         return {
           special: false,
