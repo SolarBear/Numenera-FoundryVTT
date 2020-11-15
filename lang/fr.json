@@ -48,6 +48,15 @@
     "NUMENERA.effort.warning.provideStat": "Vous devez sélectionner une caractéristique avant d'ajouter un Effort",
     "NUMENERA.effort.warning.notEnoughPoolPoints":"Points insuffisants dans cette Réserve",
 
+    "NUMENERA.features.spells.confirmDialog.labels.spendRecovery": "Dépenser une récupération",
+    "NUMENERA.features.spells.confirmDialog.labels.spend": "Dépenser",
+    "NUMENERA.features.spells.confirmDialog.title": "Utilisation de sort",
+    "NUMENERA.features.spells.confirmDialog.text": "Vous lancez un sort : comment souhaitez-vous le faire ?",
+    "NUMENERA.features.spells.selectRecoveryDialog.text": "Sélectionner la récupération à utiliser",
+    "NUMENERA.features.spells.selectRecoveryDialog.title": "Sort - Utilisation par une récupératin",
+    "NUMENERA.features.spells.recovery": " récupération utilisée pour lancer le sort",
+    "NUMENERA.features.spells.time": "A pris du temps pour lancer le sort : ",
+
     "NUMENERA.gmIntrusion": "Intrusion du MJ",
     "NUMENERA.gmIntrusionContent": "<p>Le maître de jeu vous offre une intrusion. L'acceptez-vous ?</p><ul><li>Si vous l'acceptez, le MJ introduira une complication inattendue pour votre personnage ; cependant, vous recevres 2 PX dont 1 qui devra être remis à un autre joueur.</li><li>Si vous la refusez, la complication ne surviendra pas mais 1 PX vous sera enlevé.</li></ul>",
     "NUMENERA.gmIntrusionButtonAccept": "Accepter",

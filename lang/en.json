@@ -47,6 +47,15 @@
     
     "NUMENERA.effort.warning.provideStat": "You must provide a stat before using Effort",
     "NUMENERA.effort.warning.notEnoughPoolPoints":"Insufficient points in this Pool",
+
+    "NUMENERA.features.spells.confirmDialog.labels.spendRecovery": "Spend a Recovery",
+    "NUMENERA.features.spells.confirmDialog.labels.spend": "Spend",
+    "NUMENERA.features.spells.confirmDialog.title": "Spell Use",
+    "NUMENERA.features.spells.confirmDialog.text": "You're casting a spell; how do you wish to cast it?",
+    "NUMENERA.features.spells.selectRecoveryDialog.text": "Select the Recovery to use",
+    "NUMENERA.features.spells.selectRecoveryDialog.title": "Spell - Use with Recovery",
+    "NUMENERA.features.spells.recovery": " Recovery spent to cast a spell",
+    "NUMENERA.features.spells.time": "Took some time to cast a spell: ",
     
     "NUMENERA.gmIntrusion": "GM Intrusion",
     "NUMENERA.gmIntrusionContent": "<p>The game master offers you an intrusion. Do you accept?</p><ul><li>Should you accept, the GM will introduce an unexpected complication for your character; however, you will receive 2 XP, 1 of which you must give to another player.</li><li>Should you refuse, the complication will not happen but 1 XP will be subtracted from your current amount.</li></ul>",

@@ -4,7 +4,8 @@ export function confirmSpellUse(ability) {
     const buttons = {
       time: {
         icon: '<i class="fas fa-check"></i>',
-        label: `Spend ${ability.spellCastingTime} to cast it`,
+        label: game.i18n.localize("NUMENERA.features.spells.confirmDialog.labels.spend")
+             + " " + ability.spellCastingTime,
         callback: () => resolve("time"),
       },
     };
@@ -18,7 +19,7 @@ export function confirmSpellUse(ability) {
     if (recoveriesAvailable) {
       buttons.recovery = {
         icon: '<i class="fas fa-check"></i>',
-        label: "Spend a Recovery",
+        label: game.i18n.localize("NUMENERA.features.spells.confirmDialog.labels.spendRecovery"),
         callback: () => resolve("recovery"),
       };
     }
@@ -30,8 +31,8 @@ export function confirmSpellUse(ability) {
     };
 
     return new Dialog({
-      title: "Spell Use",
-      content: "You're casting a spell; how do you wish to cast it?",
+      title: game.i18n.localize("NUMENERA.features.spells.confirmDialog.title"),
+      content: game.i18n.localize("NUMENERA.features.spells.confirmDialog.text"),
       buttons,
       default: "cancel",
       close: () => resolve(false),
@@ -55,24 +56,27 @@ export function selectRecoveryToUse(actor) {
       //At least one 1-action recovery is available
       buttons.action = {
         icon: '<i class="fas fa-check"></i>',
-        label: "Spend 1 Action Recovery",
-        callback: () => resolve("1-action"),
+        label: game.i18n.localize("NUMENERA.pc.recovery.action")
+        + " " + game.i18n.localize ("NUMENERA.pc.recovery.name"),
+        callback: () => resolve("action"),
       };
     }
 
     if (recoveries[0]) {
       buttons.tenMinutes = {
         icon: '<i class="fas fa-check"></i>',
-        label: "Spend 10-minute Recovery",
-        callback: () => resolve("10-minutes"),
+        label: game.i18n.localize("NUMENERA.pc.recovery.tenMin")
+        + " " + game.i18n.localize ("NUMENERA.pc.recovery.name"),
+        callback: () => resolve("tenMin"),
       };
     }
 
     if (recoveries[1]) {
       buttons.oneHour = {
         icon: '<i class="fas fa-check"></i>',
-        label: "Spend 1-hour Recovery",
-        callback: () => resolve("1-hour"),
+        label: game.i18n.localize("NUMENERA.pc.recovery.oneHour")
+        + " " + game.i18n.localize ("NUMENERA.pc.recovery.name"),
+        callback: () => resolve("oneHour"),
       };
     }
 
@@ -83,8 +87,8 @@ export function selectRecoveryToUse(actor) {
     };
 
     return new Dialog({
-      title: "Spell - Use with Recovery",
-      content: "Select the Recovery to use",
+      title: game.i18n.localize("NUMENERA.features.spells.selectRecoveryDialog.title"),
+      content: game.i18n.localize("NUMENERA.features.spells.selectRecoveryDialog.text"),
       buttons,
       default: "cancel",
       close: () => resolve(false),

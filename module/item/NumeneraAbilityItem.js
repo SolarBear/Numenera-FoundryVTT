@@ -139,18 +139,17 @@ export class NumeneraAbilityItem extends Item {
     //Hold on! We need to know how they wish to cast that spell      
     const use = await confirmSpellUse(this);
 
+    let message = null;
     switch (use) {
       case "time":
-        ChatMessage.create({
-          user: game.user._id,
-          speaker: this.actor,
-          content: "Took 10 minutes to cast a spell",
-        });
+        message = game.i18n.localize("NUMENERA.features.spells.time") + this.spellCastingTime;
         break;
+
       case "recovery":
         const recoveries = this.actor.data.data.recoveries;
-        switch (await selectRecoveryToUse(this.actor)) {
-          case "1-action":
+        const recovery = await selectRecoveryToUse(this.actor);
+        switch (recovery) {
+          case "action":
             //Get the first 1-action that is available
             //We've already confirmed that at least one is available
             for (let i = 0; i < recoveries.length - 3; i++)
@@ -159,21 +158,18 @@ export class NumeneraAbilityItem extends Item {
                 break;
               }
             break;
-          case "10-minutes":
+          case "tenMin":
             recoveries[recoveries.length - 3] = false;
             break;
-          case "1-hour":
+          case "oneHour":
             recoveries[recoveries.length - 2] = false;
             break;
           default:
             return false;
         }
 
-        ChatMessage.create({
-          user: game.user._id,
-          speaker: this.actor,
-          content: "Spent a recovery to cast a spell",
-        });
+        message = game.i18n.localize("NUMENERA.pc.recovery." + recovery)
+                + game.i18n.localize ("NUMENERA.features.spells.recovery");
 
         //Save the actor data for that recovery's use
         await this.actor.update({"data.recoveries": recoveries});
@@ -181,6 +177,14 @@ export class NumeneraAbilityItem extends Item {
       default:
         //That one's easy.
         return false;
+    }
+
+    if (message !== null) {
+      ChatMessage.create({
+        user: game.user._id,
+        speaker: this.actor,
+        content: message,
+      });
     }
 
     return true;
