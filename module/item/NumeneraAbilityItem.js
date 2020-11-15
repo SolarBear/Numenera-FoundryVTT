@@ -141,7 +141,11 @@ export class NumeneraAbilityItem extends Item {
 
     switch (use) {
       case "time":
-        //TODO add extra label to ability use
+        ChatMessage.create({
+          user: game.user._id,
+          speaker: this.actor,
+          content: "Took 10 minutes to cast a spell",
+        });
         break;
       case "recovery":
         const recoveries = this.actor.data.data.recoveries;
@@ -164,6 +168,12 @@ export class NumeneraAbilityItem extends Item {
           default:
             return false;
         }
+
+        ChatMessage.create({
+          user: game.user._id,
+          speaker: this.actor,
+          content: "Spent a recovery to cast a spell",
+        });
 
         //Save the actor data for that recovery's use
         await this.actor.update({"data.recoveries": recoveries});
