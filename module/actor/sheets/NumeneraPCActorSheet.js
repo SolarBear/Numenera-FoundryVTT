@@ -1,6 +1,7 @@
+import { onItemCreateGenerator, onItemDeleteGenerator, onItemEditGenerator, sortFunction } from "./sheetUtils.js";
+
 import { NUMENERA } from "../../config.js";
 
-import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 import { EffortDialog } from "../../apps/EffortDialog.js";
 import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
 
@@ -14,115 +15,7 @@ import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 import { NumeneraPowerShiftItem } from "../../item/NumeneraPowerShiftItem.js";
-import { useAlternateButtonBehavior } from "../../utils.js";
-
-//Sort function for order
-const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
-
-// Stolen from https://stackoverflow.com/a/34064434/20043
-function htmlDecode(input) {
-  var doc = new DOMParser().parseFromString(input, "text/html");
-  return doc.documentElement.textContent;
-}
-
-//Function to remove any HTML markup from eg. item descriptions
-function removeHtmlTags(str) {
-  // Replace any HTML tag ('<...>') by an empty string
-  // and then un-escape any HTML escape codes (eg. &lt;)
-  return htmlDecode(str.replace(/<.+?>/gi, ""));
-}
-
-/**
- * Higher order function that generates an item creation handler.
- *
- * @param {String} itemType The type of the Item (eg. 'ability', 'cypher', etc.)
- * @param {*} itemClass
- * @param {*} [callback=null]
- * @returns
- */
-function onItemCreate(itemType, itemClass, callback = null) {
-  return async function(event = null) {
-    if (event)
-    event.preventDefault();
-
-    const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
-
-    const itemData = {
-      name: newName,
-      type: itemType,
-      data: new itemClass({}),
-    };
-
-    const newItem = await this.actor.createOwnedItem(itemData);
-    if (callback)
-      callback(newItem);
-
-    return newItem;
-  }
-}
-
-function onItemEditGenerator(editClass, callback = null) {
-  return async function (event) {
-    event.preventDefault();
-    event.stopPropagation(); //Important! otherwise we get double rendering
-
-    const elem = event.currentTarget.closest(editClass);
-
-    if (!elem)
-      throw new Error(`Missing ${editClass} class element`);
-    else if (!elem.dataset.itemId)
-      throw new Error(`No itemID on ${editClass} element`);
-
-    const updated = {_id: elem.dataset.itemId};
-
-    const splitName = event.currentTarget.name.split(".");
-    const idIndex = splitName.indexOf(updated._id);
-    const parts = splitName.splice(idIndex + 1);
-
-    //Add the newly added property to the object
-    //This next block is necessary to support properties at various depths
-    //e.g support actor.name as well as actor.data.cost.pool
-
-    let previous = updated;
-    for (let i = 0; i < parts.length; i++) {
-      const name = parts[i];
-
-      if (i === parts.length - 1) {
-        //Last part, the actual property
-        if (event.target.type === "checkbox") {
-          previous[name] = event.currentTarget.checked;
-        } else if (event.target.dataset.dtype === "Boolean") {
-          previous[name] = (event.currentTarget.value === "true");
-        } else {
-          previous[name] = event.currentTarget.value;
-        }
-      } else {
-        previous[name] = {};
-        previous = previous[name];
-      }
-    }
-
-    const updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
-    if (callback)
-      callback(updatedItem);
-  }
-}
-
-function onItemDeleteGenerator(deleteType, callback = null) {
-  return async function (event) {
-    event.preventDefault();
-
-    if (await confirmDeletion(deleteType)) {
-      const elem = event.currentTarget.closest("." + deleteType);
-      const itemId = elem.dataset.itemId;
-      const toDelete = this.actor.data.items.find(i => i._id === itemId);
-      await this.actor.deleteOwnedItem(itemId);
-
-      if (callback)
-        callback(toDelete);
-    }
-  }
-}
+import { removeHtmlTags, useAlternateButtonBehavior } from "../../utils.js";
 
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
@@ -173,13 +66,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super(...args);
 
     //Creation event handlers
-    this.onAbilityCreate = onItemCreate("ability", NumeneraAbilityItem);
-    this.onArmorCreate = onItemCreate("armor", NumeneraArmorItem, this.onArmorUpdated.bind(this));
-    this.onEquipmentCreate = onItemCreate("equipment", NumeneraEquipmentItem);
-    this.onSkillCreate = onItemCreate("skill", NumeneraSkillItem);
-    this.onPowerShiftCreate = onItemCreate("powerShift", NumeneraPowerShiftItem, this.onPowerShiftUpdated.bind(this));
-    this.onRecursionCreate = onItemCreate("recursion", StrangeRecursionItem);
-    this.onWeaponCreate = onItemCreate("weapon", NumeneraWeaponItem);
+    this.onAbilityCreate = onItemCreateGenerator("ability", NumeneraAbilityItem);
+    this.onArmorCreate = onItemCreateGenerator("armor", NumeneraArmorItem, this.onArmorUpdated.bind(this));
+    this.onEquipmentCreate = onItemCreateGenerator("equipment", NumeneraEquipmentItem);
+    this.onSkillCreate = onItemCreateGenerator("skill", NumeneraSkillItem);
+    this.onPowerShiftCreate = onItemCreateGenerator("powerShift", NumeneraPowerShiftItem, this.onPowerShiftUpdated.bind(this));
+    this.onRecursionCreate = onItemCreateGenerator("recursion", StrangeRecursionItem);
+    this.onWeaponCreate = onItemCreateGenerator("weapon", NumeneraWeaponItem);
 
     //Edit event handlers
     this.onAbilityEdit = onItemEditGenerator(".ability");
