@@ -1,8 +1,21 @@
+import { confirmSpellUse,  selectRecoveryToUse } from "../apps/SpellDialog.js";
 import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 
 export class NumeneraAbilityItem extends Item {
   static get type() {
       return "ability";
+  }
+
+  get spellCastingTime() {
+    if (this.data.data.tier >= 5) {
+      return "1 hour";
+    }
+    else if (this.data.data.tier >= 3) {
+      return "30 minutes";
+    }
+    else if (this.data.data.tier >= 1) {
+      return "10 minutes";
+    }
   }
 
   prepareData() {
@@ -18,13 +31,24 @@ export class NumeneraAbilityItem extends Item {
       itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.ability.newAbility");
       itemData.category = itemData.category || "";
       itemData.categoryValue = itemData.categoryValue || "";
-      itemData.isAction = itemData.isAction || false;
+      itemData.abilityType = itemData.abilityType || false;
       itemData.cost = itemData.cost || {};
       itemData.cost.amount = itemData.cost.amount || 0;
       itemData.cost.pool = itemData.cost.pool || "";
       itemData.tier = itemData.tier || 1;
       itemData.range = itemData.range || "";
       itemData.notes = itemData.notes || "";
+  }
+
+  /**
+   * Checks whether the ability is a spell.
+   *
+   * @readonly
+   * @return {Boolean} True if it is a spell, false otherwise.
+   * @memberof NumeneraAbilityItem
+   */
+  get isSpell() {
+    return this.data.data.abilityType === "NUMENERA.item.ability.type.spell";
   }
 
   /**
@@ -62,16 +86,32 @@ export class NumeneraAbilityItem extends Item {
     return updated;
   }
 
+  /**
+   * Use the Ability: gets the related skill, if any, then checks whether it is a spell.
+   * Performs the roll and returns whether the ability was successfully used.
+   *
+   * @returns {Boolean} True if the ability was used, false otherwise.
+   * @memberof NumeneraAbilityItem
+   */
   async use() {
     //An ability must be related to an Actor to be used
     if (this.actor === null) {
-      return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+      ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+      return false;
     }
 
     //Get the skill related to that ability
     let skill = this.actor.data.items.find(
       i => i.name === this.data.name && i.type === NumeneraSkillItem.type
     );
+
+    //Is this a spell?
+    if (this.isSpell) {
+      const isCast = await this._castAsSpell();
+
+      if (!isCast) //User might change their mind
+        return false;
+    }
 
     if (!skill) {
       skill = new NumeneraSkillItem();
@@ -83,16 +123,70 @@ export class NumeneraAbilityItem extends Item {
     }
 
     skill.use();
+    return true;
   }
 
-  async update(data, options) {
-    // Workaround since Foundry does not like inputs that are not checkboxes to be dtype "Boolean"
-    if (typeof data["data.isAction"] === "string") {
-      data["data.isAction"] = data["data.isAction"] === "true";
-      // TODO migrate isAction property into a string or number to avoid this workaround
-      // don't forget to change the form's dtype accordingly!
+  /**
+   * If the current ability is a spell
+   *
+   * @returns
+   * @memberof NumeneraAbilityItem
+   */
+  async _castAsSpell() {
+    if (!this.isSpell)
+      throw new Error("Trying to cast a non-spell ability as a spell");
+
+    //Hold on! We need to know how they wish to cast that spell      
+    const use = await confirmSpellUse(this);
+
+    let message = null;
+    switch (use) {
+      case "time":
+        message = game.i18n.localize("NUMENERA.features.spells.time") + this.spellCastingTime;
+        break;
+
+      case "recovery":
+        const recoveries = this.actor.data.data.recoveries;
+        const recovery = await selectRecoveryToUse(this.actor);
+        switch (recovery) {
+          case "action":
+            //Get the first 1-action that is available
+            //We've already confirmed that at least one is available
+            for (let i = 0; i < recoveries.length - 3; i++)
+              if (recoveries[i]) {
+                recoveries[i] = false;
+                break;
+              }
+            break;
+          case "tenMin":
+            recoveries[recoveries.length - 3] = false;
+            break;
+          case "oneHour":
+            recoveries[recoveries.length - 2] = false;
+            break;
+          default:
+            return false;
+        }
+
+        message = game.i18n.localize("NUMENERA.pc.recovery." + recovery)
+                + game.i18n.localize ("NUMENERA.features.spells.recovery");
+
+        //Save the actor data for that recovery's use
+        await this.actor.update({"data.recoveries": recoveries});
+        break;
+      default:
+        //That one's easy.
+        return false;
     }
 
-    return super.update(data, options);
+    if (message !== null) {
+      ChatMessage.create({
+        user: game.user._id,
+        speaker: this.actor,
+        content: message,
+      });
+    }
+
+    return true;
   }
 }

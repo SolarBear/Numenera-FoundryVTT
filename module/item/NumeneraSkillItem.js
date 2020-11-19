@@ -1,5 +1,6 @@
 import { NUMENERA } from "../config.js";
 import { EffortDialog } from "../apps/EffortDialog.js";
+import { useAlternateButtonBehavior } from "../utils.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {
@@ -62,13 +63,16 @@ export class NumeneraSkillItem extends Item {
     return updated;
   }
 
-  async use() {
+  async use(event = null) {
+    if (event === null)
+      event = window.event;
+
     //An ability must be related to an Actor to be used
     if (this.actor === null) {
       return ui.notifications.error(game.i18n.localize("NUMENERA.item.skill.useNotLinkedToActor"));
     }
 
-    if (window.event && (window.event.ctrlKey || window.event.metaKey)) {
+    if (event && useAlternateButtonBehavior()) {
       new EffortDialog(this.actor, {skill: this}).render(true);
     } else {
       await this.actor.rollSkill(this);

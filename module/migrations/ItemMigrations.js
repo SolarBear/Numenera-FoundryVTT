@@ -81,5 +81,28 @@ Itemv3ToV4Migrator.migrationFunction = async function(item, obj = {}) {
   return newData;
 };
 
+//Keep migrators in order: v1 to v2, v2 to v3, etc.
+const Itemv4ToV5Migrator = Object.create(Migrator);
+
+Itemv4ToV5Migrator.forVersion = 5;
+Itemv4ToV5Migrator.forType = NumeneraItem;
+
+/* Summary of changes:
+  - removed "isAction" boolean value on Abilities, transformed it into a "abilityType" string value
+*/
+Itemv4ToV5Migrator.migrationFunction = async function(item, obj = {}) {
+  const newData = Object.assign({ _id: item._id}, obj);
+  
+  if (item.type === "ability") {
+    const abilityType = item.data.data.isAction ? "NUMENERA.item.ability.type.action" 
+                                                : "NUMENERA.item.ability.type.enabler";
+
+    newData["data.abilityType"] = abilityType;
+    newData["data.-=isAction"] = null;
+  }
+
+  return newData;
+};
+
 //Only export the latest migrator
-export const ItemMigrator = Itemv3ToV4Migrator;
+export const ItemMigrator = Itemv4ToV5Migrator;

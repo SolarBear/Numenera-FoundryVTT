@@ -36,9 +36,11 @@ const toBundle = [
     "templates/actor/partials/oddities.html",
     "templates/actor/partials/powerShifts.html",
     "templates/actor/partials/recursions.html",
+    "templates/actor/partials/weapons.html",
     "templates/chat/automaticResult.html",
     "templates/dialog/effort.html",
     "templates/dialog/recovery.html",
+    "templates/dialog/spellUse.html",
     "templates/hud/tokenHUD.html",
     "templates/item/abilitySheet.html",
     "templates/item/armorSheet.html",
@@ -52,6 +54,7 @@ const toBundle = [
     "templates/item/recursionSheet.html",
     "templates/scene/tokenConfig.html",
     "templates/scene/tokenConfig_06.html",
+    "templates/settings/features.html",
     "LICENSE"
 ];
 

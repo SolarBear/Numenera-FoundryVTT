@@ -6,7 +6,7 @@ import { NumeneraAbilityItem } from "../item/NumeneraAbilityItem.js";
 import { NumeneraArmorItem } from "../item/NumeneraArmorItem.js";
 import { NumeneraSkillItem } from "../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
-import { getShortStat } from "../utils.js";
+import { getShortStat, useAlternateButtonBehavior } from "../utils.js";
 import { NUMENERA } from "../config.js";
 import { NumeneraPowerShiftItem } from "../item/NumeneraPowerShiftItem.js";
 
@@ -49,7 +49,6 @@ export class NumeneraPCActor extends Actor {
 
   getInitiativeFormula() {
     //Check for an initiative skill
-    //TODO allow "initiative" in different languages if the current locale isn't "en"
     let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
     if (!initSkill) {
       initSkill = new NumeneraSkillItem();
@@ -58,8 +57,7 @@ export class NumeneraPCActor extends Actor {
 
     const rollData = this.getSkillRollData(initSkill);
 
-    //TODO possible assets, effort on init roll
-    return rollData.getRollFormula();
+    return rollData.getInitiativeRollFormula();
   }
 
   /**
@@ -154,7 +152,7 @@ export class NumeneraPCActor extends Actor {
    */
   rollAttribute(attribute, rollData = null) {
     //This really shouldn't be in an Actor class, but it makes it SO easier to create stat macros...
-    if (window.event.ctrlKey || window.event.metaKey) {
+    if (useAlternateButtonBehavior()) {
       return new EffortDialog(this, { stat: attribute }).render(true);
     }
 
@@ -291,7 +289,6 @@ export class NumeneraPCActor extends Actor {
     }
 
     //Look for any reducing skill(s)
-    //TODO: allow for some flexibility over skill names
     if (searchArmorSkill("Mastery with Armor")) {
       speedEffortPenalty -= 2;
     }
@@ -474,7 +471,8 @@ export class NumeneraPCActor extends Actor {
       return false;
     }
 
-    ability.use();
+    if (!await ability.use())
+      return false;
 
     const cost = ability.getCost();
     if (cost.amount === 0) {

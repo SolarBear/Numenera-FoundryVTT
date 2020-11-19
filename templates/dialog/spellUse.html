@@ -1,0 +1,16 @@
+<form class="{{cssClass}} numenera-dialog" autocomplete="off">
+    <h1>Spell Use</h1>
+    <p>How do you wish to use that spell?</p>
+    <div>
+        <input type="radio" name="use" value="time" id="use-time" />
+        <input type="radio" name="use" value="time" id="use-recovery" />
+    </div>
+    <div class="flexrow columns">
+        <div>
+            <button id="roll-recovery-dice">{{localize "NUMENERA.recoveries.roll"}}</button>
+        </div>
+        <div>
+            <button id="apply-recovery-choices">{{localize "NUMENERA.recoveries.accept"}}</button>
+        </div>
+    </div>
+</form>

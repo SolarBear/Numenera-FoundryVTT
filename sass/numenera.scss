@@ -56,6 +56,11 @@ form.numenera {
     border-radius: 10px;
     background-image: url("images/jpg/testbg.jpg");
     background: $bggrad;
+
+    //How to make child div scrollable when it exceeds parent height?
+    //https://stackoverflow.com/a/49107669/20043
+    display: flex;
+    flex-direction: column;
     overflow-y: hidden;
 
     /* flexrow and flexcol (ahem) "borrowed" from the D&D 5e LESS files, many thanks to atropos */
@@ -452,16 +457,32 @@ form.numenera {
             }
 
             &.weapons {
-                input.weapon-name-input {
-                    width: auto;
-                }
-
                 select.weapon-weight {
                     margin-right: 0.5em
                 }
 
-                input.weapon-damage {
-                    width: 3em;
+                div.ammo {
+                    margin-top: 3px;
+                }
+
+                label {
+                    min-height: 1.2em;
+                    font-weight: normal;
+                    color: black;
+                }
+
+                input {
+                    &.weapon-name-input {
+                        width: 16ch;
+                    }
+    
+                    &.weapon-damage {
+                        width: 2em;
+                    }
+
+                    &.weapon-ammo {
+                        width: 2em;
+                    }
                 }
             }
         }
@@ -659,8 +680,7 @@ form.numenera {
     }
 
 	#pc-sheet-body {
-        overflow: auto;
-        max-height: 400px;
+        overflow-y: auto;
 
         & > div {
             overflow: auto;
@@ -749,6 +769,8 @@ form.numenera-dialog {
     border-radius: 10px;
     background-image: url("images/jpg/testbg.jpg");
     background: $bggrad;
+
+    padding: 0.25em;
 
     li {
         list-style-type: none;

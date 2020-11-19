@@ -15,11 +15,11 @@ export class NumeneraWeaponItem extends Item {
 
         let itemData = this.data.data || {};
 
-        //TODO we're duplicating the name here... why is that?
         const desc = Object.getOwnPropertyDescriptor(itemData, "name");
         if (desc && desc.writable)
             itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.weapon.newWeapon");
 
+        itemData.ammo = itemData.ammo || 0;
         itemData.damage = itemData.damage || 1;
         itemData.range = itemData.range || Object.values(NUMENERA.ranges)[0];
         itemData.weaponType = itemData.weaponType || Object.values(NUMENERA.weaponTypes)[0];
@@ -53,7 +53,6 @@ export class NumeneraWeaponItem extends Item {
           return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
         }
 
-        //TODO allow the use of translated values (?)
         const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
 
         //Get the skill related to that ability

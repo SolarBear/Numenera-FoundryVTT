@@ -30,6 +30,7 @@
     "NUMENERA.effort.againstTaskLevel": "against task level",
     "NUMENERA.effort.failAutomatically": "Automatic Failure",
     "NUMENERA.effort.other": "Other Enhancements",
+    "NUMENERA.effort.confirmUnspentTitle": "Confirm: Unspent Points",
     "NUMENERA.effort.confirmUnspent": "You have unspent points are your pools are not full yet. Do you really want to exit? These points will be lost.",
     "NUMENERA.effort.cost": "Cost",
     "NUMENERA.effort.damageTrackPenalty": "Damage Track Penalty",
@@ -46,6 +47,15 @@
     
     "NUMENERA.effort.warning.provideStat": "You must provide a stat before using Effort",
     "NUMENERA.effort.warning.notEnoughPoolPoints":"Insufficient points in this Pool",
+
+    "NUMENERA.features.spells.confirmDialog.labels.spendRecovery": "Spend a Recovery",
+    "NUMENERA.features.spells.confirmDialog.labels.spend": "Spend",
+    "NUMENERA.features.spells.confirmDialog.title": "Spell Use",
+    "NUMENERA.features.spells.confirmDialog.text": "You're casting a spell; how do you wish to cast it?",
+    "NUMENERA.features.spells.selectRecoveryDialog.text": "Select the Recovery to use",
+    "NUMENERA.features.spells.selectRecoveryDialog.title": "Spell - Use with Recovery",
+    "NUMENERA.features.spells.recovery": " Recovery spent to cast a spell",
+    "NUMENERA.features.spells.time": "Took some time to cast a spell: ",
     
     "NUMENERA.gmIntrusion": "GM Intrusion",
     "NUMENERA.gmIntrusionContent": "<p>The game master offers you an intrusion. Do you accept?</p><ul><li>Should you accept, the GM will introduce an unexpected complication for your character; however, you will receive 2 XP, 1 of which you must give to another player.</li><li>Should you refuse, the complication will not happen but 1 XP will be subtracted from your current amount.</li></ul>",
@@ -189,6 +199,7 @@
     "NUMENERA.stats.edge": "Edge",
 
     "NUMENERA.pc.weapons.sectionName": "Weapons",
+    "NUMENERA.pc.weapons.ammo": "Ammo",
     "NUMENERA.pc.weapons.name": "Name",
     "NUMENERA.pc.weapons.type": "Type",
     "NUMENERA.pc.weapons.damage": "Damage",
@@ -248,6 +259,7 @@
     "NUMENERA.item.ability.name": "Abilities",
     "NUMENERA.item.ability.type.action": "Action",
     "NUMENERA.item.ability.type.enabler": "Enabler",
+    "NUMENERA.item.ability.type.spell": "Spell",
     "NUMENERA.item.ability.tab.createTooltip": "Create",
     "NUMENERA.item.ability.tab.deleteTooltip": "Delete",
     "NUMENERA.item.ability.tab.cost": "Cost",
