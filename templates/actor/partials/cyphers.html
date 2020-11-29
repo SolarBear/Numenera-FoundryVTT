@@ -66,14 +66,15 @@
                             {{/if}}
                         {{/if}}
                     </td>
+
                     <td class="cypher-description">
                     {{#if cypher.editable}}
                         <label>
-                            Form
+                            {{localize "NUMENERA.pc.numenera.cypher.form"}}
                             <input type="text" name="data.items.cyphers.{{cypher._id}}.data.form" value="{{cypher.data.form}}" />
                         </label>
                         <label>
-                            Effect
+                            {{localize "NUMENERA.pc.numenera.cypher.effect"}}
                             <textarea name="data.items.cyphers.{{cypher._id}}.data.effect">{{cypher.data.effect}}</textarea>
                         </label>
                     {{else}}
