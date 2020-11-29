@@ -10,9 +10,10 @@ This repository is support for various Cypher system roleplaying games for the [
 
 We currently officially support
 
-* [Numenera](http://numenera.com/)
-* [The Strange](http://thestrangerpg.com/)
-* Soon: generic Cypher System
+* [Numenera](https://numenera.com/)
+* [The Strange](https://thestrangerpg.com/)
+* [Cypher System](https://cypher-system.com/) (most features)
+* [Gods of the Fall](https://www.montecookgames.com/welcome-to-gods-of-the-fall/)
 
 Don't know about them? Check them out!
 
@@ -22,11 +23,12 @@ See a mostly complete tour here: https://www.youtube.com/watch?v=yiK2A3iq8gY
 
 * Sheets for PCs, NPCs, skills, cyphers... anything under the 9th World's sun!
 * A full and flexible dialog to manage task levels and Effort: just press Ctrl and hold then click on the roll button to make it appear.
+* Create macros from any rollable element: skills, abilities, etc.
 * Unidentified cypher, artifact and oddity items so your players don't know what you've given them! (you _sneaky_ GM, you)
 * Cypher and artifact items can either have a fixed level or a randomly-generated one from a formula (eg. 1d6+2). Once given to a PC, that level is determined randomly, but the GM may override that value if they wish.
 * Players can create their own items or use pre-made ones, including weapons and armor
 * Dice rolls explicitly tell you about minor and major effects, as well as free GM intrusions
-* Built-in Recovery dialog
+* Built-in Task dialog: just Ctrl+click anything that allows rolling and you can then set target level, assets, effort, etc.
 * A third health bar for PC tokens, to see every PC pool straight from the battle map
 
 ## How do I use it?
