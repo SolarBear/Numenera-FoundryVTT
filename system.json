@@ -48,5 +48,5 @@
     "minimumCoreVersion" : "0.6.0",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",
     "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json",
-    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/1.4.0/numenera-foundryvtt-1.4.1.zip"
+    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/1.4.1/numenera-foundryvtt-1.4.1.zip"
 }
