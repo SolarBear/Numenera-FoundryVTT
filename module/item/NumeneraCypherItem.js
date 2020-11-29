@@ -33,14 +33,13 @@ export class NumeneraCypherItem extends Item {
       let cypherItem = new NumeneraCypherItem();
       cypherItem.data._id = ownedItem._id;
       cypherItem.data.name = ownedItem.name;
-      cypherItem.data.data = {};
-      cypherItem.data.data.price = ownedItem.data.price;
-      cypherItem.data.data.notes = ownedItem.data.notes;
-      cypherItem.data.data.efffect = ownedItem.data.effect;
-      cypherItem.data.data.form = ownedItem.data.form;
-      cypherItem.data.data.level = ownedItem.data.level;
-      cypherItem.data.data.levelDie = ownedItem.data.levelDie;
-      cypherItem.data.data.range = ownedItem.data.range;
+      cypherItem.data.price = ownedItem.data.price;
+      cypherItem.data.notes = ownedItem.data.notes;
+      cypherItem.data.efffect = ownedItem.data.effect;
+      cypherItem.data.form = ownedItem.data.form;
+      cypherItem.data.level = ownedItem.data.level;
+      cypherItem.data.levelDie = ownedItem.data.levelDie;
+      cypherItem.data.range = ownedItem.data.range;
 
       cypherItem.options.actor = actor;
 

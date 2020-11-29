@@ -33,16 +33,15 @@ export class NumeneraArtifactItem extends Item {
         let artifactItem = new NumeneraArtifactItem();
         artifactItem.data._id = ownedItem._id;
         artifactItem.data.name = ownedItem.name;
-        artifactItem.data.data = {};
-        artifactItem.data.data.price = ownedItem.data.price;
-        artifactItem.data.data.notes = ownedItem.data.notes;
-        artifactItem.data.data.efffect = ownedItem.data.effect;
-        artifactItem.data.data.form = ownedItem.data.form;
-        artifactItem.data.data.laws = ownedItem.data.laws;
-        artifactItem.data.data.range = ownedItem.data.range;
-        artifactItem.data.data.level = ownedItem.data.level;
-        artifactItem.data.data.levelDie = ownedItem.data.levelDie;
-        artifactItem.data.data.depletion = ownedItem.data.depletion;
+        artifactItem.data.price = ownedItem.data.price;
+        artifactItem.data.notes = ownedItem.data.notes;
+        artifactItem.data.efffect = ownedItem.data.effect;
+        artifactItem.data.form = ownedItem.data.form;
+        artifactItem.data.laws = ownedItem.data.laws;
+        artifactItem.data.range = ownedItem.data.range;
+        artifactItem.data.level = ownedItem.data.level;
+        artifactItem.data.levelDie = ownedItem.data.levelDie;
+        artifactItem.data.depletion = ownedItem.data.depletion;
 
         artifactItem.options.actor = actor;
 

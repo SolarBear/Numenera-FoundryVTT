@@ -349,6 +349,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * Processes cypher- and artifact-related data for getData(). If you're calling this
    * from another function, please consider reviewing your life's priorities.
    *
+   * @private
    * @param {*} sheetData
    * @memberof NumeneraPCActorSheet
    */
