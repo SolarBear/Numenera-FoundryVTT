@@ -371,6 +371,8 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   async _rollWithEffort(event) {
+    event.preventDefault();
+
     const actor = this.object.actor;
     const shortStat = getShortStat(this.object.stat);
 

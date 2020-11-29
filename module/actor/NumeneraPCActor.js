@@ -152,7 +152,7 @@ export class NumeneraPCActor extends Actor {
    */
   rollAttribute(attribute, rollData = null) {
     //This really shouldn't be in an Actor class, but it makes it SO easier to create stat macros...
-    if (useAlternateButtonBehavior()) {
+    if (rollData === null && useAlternateButtonBehavior()) {
       return new EffortDialog(this, { stat: attribute }).render(true);
     }
 
