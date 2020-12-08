@@ -42,7 +42,7 @@ export class RollData {
   getInitiativeRollFormula() {
     const bonus = 3 * RollData.getTotalModifier(this);
 
-    let formula = "d20";
+    let formula = "1d20";
     if (bonus > 0)
       formula += "+" + bonus;
     else if (bonus < 0)
@@ -52,17 +52,17 @@ export class RollData {
   }
 
   /**
-   * Get the roll formula for the Foundry Roll API (eg. "d20+3").
+   * Get the roll formula for the Foundry Roll API (eg. "1d20+3").
    *
    * @export
    * @returns {string}
    */
   getRollFormula() {
     if (this.taskLevel === null) {
-      return "d20";
+      return "1d20";
     }
 
-    return `{d20}cs>=${3 * this.taskLevel}`;
+    return `{1d20}cs>=${3 * this.taskLevel}`;
   }
 
   /**
