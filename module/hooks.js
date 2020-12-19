@@ -9,7 +9,7 @@ import { NumeneraNPCActor } from './actor/NumeneraNPCActor.js';
  * @export
  */
 export async function registerHooks() {
-  Hooks.on("ready", () => ui.notifications.info(
+  Hooks.once("ready", () => ui.notifications.info(
     `Numenera and its logo are trademarks of Monte Cook Games, LLC in the U.S.A. and other countries.
     All Monte Cook Games characters and character names, and the distinctive likenesses thereof,
     are trademarks of Monte Cook Games, LLC. Content derived from Monte Cook Games publications is
