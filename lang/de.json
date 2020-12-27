@@ -138,7 +138,7 @@
 
     "NUMENERA.pc.weapons.sectionName": "Waffen",
     "NUMENERA.pc.weapons.name": "Name",
-    "NUMENERA.pc.weapons.type": "Typ,
+    "NUMENERA.pc.weapons.type": "Typ",
     "NUMENERA.pc.weapons.damage": "Schaden",
     "NUMENERA.pc.weapons.range": "Reichweite",
     "NUMENERA.pc.weapons.notes": "Beschreibung",
