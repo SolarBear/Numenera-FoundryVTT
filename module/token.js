@@ -71,6 +71,9 @@ export function cypherToken() {
                 case "npc":
                     return getCypherNPCTokenBarAttribute.apply(this, arguments);
 
+                case "community":
+                    return superFunction.apply(this, arguments);
+
                 default:
                     throw new Error("No such Actor type");
             }
