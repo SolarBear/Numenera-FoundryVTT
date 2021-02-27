@@ -10,7 +10,7 @@ export class NumeneraSkillItem extends Item {
   static fromOwnedItem(ownedItem, actor) {
     let skillItem = new NumeneraSkillItem();
     skillItem.data._id = ownedItem._id;
-    skillItem.data.name = ownedItem.name;
+    skillItem.data.name = skillItem.data.data.name = ownedItem.name;
     skillItem.data.data.notes = ownedItem.data.notes;
     skillItem.data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
     skillItem.data.data.stat = ownedItem.data.stat;
