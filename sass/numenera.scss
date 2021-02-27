@@ -623,6 +623,9 @@ form.numenera {
 
         &.sheet-tabs {
             flex: 0;
+            //These 2 properties are useful in case of multi-line tab names
+            height: inherit;
+            line-height: inherit;
         }
     }
 
