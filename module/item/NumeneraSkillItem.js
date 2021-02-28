@@ -12,7 +12,7 @@ export class NumeneraSkillItem extends Item {
 
     skillItem._data._id = ownedItem._id;
     skillItem._data.name = ownedItem.name;
-    skillItem._data.data = {};
+    skillItem._data.data = ownedItem.data.data || {};
     skillItem._data.data.notes = ownedItem.data.notes;
     skillItem._data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
     skillItem._data.data.stat = ownedItem.data.stat;

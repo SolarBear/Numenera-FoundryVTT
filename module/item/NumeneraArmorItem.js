@@ -14,15 +14,15 @@ export class NumeneraArmorItem extends Item {
 
     static fromOwnedItem(ownedItem, actor) {
         let armorItem = new NumeneraArmorItem();
-        armorItem.data._id = ownedItem._id;
-        armorItem.data.data = ownedItem.data.data || {};
-        armorItem.data.data.name = ownedItem.name;
-        armorItem.data.data.armor = ownedItem.data.armor;
-        armorItem.data.data.notes = ownedItem.data.notes;
-        armorItem.data.data.price = ownedItem.data.price;
-        armorItem.data.data.weight = ownedItem.data.weight;
-        armorItem.data.data.skillLevel = ownedItem.data.skillLevel;
-        armorItem.data.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
+        armorItem._data._id = ownedItem._id;
+        armorItem._data.data = ownedItem.data.data || {};
+        armorItem._data.data.name = ownedItem.name;
+        armorItem._data.data.armor = ownedItem.data.armor;
+        armorItem._data.data.notes = ownedItem.data.notes;
+        armorItem._data.data.price = ownedItem.data.price;
+        armorItem._data.data.weight = ownedItem.data.weight;
+        armorItem._data.data.skillLevel = ownedItem.data.skillLevel;
+        armorItem._data.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
         armorItem.options.actor = actor;
     
         armorItem.prepareData();
