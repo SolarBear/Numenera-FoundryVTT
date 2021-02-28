@@ -174,15 +174,11 @@
                         </td>
                     </tr>
                 {{else}}
-                <tr>
-                    {{#if settings.icons.skills}}
-                    <td colspan="9">
-                    {{else}}
-                    <td colspan="8">
-                    {{/if}}
-                        {{{localize "NUMENERA.item.skill.tab.instructions"}}}
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="100%">
+                            {{{localize "NUMENERA.item.skill.tab.instructions"}}}
+                        </td>
+                    </tr>
                 {{/each}}
                 </tbody>
             </table>
@@ -259,11 +255,7 @@
                     </tr>
                 {{else}}
                     <tr>
-                        {{#if settings.icons.skills}}
-                        <td colspan="7">
-                        {{else}}
-                        <td colspan="6">
-                        {{/if}}
+                        <td colspan="100%">
                             {{{localize "NUMENERA.item.ability.tab.instructions"}}}
                         </td>
                     </tr>
@@ -341,11 +333,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    {{#if settings.icons.equipment}}
-                    <td colspan="8">
-                    {{else}}
-                    <td colspan="7">
-                    {{/if}}
+                    <td colspan="100%">
                         {{{localize "NUMENERA.pc.armor.none"}}}
                     </td>
                 </tr>
@@ -396,11 +384,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    {{#if settings.icons.equipment}}
-                    <td colspan="6">
-                    {{else}}
-                    <td colspan="5">
-                    {{/if}}
+                    <td colspan="100%">
                         {{{localize "NUMENERA.pc.otherItems.none"}}}
                     </td>
                 </tr>
