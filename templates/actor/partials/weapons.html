@@ -24,9 +24,11 @@
             <td class="handle">
                 <a><i class="fas fa-grip-vertical"></i></a>
             </td>
-        {{#if weapon.showIcon}}
+        {{#if ../settings.icons.equipment}}
             <td class="item-icon">
+            {{#if weapon.showIcon}}
                 <img src="{{weapon.img}}" />
+            {{/if}}
             </td>
         {{/if}}
             <td class="weapon-name">
