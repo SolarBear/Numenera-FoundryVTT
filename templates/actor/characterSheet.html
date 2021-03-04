@@ -139,9 +139,11 @@
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
-                    {{#if skill.showIcon}}
+                    {{#if ../settings.icons.skills}}
                         <td class="item-icon">
+                        {{#if skill.showIcon}}
                             <img src="{{skill.img}}" />
+                        {{/if}}
                         </td>
                     {{/if}}
                         <td class="skill-name">
@@ -174,15 +176,11 @@
                         </td>
                     </tr>
                 {{else}}
-                <tr>
-                    {{#if settings.icons.skills}}
-                    <td colspan="9">
-                    {{else}}
-                    <td colspan="8">
-                    {{/if}}
-                        {{{localize "NUMENERA.item.skill.tab.instructions"}}}
-                    </td>
-                </tr>
+                    <tr>
+                        <td colspan="100%">
+                            {{{localize "NUMENERA.item.skill.tab.instructions"}}}
+                        </td>
+                    </tr>
                 {{/each}}
                 </tbody>
             </table>
@@ -211,9 +209,11 @@
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
-                    {{#if ability.showIcon}}
+                    {{#if ../settings.icons.abilities}}
                         <td class="item-icon">
+                        {{#if ability.showIcon}}
                             <img src="{{ability.img}}" />
+                        {{/if}}
                         </td>
                     {{/if}}
                         <td class="ability-name">
@@ -259,11 +259,7 @@
                     </tr>
                 {{else}}
                     <tr>
-                        {{#if settings.icons.skills}}
-                        <td colspan="7">
-                        {{else}}
-                        <td colspan="6">
-                        {{/if}}
+                        <td colspan="100%">
                             {{{localize "NUMENERA.item.ability.tab.instructions"}}}
                         </td>
                     </tr>
@@ -309,11 +305,13 @@
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
-                    {{#if armor.showIcon}}
+                        {{#if ../settings.icons.equipment}}
                         <td class="item-icon">
+                            {{#if armor.showIcon}}
                             <img src="{{armor.img}}" />
+                            {{/if}}
                         </td>
-                    {{/if}}
+                        {{/if}}
                         <td class="armor-name">
                             <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}"/>
                         </td>
@@ -341,11 +339,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    {{#if settings.icons.equipment}}
-                    <td colspan="8">
-                    {{else}}
-                    <td colspan="7">
-                    {{/if}}
+                    <td colspan="100%">
                         {{{localize "NUMENERA.pc.armor.none"}}}
                     </td>
                 </tr>
@@ -376,9 +370,11 @@
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
-                    {{#if equipment.showIcon}}
+                    {{#if ../settings.icons.equipment}}
                         <td class="item-icon">
+                        {{#if equipment.showIcon}}
                             <img src="{{equipment.img}}" />
+                        {{/if}}
                         </td>
                     {{/if}}
                         <td class="equipment-name">
@@ -396,11 +392,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    {{#if settings.icons.equipment}}
-                    <td colspan="6">
-                    {{else}}
-                    <td colspan="5">
-                    {{/if}}
+                    <td colspan="100%">
                         {{{localize "NUMENERA.pc.otherItems.none"}}}
                     </td>
                 </tr>

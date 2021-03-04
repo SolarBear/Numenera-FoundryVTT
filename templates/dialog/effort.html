@@ -102,19 +102,17 @@
         >
             {{failureText}}
         </button>
-        {{else}}
-            {{#if automaticSuccess}}
-            <button id="succeed-automatically" class="animated"
-                {{#if displayWarning}}disabled="disabled"{{/if}}
-            >
-                {{automaticSuccessText}}
-            </button>
-            {{/if}}
-            <button id="roll-with-effort" class="animated"
-                {{#if displayWarning}}disabled="disabled"{{/if}}
-            >
-                {{rollButtonText}}
-            </button>
+        {{else if automaticSuccess}}
+        <button id="succeed-automatically" class="animated"
+            {{#if displayWarning}}disabled="disabled"{{/if}}
+        >
+            {{automaticSuccessText}}
+        </button>
         {{/if}}
+        <button id="roll-with-effort" class="animated"
+            {{#if displayWarning}}disabled="disabled"{{/if}}
+        >
+            {{rollButtonText}}
+        </button>
     </div>
 </form>

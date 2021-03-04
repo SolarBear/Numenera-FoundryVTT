@@ -58,11 +58,16 @@ export class RollData {
    * @returns {string}
    */
   getRollFormula() {
-    if (this.taskLevel === null) {
+    if (this.taskLevel === null)
       return "1d20";
-    }
 
-    return `{1d20}cs>=${3 * this.taskLevel}`;
+    let target;
+    if (this.taskLevel <= 0)
+      target = 1; //in Foundry 0.7.9 there is a "bug" (?) where "{1dX}>=0" is always a failure
+    else
+      target = 3 * this.taskLevel;
+
+    return `{1d20}cs>=${target}`;
   }
 
   /**

@@ -146,18 +146,6 @@ export const registerSystemSettings = function() {
   });
 
   /**
-   * Configure whether or not to show skill icons
-   */
-  game.settings.register("numenera", "showSkillIcons", {
-    name: "Skill Icons",
-    hint: "Enable to show skill icons in player character sheets",
-    scope: "world",
-    config: true,
-    type: Boolean,
-    default: true
-  });
-
-  /**
    * Configure whether or not to show ability icons
    */
   game.settings.register("numenera", "showAbilityIcons", {
