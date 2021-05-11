@@ -17,14 +17,14 @@ NPCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
 
   //Convert attack POJOs into Items
   const attacks = Object.values(actor.data.data.attacks);
-  for (let attack of attacks) {
-    await actor.createOwnedItem({
-        type: "npcAttack",
-        data: {
-          notes: attack.description,
-        }
-    });
-  }
+  const attackObjs = attacks.map(atk => ({
+    type: "npcAttack",
+    data: {
+      notes: atk.description,
+    },
+  }));
+
+  await actor.createEmbeddedDocuments("Item", attackObjs);
 
   newData["data.-=attacks"] = null;
 

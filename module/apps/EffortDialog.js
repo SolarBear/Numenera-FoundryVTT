@@ -69,7 +69,7 @@ export class EffortDialog extends FormApplication {
     // - name, filtered by item type
     if (options.ability) {
       const temp = options.ability;
-      options.ability = await actor.getOwnedItem(temp);
+      options.ability = await actor.items.get(temp);
 
       if (!options.ability)
         options.ability = actor.items.find(ab => ab.name === temp && ab.type === NumeneraAbilityItem.type);
@@ -80,7 +80,7 @@ export class EffortDialog extends FormApplication {
 
     if (options.skill) {
       const temp = options.skill;
-      options.skill = await actor.getOwnedItem(temp);
+      options.skill = await actor.items.get(temp);
 
       if (!options.skill)
         options.skill = actor.items.find(sk => sk.name === temp && sk.type === NumeneraSkillItem.type);
@@ -91,7 +91,7 @@ export class EffortDialog extends FormApplication {
 
     if (options.powerShift) {
       const temp = options.powerShift;
-      options.powerShift = await actor.getOwnedItem(temp);
+      options.powerShift = await actor.items.get(temp);
 
       if (!options.powerShift)
         options.powerShift = actor.items.find(ps => ps.name === temp && ps.type === NumeneraPowerShiftItem.type);
@@ -403,7 +403,7 @@ export class EffortDialog extends FormApplication {
       
       //Fetch the skill, might be one of these weird kind-of-Item objects
       if (skill._id)
-        skill = this.object.actor.getOwnedItem(this.object.skill._id);
+        skill = this.object.actor.items.get(this.object.skill._id);
 
       actor.rollSkill(skill, rollData, this.object.ability);
     }
@@ -476,14 +476,14 @@ export class EffortDialog extends FormApplication {
     // Did the skill change?
     if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
       //In that case, update the stat to be the skill's stat
-      this.object.skill = this.object.actor.getOwnedItem(formData.skill);
+      this.object.skill = this.object.actor.items.get(formData.skill);
 
       if (this.object.skill) {
         this.object.stat = getShortStat(this.object.skill.data.data.stat);
 
         //Check for a related ability, use for calculating the final cost
         if (this.object.skill.data.data.relatedAbilityId) {
-          this.object.ability = this.object.actor.getOwnedItem(this.object.skill.data.data.relatedAbilityId);
+          this.object.ability = this.object.actor.items.get(this.object.skill.data.data.relatedAbilityId);
         }
         else {
           this.object.ability = null;

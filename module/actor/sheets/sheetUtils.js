@@ -24,7 +24,7 @@ export function onItemCreateGenerator(itemType, itemClass, callback = null) {
       type: itemType,
     });
 
-    const newItem = await this.actor.createOwnedItem(itemData);
+    const newItem = await this.actor.createEmbeddedDocuments("Item", [itemData]);
     if (callback)
       callback(newItem);
 
@@ -87,7 +87,7 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
       const toDelete = this.actor.data.items.find(i => i._id === itemId);
-      await this.actor.deleteOwnedItem(itemId);
+      await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
 
       if (callback)
         callback(toDelete);

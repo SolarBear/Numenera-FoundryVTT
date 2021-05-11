@@ -639,7 +639,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!skillId)
       return;
 
-    this.actor.getOwnedItem(skillId).use();
+    this.actor.items.get(skillId).use();
   }
 
   /**
@@ -655,7 +655,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!weaponId)
       return;
 
-    this.actor.getOwnedItem(weaponId).use();
+    this.actor.items.get(weaponId).use();
   }
 
   /**
@@ -671,7 +671,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!abilityId)
       return;
 
-    this.actor.getOwnedItem(abilityId).use();
+    this.actor.items.get(abilityId).use();
   }
 
   onArtifactDepletionRoll(event) {
@@ -682,7 +682,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
 
     //TODO move to the Artifact item class
-    const artifact = this.actor.getOwnedItem(artifactId);
+    const artifact = this.actor.items.get(artifactId);
     const depletion = artifact.data.data.depletion;
     if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
       return;

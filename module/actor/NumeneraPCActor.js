@@ -90,7 +90,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   rollSkillById(skillId, rollData = null, ability = null) {
-    const skill = this.getOwnedItem(skillId);
+    const skill = this.items.get(skillId);
     return this.rollSkill(skill, rollData, ability);
   }
 
@@ -392,7 +392,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   async useItemById(itemId) {
-    const item = await this.getOwnedItem(itemId);
+    const item = await this.items.get(itemId);
     return this.useItem(item);
   }
 
@@ -450,7 +450,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   async useAbilityById(abilityId) {
-    const ability = await this.getOwnedItem(abilityId);
+    const ability = await this.items.get(abilityId);
     return this.useAbility(ability);
   }
 
@@ -584,7 +584,7 @@ export class NumeneraPCActor extends Actor {
             data: skillData,
           };
 
-          await this.createOwnedItem(itemData);
+          await this.createEmbeddedDocuments("Item", [itemData]);
 
           ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
         }
@@ -597,7 +597,7 @@ export class NumeneraPCActor extends Actor {
   async updateEmbeddedEntity(embeddedName, data, options = {}) {
     const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
 
-    const updatedItem = this.getOwnedItem(updated._id);
+    const updatedItem = this.items.get(updated._id);
 
     if (!updatedItem)
       return;
@@ -609,7 +609,7 @@ export class NumeneraPCActor extends Actor {
         if (!relatedSkill)
           break;
 
-        const ability = this.getOwnedItem(relatedSkill.data.data.relatedAbilityId);
+        const ability = this.items.get(relatedSkill.data.data.relatedAbilityId);
         if (!ability)
           break;
 
@@ -623,7 +623,7 @@ export class NumeneraPCActor extends Actor {
         if (!updatedItem.data.data.relatedAbilityId)
           break;
 
-        const skill = this.getOwnedItem(updatedItem._id);
+        const skill = this.items.get(updatedItem._id);
         if (!skill)
           break;
 
