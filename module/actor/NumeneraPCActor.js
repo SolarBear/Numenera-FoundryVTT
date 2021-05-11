@@ -231,7 +231,7 @@ export class NumeneraPCActor extends Actor {
   }
 
   getTotalArmor() {
-    return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === NumeneraArmorItem.type)
+    return this.getEmbeddedCollection("Item").filter(i => i.type === NumeneraArmorItem.type)
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
   }
 
@@ -284,7 +284,7 @@ export class NumeneraPCActor extends Actor {
 
     //Local, utility function
     const searchArmorSkill = name => {
-      return !!this.getEmbeddedCollection("OwnedItem")
+      return !!this.getEmbeddedCollection("Item")
       .some(i => i.type === NumeneraAbilityItem.type && i.name === name);
     }
 
@@ -310,7 +310,7 @@ export class NumeneraPCActor extends Actor {
     let recoveries = NUMENERA.totalRecoveries;
 
     if (game.settings.get("numenera", "usePowerShifts")) {
-      recoveries = this.getEmbeddedCollection("OwnedItem")
+      recoveries = this.getEmbeddedCollection("Item")
         .filter(i => i.type === NumeneraPowerShiftItem.type && i.data.effect === NUMENERA.powerShiftEffects.extraRecoveries)
         .reduce((total, current) => total + parseInt(current.data.level), recoveries)
     }
@@ -326,7 +326,7 @@ export class NumeneraPCActor extends Actor {
    */
   _getHeaviestArmor() {
       //Armor with weight "N/A" are considered to have 0 weight
-      const armor = this.getEmbeddedCollection("OwnedItem")
+      const armor = this.getEmbeddedCollection("Item")
       .filter(i => i.type === NumeneraArmorItem.type)
       .map(NumeneraArmorItem.fromOwnedItem);
   
@@ -360,7 +360,7 @@ export class NumeneraPCActor extends Actor {
   }
 
   isOverCypherLimit() {
-    const cyphers = this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "cypher");
+    const cyphers = this.getEmbeddedCollection("Item").filter(i => i.type === "cypher");
 
     //AFAIK, only systems using anoetic/occultic cyphers count them differently
     switch (game.settings.get("numenera", "cypherTypesFlavor")) {

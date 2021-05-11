@@ -166,7 +166,7 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
     }]);
 
     //Create an Item skill if none already exists with the same name
-    const existingAbility = actor.getEmbeddedCollection("OwnedItem").find(i => i.name === name);
+    const existingAbility = actor.getEmbeddedCollection("Item").find(i => i.name === name);
 
     if (!existingAbility) {
       await NumeneraItem.create({
@@ -191,7 +191,7 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
     }]);
 
     //Create an Item skill if none already exists with the same name
-    const existingSkill = actor.getEmbeddedCollection("OwnedItem").find(i => i.name === name);
+    const existingSkill = actor.getEmbeddedCollection("Item").find(i => i.name === name);
 
     if (!existingSkill) {
       await NumeneraItem.create({

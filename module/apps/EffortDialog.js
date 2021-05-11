@@ -136,7 +136,7 @@ export class EffortDialog extends FormApplication {
       remaining = current;
     }
 
-    const skills = actor.getEmbeddedCollection("OwnedItem")
+    const skills = actor.getEmbeddedCollection("Item")
       .filter(i => i.type === "skill")
       .map(NumeneraSkillItem.fromOwnedItem)
       .map(sk => {
@@ -149,7 +149,7 @@ export class EffortDialog extends FormApplication {
 
     let powerShifts = null;
     if (game.settings.get("numenera", "usePowerShifts")) {
-      powerShifts = actor.getEmbeddedCollection("OwnedItem")
+      powerShifts = actor.getEmbeddedCollection("Item")
         .filter(i => i.type === "powerShift")
         .map(NumeneraPowerShiftItem.fromOwnedItem);
     }
@@ -520,7 +520,7 @@ export class EffortDialog extends FormApplication {
     this.object.remaining = this.object.current - this.object.cost;
 
     if (formData.powerShift) {
-      const powerShift = actor.getEmbeddedCollection("OwnedItem")
+      const powerShift = actor.getEmbeddedCollection("Item")
                           .find(i => i._id === formData.powerShift);
       this.object.powerShift = NumeneraPowerShiftItem.fromOwnedItem(powerShift);
     }
