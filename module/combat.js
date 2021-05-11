@@ -30,7 +30,7 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
 
       // Get Combatant data
       const c = this.getCombatant(id);
-      if (!c || !c.owner) return results;
+      if (!c || !c.isOwner) return results;
 
       // Roll initiative
       const rollData = c.actor ? c.actor.getRollData() : {};

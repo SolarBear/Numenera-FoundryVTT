@@ -535,7 +535,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
 
-    if (this.actor.owner) {
+    if (this.actor.isOwner) {
       // Find all abilitiy, skill, weapon and recursion items on the character sheet.
       html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,tr.equipment,tr.armor,tr.powerShift,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
         // Add draggable attribute and dragstart listener.
