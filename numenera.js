@@ -45,8 +45,8 @@ Hooks.once("init", function() {
     CONFIG.NUMENERA = NUMENERA;
 
     //Dirty trick to instantiate the right class. Kids, do NOT try this at home.
-    CONFIG.Actor.entityClass = NumeneraActor;
-    CONFIG.Item.entityClass = NumeneraItem;
+    CONFIG.Actor.documentClass = NumeneraActor;
+    CONFIG.Item.documentClass = NumeneraItem;
 
     //Each type of Actor will provide its own personal, free-range, bio, nut-free formula.
     Combat.prototype._getInitiativeFormula = getInitiativeFormula;

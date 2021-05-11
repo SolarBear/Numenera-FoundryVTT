@@ -229,7 +229,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
     }
 
-    sheetData.advances = Object.entries(sheetData.actor.data.advances).map(
+    sheetData.advances = Object.entries(sheetData.actor.data.data.advances).map(
       ([key, value]) => {
         return {
           name: key,
@@ -240,7 +240,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     );
 
     sheetData.damageTrackData = NUMENERA.damageTrack;
-    sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
+    sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.data.damageTrack].description;
 
     sheetData.displayMightCostPerHour = game.settings.get("numenera", "armorPenalty") === "old";
     sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;

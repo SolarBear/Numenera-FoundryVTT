@@ -18,11 +18,11 @@ export function onItemCreateGenerator(itemType, itemClass, callback = null) {
 
     const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
-    const itemData = {
+    const itemData = new itemClass({
+      _id: null,
       name: newName,
       type: itemType,
-      data: new itemClass({}),
-    };
+    });
 
     const newItem = await this.actor.createOwnedItem(itemData);
     if (callback)

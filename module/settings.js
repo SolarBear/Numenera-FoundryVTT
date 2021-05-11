@@ -98,10 +98,10 @@ export const registerSystemSettings = function() {
   });
 
   const permissionChoices = {};
-  permissionChoices[USER_ROLES.PLAYER] = "PLAYER";
-  permissionChoices[USER_ROLES.TRUSTED] = "TRUSTED";
-  permissionChoices[USER_ROLES.ASSISTANT] = "ASSISTANT";
-  permissionChoices[USER_ROLES.GAMEMASTER] = "GAMEMASTER";
+  permissionChoices[CONST.USER_ROLES.PLAYER] = "PLAYER";
+  permissionChoices[CONST.USER_ROLES.TRUSTED] = "TRUSTED";
+  permissionChoices[CONST.USER_ROLES.ASSISTANT] = "ASSISTANT";
+  permissionChoices[CONST.USER_ROLES.GAMEMASTER] = "GAMEMASTER";
 
   /**
    * Configure numenera items editing
@@ -112,7 +112,7 @@ export const registerSystemSettings = function() {
     scope: "world",
     config: true,
     type: Number,
-    default: USER_ROLES.GAMEMASTER,
+    default: CONST.USER_ROLES.GAMEMASTER,
     choices: permissionChoices,
   });
 

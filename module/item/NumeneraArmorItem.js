@@ -14,7 +14,7 @@ export class NumeneraArmorItem extends Item {
 
     static fromOwnedItem(ownedItem, actor) {
         let armorItem = new NumeneraArmorItem();
-        armorItem._data._id = ownedItem._id;
+        armorItem._data.id = ownedItem._id;
         armorItem._data.data = ownedItem.data.data || {};
         armorItem._data.data.name = ownedItem.name;
         armorItem._data.data.armor = ownedItem.data.armor;
