@@ -134,7 +134,7 @@
                     </tr>
                 </thead>
                 <tbody class="row-container">
-                {{#each data.items.skills as |skill| }}
+                {{#each data.skills as |skill| }}
                     <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
@@ -147,10 +147,10 @@
                         </td>
                     {{/if}}
                         <td class="skill-name">
-                            <input type="text" name="data.items.skills.{{skill._id}}.name" placeholder="Skill Name" value="{{skill.name}}" class="skill-name-input"/>
+                            <input type="text" name="data.skills.{{skill._id}}.name" placeholder="Skill Name" value="{{skill.name}}" class="skill-name-input"/>
                         </td>
                         <td class="skill-stat">
-                            <select name="data.items.skills.{{skill._id}}.data.stat">
+                            <select name="data.skills.{{skill._id}}.data.stat">
                             {{#select skill.data.stat}}
                             {{#each stats}}
                                 <option value="{{this}}">{{localize this}}</option>
@@ -159,16 +159,16 @@
                             </select>
                         </td>
                         <td class="skill-inability">
-                            <input type="checkbox" name="data.items.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
+                            <input type="checkbox" name="data.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
                         </td>
                         <td class="skill-untrained">
-                            <input class="skill-untrained" type="radio" value="0" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.untrained}} data-dtype="Number" />
+                            <input class="skill-untrained" type="radio" value="0" name="data.skills.{{skill._id}}.data.skillLevel" {{checked skill.untrained}} data-dtype="Number" />
                         </td>
                         <td class="skill-trained">
-                            <input class="skill-trained" type="radio" value="1" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.trained}} data-dtype="Number" />
+                            <input class="skill-trained" type="radio" value="1" name="data.skills.{{skill._id}}.data.skillLevel" {{checked skill.trained}} data-dtype="Number" />
                         </td>
                         <td class="skill-specialized">
-                            <input class="skill-specialized" type="radio" value="2" name="data.items.skills.{{skill._id}}.data.skillLevel" {{checked skill.specialized}} data-dtype="Number" />
+                            <input class="skill-specialized" type="radio" value="2" name="data.skills.{{skill._id}}.data.skillLevel" {{checked skill.specialized}} data-dtype="Number" />
                         </td>
                         <td>
                             <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
@@ -204,7 +204,7 @@
                     </tr>
                 </thead>
                 <tbody class="row-container">
-                {{#each data.items.abilities as |ability| }}
+                {{#each data.abilities as |ability| }}
                     <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
@@ -217,10 +217,10 @@
                         </td>
                     {{/if}}
                         <td class="ability-name">
-                            <input type="text" name="data.items.abilities.{{ability._id}}.name" placeholder="Ability Name" value="{{ability.name}}" class="ability-name-input"/>
+                            <input type="text" name="data.abilities.{{ability._id}}.name" placeholder="Ability Name" value="{{ability.name}}" class="ability-name-input"/>
                         </td>
                         <td class="ability-cost">
-                            <select name="data.items.abilities.{{ability._id}}.data.abilityType" data-dtype="String">
+                            <select name="data.abilities.{{ability._id}}.data.abilityType" data-dtype="String">
                                 {{#select ability.data.abilityType}}
                                 {{#each ../abilityTypes}}
                                 <option value="{{this}}">{{localize this}}</option>
@@ -230,8 +230,8 @@
                             <br/>
 
                             <div {{#if ability.nocost}}class="nocost"{{/if}}>
-                                <input type="number" name="data.items.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
-                                <select name="data.items.abilities.{{ability._id}}.data.cost.pool">
+                                <input type="number" name="data.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
+                                <select name="data.abilities.{{ability._id}}.data.cost.pool">
                                     {{#select ability.data.cost.pool}}
                                     {{#each stats}}
                                     <option value="{{this}}">{{localize this}}</option>
@@ -241,7 +241,7 @@
                             </div>
                         </td>
                         <td class="ability-range">
-                            <select name="data.items.abilities.{{ability._id}}.data.range">
+                            <select name="data.abilities.{{ability._id}}.data.range">
                             {{#select ability.data.range}}
                             {{#each ability.ranges}}
                                 <option value="{{this}}">{{localize this}}</option>
@@ -250,7 +250,7 @@
                             </select>
                         </td>
                         <td class="ability-description">
-                            <textarea name="data.items.abilities.{{ability._id}}.data.notes" title="{{ability.data.notes}}">{{ability.data.notes}}</textarea>
+                            <textarea name="data.abilities.{{ability._id}}.data.notes" title="{{ability.data.notes}}">{{ability.data.notes}}</textarea>
                         </td>
                         <td>
                             <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
@@ -300,7 +300,7 @@
                     <td><a class="armor-create" title="{{localize "NUMENERA.pc.armor.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                 </thead>
                 <tbody class="row-container">
-                {{#each data.items.armor as |armor|}}
+                {{#each data.armor as |armor|}}
                     <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
@@ -313,13 +313,13 @@
                         </td>
                         {{/if}}
                         <td class="armor-name">
-                            <input type="text" name="data.items.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}"/>
+                            <input type="text" name="data.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}"/>
                         </td>
                         <td class="armor-value">
-                            <input type="number" name="data.items.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" min="0" class="armor-value" data-dtype="Number" />
+                            <input type="number" name="data.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" min="0" class="armor-value" data-dtype="Number" />
                         </td>
                         <td class="armor-weight-type">
-                            <select name="data.items.armor.{{armor._id}}.data.weight" class="armor-weight">
+                            <select name="data.armor.{{armor._id}}.data.weight" class="armor-weight">
                             {{#select armor.data.weight}}
                             {{#each ../optionalWeights}}
                                 <option value="{{this}}">{{localize this}}</option>
@@ -328,10 +328,10 @@
                             </select>
                         </td>
                         <td>
-                            <input type="number" name="data.items.armor.{{armor._id}}.data.additionalSpeedEffortCost" value="{{armor.data.additionalSpeedEffortCost}}" min="0" class="armor-effort-cost" data-dtype="Number" />
+                            <input type="number" name="data.armor.{{armor._id}}.data.additionalSpeedEffortCost" value="{{armor.data.additionalSpeedEffortCost}}" min="0" class="armor-effort-cost" data-dtype="Number" />
                         </td>
                         <td class="armor-notes">
-                            <input type="text" name="data.items.armor.{{armor._id}}.data.notes" value="{{armor.data.notes}}" title="{{armor.data.notes}}" />
+                            <input type="text" name="data.armor.{{armor._id}}.data.notes" value="{{armor.data.notes}}" title="{{armor.data.notes}}" />
                         </td>
                         <td>
                             <a class="armor-delete" data-action="delete" title="{{localize "NUMENERA.pc.armor.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
@@ -365,7 +365,7 @@
                     <td><a class="equipment-create" title="{{localize "NUMENERA.pc.otherItems.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                 </thead>
                 <tbody class="row-container">
-                {{#each data.items.equipment as |equipment|}}
+                {{#each data.equipment as |equipment|}}
                     <tr class="equipment" data-item-id="{{equipment._id}}" data-order="{{equipment.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
@@ -378,13 +378,13 @@
                         </td>
                     {{/if}}
                         <td class="equipment-name">
-                            <input type="text" name="data.items.equipment.{{equipment._id}}.name" placeholder="Item Name" class="equipment-name-input" value="{{equipment.name}}" />
+                            <input type="text" name="data.equipment.{{equipment._id}}.name" placeholder="Item Name" class="equipment-name-input" value="{{equipment.name}}" />
                         </td>
                         <td class="equipment-quantity">
-                            <input type="number" name="data.items.equipment.{{equipment._id}}.data.quantity" value="{{equipment.data.quantity}}" min="0" class="equipment-quantity" data-dtype="Number" />
+                            <input type="number" name="data.equipment.{{equipment._id}}.data.quantity" value="{{equipment.data.quantity}}" min="0" class="equipment-quantity" data-dtype="Number" />
                         </td>
                         <td class="equipment-notes">
-                            <input type="text" name="data.items.equipment.{{equipment._id}}.data.notes" value="{{equipment.data.notes}}" title="{{equipment.data.notes}}" />
+                            <input type="text" name="data.equipment.{{equipment._id}}.data.notes" value="{{equipment.data.notes}}" title="{{equipment.data.notes}}" />
                         </td>
                         <td>
                             <a class="equipment-delete" data-action="delete" title="{{localize "NUMENERA.pc.otherItems.deleteTooltip"}}"><i class="fas fa-trash"></i></a>

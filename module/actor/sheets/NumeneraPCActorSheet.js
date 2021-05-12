@@ -116,6 +116,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * to insert new values or mess with existing ones.
    */
   getData() {
+    //getData behaves MUCH differently in 0.8!
+    //see https://gitlab.com/foundrynet/foundryvtt/-/issues/4321
     const sheetData = super.getData();
 
     this._setLabelsData(sheetData);
@@ -135,7 +137,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setItemsData(sheetData) {
-    sheetData.data.items = sheetData.actor.items || {};
+    //0.8
+    if (!sheetData.data.items)
+      sheetData.data.items = sheetData.actor.items || {};
 
     const itemClassMap = {
       abilities: NumeneraAbilityItem.type,
@@ -152,7 +156,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     Object.entries(itemClassMap).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
-        sheetData.data.items[val] = sheetData.data.items.filter(i => i.type === type).sort(sortFunction)
+        sheetData.data[val] = sheetData.data.items.filter(i => i.type === type).sort(sortFunction)
     });
 
     this._setCyphersData(sheetData, sheetData.displayCypherType);
@@ -300,7 +304,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //ODDITIES
     sheetData.useOddities = game.settings.get("numenera", "useOddities");
     if (sheetData.useOddities) {
-      sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+      sheetData.data.oddities = sheetData.data.oddities.map(oddity => {
         oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
         oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
         oddity.data.notes = removeHtmlTags(oddity.data.notes);
@@ -320,7 +324,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
 
     if (sheetData.usePowerShifts) {
-      sheetData.data.items.powerShifts = sheetData.data.items.powerShifts.map(powerShift => {
+      sheetData.data.powerShifts = sheetData.data.powerShifts.map(powerShift => {
         powerShift.showIcon = powerShift.img && sheetData.settings.icons.powerShifts;
         powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
         return powerShift;
@@ -354,7 +358,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setCyphersData(sheetData, useCypherType) {
-    sheetData.data.items.artifacts = sheetData.data.items.artifacts.map(artifact => {
+    sheetData.data.artifacts = sheetData.data.artifacts.map(artifact => {
       artifact.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
       if (!artifact.data.identified && !artifact.editable) {
@@ -369,7 +373,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return artifact;
     });
 
-    sheetData.data.items.cyphers = sheetData.data.items.cyphers.map(cypher => {
+    sheetData.data.cyphers = sheetData.data.cyphers.map(cypher => {
       cypher.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
       if (!cypher.data.identified && !cypher.editable) {
@@ -400,19 +404,19 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setEquipmentData(sheetData) {
-    sheetData.data.items.weapons = sheetData.data.items.weapons.map(weapon => {
+    sheetData.data.weapons = sheetData.data.weapons.map(weapon => {
       weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
       weapon.data.notes = removeHtmlTags(weapon.data.notes);
       return weapon;
     });
 
-    sheetData.data.items.armor = sheetData.data.items.armor.map(armor => {
+    sheetData.data.armor = sheetData.data.armor.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
       armor.data.notes = removeHtmlTags(armor.data.notes);
       return armor;
     });
 
-    sheetData.data.items.equipment = sheetData.data.items.equipment.map(equipment => {
+    sheetData.data.equipment = sheetData.data.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
       equipment.data.notes = removeHtmlTags(equipment.data.notes);
       return equipment;
@@ -432,7 +436,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     else
       sheetData.abilityTypes = NUMENERA.abilityTypes;
 
-    sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
+    sheetData.data.abilities = sheetData.data.abilities.map(ability => {
       ability.nocost = (ability.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
@@ -450,7 +454,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setSkillsData(sheetData) {
-    sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
+    sheetData.data.skills = sheetData.data.skills.map(skill => {
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
       skill.untrained = skill.data.skillLevel == 0;
@@ -603,7 +607,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
 
     if (update.length > 0)
-      await this.actor.updateEmbeddedEntity("OwnedItem", update);
+      await this.actor.updateEmbeddedDocuments("Item", [update]);
   }
 
   /**

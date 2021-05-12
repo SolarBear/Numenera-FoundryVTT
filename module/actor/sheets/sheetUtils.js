@@ -18,15 +18,15 @@ export function onItemCreateGenerator(itemType, itemClass, callback = null) {
 
     const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
-    const itemData = new itemClass({
+    const itemData = {
       _id: null,
       name: newName,
       type: itemType,
-    });
+    };
 
     const newItem = await this.actor.createEmbeddedDocuments("Item", [itemData]);
     if (callback)
-      callback(newItem);
+      callback(newItem[0]);
 
     return newItem;
   }
@@ -73,7 +73,7 @@ export function onItemEditGenerator(editClass, callback = null) {
       }
     }
 
-    const updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
+    const updatedItem = await this.actor.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
     if (callback)
       callback(updatedItem);
   }

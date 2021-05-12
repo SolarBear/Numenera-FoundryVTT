@@ -326,9 +326,15 @@ export class NumeneraPCActor extends Actor {
    */
   _getHeaviestArmor() {
       //Armor with weight "N/A" are considered to have 0 weight
-      const armor = this.getEmbeddedCollection("Item")
-      .filter(i => i.type === NumeneraArmorItem.type)
-      .map(NumeneraArmorItem.fromOwnedItem);
+      let collection;
+      if (game.data.version.startsWith("0.7."))
+        collection = this.getEmbeddedCollection("OwnedItem");
+      else
+        collection = this.items;
+
+      const armor = collection
+        .filter(i => i.type === NumeneraArmorItem.type)
+        .map(NumeneraArmorItem.fromOwnedItem);
   
       if (armor.length <= 0)
         return null;
@@ -568,7 +574,7 @@ export class NumeneraPCActor extends Actor {
             _id: relatedSkill.data._id,
             "data.relatedAbilityId": actorAbility._id,
           };
-          await this.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
+          await this.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
 
           ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
         } else {

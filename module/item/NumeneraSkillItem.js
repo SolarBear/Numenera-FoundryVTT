@@ -7,22 +7,29 @@ export class NumeneraSkillItem extends Item {
       return "skill";
   }
 
+  //TODO fromOwnedItem methods still needed in 0.8?
   static fromOwnedItem(ownedItem, actor) {
-    let skillItem = new NumeneraSkillItem();
+    let skillItem;
+    if (game.data.version.startsWith("0.7."))
+    {
+      skillItem = new NumeneraSkillItem();
 
-    skillItem._data._id = ownedItem._id;
-    skillItem._data.name = ownedItem.name;
-    skillItem._data.data = ownedItem.data.data || {};
-    skillItem._data.data.notes = ownedItem.data.notes;
-    skillItem._data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
-    skillItem._data.data.stat = ownedItem.data.stat;
-    skillItem._data.data.inability = ownedItem.data.inability;
-    skillItem._data.data.skillLevel = ownedItem.data.skillLevel;
-    skillItem.options.actor = actor;
+      skillItem._data._id = ownedItem._id;
+      skillItem._data.name = ownedItem.name;
+      skillItem._data.data = ownedItem.data.data || {};
+      skillItem._data.data.notes = ownedItem.data.notes;
+      skillItem._data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
+      skillItem._data.data.stat = ownedItem.data.stat;
+      skillItem._data.data.inability = ownedItem.data.inability;
+      skillItem._data.data.skillLevel = ownedItem.data.skillLevel;
+      skillItem.options.actor = actor;
 
-    skillItem.prepareData();
+      skillItem.prepareData();
 
-    return skillItem;
+      return skillItem;
+    }
+
+    return new NumeneraSkillItem(ownedItem, actor);
   }
 
   prepareData() {
