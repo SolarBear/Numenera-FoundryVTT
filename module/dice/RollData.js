@@ -102,16 +102,8 @@ export class RollData {
   }
 
   static _rollTextWithTaskLevel(roll) {
-    let dieRoll, success;
-    //TODO remove this with 0.6 version support
-    if (game.data.version.startsWith("0.6.")) {
-      dieRoll = roll.dice[0].rolls[0].roll;
-      success = !!parseInt(roll.result);
-    }
-    else { // 0.7
-      dieRoll = roll.terms[0].rolls[0].results[0];
-      success = !!parseInt(roll.total);
-    }
+    let dieRoll = roll.terms[0].rolls[0].results[0];
+    let success = !!parseInt(roll.total);
 
     if (success) {
       let combat = "";
@@ -168,15 +160,8 @@ export class RollData {
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    let dieRoll, total;
-    //TODO remove this with 0.6 version support
-    if (game.data.version.startsWith("0.6.")) {
-      dieRoll = roll.dice[0].rolls[0].roll;
-      total = roll.total;
-    } else { // 0.7
-      dieRoll = roll.results[0];
-      total = roll.total;
-    }
+    let dieRoll = roll.results[0];
+    let total = roll.total;
 
     let combat = "";
     if (dieRoll >= 17) {

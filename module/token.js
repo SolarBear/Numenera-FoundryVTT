@@ -112,13 +112,7 @@ export function cypherToken() {
     // Again, this is really stupid and should be fixed somehow, in an ideal world.
     let defaultTokenConfigOptions = TokenConfig.defaultOptions;
     Object.defineProperty(TokenConfig, "defaultOptions", {
-        get: function () {
-            if (game.data.version.startsWith("0.6.")) {
-                return mergeObject(defaultTokenConfigOptions, {
-                    template: "systems/numenera/templates/scene/tokenConfig_06.html"
-                });
-            }
-            
+        get: function () {           
             return mergeObject(defaultTokenConfigOptions, {
                 template: "systems/numenera/templates/scene/tokenConfig.html"
             });

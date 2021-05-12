@@ -11,10 +11,7 @@
    * @return {Promise<Combat>}        A promise which resolves to the updated Combat entity once updates are complete.
  */
 export async function rollInitiative(args) {
-  //TODO remove this with 0.6 version support
-  if (game.data.version.startsWith("0.6."))
-    return rollInitiative06Shim.apply(this, args);
-  else
+  //TODO remove this middle-man
     return rollInitiative07.apply(this, args);
 }
 

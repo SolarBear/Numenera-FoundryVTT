@@ -789,13 +789,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   _onDropItem(event, data) {
-    //TODO remove this with 0.6 version support
-    if (game.data.version.startsWith("0.6.")) {
-      
-    }
-    else {
-      super._onDropItem(event, data);
-    }
+    super._onDropItem(event, data);
 
     const { id } = JSON.parse(event.dataTransfer.getData("text/plain"));
 
