@@ -21,7 +21,7 @@ export class RollData {
     this.isHindered = false;
     this.damageTrackPenalty = false;
     this.effortLevel = 0;
-    this.rollMode = DICE_ROLL_MODES.PUBLIC;
+    this.rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
   }
 
   get flavorText() {

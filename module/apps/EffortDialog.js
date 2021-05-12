@@ -31,19 +31,19 @@ export class EffortDialog extends FormApplication {
     return [
       {
         label: game.i18n.localize("NUMENERA.rollMode.public"),
-        value: DICE_ROLL_MODES.PUBLIC,
+        value: CONST.DICE_ROLL_MODES.PUBLIC,
       },
       {
         label: game.i18n.localize("NUMENERA.rollMode.private"),
-        value: DICE_ROLL_MODES.PRIVATE,
+        value: CONST.DICE_ROLL_MODES.PRIVATE,
       },
       {
         label: game.i18n.localize("NUMENERA.rollMode.blind"),
-        value: DICE_ROLL_MODES.BLIND,
+        value: CONST.DICE_ROLL_MODES.BLIND,
       },
       {
         label: game.i18n.localize("NUMENERA.rollMode.self"),
-        value: DICE_ROLL_MODES.SELF,
+        value: CONST.DICE_ROLL_MODES.SELF,
       }
     ];
   }
