@@ -88,12 +88,3 @@ Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
 Hooks.once("ready", registerHooks);
-
-//TEMPORARY: deprecation notice for Foundry 0.6 users
-Hooks.once("ready", () => {
-if (game.data.version.startsWith("0.6."))
-    ui.notifications.warn(`DEPRECATION NOTICE<br/><br/>It seems you are still using Foundry version 0.6. Please take note that, to keep the system's code base clean as well as
-        to prepare for the upcoming 0.8 version, version 0.6 support will be removed soon. Please update your Foundry software; if you cannot do so, please contact me via
-        <a href="https://discord.gg/foundryvtt">Foundry's Discord server</a> (nickname: SolarBear) or <a href="https://github.com/SolarBear/Numenera-FoundryVTT/issues">create an issue on Github so we can discuss the matter.</a>`,
-    {permanent: true});
-});
