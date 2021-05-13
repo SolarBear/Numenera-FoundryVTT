@@ -33,6 +33,13 @@ export class NumeneraSkillItem extends Item {
     return await actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
+  constructor(actor, data = null) {
+    if (data === null)
+      data = {name: "New Skill", type: NumeneraSkillItem.type};
+
+    super(data, actor);
+  }
+
   prepareData() {
 	  // Override common default icon
 	  if (!this.data.img) this.data.img = 'icons/svg/book.svg';

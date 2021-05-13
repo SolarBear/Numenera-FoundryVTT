@@ -157,7 +157,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     // Create a pseudo-skill to avoid repeating the roll logic
-    const skill = new NumeneraSkillItem();
+    const skill = new NumeneraSkillItem(this);
 
     //Need to modify the deep property since skill.name is a getter
     skill.data.data.name = attribute.replace(/^\w/, (c) => c.toUpperCase()); //capitalized
