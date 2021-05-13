@@ -30,7 +30,6 @@ export class NumeneraSkillItem extends Item {
     }
 
     //return new NumeneraSkillItem(ownedItem, actor);
-    debugger;
     return await actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
