@@ -326,16 +326,16 @@ export class NumeneraPCActor extends Actor {
    */
   _getHeaviestArmor() {
       //Armor with weight "N/A" are considered to have 0 weight
-      let collection;
-      if (game.data.version.startsWith("0.7."))
-        collection = this.getEmbeddedCollection("OwnedItem");
-      else
-        collection = this.items;
+      let armor;
+      if (game.data.version.startsWith("0.7.")) {
+        armor = this.getEmbeddedCollection("OwnedItem")
+          .filter(i => i.type === NumeneraArmorItem.type)
+          .map(NumeneraArmorItem.fromOwnedItem);
+      }
+      else {
+        armor = this.items.filter(i => i.type === NumeneraArmorItem.type);
+      }
 
-      const armor = collection
-        .filter(i => i.type === NumeneraArmorItem.type)
-        .map(NumeneraArmorItem.fromOwnedItem);
-  
       if (armor.length <= 0)
         return null;
   

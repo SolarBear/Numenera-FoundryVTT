@@ -32,9 +32,8 @@ export class NumeneraArmorItem extends Item {
             return armorItem;
         }
 
-        //TODO ca chie ici parce que encore la, ca prendrait un simple POJO
         return new NumeneraArmorItem(ownedItem, actor);
-      }
+    }
 
     prepareData() {
         // Override common default icon

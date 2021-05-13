@@ -8,7 +8,7 @@ export class NumeneraSkillItem extends Item {
   }
 
   //TODO fromOwnedItem methods still needed in 0.8?
-  static fromOwnedItem(ownedItem, actor) {
+  static async fromOwnedItem(ownedItem, actor) {
     let skillItem;
     if (game.data.version.startsWith("0.7."))
     {
@@ -29,7 +29,9 @@ export class NumeneraSkillItem extends Item {
       return skillItem;
     }
 
-    return new NumeneraSkillItem(ownedItem, actor);
+    //return new NumeneraSkillItem(ownedItem, actor);
+    debugger;
+    return await actor.createEmbeddedDocuments("Item", [itemData]);
   }
 
   prepareData() {
