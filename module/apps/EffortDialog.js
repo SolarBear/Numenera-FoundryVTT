@@ -408,7 +408,7 @@ export class EffortDialog extends FormApplication {
       actor.rollSkill(skill, rollData, this.object.ability);
     }
     else {
-      actor.rollAttribute(shortStat, rollData);
+      await actor.rollAttribute(shortStat, rollData);
     }
 
     if (cost <= 0)

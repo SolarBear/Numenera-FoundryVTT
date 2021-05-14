@@ -622,7 +622,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @returns
    * @memberof NumeneraPCActorSheet
    */
-  onAttributeUse(event) {
+  async onAttributeUse(event) {
     event.preventDefault();
     let stat = event.target.closest(".stats").dataset.stat;
 
@@ -631,7 +631,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       new EffortDialog(this.actor, { stat }).render(true);
     }
     else {
-      return this.actor.rollAttribute(stat);
+      await this.actor.rollAttribute(stat);
     }
   }
 

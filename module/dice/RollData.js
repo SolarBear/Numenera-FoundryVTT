@@ -160,7 +160,9 @@ export class RollData {
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    let dieRoll = roll.results[0];
+    //TODO this is weird... check for broken stuff from 0.6
+    //TODO Roll.roll() now gives some weird warnings, perhaps switch to evaluate()?
+    let dieRoll = roll.result;
     let total = roll.total;
 
     let combat = "";

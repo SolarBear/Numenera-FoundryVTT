@@ -150,14 +150,21 @@ export class NumeneraPCActor extends Actor {
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollAttribute(attribute, rollData = null) {
+  async rollAttribute(attribute, rollData = null) {
     //This really shouldn't be in an Actor class, but it makes it SO easier to create stat macros...
     if (rollData === null && useAlternateButtonBehavior()) {
       return new EffortDialog(this, { stat: attribute }).render(true);
     }
 
     // Create a pseudo-skill to avoid repeating the roll logic
-    const skill = new NumeneraSkillItem(this);
+    let skill;
+    if (game.data.version.startsWith("0.7."))
+      skill = new NumeneraSkillItem(this);
+    else {
+      //TODO this is fugly. Any way of improving this?
+      const skills = await this.createEmbeddedDocuments("Item", [NumeneraSkillItem.object]);
+      skill = await skills[0];
+    }
 
     //Need to modify the deep property since skill.name is a getter
     skill.data.data.name = attribute.replace(/^\w/, (c) => c.toUpperCase()); //capitalized

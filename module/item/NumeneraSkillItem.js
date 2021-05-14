@@ -7,37 +7,39 @@ export class NumeneraSkillItem extends Item {
       return "skill";
   }
 
+  static get object() {
+    return {
+      type: NumeneraSkillItem.type,
+      name: "New Skill",
+    }
+  }
+
   //TODO fromOwnedItem methods still needed in 0.8?
   static async fromOwnedItem(ownedItem, actor) {
     let skillItem;
+    debugger;
     if (game.data.version.startsWith("0.7."))
     {
       skillItem = new NumeneraSkillItem();
-
-      skillItem._data._id = ownedItem._id;
-      skillItem._data.name = ownedItem.name;
-      skillItem._data.data = ownedItem.data.data || {};
-      skillItem._data.data.notes = ownedItem.data.notes;
-      skillItem._data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
-      skillItem._data.data.stat = ownedItem.data.stat;
-      skillItem._data.data.inability = ownedItem.data.inability;
-      skillItem._data.data.skillLevel = ownedItem.data.skillLevel;
-      skillItem.options.actor = actor;
-
-      skillItem.prepareData();
-
-      return skillItem;
+    }
+    else
+    {
+      skillItem = await actor.createEmbeddedDocuments("Item", [itemData]);
     }
 
-    //return new NumeneraSkillItem(ownedItem, actor);
-    return await actor.createEmbeddedDocuments("Item", [itemData]);
-  }
+    skillItem._data._id = ownedItem._id;
+    skillItem._data.name = ownedItem.name;
+    skillItem._data.data = ownedItem.data.data || {};
+    skillItem._data.data.notes = ownedItem.data.notes;
+    skillItem._data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
+    skillItem._data.data.stat = ownedItem.data.stat;
+    skillItem._data.data.inability = ownedItem.data.inability;
+    skillItem._data.data.skillLevel = ownedItem.data.skillLevel;
+    skillItem.options.actor = actor;
 
-  constructor(actor, data = null) {
-    if (data === null)
-      data = {name: "New Skill", type: NumeneraSkillItem.type};
+    skillItem.prepareData();
 
-    super(data, actor);
+    return skillItem;
   }
 
   prepareData() {
