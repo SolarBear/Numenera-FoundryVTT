@@ -24,9 +24,10 @@ export function onItemCreateGenerator(itemType, itemClass, callback = null) {
       type: itemType,
     };
 
-    const newItem = await this.actor.createEmbeddedDocuments("Item", [itemData]);
+    const newItem = await (await this.actor.createEmbeddedDocuments("Item", [itemData]))[0];
+
     if (callback)
-      callback(newItem[0]);
+      callback(newItem);
 
     return newItem;
   }

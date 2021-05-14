@@ -120,16 +120,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //see https://gitlab.com/foundrynet/foundryvtt/-/issues/4321
     const sheetData = super.getData();
 
+    //lol? https://discord.com/channels/170995199584108546/670336275496042502/836066464388743188
+    //TODO remove condition when removing support for 0.7
+    if (game.data.version.startsWith("0.8."))
+      sheetData.data = sheetData.data.data;
+
     this._setLabelsData(sheetData);
     this._setCypherTypeData(sheetData);
     this._setIconSettingsData(sheetData);
     this._setComputedValuesData(sheetData);
     this._setItemsData(sheetData);
-
-    //lol? https://discord.com/channels/170995199584108546/670336275496042502/836066464388743188
-    //TODO remove condition when removing support for 0.7
-    if (game.data.version.startsWith("0.8."))
-      sheetData.data = sheetData.data.data;
 
     return sheetData;
   }
@@ -249,7 +249,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     );
 
     sheetData.damageTrackData = NUMENERA.damageTrack;
-    sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.data.damageTrack].description;
+    sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
     sheetData.displayMightCostPerHour = game.settings.get("numenera", "armorPenalty") === "old";
     sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;
@@ -411,19 +411,19 @@ export class NumeneraPCActorSheet extends ActorSheet {
   _setEquipmentData(sheetData) {
     sheetData.data.weapons = sheetData.data.weapons.map(weapon => {
       weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
-      weapon.data.notes = removeHtmlTags(weapon.data.notes);
+      weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
       return weapon;
     });
 
     sheetData.data.armor = sheetData.data.armor.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
-      armor.data.notes = removeHtmlTags(armor.data.notes);
+      armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
       return armor;
     });
 
     sheetData.data.equipment = sheetData.data.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
-      equipment.data.notes = removeHtmlTags(equipment.data.notes);
+      equipment.data.data.notes = removeHtmlTags(equipment.data.data.notes);
       return equipment;
     });
   }
@@ -442,11 +442,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.abilityTypes = NUMENERA.abilityTypes;
 
     sheetData.data.abilities = sheetData.data.abilities.map(ability => {
-      ability.nocost = (ability.data.cost.amount <= 0);
+      ability.nocost = (ability.data.data.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
       ability.showIcon = ability.img && sheetData.settings.icons.abilities;
-      ability.data.notes = removeHtmlTags(ability.data.notes);
+      ability.data.data.notes = removeHtmlTags(ability.data.data.notes);
       return ability;
     });
   }
