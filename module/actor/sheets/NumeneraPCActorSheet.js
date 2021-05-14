@@ -462,9 +462,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.skills = sheetData.data.skills.map(skill => {
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
-      skill.untrained = skill.data.skillLevel == 0;
-      skill.trained = skill.data.skillLevel == 1;
-      skill.specialized = skill.data.skillLevel == 2;
+      skill.untrained = skill.data.data.skillLevel == 0;
+      skill.trained = skill.data.data.skillLevel == 1;
+      skill.specialized = skill.data.data.skillLevel == 2;
       return skill;
     });
   }
@@ -788,11 +788,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
   Override the base method to handle some of the values ourselves
   */
   _onChangeInput(event) {
-    for (let container of NumeneraPCActorSheet.inputsToIntercept) {
-      const element = window.document.querySelector(container);
-      if (element && element.contains(event.target))
-        return;
-    }
+    // for (let container of NumeneraPCActorSheet.inputsToIntercept) {
+    //   const element = window.document.querySelector(container);
+    //   if (element && element.contains(event.target))
+    //     return;
+    // }
 
     super._onChangeInput(event);
   }

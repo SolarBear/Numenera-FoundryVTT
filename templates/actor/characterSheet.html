@@ -151,7 +151,7 @@
                         </td>
                         <td class="skill-stat">
                             <select name="data.skills.{{skill._id}}.data.stat">
-                            {{#select skill.data.stat}}
+                            {{#select skill.data.data.stat}}
                             {{#each stats}}
                                 <option value="{{this}}">{{localize this}}</option>
                             {{/each}}
@@ -159,7 +159,7 @@
                             </select>
                         </td>
                         <td class="skill-inability">
-                            <input type="checkbox" name="data.skills.{{skill._id}}.data.inability" {{checked skill.data.inability}} data-dtype="Boolean" />
+                            <input type="checkbox" name="data.skills.{{skill._id}}.data.inability" {{checked skill.data.data.inability}} data-dtype="Boolean" />
                         </td>
                         <td class="skill-untrained">
                             <input class="skill-untrained" type="radio" value="0" name="data.skills.{{skill._id}}.data.skillLevel" {{checked skill.untrained}} data-dtype="Number" />

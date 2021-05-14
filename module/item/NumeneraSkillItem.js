@@ -32,9 +32,9 @@ export class NumeneraSkillItem extends Item {
     skillItem._data.data = ownedItem.data.data || {};
     skillItem._data.data.notes = ownedItem.data.notes;
     skillItem._data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
-    skillItem._data.data.stat = ownedItem.data.stat;
-    skillItem._data.data.inability = ownedItem.data.inability;
-    skillItem._data.data.skillLevel = ownedItem.data.skillLevel;
+    skillItem._data.data.stat = ownedItem.data.data.stat;
+    skillItem._data.data.inability = ownedItem.data.data.inability;
+    skillItem._data.data.skillLevel = ownedItem.data.data.skillLevel;
     skillItem.options.actor = actor;
 
     skillItem.prepareData();
