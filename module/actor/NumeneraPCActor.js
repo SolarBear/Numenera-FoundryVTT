@@ -165,7 +165,7 @@ export class NumeneraPCActor extends Actor {
     else {
       //TODO this is fugly. Any way of improving this?
       const skills = await this.createEmbeddedDocuments("Item", [NumeneraSkillItem.object]);
-      skill = await skills[0];
+      skill = await Promise.all(skills)[0];
     }
 
     //Need to modify the deep property since skill.name is a getter
@@ -444,11 +444,6 @@ export class NumeneraPCActor extends Actor {
       throw new Error("Not an ability item");
 
     const cost = ability.getCost();
-    //Ability costs 0? yeah, sure, use it, buddy
-    if (cost.amount === 0) {
-      return true;
-    }
-
     const stat = this.data.data.stats[cost.pool];
 
     if (!stat)
@@ -613,11 +608,9 @@ export class NumeneraPCActor extends Actor {
    * @override
    */
   async createEmbeddedDocuments(...args) {
-    const [documentType, data] = args;
+    const [documentType, _] = args;
     const docs = await super.createEmbeddedDocuments(...args);
     const newItems = await Promise.all(docs);
-
-    debugger;
 
     //Avoid useless deep embedding in "ifs", we're only interested in Items right now
     if (documentType !== "Item")
@@ -714,6 +707,11 @@ export class NumeneraPCActor extends Actor {
     return newItems;
   }
 
+  /**
+   * TODO remove with 0.7 support
+   * 
+   * @override
+   */
   async updateEmbeddedEntity(embeddedName, data, options = {}) {
     const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
 
@@ -760,5 +758,59 @@ export class NumeneraPCActor extends Actor {
 
     if (options.fromActorUpdateEmbeddedEntity)
       return updated;
+  }
+
+  /**
+   *
+   * @override
+   */
+  async updateEmbeddedDocuments(...args) {
+    const [embeddedName, _, context] = args;
+    const docs = await super.updateEmbeddedDocuments(...args);
+    const updatedItems = await Promise.all(docs);
+
+    //Avoid useless deep embedding in "ifs", we're only interested in Items right now
+    if (embeddedName !== "Item")
+      return updatedItems;
+
+    for (const updatedItem of updatedItems) {
+      switch (updatedItem.type) {
+        case NumeneraAbilityItem.type:
+          const relatedSkill = this.items.find(i => i.data.data.relatedAbilityId === updatedItem._id);
+          if (!relatedSkill)
+            break;
+  
+          const ability = this.items.get(relatedSkill.data.data.relatedAbilityId);
+          if (!ability)
+            break;
+  
+          //TODO is this still necessary?
+          if (!context.fromActorUpdateEmbeddedEntity)
+            context.fromActorUpdateEmbeddedEntity = NumeneraAbilityItem.type;
+  
+          ability.updateRelatedSkill(relatedSkill, context);
+          break;
+  
+        case NumeneraSkillItem.type:
+          if (!updatedItem.data.data.relatedAbilityId)
+            break;
+  
+          const skill = this.items.get(updatedItem._id);
+          if (!skill)
+            break;
+  
+          const relatedAbility = this.items.find(i => i.data._id === skill.data.data.relatedAbilityId);
+          if (!relatedAbility)
+            break;
+  
+          if (!context.fromActorUpdateEmbeddedEntity)
+          context.fromActorUpdateEmbeddedEntity = NumeneraSkillItem.type;
+  
+          skill.updateRelatedAbility(relatedAbility, context);
+          break;
+      }
+    }
+
+    return updatedItems;
   }
 }

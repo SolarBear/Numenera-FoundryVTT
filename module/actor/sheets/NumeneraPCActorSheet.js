@@ -328,7 +328,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.data.oddities = sheetData.data.oddities.map(oddity => {
         oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
         oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
-        oddity.data.notes = removeHtmlTags(oddity.data.notes);
+        oddity.data.notes = removeHtmlTags(oddity.data.data.notes);
         return oddity;
       });
 
@@ -349,7 +349,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (sheetData.usePowerShifts) {
       sheetData.data.powerShifts = sheetData.data.powerShifts.map(powerShift => {
         powerShift.showIcon = powerShift.img && sheetData.settings.icons.powerShifts;
-        powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
+        powerShift.data.notes = removeHtmlTags(powerShift.data.data.notes);
         return powerShift;
       });
 
@@ -386,12 +386,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.artifacts = sheetData.data.artifacts.map(artifact => {
       artifact.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
-      if (!artifact.data.identified && !artifact.editable) {
+      if (!artifact.data.data.identified && !artifact.editable) {
         //Make it so that unidentified artifacts appear as blank items
         artifact = NumeneraArtifactItem.asUnidentified(artifact);
       }
       else {
-        artifact.data.effect = removeHtmlTags(artifact.data.effect);
+        artifact.data.effect = removeHtmlTags(artifact.data.data.effect);
       }
 
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
@@ -401,15 +401,15 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.cyphers = sheetData.data.cyphers.map(cypher => {
       cypher.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
-      if (!cypher.data.identified && !cypher.editable) {
+      if (!cypher.data.data.identified && !cypher.editable) {
         //Make it so that unidentified cyphers appear as blank items
         cypher = NumeneraCypherItem.asUnidentified(cypher);
       }
       else {
-        cypher.data.effect = removeHtmlTags(cypher.data.effect);
+        cypher.data.effect = removeHtmlTags(cypher.data.data.effect);
       }
 
-      if (useCypherType && cypher.data.identified && !cypher.data.cypherType) {
+      if (useCypherType && cypher.data.data.identified && !cypher.data.data.cypherType) {
         //Use the very first object key as property since none has been defined yet
         cypher.data.cypherType = Object.keys(NUMENERA.cypherTypes[cypherTypeFlavor]);
       }
@@ -585,9 +585,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
-  _onDrop(event) {
-    super._onDrop(event);
-    this.reorderElements(event);
+  async _onDrop(event) {
+    const drop = await super._onDrop(event);
+    this.reorderElements(event, drop);
+
+    return drop;
   }
 
   _onDragStart(event) {
@@ -615,22 +617,21 @@ export class NumeneraPCActorSheet extends ActorSheet {
     return super._onDragStart(event);
   }
 
-  async reorderElements(event) {
-    const dragged = JSON.parse(event.dataTransfer.getData("text/plain"));
+  async reorderElements(event, item = null) {
     const container = event.target.closest(".row-container");
-
     if (!container || !("children" in container))
       return;
 
     const children = [...container.children];
+    const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
 
     let draggedRowIndex;
-    if (game.data.version.startsWith("0.7."))
+    if (item.id)
+      draggedRowIndex = children.findIndex(row => row.dataset.itemId == item.id);
+    else {
+      const dragged = JSON.parse(event.dataTransfer.getData("text/plain"));
       draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.id);
-    else
-      draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.data._id);
-
-    const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
+    }
 
     const updates = children.map((row, i) => {
       return {
@@ -648,8 +649,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
       row.dataset.order = i;
     }
 
-    if (updates.length > 0)
-      await this.actor.updateEmbeddedDocuments("Item", updates);
+    if (updates.length > 0) {
+      if (game.data.version.startsWith("0.7."))
+        await this.actor.updateEmbeddedEntity(updates);
+      else
+        await this.actor.updateEmbeddedDocuments("Item", updates);
+    }
   }
 
   /**
@@ -685,7 +690,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!skillId)
       return;
 
-    this.actor.items.get(skillId).use();
+    //this.actor.items.get(skillId).use();
+    this.actor.useItemById(skillId);
   }
 
   /**
@@ -717,7 +723,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!abilityId)
       return;
 
-    this.actor.items.get(abilityId).use();
+    //this.actor.items.get(abilityId).use();
+    this.actor.useItemById(abilityId);
   }
 
   onArtifactDepletionRoll(event) {
@@ -834,15 +841,25 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super._onChangeInput(event);
   }
 
-  _onDropItem(event, data) {
-    super._onDropItem(event, data);
+  async _onDropItem(event, data) {
+    const items = await super._onDropItem(event, data);
+    let item = await items[0];
 
-    const { id } = JSON.parse(event.dataTransfer.getData("text/plain"));
+    let id;
+    if (game.data.version.startsWith("0.7.")) {
+      id = JSON.parse(event.dataTransfer.getData("text/plain"));
+      if (!id)
+        return;
+    }
+    else {
+      id = item._id;
+    }
 
-    if (!id)
-      return;
-
-    const item = Item.collection.entities.find(i => i._id == id)
+    //let item;
+    if (game.data.version.startsWith("0.7."))
+      item = Item.collection.entities.find(i => i._id == id)
+    else
+      item = this.actor.items.get(id);
 
     //To avoid "false drops"
     if (!item)
@@ -859,6 +876,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
         this.onPowerShiftUpdated();
         return;
     }
+
+    return item;
   }
 
   _updateObject(event, formData) {

@@ -140,7 +140,7 @@ export class NumeneraAbilityItem extends Item {
         skill.options.actor = this.actor;
       
     }
-    else if (skill.prototype !== NumeneraSkillItem) {
+    else if (!(skill instanceof NumeneraSkillItem)) {
       skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
     }
 
