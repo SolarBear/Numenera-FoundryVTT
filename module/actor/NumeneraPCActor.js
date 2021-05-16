@@ -9,6 +9,8 @@ import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 import { getShortStat, useAlternateButtonBehavior } from "../utils.js";
 import { NUMENERA } from "../config.js";
 import { NumeneraPowerShiftItem } from "../item/NumeneraPowerShiftItem.js";
+import { NumeneraArtifactItem } from "../item/NumeneraArtifactItem.js";
+import { NumeneraCypherItem } from "../item/NumeneraCypherItem.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
@@ -512,11 +514,10 @@ export class NumeneraPCActor extends Actor {
    */
 
   /**
+   * TODO remove this with 0.7 support
    * @override
    */
-  async createEmbeddedEntity(...args) {
-    const [_, data] = args;
-
+   async createEmbeddedEntity(...args) {
     if (!data.data) return;
 
     //Prepare numenera items by rolling their level, if they don't have one already
@@ -593,7 +594,7 @@ export class NumeneraPCActor extends Actor {
 
           const itemData = {
             name: actorAbility.name,
-            type: "skill",
+            type: NumeneraSkillItem.type,
             data: skillData,
           };
 
@@ -605,6 +606,112 @@ export class NumeneraPCActor extends Actor {
     }
 
     return newItem;
+   }
+
+  /**
+   * 
+   * @override
+   */
+  async createEmbeddedDocuments(...args) {
+    const [documentType, data] = args;
+    const docs = await super.createEmbeddedDocuments(...args);
+    const newItems = await Promise.all(docs);
+
+    debugger;
+
+    //Avoid useless deep embedding in "ifs", we're only interested in Items right now
+    if (documentType !== "Item")
+      return newItems;
+
+
+    for (const newItem of newItems) {
+      const data = newItem.data;
+
+      //Prepare numenera items by rolling their level, if they don't have one already
+      switch (data.type) {
+        case NumeneraArtifactItem.type:
+        case NumeneraCypherItem.type:
+          const itemData = data.data;
+
+          if (!itemData.level && itemData.levelDie) {
+            try {
+              //Try the formula as is first
+              itemData.level = new Roll(itemData.levelDie).roll().total;
+
+              await this.update({
+                _id: this._id,
+                "data.level": itemData.level,
+              });
+            } catch (Error) {
+              try {
+                itemData.level = parseInt(itemData.level);
+              } catch (Error) {
+                //Leave it as it is
+              }
+            }
+          } else {
+            itemData.level = itemData.level || null;
+          }
+      
+          // Get the form of the artifact/cypher
+          try {
+            const forms = itemData.form.split(',');
+            const form = forms[Math.floor(Math.random() * forms.length)];
+            
+            itemData.form = form;
+          } catch (Error) {
+            //Leave it as it is
+          }
+          break;
+
+        case NumeneraAbilityItem.type:
+          const actorAbility = newItem;
+
+          if (!actorAbility) throw new Error("No related ability exists");
+
+          //Now check if a skill with the same name already exists
+          const relatedSkill = this.items.find(
+            (i) => i.data.type === "skill" && i.data.name === actorAbility.name
+          );
+
+          if (relatedSkill) {
+            if (relatedSkill.relatedAbilityId)
+              throw new Error(
+                "Skill related to new abiltiy already has a skill linked to it"
+              );
+
+            //A skil already has the same name as the ability
+            //This is certainly the matching skill, no need to create a new one
+            const updated = {
+              _id: relatedSkill.data._id,
+              "data.relatedAbilityId": actorAbility._id,
+            };
+            await this.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
+
+            ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
+          } else {
+            
+            //Create a related skill if one does not already exist
+            const skillData = {
+              stat: actorAbility.data.data.cost.pool,
+              relatedAbilityId: actorAbility._id,
+            };
+
+            const itemData = {
+              name: actorAbility.name,
+              type: NumeneraSkillItem.type,
+              data: skillData,
+            };
+
+            await this.createEmbeddedDocuments("Item", [itemData]);
+
+            ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
+          }
+          break;
+      }
+    }
+
+    return newItems;
   }
 
   async updateEmbeddedEntity(embeddedName, data, options = {}) {
