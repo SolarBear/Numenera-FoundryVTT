@@ -108,7 +108,14 @@ export class NumeneraAbilityItem extends Item {
     }
 
     //Get the skill related to that ability
-    let skill = this.actor.data.items.find(
+    let skill;
+    if (game.data.version.startsWith("0.7."))
+      skill = this.actor.data.items;
+    else
+      skill = this.actor.items;
+      
+      
+    skill = skill.find(
       i => i.name === this.data.name && i.type === NumeneraSkillItem.type
     );
 
@@ -121,9 +128,17 @@ export class NumeneraAbilityItem extends Item {
     }
 
     if (!skill) {
-      skill = new NumeneraSkillItem();
+      if (game.data.version.startsWith("0.7."))
+        skill = new NumeneraSkillItem();
+      else
+        //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
+        skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, {parent: this.actor});
+
       skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
-      skill.options.actor = this.actor;
+
+      if (game.data.version.startsWith("0.7."))
+        skill.options.actor = this.actor;
+      
     }
     else if (skill.prototype !== NumeneraSkillItem) {
       skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);

@@ -24,6 +24,7 @@ export class NumeneraSkillItem extends Item {
     }
     else
     {
+      //TODO find a more elegant way plz
       if (actor === null)
         skillItem = await actor.createEmbeddedDocuments("Item", [this.object]);
       else
