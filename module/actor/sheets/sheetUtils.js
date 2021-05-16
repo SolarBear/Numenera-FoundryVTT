@@ -74,7 +74,12 @@ export function onItemEditGenerator(editClass, callback = null) {
       }
     }
 
-    const updatedItem = await this.actor.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
+    let updatedItem;
+    if (game.data.version.startsWith("0.7."))
+      updatedItem = await this.actor.updateEmbeddedEntity(updated, {fromActorUpdateEmbeddedEntity: true});
+    else
+      updatedItem = await this.actor.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
+
     if (callback)
       callback(updatedItem);
   }

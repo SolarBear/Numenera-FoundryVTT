@@ -8,7 +8,7 @@
         <div class="ability">
             <label>
                 <select name="data.abilityType" data-dtype="String">
-                    {{#select data.abilityType}}
+                    {{#select data.data.abilityType}}
                     {{#each abilityTypes}}
                     <option value="{{this}}">{{localize this}}</option>
                     {{/each}}
@@ -17,9 +17,9 @@
             </label>
 
             <label>{{localize "NUMENERA.item.ability.cost"}}
-                <input type="number" name="data.cost.amount" value="{{data.cost.amount}}" min="0" data-dtype="Number" />
+                <input type="number" name="data.cost.amount" value="{{data.data.cost.amount}}" min="0" data-dtype="Number" />
                 <select name="data.cost.pool" data-dtype="String">
-                    {{#select data.cost.pool}}
+                    {{#select data.data.cost.pool}}
                     {{#each data.stats}}
                     <option value="{{this}}">{{localize this}}</option>
                     {{/each}}
@@ -28,17 +28,17 @@
             </label>
 
             <label>Category
-                <input type="text" name="data.category" value="{{data.category}}" placeholder="{{localize "NUMENERA.item.ability.categoryPlaceholder"}}" />
-                <input type="text" name="data.categoryValue" value="{{data.categoryValue}}" placeholder="{{localize "NUMENERA.item.ability.categoryValuePlaceholder"}}" />
+                <input type="text" name="data.category" value="{{data.data.category}}" placeholder="{{localize "NUMENERA.item.ability.categoryPlaceholder"}}" />
+                <input type="text" name="data.categoryValue" value="{{data.data.categoryValue}}" placeholder="{{localize "NUMENERA.item.ability.categoryValuePlaceholder"}}" />
             </label>
 
             <label>{{localize "NUMENERA.item.ability.tier"}}
-                <input type="text" name="data.tier" value="{{data.tier}}" data-dtype="Number" />
+                <input type="text" name="data.tier" value="{{data.data.tier}}" data-dtype="Number" />
             </label>
 
             <label>{{localize "NUMENERA.item.ability.range"}}
                 <select name="data.range" data-dtype="String">
-                    {{#select data.range}}
+                    {{#select data.data.range}}
                     {{#each data.ranges}}
                     <option value="{{this}}">{{localize this}}</option>
                     {{/each}}
@@ -51,7 +51,7 @@
         <h2>
             {{localize "NUMENERA.item.ability.description"}}
         </h2>
-        {{editor content=data.notes target="data.notes" button=true editable=editable}}
+        {{editor content=data.data.notes target="data.notes" button=true editable=editable}}
         <button type="submit" id="save-item-notes">
             <i class="fas fa-feather-alt"></i>
             {{localize "NUMENERA.pc.bio.saveChanges"}}
