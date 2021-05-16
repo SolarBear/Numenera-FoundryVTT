@@ -10,21 +10,24 @@ export class NumeneraSkillItem extends Item {
   static get object() {
     return {
       type: NumeneraSkillItem.type,
-      name: "New Skill",
+      name: game.i18n.localize("NUMENERA.item.skill.newSkill"),
     }
   }
 
   //TODO fromOwnedItem methods still needed in 0.8?
   static async fromOwnedItem(ownedItem, actor) {
     let skillItem;
-    debugger;
     if (game.data.version.startsWith("0.7."))
     {
       skillItem = new NumeneraSkillItem();
+      skillItem.options.actor = actor;
     }
     else
     {
-      skillItem = await actor.createEmbeddedDocuments("Item", [itemData]);
+      if (actor === null)
+        skillItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+      else
+        skillItem = new Item(NumeneraSkillItem.object);
     }
 
     skillItem._data._id = ownedItem._id;
@@ -35,7 +38,6 @@ export class NumeneraSkillItem extends Item {
     skillItem._data.data.stat = ownedItem.data.data.stat;
     skillItem._data.data.inability = ownedItem.data.data.inability;
     skillItem._data.data.skillLevel = ownedItem.data.data.skillLevel;
-    skillItem.options.actor = actor;
 
     skillItem.prepareData();
 

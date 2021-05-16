@@ -135,7 +135,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.skills as |skill| }}
-                    <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.order}}">
+                    <tr class="skill" data-item-id="{{skill._id}}" data-order="{{skill.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -205,7 +205,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.abilities as |ability| }}
-                    <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.order}}">
+                    <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -221,7 +221,7 @@
                         </td>
                         <td class="ability-cost">
                             <select name="data.abilities.{{ability._id}}.data.abilityType" data-dtype="String">
-                                {{#select ability.data.abilityType}}
+                                {{#select ability.data.data.abilityType}}
                                 {{#each ../abilityTypes}}
                                 <option value="{{this}}">{{localize this}}</option>
                                 {{/each}}
@@ -232,7 +232,7 @@
                             <div {{#if ability.nocost}}class="nocost"{{/if}}>
                                 <input type="number" name="data.abilities.{{ability._id}}.data.cost.amount" min="0" data-dtype="Number" value="{{ability.data.cost.amount}}" />
                                 <select name="data.abilities.{{ability._id}}.data.cost.pool">
-                                    {{#select ability.data.cost.pool}}
+                                    {{#select ability.data.data.cost.pool}}
                                     {{#each stats}}
                                     <option value="{{this}}">{{localize this}}</option>
                                     {{/each}}
@@ -242,7 +242,7 @@
                         </td>
                         <td class="ability-range">
                             <select name="data.abilities.{{ability._id}}.data.range">
-                            {{#select ability.data.range}}
+                            {{#select ability.data.data.range}}
                             {{#each ability.ranges}}
                                 <option value="{{this}}">{{localize this}}</option>
                             {{/each}}
@@ -250,7 +250,7 @@
                             </select>
                         </td>
                         <td class="ability-description">
-                            <textarea name="data.abilities.{{ability._id}}.data.notes" title="{{ability.data.notes}}">{{ability.data.notes}}</textarea>
+                            <textarea name="data.abilities.{{ability._id}}.data.notes" title="{{ability.data.notes}}">{{ability.data.data.notes}}</textarea>
                         </td>
                         <td>
                             <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
@@ -301,7 +301,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.armor as |armor|}}
-                    <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.order}}">
+                    <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -366,7 +366,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.equipment as |equipment|}}
-                    <tr class="equipment" data-item-id="{{equipment._id}}" data-order="{{equipment.data.order}}">
+                    <tr class="equipment" data-item-id="{{equipment._id}}" data-order="{{equipment.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>

@@ -6,6 +6,13 @@ export class NumeneraAbilityItem extends Item {
       return "ability";
   }
 
+  static get object() {
+    return {
+      type: NumeneraAbilityItem.type,
+      name: game.i18n.localize("NUMENERA.item.ability.newAbility"),
+    }
+  }
+
   get spellCastingTime() {
     if (this.data.data.tier >= 5) {
       return "1 hour";

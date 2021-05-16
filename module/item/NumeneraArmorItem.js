@@ -12,27 +12,42 @@ export class NumeneraArmorItem extends Item {
         return "armor";
     }
 
-    static fromOwnedItem(ownedItem, actor) {
+    static get object() {
+        return {
+            type: NumeneraArmorItem.type,
+            name: game.i18n.localize("NUMENERA.item.armor.description"),
+        }
+    }
+
+    static async fromOwnedItem(ownedItem, actor) {
+        let armorItem;
+
         if (game.data.version.startsWith("0.7."))
         {
-            let armorItem = new NumeneraArmorItem();
-            armorItem._data.id = ownedItem._id;
-            armorItem._data.data = ownedItem.data.data || {};
-            armorItem._data.data.name = ownedItem.name;
-            armorItem._data.data.armor = ownedItem.data.armor;
-            armorItem._data.data.notes = ownedItem.data.notes;
-            armorItem._data.data.price = ownedItem.data.price;
-            armorItem._data.data.weight = ownedItem.data.weight;
-            armorItem._data.data.skillLevel = ownedItem.data.skillLevel;
-            armorItem._data.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
-            armorItem.options.actor = actor;
-        
-            armorItem.prepareData();
-        
-            return armorItem;
+            armorItem = new NumeneraArmorItem();
         }
-
-        return new NumeneraArmorItem(ownedItem, actor);
+        else
+        {
+            if (actor === null)
+                armorItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+            else
+                armorItem = new Item(this.object);
+        }
+            
+        armorItem._data.id = ownedItem._id;
+        armorItem._data.data = ownedItem.data.data || {};
+        armorItem._data.data.name = ownedItem.name;
+        armorItem._data.data.armor = ownedItem.data.armor;
+        armorItem._data.data.notes = ownedItem.data.notes;
+        armorItem._data.data.price = ownedItem.data.price;
+        armorItem._data.data.weight = ownedItem.data.weight;
+        armorItem._data.data.skillLevel = ownedItem.data.skillLevel;
+        armorItem._data.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
+        armorItem.options.actor = actor;
+    
+        armorItem.prepareData();
+    
+        return armorItem;
     }
 
     prepareData() {

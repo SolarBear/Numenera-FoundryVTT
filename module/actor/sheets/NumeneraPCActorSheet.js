@@ -18,6 +18,22 @@ import { NumeneraPowerShiftItem } from "../../item/NumeneraPowerShiftItem.js";
 import { removeHtmlTags, useAlternateButtonBehavior } from "../../utils.js";
 
 /**
+ * Utility function to comparer orderable Items.
+ *
+ * @param {Item} a First element
+ * @param {Item} b
+ * @returns Number
+ */
+function orderItems(a, b) {
+  const orderA = a.data.data.order;
+  const orderB = b.data.data.order;
+
+  if (orderA < orderB) return -1;
+  if (orderA > orderB) return 1;
+  return 0;
+}
+
+/**
  * Extend the basic ActorSheet class to do all the Numenera things!
  *
  * @type {ActorSheet}
@@ -315,6 +331,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
         oddity.data.notes = removeHtmlTags(oddity.data.notes);
         return oddity;
       });
+
+      sheetData.data.oddities.sort(orderItems);
     }
 
     //POWER SHIFTS
@@ -334,6 +352,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
         powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
         return powerShift;
       });
+
+      sheetData.data.powerShifts.sort(orderItems);
     }
 
     //This section MUST be the last one in _setFeaturesData
@@ -399,6 +419,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.displayCypherLimitWarning = this.actor.isOverCypherLimit();
+
+    sheetData.data.artifacts.sort(orderItems);
+    sheetData.data.cyphers.sort(orderItems);
   }
 
   /**
@@ -426,6 +449,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
       equipment.data.data.notes = removeHtmlTags(equipment.data.data.notes);
       return equipment;
     });
+
+    sheetData.data.weapons.sort(orderItems);
+    sheetData.data.armor.sort(orderItems);
+    sheetData.data.equipment.sort(orderItems);
   }
 
   /**
@@ -449,6 +476,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ability.data.data.notes = removeHtmlTags(ability.data.data.notes);
       return ability;
     });
+
+    sheetData.data.abilities.sort(orderItems);
   }
 
   /**
@@ -467,6 +496,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       skill.specialized = skill.data.data.skillLevel == 2;
       return skill;
     });
+    
+    sheetData.data.skills.sort(orderItems);
   }
 
   /**
@@ -565,6 +596,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!itemId) return;
 
     const clickedItem = duplicate(
+      //TODO
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
     );
     clickedItem.data.stored = "";
@@ -592,27 +624,32 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const children = [...container.children];
 
-    const draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.id);
+    let draggedRowIndex;
+    if (game.data.version.startsWith("0.7."))
+      draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.id);
+    else
+      draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.data._id);
+
     const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
 
-    const update = children.map((row, i) => {
+    const updates = children.map((row, i) => {
       return {
         _id: row.dataset.itemId,
       };
     });
 
-    const deleted = update.splice(draggedRowIndex, 1);
-    update.splice(dragTargetIndex, 0, deleted[0]);
+    const deleted = updates.splice(draggedRowIndex, 1);
+    updates.splice(dragTargetIndex, 0, deleted[0]);
 
-    for (let i = 0; i < update.length; i++) {
-      update[i]["data.order"] = i;
+    for (let i = 0; i < updates.length; i++) {
+      updates[i]["data.order"] = i;
 
-      const row = children.find(row => row.dataset.itemId == update[i]._id);
+      const row = children.find(row => row.dataset.itemId == updates[i]._id);
       row.dataset.order = i;
     }
 
-    if (update.length > 0)
-      await this.actor.updateEmbeddedDocuments("Item", [update]);
+    if (updates.length > 0)
+      await this.actor.updateEmbeddedDocuments("Item", updates);
   }
 
   /**
@@ -788,11 +825,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
   Override the base method to handle some of the values ourselves
   */
   _onChangeInput(event) {
-    // for (let container of NumeneraPCActorSheet.inputsToIntercept) {
-    //   const element = window.document.querySelector(container);
-    //   if (element && element.contains(event.target))
-    //     return;
-    // }
+    for (let container of NumeneraPCActorSheet.inputsToIntercept) {
+      const element = window.document.querySelector(container);
+      if (element && element.contains(event.target))
+        return;
+    }
 
     super._onChangeInput(event);
   }
