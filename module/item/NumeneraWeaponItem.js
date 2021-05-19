@@ -61,10 +61,17 @@ export class NumeneraWeaponItem extends Item {
         );
 
         if (!skill) {
-            skill = new NumeneraSkillItem();
+            if (game.data.version.startsWith("0.7.")) {
+                skill = new NumeneraSkillItem();
+                skill.options.actor = this.actor;
+            }
+            else {
+                //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
+                skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, {parent: this.actor});
+            }
+
             skill.data.data = skill.data.data || {};
             skill.data.name = skill.data.data.name = skill._data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
-            skill.options.actor = this.actor;
         }
         else if (skill.prototype !== NumeneraSkillItem) {
             skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);

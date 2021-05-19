@@ -8,7 +8,7 @@
         <div class="weapon">
             <label>{{localize "NUMENERA.item.weapon.weight"}}
                 <select name="data.weight">
-                {{#select data.data.weight}}
+                {{#select data.weight}}
                 {{#each weights}}
                     <option value="{{this}}">{{localize this}}</option>
                 {{/each}}
@@ -18,7 +18,7 @@
 
             <label>{{localize "NUMENERA.item.weapon.type"}}
                 <select name="data.weaponType">
-                {{#select data.data.weaponType}}
+                {{#select data.weaponType}}
                 {{#each weaponTypes}}
                     <option value="{{this}}">{{localize this}}</option>
                 {{/each}}
@@ -32,7 +32,7 @@
 
             <label>{{localize "NUMENERA.item.weapon.range"}}
                 <select name="data.range">
-                {{#select data.data.range}}
+                {{#select data.range}}
                     {{#each ranges}}
                         <option value="{{this}}">{{localize this}}</option>
                     {{/each}}
@@ -41,7 +41,7 @@
             </label>
 
             <label>{{localize "NUMENERA.item.weapon.price"}}
-                <input type="number" name="data.price" value="{{data.data.price}}" data-dtype="Number" />
+                <input type="number" name="data.price" value="{{data.price}}" data-dtype="Number" />
             </label>
         </div>
     </div>
@@ -49,7 +49,7 @@
         <h2>
             {{localize "NUMENERA.item.weapon.description"}}
         </h2>
-        {{editor content=data.data.notes target="data.notes" button=true editable=editable}}
+        {{editor content=data.notes target="data.notes" button=true editable=editable}}
         <button type="submit" id="save-item-notes">
             <i class="fas fa-feather-alt"></i>
             {{localize "NUMENERA.pc.bio.saveChanges"}}

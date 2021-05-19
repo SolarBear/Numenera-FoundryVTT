@@ -328,7 +328,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.data.oddities = sheetData.data.oddities.map(oddity => {
         oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
         oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
-        oddity.data.notes = removeHtmlTags(oddity.data.data.notes);
+        oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
         return oddity;
       });
 
@@ -349,7 +349,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (sheetData.usePowerShifts) {
       sheetData.data.powerShifts = sheetData.data.powerShifts.map(powerShift => {
         powerShift.showIcon = powerShift.img && sheetData.settings.icons.powerShifts;
-        powerShift.data.notes = removeHtmlTags(powerShift.data.data.notes);
+        powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
         return powerShift;
       });
 
@@ -626,7 +626,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
 
     let draggedRowIndex;
-    if (item.id)
+    if (item && item.id)
       draggedRowIndex = children.findIndex(row => row.dataset.itemId == item.id);
     else {
       const dragged = JSON.parse(event.dataTransfer.getData("text/plain"));
