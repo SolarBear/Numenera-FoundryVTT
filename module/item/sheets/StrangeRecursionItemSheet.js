@@ -24,4 +24,12 @@ export class StrangeRecursionItemSheet extends ItemSheet {
         return "systems/numenera/templates/item/recursionSheet.html";
     }
 
+    getData() {
+        const sheetData = super.getData();
+
+        if (game.data.version.startsWith("0.8."))
+            sheetData.data = sheetData.data.data;
+
+        return sheetData;
+    }
 }

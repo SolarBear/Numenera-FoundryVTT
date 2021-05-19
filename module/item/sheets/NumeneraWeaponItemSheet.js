@@ -27,6 +27,9 @@ export class NumeneraWeaponItemSheet extends ItemSheet {
     getData() {
         const sheetData = super.getData();
 
+        if (game.data.version.startsWith("0.8."))
+            sheetData.data = sheetData.data.data;
+
         sheetData.ranges = NUMENERA.ranges;
         sheetData.weaponTypes = NUMENERA.weaponTypes;
         sheetData.weights = NUMENERA.weightClasses;

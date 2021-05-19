@@ -1,4 +1,5 @@
 <form class="{{cssClass}} numenera item" autocomplete="off">
+    {{log this}}
     <h1><input type="text" name="name" value="{{item.name}}" /></h1>
     <div class="flexrow item">
         <div class="img">
@@ -6,7 +7,7 @@
         </div>
         <div class="cypher">
             <label>{{localize "NUMENERA.item.cypher.level"}}
-                <input type="text" name="data.levelDie" value="{{data.data.levelDie}}" data-dtype="String" />
+                <input type="text" name="data.levelDie" value="{{data.levelDie}}" data-dtype="String" />
             </label>
 
             {{#if displayCypherType}}
@@ -22,7 +23,7 @@
             {{/if}}
 
             <label>{{localize "NUMENERA.item.cypher.form"}}
-                <input type="text" name="data.form" value="{{data.data.form}}" placeholder="{{localize "NUMENERA.item.numenera.formPlaceholder"}}" />
+                <input type="text" name="data.form" value="{{data.form}}" placeholder="{{localize "NUMENERA.item.numenera.formPlaceholder"}}" />
             </label>
         </div>
     </div>
@@ -30,7 +31,7 @@
         <h2>
             {{localize "NUMENERA.item.cypher.effect"}}
         </h2>
-        {{editor content=data.data.effect target="data.effect" button=true editable=editable}}
+        {{editor content=data.effect target="data.effect" button=true editable=editable}}
         <button type="submit" id="save-item-notes">
             <i class="fas fa-feather-alt"></i>
             {{localize "NUMENERA.pc.bio.saveChanges"}}

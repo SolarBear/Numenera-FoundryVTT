@@ -6,31 +6,31 @@
         </div>
         <div class="artifact">
             <label>{{localize "NUMENERA.item.artifact.level"}}
-                <input type="text" id="data.levelDie" name="data.levelDie" value="{{data.data.levelDie}}" data-dtype="String" />
+                <input type="text" id="data.levelDie" name="data.levelDie" value="{{data.levelDie}}" data-dtype="String" />
             </label>
 
             {{#if isTheStrange}}
             <label>{{localize "NUMENERA.item.artifact.laws"}}
-                <input type="text" id="data.laws" name="data.laws" value="{{data.data.laws}}" placeholder="{{localize "NUMENERA.item.numenera.lawsPlaceholder"}}" data-dtype="String" />
+                <input type="text" id="data.laws" name="data.laws" value="{{data.laws}}" placeholder="{{localize "NUMENERA.item.numenera.lawsPlaceholder"}}" data-dtype="String" />
             </label>
             {{/if}}
 
             <label>{{localize "NUMENERA.item.artifact.form"}}
-                <input type="text" id="data.form" name="data.form" value="{{data.data.form}}" placeholder="{{localize "NUMENERA.item.numenera.formPlaceholder"}}" data-dtype="String" />
+                <input type="text" id="data.form" name="data.form" value="{{data.form}}" placeholder="{{localize "NUMENERA.item.numenera.formPlaceholder"}}" data-dtype="String" />
             </label>
 
             <label for="data.depletion.isDepleting">{{localize "NUMENERA.item.artifact.depletion"}}
-                <input type="checkbox" id="data.depletion.isDepleting" name="data.depletion.isDepleting" data-dtype="Boolean" {{checked data.data.depletion.isDepleting}} />
+                <input type="checkbox" id="data.depletion.isDepleting" name="data.depletion.isDepleting" data-dtype="Boolean" {{checked data.depletion.isDepleting}} />
             </label>
 
             {{#if data.depletion.isDepleting}}
             <fieldset>
                 <label for="data.depletion.die">{{localize "NUMENERA.item.artifact.depletionDie"}}
-                    <input type="text" id="data.depletion.die" name="data.depletion.die" value="{{data.data.depletion.die}}" data-dtype="String" />
+                    <input type="text" id="data.depletion.die" name="data.depletion.die" value="{{data.depletion.die}}" data-dtype="String" />
                 </label>
 
                 <label>{{localize "NUMENERA.item.artifact.depletionThreshold"}}
-                    <input type="number" name="data.depletion.threshold" value="{{data.data.depletion.threshold}}" data-dtype="Number" />
+                    <input type="number" name="data.depletion.threshold" value="{{data.depletion.threshold}}" data-dtype="Number" />
                 </label>
             </fieldset>
             {{/if}}
@@ -40,7 +40,7 @@
         <h2>
             {{localize "NUMENERA.item.artifact.description"}}
         </h2>
-        {{editor content=data.data.effect target="data.effect" button=true editable=editable}}
+        {{editor content=data.effect target="data.effect" button=true editable=editable}}
         <button type="submit" id="save-item-notes">
             <i class="fas fa-feather-alt"></i>
             {{localize "NUMENERA.pc.bio.saveChanges"}}

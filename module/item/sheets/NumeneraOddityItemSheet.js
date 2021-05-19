@@ -21,4 +21,13 @@ export class NumeneraOddityItemSheet extends ItemSheet {
     get template() {
         return "systems/numenera/templates/item/odditySheet.html";
     }
+
+    getData() {
+        const sheetData = super.getData();
+
+        if (game.data.version.startsWith("0.8."))
+            sheetData.data = sheetData.data.data;
+
+        return sheetData;
+    }
 }

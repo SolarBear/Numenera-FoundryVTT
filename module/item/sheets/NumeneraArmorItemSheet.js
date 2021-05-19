@@ -27,6 +27,9 @@ export class NumeneraArmorItemSheet extends ItemSheet {
     getData() {
         const data = super.getData();
 
+        if (game.data.version.startsWith("0.8."))
+            sheetData.data = sheetData.data.data;
+
         data.weightClasses = NUMENERA.weightClasses;
         
         return data;
