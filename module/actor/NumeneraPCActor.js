@@ -616,7 +616,6 @@ export class NumeneraPCActor extends Actor {
     if (documentType !== "Item")
       return newItems;
 
-
     for (const newItem of newItems) {
       const data = newItem.data;
 
@@ -626,15 +625,14 @@ export class NumeneraPCActor extends Actor {
         case NumeneraCypherItem.type:
           const itemData = data.data;
 
+          //TODO shouldn't this be moved to the constructors?
           if (!itemData.level && itemData.levelDie) {
             try {
+              //TODO move all of this BEFORE the item creation
+
               //Try the formula as is first
               itemData.level = new Roll(itemData.levelDie).roll().total;
-
-              await this.update({
-                _id: this._id,
-                "data.level": itemData.level,
-              });
+              
             } catch (Error) {
               try {
                 itemData.level = parseInt(itemData.level);
@@ -655,6 +653,12 @@ export class NumeneraPCActor extends Actor {
           } catch (Error) {
             //Leave it as it is
           }
+
+          await this.updateEmbeddedDocuments("Item", [{
+            _id: newItem._id,
+            "data.level": itemData.level,
+            "data.form": itemData.form,
+          }]);
           break;
 
         case NumeneraAbilityItem.type:

@@ -391,7 +391,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         artifact = NumeneraArtifactItem.asUnidentified(artifact);
       }
       else {
-        artifact.data.effect = removeHtmlTags(artifact.data.data.effect);
+        artifact.data.data.effect = removeHtmlTags(artifact.data.data.effect);
       }
 
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
@@ -406,7 +406,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         cypher = NumeneraCypherItem.asUnidentified(cypher);
       }
       else {
-        cypher.data.effect = removeHtmlTags(cypher.data.data.effect);
+        cypher.data.data.effect = removeHtmlTags(cypher.data.data.effect);
       }
 
       if (useCypherType && cypher.data.data.identified && !cypher.data.data.cypherType) {
@@ -848,12 +848,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
     let id;
     if (game.data.version.startsWith("0.7.")) {
       id = JSON.parse(event.dataTransfer.getData("text/plain"));
-      if (!id)
-        return;
     }
     else {
+      if (typeof(item) === "undefined")
+        return;
+
       id = item._id;
     }
+
+    if (!id)
+      return;
 
     //let item;
     if (game.data.version.startsWith("0.7."))
