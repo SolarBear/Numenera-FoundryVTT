@@ -316,11 +316,11 @@
                             <input type="text" name="data.armor.{{armor._id}}.name" placeholder="Armor Name" class="armor-name-input" value="{{armor.name}}"/>
                         </td>
                         <td class="armor-value">
-                            <input type="number" name="data.armor.{{armor._id}}.data.armor" value="{{armor.data.armor}}" min="0" class="armor-value" data-dtype="Number" />
+                            <input type="number" name="data.armor.{{armor._id}}.data.armor" value="{{armor.data.data.armor}}" min="0" class="armor-value" data-dtype="Number" />
                         </td>
                         <td class="armor-weight-type">
                             <select name="data.armor.{{armor._id}}.data.weight" class="armor-weight">
-                            {{#select armor.data.weight}}
+                            {{#select armor.data.data.weight}}
                             {{#each ../optionalWeights}}
                                 <option value="{{this}}">{{localize this}}</option>
                             {{/each}}
@@ -328,10 +328,10 @@
                             </select>
                         </td>
                         <td>
-                            <input type="number" name="data.armor.{{armor._id}}.data.additionalSpeedEffortCost" value="{{armor.data.additionalSpeedEffortCost}}" min="0" class="armor-effort-cost" data-dtype="Number" />
+                            <input type="number" name="data.armor.{{armor._id}}.data.additionalSpeedEffortCost" value="{{armor.data.data.additionalSpeedEffortCost}}" min="0" class="armor-effort-cost" data-dtype="Number" />
                         </td>
                         <td class="armor-notes">
-                            <input type="text" name="data.armor.{{armor._id}}.data.notes" value="{{armor.data.notes}}" title="{{armor.data.notes}}" />
+                            <input type="text" name="data.armor.{{armor._id}}.data.notes" value="{{armor.data.data.notes}}" title="{{armor.data.notes}}" />
                         </td>
                         <td>
                             <a class="armor-delete" data-action="delete" title="{{localize "NUMENERA.pc.armor.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
@@ -381,10 +381,10 @@
                             <input type="text" name="data.equipment.{{equipment._id}}.name" placeholder="Item Name" class="equipment-name-input" value="{{equipment.name}}" />
                         </td>
                         <td class="equipment-quantity">
-                            <input type="number" name="data.equipment.{{equipment._id}}.data.quantity" value="{{equipment.data.quantity}}" min="0" class="equipment-quantity" data-dtype="Number" />
+                            <input type="number" name="data.equipment.{{equipment._id}}.data.quantity" value="{{equipment.data.data.quantity}}" min="0" class="equipment-quantity" data-dtype="Number" />
                         </td>
                         <td class="equipment-notes">
-                            <input type="text" name="data.equipment.{{equipment._id}}.data.notes" value="{{equipment.data.notes}}" title="{{equipment.data.notes}}" />
+                            <input type="text" name="data.equipment.{{equipment._id}}.data.notes" value="{{equipment.data.data.notes}}" title="{{equipment.data.notes}}" />
                         </td>
                         <td>
                             <a class="equipment-delete" data-action="delete" title="{{localize "NUMENERA.pc.otherItems.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
