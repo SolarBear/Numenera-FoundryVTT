@@ -134,31 +134,13 @@ export class EffortDialog extends FormApplication {
     if (stat) {
       current = actor.data.data.stats[stat].pool.value;
       remaining = current;
-    }
-
-    const skills = actor.getEmbeddedCollection("Item")
-      .filter(i => i.type === "skill")
-      .map(NumeneraSkillItem.fromOwnedItem)
-      .map(sk => {
-        //Append an extra label to tell which skills are related to an ability
-        if (sk.data.data.relatedAbilityId) {
-          sk.data.name += " " + game.i18n.localize("NUMENERA.effort.skillAbilitySuffix");
-        }
-        return sk;
-      });
-
-    let powerShifts = null;
-    if (game.settings.get("numenera", "usePowerShifts")) {
-      powerShifts = actor.getEmbeddedCollection("Item")
-        .filter(i => i.type === "powerShift")
-        .map(NumeneraPowerShiftItem.fromOwnedItem);
-    }
+    }    
 
     super({
       actor,
       stat,
       skill,
-      skills,
+      skills: [],
       ability,
       current,
       remaining,
@@ -168,9 +150,54 @@ export class EffortDialog extends FormApplication {
       taskLevel,
       useArmorSpeedEffortRule: (game.settings.get("numenera", "armorPenalty") === "new"),
       armorSpeedEffortIncrease: actor.extraSpeedEffortCost,
-      powerShifts,
+      powerShifts: [],
       powerShift,
     }, {});
+
+    this._isInitialized = false;
+  }
+  
+  /**
+   * Initialize the EffortDialog. Required since we would need to make some async calls in the class
+   * constructor, which would make the constructor async, which is not allowed, obviously.
+   *
+   * @returns {Promise<EffortDialog>}
+   * @memberof EffortDialog
+   */
+  async init() {
+    this.object.skills = this.object.actor.getEmbeddedCollection("Item")
+      .filter(i => i.type === "skill")
+      .map(NumeneraSkillItem.fromOwnedItem);
+
+    //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
+    if (game.data.version.startsWith("0.8.")) {
+      //0.8 returns Promise<Item>s instead of straight Items
+      this.object.skills = await Promise.all(this.object.skills);
+    }
+
+    this.object.skills = this.object.skills.map(async sk => {
+      //Append an extra label to tell which skills are related to an ability
+      //await sk;
+      if (sk.data.relatedAbilityId)
+        sk.data.name += " " + game.i18n.localize("NUMENERA.effort.skillAbilitySuffix");
+
+      return sk;
+    });
+
+    let powerShifts = null;
+    if (game.settings.get("numenera", "usePowerShifts")) {
+      powerShifts = this.object.actor.getEmbeddedCollection("Item")
+        .filter(i => i.type === "powerShift")
+        .map(NumeneraPowerShiftItem.fromOwnedItem);
+
+      //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
+      if (game.data.version.startsWith("0.8."))
+        powerShifts = await Promise.all(powerShifts);
+
+      this.object.powerShifts = powerShifts;
+    }
+
+    this._isInitialized = true;
   }
 
   /**
@@ -295,6 +322,13 @@ export class EffortDialog extends FormApplication {
    * @inheritdoc
    */
   getData() {
+    if (!this._isInitialized) {
+      //TODO translation
+      ui.notifications.error("You need to call init() before using the EffortDialog");
+      this.close();
+      return;
+    }
+      
     const data = super.getData();
 
     data.stats = NUMENERA.stats;

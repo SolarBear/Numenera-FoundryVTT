@@ -153,19 +153,27 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   async rollAttribute(attribute, rollData = null) {
-    //This really shouldn't be in an Actor class, but it makes it SO easier to create stat macros...
     if (rollData === null && useAlternateButtonBehavior()) {
-      return new EffortDialog(this, { stat: attribute }).render(true);
+      
+      let dialog = new EffortDialog(this, { stat: attribute });
+      await dialog.init();
+      return dialog.render(true);
     }
 
     // Create a pseudo-skill to avoid repeating the roll logic
     let skill;
-    if (game.data.version.startsWith("0.7."))
+    if (game.data.version.startsWith("0.7.")) {
       skill = new NumeneraSkillItem(this);
+    }
     else {
       //TODO this is fugly. Any way of improving this?
-      const skills = await this.createEmbeddedDocuments("Item", [NumeneraSkillItem.object]);
-      skill = await Promise.all(skills)[0];
+      // const skills = await this.createEmbeddedDocuments("Item", [NumeneraSkillItem.object]);
+      // skill = await Promise.all(skills)[0];
+
+      //Do NOT create an embedded Document here, we really want a temporary item
+      const data = NumeneraSkillItem.object;
+      data.name = attribute;
+      skill = new Item(data, {parent: this});
     }
 
     //Need to modify the deep property since skill.name is a getter
