@@ -95,7 +95,9 @@ export class NumeneraSkillItem extends Item {
     }
 
     if (event && useAlternateButtonBehavior()) {
-      new EffortDialog(this.actor, {skill: this}).render(true);
+      const dialog = new EffortDialog(this.actor, { skill: this });
+      await dialog.init();
+      return dialog.render(true);
     } else {
       await this.actor.rollSkill(this);
     }

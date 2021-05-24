@@ -175,9 +175,8 @@ export class EffortDialog extends FormApplication {
       this.object.skills = await Promise.all(this.object.skills);
     }
 
-    this.object.skills = this.object.skills.map(async sk => {
+    this.object.skills = this.object.skills.map(sk => {
       //Append an extra label to tell which skills are related to an ability
-      //await sk;
       if (sk.data.relatedAbilityId)
         sk.data.name += " " + game.i18n.localize("NUMENERA.effort.skillAbilitySuffix");
 

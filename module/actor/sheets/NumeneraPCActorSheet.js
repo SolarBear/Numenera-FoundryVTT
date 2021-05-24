@@ -668,7 +668,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     event.preventDefault();
     let stat = event.target.closest(".stats").dataset.stat;
 
-      await this.actor.rollAttribute(stat);
+    await this.actor.rollAttribute(stat);
   }
 
   /**

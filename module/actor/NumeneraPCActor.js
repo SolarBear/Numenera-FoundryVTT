@@ -153,9 +153,8 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   async rollAttribute(attribute, rollData = null) {
-    if (rollData === null && useAlternateButtonBehavior()) {
-      
-      let dialog = new EffortDialog(this, { stat: attribute });
+    if (rollData === null && useAlternateButtonBehavior()) {      
+      const dialog = new EffortDialog(this, { stat: attribute });
       await dialog.init();
       return dialog.render(true);
     }
