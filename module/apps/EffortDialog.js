@@ -166,8 +166,10 @@ export class EffortDialog extends FormApplication {
    */
   async init() {
     this.object.skills = this.object.actor.getEmbeddedCollection("Item")
-      .filter(i => i.type === "skill")
-      .map(NumeneraSkillItem.fromOwnedItem);
+      .filter(i => i.type === NumeneraSkillItem.type);
+
+      //TODO still required in 0.7?
+      //.map(NumeneraSkillItem.fromOwnedItem);
 
     //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
     if (game.data.version.startsWith("0.8.")) {
@@ -332,7 +334,7 @@ export class EffortDialog extends FormApplication {
 
     data.stats = NUMENERA.stats;
     data.rollModes = EffortDialog.rollModes;
-    
+
     data.skills = this.object.skills;
     data.skill = this.object.skill;
 

@@ -701,7 +701,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!weaponId)
       return;
 
-    this.actor.items.get(weaponId).use();
+    this.actor.useItemById(weaponId);
   }
 
   /**
