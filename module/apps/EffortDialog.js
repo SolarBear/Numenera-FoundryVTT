@@ -428,6 +428,7 @@ export class EffortDialog extends FormApplication {
     }
 
     const rollData = new RollData();
+
     rollData.effortLevel = this.object.currentEffort;
     rollData.taskLevel = this.finalLevel;
     rollData.rollMode = this.object.rollMode;

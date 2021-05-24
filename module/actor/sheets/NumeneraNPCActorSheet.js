@@ -29,9 +29,9 @@ export class NumeneraNPCActorSheet extends ActorSheet {
   constructor(...args) {
     super(...args);
 
-    this.onAttackCreate = onItemCreateGenerator("npcAttack", NumeneraNpcAttackItem);
+    this.onAttackCreate = onItemCreateGenerator(NumeneraNpcAttackItem.type, NumeneraNpcAttackItem);
     this.onAttackEdit = onItemEditGenerator(".npcAttack");
-    this.onAttackDelete = onItemDeleteGenerator("npcAttack");
+    this.onAttackDelete = onItemDeleteGenerator(NumeneraNpcAttackItem.type);
   }
 
   /**
@@ -48,13 +48,19 @@ export class NumeneraNPCActorSheet extends ActorSheet {
   getData() {
     const sheetData = super.getData();
 
+    //lol? https://discord.com/channels/170995199584108546/670336275496042502/836066464388743188
+    //TODO remove condition when removing support for 0.7
+    if (game.data.version.startsWith("0.8."))
+      sheetData.data = sheetData.data.data;
+
     sheetData.ranges = NUMENERA.ranges.map(r => game.i18n.localize(r));
 
     sheetData.data.items = sheetData.actor.items || {};
 
     const items = sheetData.data.items;
-    if (!sheetData.data.items.attacks)
-      sheetData.data.items.attacks = items.filter(i => i.type === "npcAttack").sort(sortFunction);
+
+    if (!sheetData.data.attacks)
+      sheetData.data.attacks = items.filter(i => i.type === NumeneraNpcAttackItem.type).sort(sortFunction);
 
     return sheetData;
   }
