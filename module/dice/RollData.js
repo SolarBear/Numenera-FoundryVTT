@@ -102,8 +102,15 @@ export class RollData {
   }
 
   static _rollTextWithTaskLevel(roll) {
-    let dieRoll = roll.terms[0].rolls[0].results[0];
-    let success = !!parseInt(roll.total);
+    let dieRoll, success;
+    if (game.data.version.startsWith("0.7.")) {
+      dieRoll = roll.terms[0].rolls[0].results[0];
+      success = !!parseInt(roll.total);
+    }
+    else {
+      dieRoll = roll.terms[0].rolls[0].total  ;
+      success = !!roll.total;
+    }
 
     if (success) {
       let combat = "";
