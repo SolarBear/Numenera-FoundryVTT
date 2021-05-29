@@ -1,7 +1,7 @@
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 
 //Sort function for order
-export const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
+export const sortFunction = (a, b) => a.data.data.order < b.data.data.order ? -1 : a.data.data.order > b.data.data.order ? 1 : 0;
 
 /**
  * Higher order function that generates an item creation handler.

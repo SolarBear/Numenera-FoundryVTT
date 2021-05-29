@@ -59,8 +59,8 @@
                         </td>
                     </tr>
                 </thead>
-                <tbody>
-                {{#each data.attacks as |attack|}}
+                <tbody class="row-container">
+                {{#each data.attacks as |attack id|}}
                     <tr class="npcAttack" data-item-id="{{attack._id}}" data-order="{{attack.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical handle"></i></a>
