@@ -411,7 +411,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       if (useCypherType && cypher.data.data.identified && !cypher.data.data.cypherType) {
         //Use the very first object key as property since none has been defined yet
-        cypher.data.cypherType = Object.keys(NUMENERA.cypherTypes[cypherTypeFlavor]);
+        cypher.data.cypherType = Object.keys(NUMENERA.cypherTypes[NumeneraCypherItem.cypherTypeFlavor]);
       }
 
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
