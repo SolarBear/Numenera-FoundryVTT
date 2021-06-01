@@ -18,6 +18,9 @@ export async function rollInitiative(args) {
 async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
   // Structure input data
   ids = typeof ids === "string" ? [ids] : ids;
+  if (!ids)
+    return this;
+
   const currentId = this.combatant._id;
 
   // Iterate over Combatants, performing an initiative roll for each
