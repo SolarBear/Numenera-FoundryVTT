@@ -1,14 +1,22 @@
 import { NUMENERA } from './config.js';
 
 export function cypherToken() {
+    let t;
+    if (game.data.version.startsWith("0.7."))
+        t = Token;
+    else
+        t = TokenDocument;
+
     // Here we monkey-patch in a bunch of crap because I can see no better way to have custom token behavior
     Token.prototype._drawAttributeBars = cypherTokenDrawAttributeBars;
-    Token.prototype._onUpdateBarAttributes = cypherOnUpdateBarAttributes;
+
+    //TODO still required???
+    //Token.prototype._onUpdateBarAttributes = cypherOnUpdateBarAttributes;
 
     // Trying to get the bar data from the config form seems a little janky (model not expecting a third bar?),
     // so let's just shove the bars onto PC characters. At least you can still configure _if_ they're shown or not!
-    Token.prototype._onCreate =  (function () {
-        let superFunction = Token.prototype._onCreate;
+    t.prototype._onCreate =  (function () {
+        let superFunction = t.prototype._onCreate;
         return async function() {
             await superFunction.apply(this, arguments);
             
@@ -22,11 +30,15 @@ export function cypherToken() {
         }
     })();
 
-    Token.prototype._onUpdate = (function () {
-        const superFunction = Token.prototype._onUpdate;
+    t.prototype._onUpdate = (function () {
+        const superFunction = t.prototype._onUpdate;
         return async function() {
             superFunction.apply(this, arguments);
-            this.drawBars();
+
+            if (game.data.version.startsWith("0.7."))
+                this.drawBars();
+            else
+                this.object.drawBars();
         }
     })();
     
@@ -58,8 +70,8 @@ export function cypherToken() {
     })();
 
     // Since we're hard-coding what stats our bars link against, we'll selective override the getter for PCs
-    Token.prototype.getBarAttribute = (function () {
-        let superFunction = Token.prototype.getBarAttribute;
+    t.prototype.getBarAttribute = (function () {
+        let superFunction = t.prototype.getBarAttribute;
         return function (barName, { alternative } = {}) {
             if (!this.actor)
                 return;
@@ -138,7 +150,7 @@ export function add3rdBarToPCTokens() {
     //Update existing tokens with the extra attribute
     game.scenes.entities.forEach(scene => {
         scene.data.tokens.forEach(token => {
-            if (!token.hasOwnProperty("bar3")) {
+            if (!token.data.hasOwnProperty("bar3")) {
                 token.bar1 = {attribute: "stats.might.pool"};
                 token.bar2 = {attribute: "stats.speed.pool"};
                 token.bar3 = {attribute: "stats.intellect.pool"};
