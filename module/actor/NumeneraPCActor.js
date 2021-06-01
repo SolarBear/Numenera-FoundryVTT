@@ -53,7 +53,7 @@ export class NumeneraPCActor extends Actor {
     //Check for an initiative skill
     let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
     if (!initSkill) {
-      initSkill = new NumeneraSkillItem();
+      initSkill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, {parent: this});
       initSkill.data.data.name = "Initiative";
     }
 
