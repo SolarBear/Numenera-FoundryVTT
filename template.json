@@ -124,12 +124,13 @@
             "additionalSpeedEffortCost": 1
         },
         "artifact": {
-            "templates": ["carriable", "common", "numenera"],
+            "templates": ["common", "numenera"],
             "depletion": {
                 "isDepleting": true,
                 "die": "d6",
                 "threshold": 1
-            }
+            },
+            "laws": ""
         },
         "cypher": {
             "templates": ["carriable", "common", "numenera"],
