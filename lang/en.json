@@ -294,6 +294,8 @@
     "NUMENERA.item.artifact.description": "Description",
     "NUMENERA.item.artifact.effect": "Effect",
     "NUMENERA.item.artifact.newArtifact": "New Artifact",
+    
+    "NUMENERA.item.numenera.lawsPlaceholder": "Laws",
 
     "NUMENERA.item.cypher.level": "Level",
     "NUMENERA.item.cypher.type.label": "Type",
