@@ -463,15 +463,18 @@ export class EffortDialog extends FormApplication {
 
   async _failAutomatically() {
     //Ensure that is really the case
-    if (!this.automaticFailure) {
+    if (!this.automaticFailure || this.automaticSuccess) {
       throw new Error("Should not fail automatically in this case");
     }
+
+    const flavor = `${game.i18n.localize("NUMENERA.rolling")} ${this.object.skill ? this.object.skill.name : getShortStat(this.object.stat)}`;
 
     await ChatMessage.create({
       user: game.user._id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       sound: CONFIG.sounds.dice,
       content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
+        flavor,
         result: game.i18n.localize("NUMENERA.effort.failAutomatically"),  
       }),
     });
@@ -484,13 +487,16 @@ export class EffortDialog extends FormApplication {
     if (this.automaticFailure || !this.automaticSuccess) {
       throw new Error("Should not succeed automatically in this case");
     }
+    
+    const flavor = `${game.i18n.localize("NUMENERA.rolling")} ${this.object.skill ? this.object.skill.name : getShortStat(this.object.stat)}`;
 
     await ChatMessage.create({
       user: game.user._id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       sound: CONFIG.sounds.dice,
       content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
-        result: game.i18n.localize("NUMENERA.effort.succeedAutomatically"),  
+        flavor,
+        result: game.i18n.localize("NUMENERA.effort.succeedAutomatically"),
       }),
     });
 
