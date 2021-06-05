@@ -130,9 +130,24 @@ export class NumeneraPCActor extends Actor {
     roll.roll();
 
     let flavor = game.i18n.localize("NUMENERA.rolling") + " " + skill.data.data.name;
-    if (rollData.effortLevel > 0) {
-      flavor += ` + ${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`;
+
+    const mods = []; //any roll modifier goes here: effort, skill level, etc.
+
+    if (skill.data.data.skillLevel == 2) {
+      mods.push("specialized");
     }
+    else if (skill.data.data.skillLevel == 1) {
+      mods.push("trained");
+    }
+
+    if (skill.data.data.inability)
+      mods.push("inability");
+
+    if (rollData.effortLevel > 0)
+      mods.push(`${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`);
+
+    if (mods.length > 0)
+      flavor += ` (${mods.join(", ")})`;
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
