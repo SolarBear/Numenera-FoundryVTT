@@ -251,8 +251,9 @@ export class RecoveryDialog extends FormApplication {
       index = parseInt(matches[1]);
       this.object.recoveriesLeft[index] = !this.object.recoveriesLeft[index];
     }
+
     //Update recovery checkboxes data in order
-    if (!game.settings.get("numenera", "outOfOrderRecovery"))
+    if (index && !game.settings.get("numenera", "outOfOrderRecovery"))
       this._getNbCheckedInOrder(index);
 
     //Update remaining points and pools
