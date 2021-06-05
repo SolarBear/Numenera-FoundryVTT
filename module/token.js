@@ -25,7 +25,10 @@ export function cypherToken() {
                 this.data.bar2 = {attribute: "stats.speed.pool"};
                 this.data.bar3 = {attribute: "stats.intellect.pool"};
 
+            if (game.data.version.startsWith("0.7."))
                 this.drawBars();
+            else
+                this.object.drawBars();
             }
         }
     })();
@@ -178,6 +181,10 @@ function cypherTokenDrawBars() {
         return;
 
     ["bar1", "bar2", "bar3"].forEach((b, i) => {
+        //0.8: when creating a new tokens, the bars property does not exist...
+        if (!this.hasOwnProperty("bars"))
+            return;
+
         const bar = this.bars[b];
         const attr = this.getBarAttribute(b);
 
@@ -201,8 +208,12 @@ function cypherOnUpdateBarAttributes(updateData) {
       return bar.attribute && hasProperty(updateData, "data."+bar.attribute);
     });
 
-    if (update)
-        this.drawBars();
+    if (update) {
+        if (game.data.version.startsWith("0.7."))
+            this.drawBars();
+        else
+            this.object.drawBars();
+    }
   }
 
 /**
