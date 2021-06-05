@@ -172,6 +172,8 @@
     "NUMENERA.pc.recovery.tenMin": "10 min",
     "NUMENERA.pc.recovery.oneHour": "1 hour",
     "NUMENERA.pc.recovery.tenHours": "10 hours",
+    "NUMENERA.pc.recovery.tempBonus": "Temp. Bonus",
+
     "NUMENERA.pc.tier": "Tier",
 
     "NUMENERA.range.immediate": "Immediate",

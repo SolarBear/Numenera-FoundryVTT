@@ -13,7 +13,7 @@
                 </li>
                 {{/each}}
             </ul>
-            <label>Temp. Bonus: <input type="number" name="tempBonus" value="{{tempBonus}}" min=0 data-dtype="Number" class="tempBonus"></label>
+            <label>{{localize "NUMENERA.pc.recovery.tempBonus"}}: <input type="number" name="tempBonus" value="{{tempBonus}}" min=0 data-dtype="Number" class="tempBonus"></label>
             {{#if showFormula}}
             <p>{{localize "NUMENERA.rolling"}} {{formula}}</p>
             {{else}}
