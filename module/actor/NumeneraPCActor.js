@@ -262,8 +262,13 @@ export class NumeneraPCActor extends Actor {
   }
 
   getTotalArmor() {
-    return this.getEmbeddedCollection("Item").filter(i => i.type === NumeneraArmorItem.type)
+    if (game.data.version.startsWith("0.7.")) {
+      return this.getEmbeddedCollection("Item").filter(i => i.type === NumeneraArmorItem.type)
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
+    }
+
+    return this.getEmbeddedCollection("Item").filter(i => i.type === NumeneraArmorItem.type)
+      .reduce((acc, armor) => acc + Number(armor.data.data.armor), 0);
   }
 
   get mightCostPerHour() {

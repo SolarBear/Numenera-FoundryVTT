@@ -2,7 +2,6 @@ import { onItemCreateGenerator, onItemDeleteGenerator, onItemEditGenerator, sort
 
 import { NUMENERA } from "../../config.js";
 
-import { EffortDialog } from "../../apps/EffortDialog.js";
 import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
 
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
@@ -15,7 +14,7 @@ import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 import { NumeneraPowerShiftItem } from "../../item/NumeneraPowerShiftItem.js";
-import { removeHtmlTags, useAlternateButtonBehavior } from "../../utils.js";
+import { removeHtmlTags } from "../../utils.js";
 
 /**
  * Utility function to comparer orderable Items.
@@ -164,7 +163,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const itemClassMap = {
       abilities: NumeneraAbilityItem.type,
-      armor: NumeneraArmorItem.type,
+      armorPieces: NumeneraArmorItem.type,
       artifacts: NumeneraArtifactItem.type,
       cyphers: NumeneraCypherItem.type,
       equipment: NumeneraEquipmentItem.type,
@@ -438,7 +437,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return weapon;
     });
 
-    sheetData.data.armor = sheetData.data.armor.map(armor => {
+    sheetData.data.armorPieces = sheetData.data.armorPieces.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
       armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
       return armor;
@@ -451,7 +450,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.data.weapons.sort(orderItems);
-    sheetData.data.armor.sort(orderItems);
+    sheetData.data.armorPieces.sort(orderItems);
     sheetData.data.equipment.sort(orderItems);
   }
 
