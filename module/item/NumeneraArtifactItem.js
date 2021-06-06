@@ -13,9 +13,10 @@ export class NumeneraArtifactItem extends Item {
             artifact = NumeneraArtifactItem.fromOwnedItem(artifact);
 
         artifact.data.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
-        artifact.data.level = game.i18n.localize("NUMENERA.unknown");
-        artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
-        artifact.data.depletion = null;
+        artifact.data.data.level = game.i18n.localize("NUMENERA.unknown");
+        artifact.data.data.effect = game.i18n.localize("NUMENERA.unknown");
+        artifact.data.data.laws = game.i18n.localize("NUMENERA.unknown");
+        artifact.data.data.depletion = null;
 
         return artifact;
     }

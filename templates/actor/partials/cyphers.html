@@ -52,19 +52,19 @@
                             </select>
                         </label>
                         {{/if}}
-                        {{else}}
-                            <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.data.level}}
-                            
-                            {{#if ../displayCypherType}}
-                                <br />
-                                <span>{{localize "NUMENERA.item.cypher.type.label"}}</span>&nbsp;
-                                {{#if cypher.data.dataidentified}}
-                                    {{localize cypher.data.data.cypherType}}
-                                {{else}}
-                                    {{localize "NUMENERA.unknown"}}
-                                {{/if}}
+                    {{else}}
+                        <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.data.level}}
+                        
+                        {{#if ../displayCypherType}}
+                            <br />
+                            <span>{{localize "NUMENERA.item.cypher.type.label"}}</span>&nbsp;
+                            {{#if cypher.data.data.identified}}
+                                {{localize cypher.data.data.cypherType}}
+                            {{else}}
+                                {{localize "NUMENERA.unknown"}}
                             {{/if}}
                         {{/if}}
+                    {{/if}}
                     </td>
 
                     <td class="cypher-description">

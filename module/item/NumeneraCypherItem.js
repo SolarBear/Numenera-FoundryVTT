@@ -13,9 +13,9 @@ export class NumeneraCypherItem extends Item {
         cypher = NumeneraCypherItem.fromOwnedItem(cypher);
 
       cypher.data.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
-      cypher.data.level = game.i18n.localize("NUMENERA.unknown");
-      cypher.data.effect = game.i18n.localize("NUMENERA.unknown");
-      cypher.data.cypherType = null;
+      cypher.data.data.level = game.i18n.localize("NUMENERA.unknown");
+      cypher.data.data.effect = game.i18n.localize("NUMENERA.unknown");
+      cypher.data.data.cypherType = null;
 
       return cypher;
   }

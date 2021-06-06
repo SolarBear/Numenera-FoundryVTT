@@ -385,6 +385,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.artifacts = sheetData.data.artifacts.map(artifact => {
       artifact.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
+      //TODO find some means to avoid repeating this code for artifacts and cyphers
+      //both here and inside their respective classes
       if (!artifact.data.data.identified && !artifact.editable) {
         //Make it so that unidentified artifacts appear as blank items
         artifact = NumeneraArtifactItem.asUnidentified(artifact);
@@ -410,7 +412,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       if (useCypherType && cypher.data.data.identified && !cypher.data.data.cypherType) {
         //Use the very first object key as property since none has been defined yet
-        cypher.data.cypherType = Object.keys(NUMENERA.cypherTypes[NumeneraCypherItem.cypherTypeFlavor]);
+        cypher.data.data.cypherType = Object.keys(NUMENERA.cypherTypes[NumeneraCypherItem.cypherTypeFlavor])[0];
       }
 
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
@@ -566,7 +568,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     if (game.user.isGM) {
       artifactsList.on("blur", "input,textarea", this.onArtifactEdit.bind(this));
-      cyphersList.on("blur", "input,textarea", this.onCypherEdit.bind(this));
+      cyphersList.on("blur", "input,textarea,select", this.onCypherEdit.bind(this));
 
       if (game.settings.get("numenera", "useOddities"))
         html.find("ul.oddities").on("blur", "input", this.onOddityEdit.bind(this));

@@ -148,6 +148,7 @@
     "NUMENERA.pc.numenera.artifact.unidentified": "Unidentified Artifact",
     "NUMENERA.pc.numenera.artifact.identified": "Identified?",
     "NUMENERA.pc.numenera.artifact.level": "Level",
+    "NUMENERA.pc.numenera.artifact.laws": "Laws",
 
     "NUMENERA.pc.numenera.cypher.deleteTooltip": "Delete",
     "NUMENERA.pc.numenera.cypher.effect": "Effect",
