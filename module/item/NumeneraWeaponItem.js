@@ -8,10 +8,11 @@ export class NumeneraWeaponItem extends Item {
     }
 
     prepareData() {
-	    // Override common default icon
-	    if (!this.data.img) this.data.img = 'icons/svg/sword.svg';
-
         super.prepareData();
+
+        // Override common default icon
+        if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+            this.data.img = 'icons/svg/sword.svg';
 
         let itemData = this.data.data || {};
 
@@ -50,14 +51,14 @@ export class NumeneraWeaponItem extends Item {
     async use() {
         //An ability must be related to an Actor to be used
         if (this.actor === null) {
-          return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
+            return ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
         }
 
         const skillName = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
 
         //Get the skill related to that ability
         let skill = this.actor.data.items.find(
-          i => i.name === skillName && i.type === NumeneraSkillItem.type
+            i => i.name === skillName && i.type === NumeneraSkillItem.type
         );
 
         if (!skill) {
@@ -67,7 +68,7 @@ export class NumeneraWeaponItem extends Item {
             }
             else {
                 //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
-                skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, {parent: this.actor});
+                skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, { parent: this.actor });
             }
 
             skill.data.data = skill.data.data || {};
@@ -78,5 +79,5 @@ export class NumeneraWeaponItem extends Item {
         }
 
         skill.use();
-      }
+    }
 }

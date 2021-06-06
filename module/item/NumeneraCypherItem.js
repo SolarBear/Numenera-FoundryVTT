@@ -49,10 +49,11 @@ export class NumeneraCypherItem extends Item {
   }
 
   prepareData() {
-    // Override common default icon
-    if (!this.data.img) this.data.img = 'icons/svg/pill.svg';
-
     super.prepareData();
+
+    // Override common default icon
+    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+      this.data.img = 'icons/svg/pill.svg';    
 
     let itemData = this.data;
     if (itemData.hasOwnProperty("data"))

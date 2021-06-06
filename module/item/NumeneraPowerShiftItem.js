@@ -2,7 +2,7 @@ import { NUMENERA } from "../config.js";
 
 export class NumeneraPowerShiftItem extends Item {
   static get type() {
-      return "powerShift";
+    return "powerShift";
   }
 
   static fromOwnedItem(ownedItem, actor) {
@@ -22,11 +22,11 @@ export class NumeneraPowerShiftItem extends Item {
   }
 
   prepareData() {
-    // Override common default icon
-    if (!this.data.img)
-      this.data.img = 'icons/svg/upgrade.svg';
-
     super.prepareData();
+
+    // Override common default icon
+    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+      this.data.img = 'icons/svg/upgrade.svg';
 
     if (!this.data.hasOwnProperty("data")) {
       this.data.data = {};

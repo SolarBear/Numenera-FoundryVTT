@@ -4,7 +4,7 @@ import { useAlternateButtonBehavior } from "../utils.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {
-      return "skill";
+    return "skill";
   }
 
   static get object() {
@@ -14,17 +14,14 @@ export class NumeneraSkillItem extends Item {
     }
   }
 
-  //TODO fromOwnedItem methods still needed in 0.8?
   static async fromOwnedItem(ownedItem, actor) {
     let skillItem;
 
-    if (game.data.version.startsWith("0.7."))
-    {
+    if (game.data.version.startsWith("0.7.")) {
       skillItem = new NumeneraSkillItem();
       skillItem.options.actor = actor;
     }
-    else
-    {
+    else {
       //TODO find a more elegant way plz
       if (actor === null)
         skillItem = new Item(NumeneraSkillItem.object);
@@ -47,22 +44,23 @@ export class NumeneraSkillItem extends Item {
   }
 
   prepareData() {
-	  // Override common default icon
-	  if (!this.data.img) this.data.img = 'icons/svg/book.svg';
+    super.prepareData();
 
-      super.prepareData();
+    // Override common default icon
+    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+      this.data.img = 'icons/svg/book.svg';
 
-      if (!this.data.hasOwnProperty("data")) {
-        this.data.data = {};
-      }
-      
-      const itemData = this.data.data;
-      itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
-      itemData.notes = itemData.notes || "";
-      //To avoid problems, set the first stat in the list as the default one
-      itemData.stat = itemData.stat || Object.values(NUMENERA.stats)[0];
-      itemData.inability = itemData.inability || false;
-      itemData.skillLevel = itemData.skillLevel || 0;
+    if (!this.data.hasOwnProperty("data")) {
+      this.data.data = {};
+    }
+
+    const itemData = this.data.data;
+    itemData.name = this.data && this.data.name ? this.data.name : game.i18n.localize("NUMENERA.item.skill.newSkill");
+    itemData.notes = itemData.notes || "";
+    //To avoid problems, set the first stat in the list as the default one
+    itemData.stat = itemData.stat || Object.values(NUMENERA.stats)[0];
+    itemData.inability = itemData.inability || false;
+    itemData.skillLevel = itemData.skillLevel || 0;
   }
 
   async updateRelatedAbility(ability, options = {}) {
@@ -81,7 +79,7 @@ export class NumeneraSkillItem extends Item {
       name: this.name,
       "data.cost.pool": this.data.data.stat,
     },
-    options);
+      options);
 
     return updated;
   }

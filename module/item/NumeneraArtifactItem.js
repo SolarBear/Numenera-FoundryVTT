@@ -62,10 +62,11 @@ export class NumeneraArtifactItem extends Item {
     }
 
     async prepareData() {
-        // Override common default icon
-        if (!this.data.img) this.data.img = 'icons/svg/mage-shield.svg';
-
         super.prepareData();
+
+        // Override common default icon
+        if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+            this.data.img = 'icons/svg/mage-shield.svg';
 
         let itemData = this.data;
         if (itemData.hasOwnProperty("data"))
