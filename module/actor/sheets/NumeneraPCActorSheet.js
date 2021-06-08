@@ -24,11 +24,16 @@ import { removeHtmlTags } from "../../utils.js";
  * @returns Number
  */
 function orderItems(a, b) {
-  const orderA = a.data.data.order;
-  const orderB = b.data.data.order;
+  let dataA = a.data;
+  let dataB = b.data;
 
-  if (orderA < orderB) return -1;
-  if (orderA > orderB) return 1;
+  if (game.data.version.startsWith("0.8.")) {
+    dataA = dataA.data;
+    dataB = dataB.data;
+  }
+
+  if (dataA.order < dataB.order) return -1;
+  if (dataA.order > dataB.order) return 1;
   return 0;
 }
 
@@ -329,7 +334,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.data.oddities = sheetData.data.oddities.map(oddity => {
         oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
         oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
-        oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
+        
+        if (game.data.version.startsWith("0.7."))
+          oddity.data.notes = removeHtmlTags(oddity.data.notes);
+        else
+          oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
         return oddity;
       });
 
@@ -350,7 +359,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (sheetData.usePowerShifts) {
       sheetData.data.powerShifts = sheetData.data.powerShifts.map(powerShift => {
         powerShift.showIcon = powerShift.img && sheetData.settings.icons.powerShifts;
-        powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
+        if (game.data.version.startsWith("0.7."))
+          powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
+        else
+          powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
         return powerShift;
       });
 
@@ -389,12 +401,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       //TODO find some means to avoid repeating this code for artifacts and cyphers
       //both here and inside their respective classes
-      if (!artifact.data.data.identified && !artifact.editable) {
+      const artifactData = game.data.version.startsWith("0.7.") ? artifact.data : artifact.data.data;
+      if (!artifactData.identified && !artifact.editable) {
         //Make it so that unidentified artifacts appear as blank items
         artifact = NumeneraArtifactItem.asUnidentified(artifact);
       }
       else {
-        artifact.data.data.effect = removeHtmlTags(artifact.data.data.effect);
+        artifactData.effect = removeHtmlTags(artifactData.effect);
       }
 
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
@@ -404,17 +417,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.data.cyphers = sheetData.data.cyphers.map(cypher => {
       cypher.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
-      if (!cypher.data.data.identified && !cypher.editable) {
+      const cypherData = game.data.version.startsWith("0.7.") ? cypher.data : cypher.data.data;
+      if (!cypherData.identified && !cypher.editable) {
         //Make it so that unidentified cyphers appear as blank items
         cypher = NumeneraCypherItem.asUnidentified(cypher);
       }
       else {
-        cypher.data.data.effect = removeHtmlTags(cypher.data.data.effect);
+        cypherData.effect = removeHtmlTags(cypherData.effect);
       }
 
-      if (useCypherType && cypher.data.data.identified && !cypher.data.data.cypherType) {
+      if (useCypherType && cypherData.identified && !cypherData.cypherType) {
         //Use the very first object key as property since none has been defined yet
-        cypher.data.data.cypherType = Object.keys(NUMENERA.cypherTypes[NumeneraCypherItem.cypherTypeFlavor])[0];
+        cypherData.cypherType = Object.keys(NUMENERA.cypherTypes[NumeneraCypherItem.cypherTypeFlavor])[0];
       }
 
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
@@ -437,18 +451,27 @@ export class NumeneraPCActorSheet extends ActorSheet {
   _setEquipmentData(sheetData) {
     sheetData.data.weapons = sheetData.data.weapons.map(weapon => {
       weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
-      weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
+      if (game.data.version.startsWith("0.7."))
+        weapon.data.notes = removeHtmlTags(weapon.data.notes);
+      else
+        weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
       return weapon;
     });
 
     sheetData.data.armorPieces = sheetData.data.armorPieces.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
-      armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
+      if (game.data.version.startsWith("0.7."))
+        armor.data.notes = removeHtmlTags(armor.data.notes);
+      else
+        armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
       return armor;
     });
 
     sheetData.data.equipment = sheetData.data.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
+      if (game.data.version.startsWith("0.7."))
+        equipment.data.notes = removeHtmlTags(equipment.data.notes);
+      else
       equipment.data.data.notes = removeHtmlTags(equipment.data.data.notes);
       return equipment;
     });
@@ -472,11 +495,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.abilityTypes = NUMENERA.abilityTypes;
 
     sheetData.data.abilities = sheetData.data.abilities.map(ability => {
-      ability.nocost = (ability.data.data.cost.amount <= 0);
+      const abilityData = game.data.version.startsWith("0.7.") ? ability.data : ability.data.data;
+      ability.nocost = (abilityData.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
       ability.showIcon = ability.img && sheetData.settings.icons.abilities;
-      ability.data.data.notes = removeHtmlTags(ability.data.data.notes);
+      abilityData.notes = removeHtmlTags(abilityData.notes);
       return ability;
     });
 
@@ -492,11 +516,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   _setSkillsData(sheetData) {
     sheetData.data.skills = sheetData.data.skills.map(skill => {
+      const skillData = game.data.version.startsWith("0.7.") ? skill.data : skill.data.data;
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
-      skill.untrained = skill.data.data.skillLevel == 0;
-      skill.trained = skill.data.data.skillLevel == 1;
-      skill.specialized = skill.data.data.skillLevel == 2;
+      skill.untrained = skillData.skillLevel == 0;
+      skill.trained = skillData.skillLevel == 1;
+      skill.specialized = skillData.skillLevel == 2;
       return skill;
     });
     
@@ -736,7 +761,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //TODO move to the Artifact item class
     const artifact = this.actor.items.get(artifactId);
-    const depletion = artifact.data.data.depletion;
+    const depletion = game.data.version.startsWith("0.7.") ? artifact.data.depletion : artifact.data.data.depletion;
     if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
       return;
 
@@ -760,16 +785,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
   async onPowerShiftUpdated() {
     const expectedRecoveries = this.actor.nbRecoveries;
 
-    if (expectedRecoveries !== this.actor.data.data.recoveries.length) {
+    const actorData = game.data.version.startsWith("0.7.") ? this.actor.data : this.actor.data.data;
+
+    if (expectedRecoveries !== actorData.recoveries.length) {
       //TODO  handle in PCActor class plz
-      const deltaRecoveries = expectedRecoveries - this.actor.data.data.recoveries.length;
+      const deltaRecoveries = expectedRecoveries - actorData.recoveries.length;
 
       if (deltaRecoveries > 0) {
         //Increased the level, create an array of unused recoveries (ie. "true" values)
         const newRecoveries = new Array(deltaRecoveries).fill(true);
 
         //Prepend to the recoveries array; unshift() mutates the Array in place so make a copy first
-        const recoveries = Array.from(this.actor.data.data.recoveries);
+        const recoveries = Array.from(actorData.recoveries);
         recoveries.unshift(...newRecoveries);
 
         await this.actor.update({ "data.recoveries": recoveries });
@@ -777,7 +804,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       else if (deltaRecoveries < 0) {
         //Decreased the level, must remove some recoveries
         //slice() does not act in place, it returns a new array
-        await this.actor.update({ "data.recoveries": this.actor.data.data.recoveries.slice(-deltaRecoveries) });
+        await this.actor.update({ "data.recoveries": actorData.recoveries.slice(-deltaRecoveries) });
       }
 
       //If recoveries changed, update the sheet, the number of recoveries has changed

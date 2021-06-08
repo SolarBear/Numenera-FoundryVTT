@@ -539,7 +539,8 @@ export class NumeneraPCActor extends Actor {
    async createEmbeddedEntity(...args) {
     const [_, data] = args;
     
-    if (!data.data) return;
+    if (!data.data)
+      return await super.createEmbeddedEntity(...args);
 
     //Prepare numenera items by rolling their level, if they don't have one already
     switch (data.type) {

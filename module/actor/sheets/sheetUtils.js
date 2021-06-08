@@ -14,7 +14,7 @@ export const sortFunction = (a, b) => a.data.data.order < b.data.data.order ? -1
 export function onItemCreateGenerator(itemType, itemClass, callback = null) {
   return async function(event = null) {
     if (event)
-    event.preventDefault();
+      event.preventDefault();
 
     const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
@@ -98,7 +98,11 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
       const toDelete = this.actor.data.items.find(i => i._id === itemId);
-      await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
+
+      if (game.data.version.startsWith("0.7."))
+        await this.actor.deleteOwnedItem(itemId);
+      else
+        await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
 
       if (callback)
         callback(toDelete);
