@@ -24,7 +24,12 @@ export function onItemCreateGenerator(itemType, itemClass, callback = null) {
       type: itemType,
     };
 
-    const newItem = await (await this.actor.createEmbeddedDocuments("Item", [itemData]))[0];
+    let newItem;
+
+    if (game.data.version.startsWith("0.7."))
+      newItem = await this.actor.createOwnedItem(itemData);
+    else
+      newItem = await (await this.actor.createEmbeddedDocuments("Item", [itemData]))[0];
 
     if (callback)
       callback(newItem);

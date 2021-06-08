@@ -180,10 +180,6 @@ export class NumeneraPCActor extends Actor {
       skill = new NumeneraSkillItem(this);
     }
     else {
-      //TODO this is fugly. Any way of improving this?
-      // const skills = await this.createEmbeddedDocuments("Item", [NumeneraSkillItem.object]);
-      // skill = await Promise.all(skills)[0];
-
       //Do NOT create an embedded Document here, we really want a temporary item
       const data = NumeneraSkillItem.object;
       data.name = attribute;
@@ -263,7 +259,7 @@ export class NumeneraPCActor extends Actor {
 
   getTotalArmor() {
     if (game.data.version.startsWith("0.7.")) {
-      return this.getEmbeddedCollection("Item").filter(i => i.type === NumeneraArmorItem.type)
+      return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === NumeneraArmorItem.type)
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
     }
 
@@ -402,7 +398,8 @@ export class NumeneraPCActor extends Actor {
   }
 
   isOverCypherLimit() {
-    const cyphers = this.getEmbeddedCollection("Item").filter(i => i.type === "cypher");
+    const collection = game.data.version.startsWith("0.7.") ? "OwnedItem" : "Item";
+    const cyphers = this.getEmbeddedCollection(collection).filter(i => i.type === "cypher");
 
     //AFAIK, only systems using anoetic/occultic cyphers count them differently
     switch (game.settings.get("numenera", "cypherTypesFlavor")) {
@@ -540,6 +537,8 @@ export class NumeneraPCActor extends Actor {
    * @override
    */
    async createEmbeddedEntity(...args) {
+    const [_, data] = args;
+    
     if (!data.data) return;
 
     //Prepare numenera items by rolling their level, if they don't have one already

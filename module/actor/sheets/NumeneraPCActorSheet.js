@@ -243,6 +243,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setComputedValuesData(sheetData) {
+    const actorData = game.data.version.startsWith("0.7.") ? sheetData.actor.data : sheetData.actor.data.data;
+    
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
     sheetData.data.currentFocus = this.actor.getFocus();
 
@@ -253,7 +255,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
     }
 
-    sheetData.advances = Object.entries(sheetData.actor.data.data.advances).map(
+    sheetData.advances = Object.entries(actorData.advances).map(
       ([key, value]) => {
         return {
           name: key,
@@ -281,14 +283,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
       }
       else {
         sheetData.saveSpeedEffortPenalty = true;
-        sheetData.speedEffortPenalty = this.actor.data.data.armorPenalty;
+        sheetData.speedEffortPenalty = actorData.armorPenalty;
       }
     }
     
     const recoveriesLabels = Object.entries(NUMENERA.recoveries);
-    sheetData.recoveriesData = this.actor.data.data.recoveries
+    sheetData.recoveriesData = actorData.recoveries
       .map((recovery, index) => {
-        const recoveryIndex = Math.max(0, index - (this.actor.data.data.recoveries.length - NUMENERA.totalRecoveries));
+        const recoveryIndex = Math.max(0, index - (actorData.recoveries.length - NUMENERA.totalRecoveries));
         const [key, label] = recoveriesLabels[recoveryIndex];
         return {
           key,
