@@ -81,7 +81,7 @@ export function onItemEditGenerator(editClass, callback = null) {
 
     let updatedItem;
     if (game.data.version.startsWith("0.7."))
-      updatedItem = await this.actor.updateEmbeddedEntity(updated, {fromActorUpdateEmbeddedEntity: true});
+      updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
     else
       updatedItem = await this.actor.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
 
