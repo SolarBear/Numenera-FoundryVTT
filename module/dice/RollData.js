@@ -167,19 +167,16 @@ export class RollData {
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    //TODO this is weird... check for broken stuff from 0.6
     //TODO Roll.roll() now gives some weird warnings, perhaps switch to evaluate()?
     let dieRoll;
     let total = roll.total;
 
     if (game.data.version.startsWith("0.7.")) {
-      //dieRoll = roll.result
-      throw new Error("TODO");
+      dieRoll = roll.result;
     }
     else {
       dieRoll = roll.terms[0].results[0].result;
     }
-
 
     let combat = "";
     if (dieRoll >= 17) {

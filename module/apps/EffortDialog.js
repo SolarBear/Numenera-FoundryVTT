@@ -165,7 +165,8 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   async init() {
-    this.object.skills = this.object.actor.getEmbeddedCollection("Item")
+    const collection = game.data.version.startsWith("0.7.") ? "OwnedItem" : "Item";
+    this.object.skills = this.object.actor.getEmbeddedCollection(collection)
       .filter(i => i.type === NumeneraSkillItem.type);
 
       //TODO still required in 0.7?

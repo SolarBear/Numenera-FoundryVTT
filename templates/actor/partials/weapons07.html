@@ -1,0 +1,90 @@
+<h2>{{localize "NUMENERA.pc.weapons.sectionName"}}</h2>
+<table class="weapons">
+    <thead>
+        <tr>
+            <td>
+                <!-- Extra empty table data for handle to properly center if we're showing icons-->
+            </td>
+        {{#if settings.icons.equipment}}
+            <td>
+                <!-- Extra empty table data for icon-->
+            </td>
+        {{/if}}
+            <td>{{localize "NUMENERA.pc.weapons.name"}}</td>
+            <td>{{localize "NUMENERA.pc.weapons.type"}}</td>
+            <td>{{localize "NUMENERA.pc.weapons.damage"}}</td>
+            <td>{{localize "NUMENERA.pc.weapons.range"}}/{{localize "NUMENERA.pc.weapons.ammo"}}</td>
+            <td>{{localize "NUMENERA.pc.weapons.notes"}}</td>
+            <td><a class="weapon-create" title="Create"><i class="fas fa-plus"></i></a></td>
+        </tr>
+    </thead>
+    <tbody class="row-container">
+    {{#each data.weapons as |weapon|}}
+        <tr class="weapon" data-item-id="{{weapon._id}}" data-order="{{weapon.data.order}}">
+            <td class="handle">
+                <a><i class="fas fa-grip-vertical"></i></a>
+            </td>
+        {{#if ../settings.icons.equipment}}
+            <td class="item-icon">
+            {{#if weapon.showIcon}}
+                <img src="{{weapon.img}}" />
+            {{/if}}
+            </td>
+        {{/if}}
+            <td class="weapon-name">
+                <input type="text" name="data.weapons.{{weapon._id}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}"/>
+            </td>
+            <td class="weapon-weight-type">
+                <select name="data.weapons.{{weapon._id}}.data.weight" class="weapon-weight">
+                {{#select weapon.data.weight}}
+                {{#each ../weights}}
+                    <option value="{{this}}">{{localize this}}</option>
+                {{/each}}
+                {{/select}}
+                </select>
+
+                <select name="data.weapons.{{weapon._id}}.data.weaponType">
+                {{#select weapon.data.weaponType}}
+                {{#each ../weaponTypes}}
+                    <option value="{{this}}">
+                        {{localize this}}
+                    </option>
+                {{/each}}
+                {{/select}}
+                </select>
+            </td>
+            <td class="weapon-damage">
+                <input type="number" name="data.weapons.{{weapon._id}}.data.damage" min="1" value="{{weapon.data.damage}}" class="weapon-damage" />
+            </td>
+            <td class="weapon-range">
+                <select name="data.weapons.{{weapon._id}}.data.range">
+                {{#select weapon.data.range}}
+                {{#each ../ranges}}
+                    <option value="{{this}}">
+                        {{localize this}}
+                    </option>
+                {{/each}}
+                {{/select}}
+                </select>
+                <div class="ammo">
+                    <label>{{localize "NUMENERA.pc.weapons.ammo"}}</label>
+                    <input type="number" name="data.weapons.{{weapon._id}}.data.ammo" value="{{weapon.data.ammo}}" min="0" class="weapon-ammo" />
+                </div>
+            </td>
+            <td class="weapon-notes">
+                <input type="text" name="data.weapons.{{weapon._id}}.data.notes" value="{{weapon.data.notes}}" title="{{weapon.data.notes}}" />
+            </td>
+            <td>
+                <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
+                <a class="weapon-delete" data-action="delete" title="{{localize "NUMENERA.pc.weapons.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+    {{else}}
+    <tr>
+        <td colspan="100%">
+            {{{localize "NUMENERA.pc.weapons.none"}}}
+        </td>
+    </tr>
+    {{/each}}
+    </tbody>
+</table>

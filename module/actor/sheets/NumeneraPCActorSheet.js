@@ -128,8 +128,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
+    if (game.data.version.startsWith("0.7."))
+      return "systems/numenera/templates/actor/characterSheet07.html";
+    
     return "systems/numenera/templates/actor/characterSheet.html";
-    }
+  }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
