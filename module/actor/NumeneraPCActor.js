@@ -315,8 +315,9 @@ export class NumeneraPCActor extends Actor {
     let speedEffortPenalty = heaviestArmor.weightIndex;
 
     //Local, utility function
+    const collection = game.data.version.startsWith("0.7.") ? "OwnedItem" : "Item";
     const searchArmorSkill = name => {
-      return !!this.getEmbeddedCollection("Item")
+      return !!this.getEmbeddedCollection(collection)
       .some(i => i.type === NumeneraAbilityItem.type && i.name === name);
     }
 
