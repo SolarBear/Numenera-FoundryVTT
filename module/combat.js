@@ -11,16 +11,16 @@
    * @return {Promise<Combat>}        A promise which resolves to the updated Combat entity once updates are complete.
  */
 export async function rollInitiative(args) {
-  //TODO remove this with 0.6 version support
-  if (game.data.version.startsWith("0.6."))
-    return rollInitiative06Shim.apply(this, args);
-  else
+  //TODO remove this middle-man
     return rollInitiative07.apply(this, args);
 }
 
 async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
   // Structure input data
   ids = typeof ids === "string" ? [ids] : ids;
+  if (!ids)
+    return this;
+
   const currentId = this.combatant._id;
 
   // Iterate over Combatants, performing an initiative roll for each
@@ -30,7 +30,7 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
 
       // Get Combatant data
       const c = this.getCombatant(id);
-      if (!c || !c.owner) return results;
+      if (!c || !c.isOwner) return results;
 
       // Roll initiative
       const rollData = c.actor ? c.actor.getRollData() : {};
@@ -87,86 +87,6 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
   // Ensure the turn order remains with the same combatant
   if (updateTurn)
     await this.update({ turn: this.turns.findIndex((t) => t._id === currentId) });
-
-  // Create multiple chat messages
-  await CONFIG.ChatMessage.entityClass.create(messages);
-
-  // Return the updated Combat
-  return this;
-};
-
-async function rollInitiative06Shim(
-  ids,
-  formula = null,
-  messageOptions = {}
-) {
-  // Structure input data
-  ids = typeof ids === "string" ? [ids] : ids;
-  const currentId = this.combatant._id;
-
-  // Iterate over Combatants, performing an initiative roll for each
-  const [updates, messages] = ids.reduce(
-    (results, id, i) => {
-      let [updates, messages] = results;
-
-      // Get Combatant data
-      const c = this.getCombatant(id);
-      if (!c) return results;
-
-      // Roll initiative
-      const rollData = c.actor ? c.actor.getRollData() : {};
-
-      const cf = formula || this._getInitiativeFormula(c);
-      const roll = new Roll(cf, rollData).roll();
-      updates.push({ _id: id, initiative: roll.total });
-
-      // In Numenera, initiative is fixed for NPCs so don't spam the chat with constant values!
-      if (c.actor.data.type === "pc") {
-        // Determine the roll mode
-        let rollMode =  messageOptions.rollMode || game.settings.get("core", "rollMode");
-
-        const hidden = c.token.hidden || c.hidden;
-        if (hidden && rollMode === "roll")
-          rollMode = "gmroll";
-
-        // Construct chat message data
-        let messageData = mergeObject(
-          {
-            speaker: {
-              scene: canvas.scene._id,
-              actor: c.actor ? c.actor._id : null,
-              token: c.token._id,
-              alias: c.token.name,
-            },
-            flavor: `${c.token.name} ${game.i18n.localize("NUMENERA.pc.initiativeRoll")}`,
-          },
-          messageOptions
-        );
-
-        const chatData = roll.toMessage(messageData, {
-          rollMode,
-          create: false,
-        });
-
-        if (i > 0)
-          chatData.sound = null; // Only play 1 sound for the whole set
-
-        messages.push(chatData);
-      }
-
-      // Return the Roll and the chat data
-      return results;
-    },
-    [[], []]
-  );
-  if (!updates.length)
-    return this;
-
-  // Update multiple combatants
-  await this.updateEmbeddedEntity("Combatant", updates);
-
-  // Ensure the turn order remains with the same combatant
-  await this.update({ turn: this.turns.findIndex((t) => t._id === currentId) });
 
   // Create multiple chat messages
   await CONFIG.ChatMessage.entityClass.create(messages);

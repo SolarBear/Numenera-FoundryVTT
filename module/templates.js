@@ -8,18 +8,18 @@ export const preloadHandlebarsTemplates = async() => {
     // Define template paths to load
     const templatePaths = [
         // Actor Sheets
-        "systems/numenera/templates/actor/characterSheet.html",
-        "systems/numenera/templates/actor/communitySheet.html",
-        "systems/numenera/templates/actor/npcSheet.html",
+        //"systems/numenera/templates/actor/characterSheet.html",
+        // "systems/numenera/templates/actor/communitySheet.html",
+        // "systems/numenera/templates/actor/npcSheet.html",
 
         // Actor partials
-        "systems/numenera/templates/actor/partials/artifacts.html",
-        "systems/numenera/templates/actor/partials/cyphers.html",
-        "systems/numenera/templates/actor/partials/features.html",
-        "systems/numenera/templates/actor/partials/oddities.html",
-        "systems/numenera/templates/actor/partials/powerShifts.html",
-        "systems/numenera/templates/actor/partials/recursions.html",
-        "systems/numenera/templates/actor/partials/weapons.html",
+        // "systems/numenera/templates/actor/partials/artifacts.html",
+        // "systems/numenera/templates/actor/partials/cyphers.html",
+        // "systems/numenera/templates/actor/partials/features.html",
+        // "systems/numenera/templates/actor/partials/oddities.html",
+        // "systems/numenera/templates/actor/partials/powerShifts.html",
+        // "systems/numenera/templates/actor/partials/recursions.html",
+        // "systems/numenera/templates/actor/partials/weapons.html",
 
         // Chat messages
         "systems/numenera/templates/chat/automaticResult.html",
@@ -44,10 +44,36 @@ export const preloadHandlebarsTemplates = async() => {
         //Token stuff
         "systems/numenera/templates/hud/tokenHUD.html",
         "systems/numenera/templates/scene/tokenConfig.html",
-        "systems/numenera/templates/scene/tokenConfig_06.html",
 
         "systems/numenera/templates/settings/features.html",
     ];
+
+    if (game.data.version.startsWith("0.7.")) {
+        templatePaths.push("systems/numenera/templates/actor/characterSheet07.html",
+        "systems/numenera/templates/actor/communitySheet07.html",
+        "systems/numenera/templates/actor/npcSheet07.html",
+        "systems/numenera/templates/actor/partials/artifacts07.html",
+        "systems/numenera/templates/actor/partials/cyphers07.html",
+        "systems/numenera/templates/actor/partials/features07.html",
+        "systems/numenera/templates/actor/partials/oddities07.html",
+        "systems/numenera/templates/actor/partials/powerShifts07.html",
+        "systems/numenera/templates/actor/partials/recursions07.html",
+        "systems/numenera/templates/actor/partials/weapons07.html",
+        );
+    }
+    else {
+        templatePaths.push("systems/numenera/templates/actor/characterSheet.html",
+        "systems/numenera/templates/actor/communitySheet.html",
+        "systems/numenera/templates/actor/npcSheet.html",
+        "systems/numenera/templates/actor/partials/artifacts.html",
+        "systems/numenera/templates/actor/partials/cyphers.html",
+        "systems/numenera/templates/actor/partials/features.html",
+        "systems/numenera/templates/actor/partials/oddities.html",
+        "systems/numenera/templates/actor/partials/powerShifts.html",
+        "systems/numenera/templates/actor/partials/recursions.html",
+        "systems/numenera/templates/actor/partials/weapons.html",
+        );
+    }
 
     // Load the template parts
     return loadTemplates(templatePaths);

@@ -23,6 +23,16 @@ export class NumeneraEquipmentItemSheet extends ItemSheet {
     }
 
     get type() {
+        //TODO required???
         return "equipment";
     }
+
+        getData() {
+            const sheetData = super.getData();
+
+            if (game.data.version.startsWith("0.8."))
+                sheetData.data = sheetData.data.data;
+
+            return sheetData;
+        }
 }

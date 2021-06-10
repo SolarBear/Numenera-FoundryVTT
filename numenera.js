@@ -45,10 +45,15 @@ Hooks.once("init", function() {
     CONFIG.NUMENERA = NUMENERA;
 
     //Dirty trick to instantiate the right class. Kids, do NOT try this at home.
-    CONFIG.Actor.entityClass = NumeneraActor;
-    CONFIG.Item.entityClass = NumeneraItem;
+    if (game.data.version.startsWith("0.7.")) {
+        CONFIG.Actor.entityClass = NumeneraActor;
+        CONFIG.Item.entityClass = NumeneraItem;
+    } else {
+        CONFIG.Actor.documentClass = NumeneraActor;
+        CONFIG.Item.documentClass = NumeneraItem;
+    }
 
-    //Each type of Actor will provide its own personal, free-range, bio, nut-free formula.
+    //Each type of Actor will provi^de its own personal, free-range, bio, nut-free formula.
     Combat.prototype._getInitiativeFormula = getInitiativeFormula;
     Combat.prototype.rollInitiative = rollInitiative;
 
@@ -88,12 +93,3 @@ Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
 Hooks.once("ready", registerHooks);
-
-Hooks.once("ready", () => 
-{
-  ui.notifications.warn(
-      "Hello! SolarBear here. I just wanted to warn you that Foundry 0.8 support is coming up fast. What does that mean? a) Make sure your data is backed up! I'm doing my very best to test the whole thing but who knows what I might miss. " +
-      "b) Support for Foundry 0.6 will be dropped (obviously) and only the latest 0.7 release (currently 0.7.10) will be supported. c) Please report any issue to either <a href=\"https://github.com/SolarBear/Numenera-FoundryVTT/issues\">" +
-      "GitHub</a> or <a href=\"https://discord.gg/Qw2jeRwz\">Discord</a>. Thank you and happy gaming!"
-  );
-});

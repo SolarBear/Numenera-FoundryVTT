@@ -9,6 +9,8 @@ import { NumeneraWeaponItem } from "../item/NumeneraWeaponItem.js";
 import { getShortStat, useAlternateButtonBehavior } from "../utils.js";
 import { NUMENERA } from "../config.js";
 import { NumeneraPowerShiftItem } from "../item/NumeneraPowerShiftItem.js";
+import { NumeneraArtifactItem } from "../item/NumeneraArtifactItem.js";
+import { NumeneraCypherItem } from "../item/NumeneraCypherItem.js";
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Numenera.
@@ -51,7 +53,7 @@ export class NumeneraPCActor extends Actor {
     //Check for an initiative skill
     let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
     if (!initSkill) {
-      initSkill = new NumeneraSkillItem();
+      initSkill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, {parent: this});
       initSkill.data.data.name = "Initiative";
     }
 
@@ -90,7 +92,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   rollSkillById(skillId, rollData = null, ability = null) {
-    const skill = this.getOwnedItem(skillId);
+    const skill = this.items.get(skillId);
     return this.rollSkill(skill, rollData, ability);
   }
 
@@ -128,9 +130,24 @@ export class NumeneraPCActor extends Actor {
     roll.roll();
 
     let flavor = game.i18n.localize("NUMENERA.rolling") + " " + skill.data.data.name;
-    if (rollData.effortLevel > 0) {
-      flavor += ` + ${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`;
+
+    const mods = []; //any roll modifier goes here: effort, skill level, etc.
+
+    if (skill.data.data.skillLevel == 2) {
+      mods.push("specialized");
     }
+    else if (skill.data.data.skillLevel == 1) {
+      mods.push("trained");
+    }
+
+    if (skill.data.data.inability)
+      mods.push("inability");
+
+    if (rollData.effortLevel > 0)
+      mods.push(`${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`);
+
+    if (mods.length > 0)
+      flavor += ` (${mods.join(", ")})`;
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
@@ -150,14 +167,24 @@ export class NumeneraPCActor extends Actor {
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollAttribute(attribute, rollData = null) {
-    //This really shouldn't be in an Actor class, but it makes it SO easier to create stat macros...
-    if (rollData === null && useAlternateButtonBehavior()) {
-      return new EffortDialog(this, { stat: attribute }).render(true);
+  async rollAttribute(attribute, rollData = null) {
+    if (rollData === null && useAlternateButtonBehavior()) {      
+      const dialog = new EffortDialog(this, { stat: attribute });
+      await dialog.init();
+      return dialog.render(true);
     }
 
     // Create a pseudo-skill to avoid repeating the roll logic
-    const skill = new NumeneraSkillItem();
+    let skill;
+    if (game.data.version.startsWith("0.7.")) {
+      skill = new NumeneraSkillItem(this);
+    }
+    else {
+      //Do NOT create an embedded Document here, we really want a temporary item
+      const data = NumeneraSkillItem.object;
+      data.name = attribute;
+      skill = new Item(data, {parent: this});
+    }
 
     //Need to modify the deep property since skill.name is a getter
     skill.data.data.name = attribute.replace(/^\w/, (c) => c.toUpperCase()); //capitalized
@@ -231,8 +258,13 @@ export class NumeneraPCActor extends Actor {
   }
 
   getTotalArmor() {
-    return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === NumeneraArmorItem.type)
+    if (game.data.version.startsWith("0.7.")) {
+      return this.getEmbeddedCollection("OwnedItem").filter(i => i.type === NumeneraArmorItem.type)
       .reduce((acc, armor) => acc + Number(armor.data.armor), 0);
+    }
+
+    return this.getEmbeddedCollection("Item").filter(i => i.type === NumeneraArmorItem.type)
+      .reduce((acc, armor) => acc + Number(armor.data.data.armor), 0);
   }
 
   get mightCostPerHour() {
@@ -284,7 +316,7 @@ export class NumeneraPCActor extends Actor {
 
     //Local, utility function
     const searchArmorSkill = name => {
-      return !!this.getEmbeddedCollection("OwnedItem")
+      return !!this.getEmbeddedCollection("Item")
       .some(i => i.type === NumeneraAbilityItem.type && i.name === name);
     }
 
@@ -310,7 +342,7 @@ export class NumeneraPCActor extends Actor {
     let recoveries = NUMENERA.totalRecoveries;
 
     if (game.settings.get("numenera", "usePowerShifts")) {
-      recoveries = this.getEmbeddedCollection("OwnedItem")
+      recoveries = this.getEmbeddedCollection("Item")
         .filter(i => i.type === NumeneraPowerShiftItem.type && i.data.effect === NUMENERA.powerShiftEffects.extraRecoveries)
         .reduce((total, current) => total + parseInt(current.data.level), recoveries)
     }
@@ -326,10 +358,16 @@ export class NumeneraPCActor extends Actor {
    */
   _getHeaviestArmor() {
       //Armor with weight "N/A" are considered to have 0 weight
-      const armor = this.getEmbeddedCollection("OwnedItem")
-      .filter(i => i.type === NumeneraArmorItem.type)
-      .map(NumeneraArmorItem.fromOwnedItem);
-  
+      let armor;
+      if (game.data.version.startsWith("0.7.")) {
+        armor = this.getEmbeddedCollection("OwnedItem")
+          .filter(i => i.type === NumeneraArmorItem.type)
+          .map(NumeneraArmorItem.fromOwnedItem);
+      }
+      else {
+        armor = this.items.filter(i => i.type === NumeneraArmorItem.type);
+      }
+
       if (armor.length <= 0)
         return null;
   
@@ -360,7 +398,8 @@ export class NumeneraPCActor extends Actor {
   }
 
   isOverCypherLimit() {
-    const cyphers = this.getEmbeddedCollection("OwnedItem").filter(i => i.type === "cypher");
+    const collection = game.data.version.startsWith("0.7.") ? "OwnedItem" : "Item";
+    const cyphers = this.getEmbeddedCollection(collection).filter(i => i.type === "cypher");
 
     //AFAIK, only systems using anoetic/occultic cyphers count them differently
     switch (game.settings.get("numenera", "cypherTypesFlavor")) {
@@ -392,7 +431,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   async useItemById(itemId) {
-    const item = await this.getOwnedItem(itemId);
+    const item = await this.items.get(itemId);
     return this.useItem(item);
   }
 
@@ -429,11 +468,6 @@ export class NumeneraPCActor extends Actor {
       throw new Error("Not an ability item");
 
     const cost = ability.getCost();
-    //Ability costs 0? yeah, sure, use it, buddy
-    if (cost.amount === 0) {
-      return true;
-    }
-
     const stat = this.data.data.stats[cost.pool];
 
     if (!stat)
@@ -450,7 +484,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   async useAbilityById(abilityId) {
-    const ability = await this.getOwnedItem(abilityId);
+    const ability = await this.items.get(abilityId);
     return this.useAbility(ability);
   }
 
@@ -499,12 +533,14 @@ export class NumeneraPCActor extends Actor {
    */
 
   /**
+   * TODO remove this with 0.7 support
    * @override
    */
-  async createEmbeddedEntity(...args) {
+   async createEmbeddedEntity(...args) {
     const [_, data] = args;
-
-    if (!data.data) return;
+    
+    if (!data.data)
+      return await super.createEmbeddedEntity(...args);
 
     //Prepare numenera items by rolling their level, if they don't have one already
     switch (data.type) {
@@ -568,7 +604,7 @@ export class NumeneraPCActor extends Actor {
             _id: relatedSkill.data._id,
             "data.relatedAbilityId": actorAbility._id,
           };
-          await this.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
+          await this.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
 
           ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
         } else {
@@ -580,11 +616,11 @@ export class NumeneraPCActor extends Actor {
 
           const itemData = {
             name: actorAbility.name,
-            type: "skill",
+            type: NumeneraSkillItem.type,
             data: skillData,
           };
 
-          await this.createOwnedItem(itemData);
+          await this.createEmbeddedDocuments("Item", [itemData]);
 
           ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
         }
@@ -592,12 +628,125 @@ export class NumeneraPCActor extends Actor {
     }
 
     return newItem;
+   }
+
+  /**
+   * 
+   * @override
+   */
+  async createEmbeddedDocuments(...args) {
+    const [documentType, _] = args;
+    const docs = await super.createEmbeddedDocuments(...args);
+    const newItems = await Promise.all(docs);
+
+    //Avoid useless deep embedding in "ifs", we're only interested in Items right now
+    if (documentType !== "Item")
+      return newItems;
+
+    for (const newItem of newItems) {
+      const data = newItem.data;
+
+      //Prepare numenera items by rolling their level, if they don't have one already
+      switch (data.type) {
+        case NumeneraArtifactItem.type:
+        case NumeneraCypherItem.type:
+          const itemData = data.data;
+
+          //TODO shouldn't this be moved to the constructors?
+          if (!itemData.level && itemData.levelDie) {
+            try {
+              //TODO move all of this BEFORE the item creation
+
+              //Try the formula as is first
+              itemData.level = new Roll(itemData.levelDie).roll().total;
+              
+            } catch (Error) {
+              try {
+                itemData.level = parseInt(itemData.level);
+              } catch (Error) {
+                //Leave it as it is
+              }
+            }
+          } else {
+            itemData.level = itemData.level || null;
+          }
+      
+          // Get the form of the artifact/cypher
+          try {
+            const forms = itemData.form.split(',');
+            const form = forms[Math.floor(Math.random() * forms.length)];
+            
+            itemData.form = form;
+          } catch (Error) {
+            //Leave it as it is
+          }
+
+          await this.updateEmbeddedDocuments("Item", [{
+            _id: newItem._id,
+            "data.level": itemData.level,
+            "data.form": itemData.form,
+          }]);
+          break;
+
+        case NumeneraAbilityItem.type:
+          const actorAbility = newItem;
+
+          if (!actorAbility) throw new Error("No related ability exists");
+
+          //Now check if a skill with the same name already exists
+          const relatedSkill = this.items.find(
+            (i) => i.data.type === "skill" && i.data.name === actorAbility.name
+          );
+
+          if (relatedSkill) {
+            if (relatedSkill.relatedAbilityId)
+              throw new Error(
+                "Skill related to new abiltiy already has a skill linked to it"
+              );
+
+            //A skil already has the same name as the ability
+            //This is certainly the matching skill, no need to create a new one
+            const updated = {
+              _id: relatedSkill.data._id,
+              "data.relatedAbilityId": actorAbility._id,
+            };
+            await this.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
+
+            ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
+          } else {
+            
+            //Create a related skill if one does not already exist
+            const skillData = {
+              stat: actorAbility.data.data.cost.pool,
+              relatedAbilityId: actorAbility._id,
+            };
+
+            const itemData = {
+              name: actorAbility.name,
+              type: NumeneraSkillItem.type,
+              data: skillData,
+            };
+
+            await this.createEmbeddedDocuments("Item", [itemData]);
+
+            ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
+          }
+          break;
+      }
+    }
+
+    return newItems;
   }
 
+  /**
+   * TODO remove with 0.7 support
+   * 
+   * @override
+   */
   async updateEmbeddedEntity(embeddedName, data, options = {}) {
     const updated = await super.updateEmbeddedEntity(embeddedName, data, options);
 
-    const updatedItem = this.getOwnedItem(updated._id);
+    const updatedItem = this.items.get(updated._id);
 
     if (!updatedItem)
       return;
@@ -609,7 +758,7 @@ export class NumeneraPCActor extends Actor {
         if (!relatedSkill)
           break;
 
-        const ability = this.getOwnedItem(relatedSkill.data.data.relatedAbilityId);
+        const ability = this.items.get(relatedSkill.data.data.relatedAbilityId);
         if (!ability)
           break;
 
@@ -623,7 +772,7 @@ export class NumeneraPCActor extends Actor {
         if (!updatedItem.data.data.relatedAbilityId)
           break;
 
-        const skill = this.getOwnedItem(updatedItem._id);
+        const skill = this.items.get(updatedItem._id);
         if (!skill)
           break;
 
@@ -640,5 +789,59 @@ export class NumeneraPCActor extends Actor {
 
     if (options.fromActorUpdateEmbeddedEntity)
       return updated;
+  }
+
+  /**
+   *
+   * @override
+   */
+  async updateEmbeddedDocuments(...args) {
+    const [embeddedName, _, context] = args;
+    const docs = await super.updateEmbeddedDocuments(...args);
+    const updatedItems = await Promise.all(docs);
+
+    //Avoid useless deep embedding in "ifs", we're only interested in Items right now
+    if (embeddedName !== "Item")
+      return updatedItems;
+
+    for (const updatedItem of updatedItems) {
+      switch (updatedItem.type) {
+        case NumeneraAbilityItem.type:
+          const relatedSkill = this.items.find(i => i.data.data.relatedAbilityId === updatedItem._id);
+          if (!relatedSkill)
+            break;
+  
+          const ability = this.items.get(relatedSkill.data.data.relatedAbilityId);
+          if (!ability)
+            break;
+  
+          //TODO is this still necessary?
+          if (!context.fromActorUpdateEmbeddedEntity)
+            context.fromActorUpdateEmbeddedEntity = NumeneraAbilityItem.type;
+  
+          ability.updateRelatedSkill(relatedSkill, context);
+          break;
+  
+        case NumeneraSkillItem.type:
+          if (!updatedItem.data.data.relatedAbilityId)
+            break;
+  
+          const skill = this.items.get(updatedItem._id);
+          if (!skill)
+            break;
+  
+          const relatedAbility = this.items.find(i => i.data._id === skill.data.data.relatedAbilityId);
+          if (!relatedAbility)
+            break;
+  
+          if (!context.fromActorUpdateEmbeddedEntity)
+          context.fromActorUpdateEmbeddedEntity = NumeneraSkillItem.type;
+  
+          skill.updateRelatedAbility(relatedAbility, context);
+          break;
+      }
+    }
+
+    return updatedItems;
   }
 }

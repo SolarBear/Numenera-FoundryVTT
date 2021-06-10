@@ -77,7 +77,7 @@ export async function registerHooks() {
               const ownerIds = Object.entries(actor.data.permission)
                   .filter(entry => {
                       const [id, permissionLevel] = entry;
-                      return permissionLevel >= ENTITY_PERMISSIONS.OWNER
+                      return permissionLevel >= CONST.ENTITY_PERMISSIONS.OWNER
                           && id !== game.user.id
                   })
                   .map(usersPermissions => usersPermissions[0]);

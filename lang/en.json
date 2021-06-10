@@ -148,6 +148,7 @@
     "NUMENERA.pc.numenera.artifact.unidentified": "Unidentified Artifact",
     "NUMENERA.pc.numenera.artifact.identified": "Identified?",
     "NUMENERA.pc.numenera.artifact.level": "Level",
+    "NUMENERA.pc.numenera.artifact.laws": "Laws",
 
     "NUMENERA.pc.numenera.cypher.deleteTooltip": "Delete",
     "NUMENERA.pc.numenera.cypher.effect": "Effect",
@@ -172,6 +173,8 @@
     "NUMENERA.pc.recovery.tenMin": "10 min",
     "NUMENERA.pc.recovery.oneHour": "1 hour",
     "NUMENERA.pc.recovery.tenHours": "10 hours",
+    "NUMENERA.pc.recovery.tempBonus": "Temp. Bonus",
+
     "NUMENERA.pc.tier": "Tier",
 
     "NUMENERA.range.immediate": "Immediate",

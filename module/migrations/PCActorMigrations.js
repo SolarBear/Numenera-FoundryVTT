@@ -27,15 +27,17 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
         .split(/\r?\n/)
         .filter(Boolean);
 
+      //TODO perform two calls instead of looping
       for (let oddity of oddityLines) {
-        await actor.createOwnedItem({
+        await actor.createEmbeddedDocuments("Item",
+        [{
             name: oddity,
             type: "oddity",
             data: {
               description: oddity,
               version: 2,
             }
-        });
+        }]);
 
         await NumeneraItem.create({
           name: oddity,
@@ -54,8 +56,10 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
         .split(/\r?\n/)
         .filter(Boolean);
 
+      //TODO perform two calls instead of looping
       for (let artifact of artifactLines) {
-        await actor.createOwnedItem({
+        await actor.createEmbeddedDocuments("Item",
+        [{
           name: artifact,
           type: "artifact",
           data: {
@@ -63,7 +67,7 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
             identified: true,
             version: 2,
           }
-        });
+        }]);
 
         await NumeneraItem.create({
             name: artifact,
@@ -83,7 +87,8 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
         .filter(Boolean);
 
       for (let cypher of cypherLines) {
-        await actor.createOwnedItem({
+        await actor.createEmbeddedDocuments("Item",
+        [{
             name: cypher,
             type: "cypher",
             data: {
@@ -91,7 +96,7 @@ PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
               identified: true,
               version: 2,
             }
-        });
+        }]);
 
         await NumeneraItem.create({
           name: cypher,
@@ -153,14 +158,15 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
       version: 3, //this is an Item version
     };
 
-    await actor.createOwnedItem({
+    await actor.createEmbeddedDocuments("Item",
+    [{
         name,
         type: "ability",
         data
-    });
+    }]);
 
     //Create an Item skill if none already exists with the same name
-    const existingAbility = actor.getEmbeddedCollection("OwnedItem").find(i => i.name === name);
+    const existingAbility = actor.getEmbeddedCollection("Item").find(i => i.name === name);
 
     if (!existingAbility) {
       await NumeneraItem.create({
@@ -172,7 +178,8 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
   }
 
   for (let [name, skill] of Object.entries(actor.data.data.skills)) {
-    await actor.createOwnedItem({
+    await actor.createEmbeddedDocuments("Item",
+    [{
         name,
         type: "skill",
         data: {
@@ -181,10 +188,10 @@ PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
           trained: skill.trained,
           specialized: skill.specialized,
         }
-    });
+    }]);
 
     //Create an Item skill if none already exists with the same name
-    const existingSkill = actor.getEmbeddedCollection("OwnedItem").find(i => i.name === name);
+    const existingSkill = actor.getEmbeddedCollection("Item").find(i => i.name === name);
 
     if (!existingSkill) {
       await NumeneraItem.create({

@@ -25,10 +25,13 @@ export class NumeneraArmorItemSheet extends ItemSheet {
     }
 
     getData() {
-        const data = super.getData();
+        const sheetData = super.getData();
 
-        data.weightClasses = NUMENERA.weightClasses;
+        if (game.data.version.startsWith("0.8."))
+            sheetData.data = sheetData.data.data;
+
+            sheetData.weightClasses = NUMENERA.weightClasses;
         
-        return data;
+        return sheetData;
     }
 }

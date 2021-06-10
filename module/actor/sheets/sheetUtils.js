@@ -1,7 +1,7 @@
 import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
 
 //Sort function for order
-export const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
+export const sortFunction = (a, b) => a.data.data.order < b.data.data.order ? -1 : a.data.data.order > b.data.data.order ? 1 : 0;
 
 /**
  * Higher order function that generates an item creation handler.
@@ -14,17 +14,23 @@ export const sortFunction = (a, b) => a.data.order < b.data.order ? -1 : a.data.
 export function onItemCreateGenerator(itemType, itemClass, callback = null) {
   return async function(event = null) {
     if (event)
-    event.preventDefault();
+      event.preventDefault();
 
     const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
     const itemData = {
+      _id: null,
       name: newName,
       type: itemType,
-      data: new itemClass({}),
     };
 
-    const newItem = await this.actor.createOwnedItem(itemData);
+    let newItem;
+
+    if (game.data.version.startsWith("0.7."))
+      newItem = await this.actor.createOwnedItem(itemData);
+    else
+      newItem = await (await this.actor.createEmbeddedDocuments("Item", [itemData]))[0];
+
     if (callback)
       callback(newItem);
 
@@ -73,7 +79,12 @@ export function onItemEditGenerator(editClass, callback = null) {
       }
     }
 
-    const updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
+    let updatedItem;
+    if (game.data.version.startsWith("0.7."))
+      updatedItem = await this.actor.updateEmbeddedEntity("OwnedItem", updated, {fromActorUpdateEmbeddedEntity: true});
+    else
+      updatedItem = await this.actor.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
+
     if (callback)
       callback(updatedItem);
   }
@@ -87,7 +98,11 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
       const toDelete = this.actor.data.items.find(i => i._id === itemId);
-      await this.actor.deleteOwnedItem(itemId);
+
+      if (game.data.version.startsWith("0.7."))
+        await this.actor.deleteOwnedItem(itemId);
+      else
+        await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
 
       if (callback)
         callback(toDelete);

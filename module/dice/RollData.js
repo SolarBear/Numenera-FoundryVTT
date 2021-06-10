@@ -21,7 +21,7 @@ export class RollData {
     this.isHindered = false;
     this.damageTrackPenalty = false;
     this.effortLevel = 0;
-    this.rollMode = DICE_ROLL_MODES.PUBLIC;
+    this.rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
   }
 
   get flavorText() {
@@ -103,14 +103,13 @@ export class RollData {
 
   static _rollTextWithTaskLevel(roll) {
     let dieRoll, success;
-    //TODO remove this with 0.6 version support
-    if (game.data.version.startsWith("0.6.")) {
-      dieRoll = roll.dice[0].rolls[0].roll;
-      success = !!parseInt(roll.result);
-    }
-    else { // 0.7
+    if (game.data.version.startsWith("0.7.")) {
       dieRoll = roll.terms[0].rolls[0].results[0];
       success = !!parseInt(roll.total);
+    }
+    else {
+      dieRoll = roll.terms[0].rolls[0].total  ;
+      success = !!roll.total;
     }
 
     if (success) {
@@ -168,14 +167,15 @@ export class RollData {
   }
 
   static _rollTextWithoutTaskLevel(roll) {
-    let dieRoll, total;
-    //TODO remove this with 0.6 version support
-    if (game.data.version.startsWith("0.6.")) {
-      dieRoll = roll.dice[0].rolls[0].roll;
-      total = roll.total;
-    } else { // 0.7
-      dieRoll = roll.results[0];
-      total = roll.total;
+    //TODO Roll.roll() now gives some weird warnings, perhaps switch to evaluate()?
+    let dieRoll;
+    let total = roll.total;
+
+    if (game.data.version.startsWith("0.7.")) {
+      dieRoll = roll.result;
+    }
+    else {
+      dieRoll = roll.terms[0].results[0].result;
     }
 
     let combat = "";

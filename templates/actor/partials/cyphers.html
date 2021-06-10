@@ -9,8 +9,8 @@
 {{/if}}
 
 <ul class="cyphers row-container">
-    {{#each data.items.cyphers as |cypher|}}
-    <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.order}}>
+    {{#each data.cyphers as |cypher|}}
+    <li class="cypher" data-item-id={{cypher._id}} data-order={{cypher.data.data.order}}>
         <table class="cypher-header-table">
             <tbody class="handle">
                 <tr class="cypher-header">
@@ -30,21 +30,21 @@
                     <td class="cypher-level">
                     {{#if cypher.editable}}
                         <label>{{localize "NUMENERA.pc.numenera.cypher.identified"}}
-                            <input type="checkbox" name="data.items.cyphers.{{cypher._id}}.data.identified"
-                                data-dtype="Boolean" {{checked cypher.data.identified}} />
+                            <input type="checkbox" name="data.cyphers.{{cypher._id}}.data.identified"
+                                data-dtype="Boolean" {{checked cypher.data.data.identified}} />
                         </label>
                         <br />
                         <label>{{localize "NUMENERA.pc.numenera.cypher.level"}}
-                            <input type="number" name="data.items.cyphers.{{cypher._id}}.data.level"
-                                value="{{cypher.data.level}}" min="1" data-dtype="Number" />
+                            <input type="number" name="data.cyphers.{{cypher._id}}.data.level"
+                                value="{{cypher.data.data.level}}" min="1" data-dtype="Number" />
                         </label>
                         
                         {{#if ../displayCypherType}}
                         <br />
                         <label>{{localize "NUMENERA.item.cypher.type.label"}}
-                            <select name="data.items.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String"
+                            <select name="data.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String"
                                 class="cypher-type">
-                                {{#select cypher.data.cypherType}}
+                                {{#select cypher.data.data.cypherType}}
                                 {{#each ../cypherTypes}}
                                 <option value="{{this}}">{{localize this}}</option>
                                 {{/each}}
@@ -52,39 +52,39 @@
                             </select>
                         </label>
                         {{/if}}
-                        {{else}}
-                            <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.level}}
-                            
-                            {{#if ../displayCypherType}}
-                                <br />
-                                <span>{{localize "NUMENERA.item.cypher.type.label"}}</span>&nbsp;
-                                {{#if cypher.data.identified}}
-                                    {{localize cypher.data.cypherType}}
-                                {{else}}
-                                    {{localize "NUMENERA.unknown"}}
-                                {{/if}}
+                    {{else}}
+                        <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.data.level}}
+                        
+                        {{#if ../displayCypherType}}
+                            <br />
+                            <span>{{localize "NUMENERA.item.cypher.type.label"}}</span>&nbsp;
+                            {{#if cypher.data.data.identified}}
+                                {{localize cypher.data.data.cypherType}}
+                            {{else}}
+                                {{localize "NUMENERA.unknown"}}
                             {{/if}}
                         {{/if}}
+                    {{/if}}
                     </td>
 
                     <td class="cypher-description">
                     {{#if cypher.editable}}
                         <label>
                             {{localize "NUMENERA.pc.numenera.cypher.form"}}
-                            <input type="text" name="data.items.cyphers.{{cypher._id}}.data.form" value="{{cypher.data.form}}" />
+                            <input type="text" name="data.cyphers.{{cypher._id}}.data.form" value="{{cypher.data.data.form}}" />
                         </label>
                         <label>
                             {{localize "NUMENERA.pc.numenera.cypher.effect"}}
-                            <textarea name="data.items.cyphers.{{cypher._id}}.data.effect">{{cypher.data.effect}}</textarea>
+                            <textarea name="data.cyphers.{{cypher._id}}.data.effect">{{cypher.data.data.effect}}</textarea>
                         </label>
                     {{else}}
                         <p>
                             <span><strong>{{localize "NUMENERA.pc.numenera.cypher.form"}}:</strong></span>
-                            {{cypher.data.form}}
+                            {{cypher.data.data.form}}
                         </p>
                         <p>
                             <span><strong>{{localize "NUMENERA.pc.numenera.cypher.effect"}}:</strong></span>
-                            {{cypher.data.effect}}
+                            {{cypher.data.data.effect}}
                         </p>
                     {{/if}}
                     </td>

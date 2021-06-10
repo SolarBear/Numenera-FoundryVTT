@@ -31,19 +31,19 @@ export class EffortDialog extends FormApplication {
     return [
       {
         label: game.i18n.localize("NUMENERA.rollMode.public"),
-        value: DICE_ROLL_MODES.PUBLIC,
+        value: CONST.DICE_ROLL_MODES.PUBLIC,
       },
       {
         label: game.i18n.localize("NUMENERA.rollMode.private"),
-        value: DICE_ROLL_MODES.PRIVATE,
+        value: CONST.DICE_ROLL_MODES.PRIVATE,
       },
       {
         label: game.i18n.localize("NUMENERA.rollMode.blind"),
-        value: DICE_ROLL_MODES.BLIND,
+        value: CONST.DICE_ROLL_MODES.BLIND,
       },
       {
         label: game.i18n.localize("NUMENERA.rollMode.self"),
-        value: DICE_ROLL_MODES.SELF,
+        value: CONST.DICE_ROLL_MODES.SELF,
       }
     ];
   }
@@ -69,7 +69,7 @@ export class EffortDialog extends FormApplication {
     // - name, filtered by item type
     if (options.ability) {
       const temp = options.ability;
-      options.ability = await actor.getOwnedItem(temp);
+      options.ability = await actor.items.get(temp);
 
       if (!options.ability)
         options.ability = actor.items.find(ab => ab.name === temp && ab.type === NumeneraAbilityItem.type);
@@ -80,7 +80,7 @@ export class EffortDialog extends FormApplication {
 
     if (options.skill) {
       const temp = options.skill;
-      options.skill = await actor.getOwnedItem(temp);
+      options.skill = await actor.items.get(temp);
 
       if (!options.skill)
         options.skill = actor.items.find(sk => sk.name === temp && sk.type === NumeneraSkillItem.type);
@@ -91,7 +91,7 @@ export class EffortDialog extends FormApplication {
 
     if (options.powerShift) {
       const temp = options.powerShift;
-      options.powerShift = await actor.getOwnedItem(temp);
+      options.powerShift = await actor.items.get(temp);
 
       if (!options.powerShift)
         options.powerShift = actor.items.find(ps => ps.name === temp && ps.type === NumeneraPowerShiftItem.type);
@@ -134,31 +134,13 @@ export class EffortDialog extends FormApplication {
     if (stat) {
       current = actor.data.data.stats[stat].pool.value;
       remaining = current;
-    }
-
-    const skills = actor.getEmbeddedCollection("OwnedItem")
-      .filter(i => i.type === "skill")
-      .map(NumeneraSkillItem.fromOwnedItem)
-      .map(sk => {
-        //Append an extra label to tell which skills are related to an ability
-        if (sk.data.data.relatedAbilityId) {
-          sk.data.name += " " + game.i18n.localize("NUMENERA.effort.skillAbilitySuffix");
-        }
-        return sk;
-      });
-
-    let powerShifts = null;
-    if (game.settings.get("numenera", "usePowerShifts")) {
-      powerShifts = actor.getEmbeddedCollection("OwnedItem")
-        .filter(i => i.type === "powerShift")
-        .map(NumeneraPowerShiftItem.fromOwnedItem);
-    }
+    }    
 
     super({
       actor,
       stat,
       skill,
-      skills,
+      skills: [],
       ability,
       current,
       remaining,
@@ -168,9 +150,56 @@ export class EffortDialog extends FormApplication {
       taskLevel,
       useArmorSpeedEffortRule: (game.settings.get("numenera", "armorPenalty") === "new"),
       armorSpeedEffortIncrease: actor.extraSpeedEffortCost,
-      powerShifts,
+      powerShifts: [],
       powerShift,
     }, {});
+
+    this._isInitialized = false;
+  }
+  
+  /**
+   * Initialize the EffortDialog. Required since we would need to make some async calls in the class
+   * constructor, which would make the constructor async, which is not allowed, obviously.
+   *
+   * @returns {Promise<EffortDialog>}
+   * @memberof EffortDialog
+   */
+  async init() {
+    const collection = game.data.version.startsWith("0.7.") ? "OwnedItem" : "Item";
+    this.object.skills = this.object.actor.getEmbeddedCollection(collection)
+      .filter(i => i.type === NumeneraSkillItem.type);
+
+      //TODO still required in 0.7?
+      //.map(NumeneraSkillItem.fromOwnedItem);
+
+    //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
+    if (game.data.version.startsWith("0.8.")) {
+      //0.8 returns Promise<Item>s instead of straight Items
+      this.object.skills = await Promise.all(this.object.skills);
+    }
+
+    this.object.skills = this.object.skills.map(sk => {
+      //Append an extra label to tell which skills are related to an ability
+      if (sk.data.relatedAbilityId)
+        sk.data.name += " " + game.i18n.localize("NUMENERA.effort.skillAbilitySuffix");
+
+      return sk;
+    });
+
+    let powerShifts = null;
+    if (game.settings.get("numenera", "usePowerShifts")) {
+      powerShifts = this.object.actor.getEmbeddedCollection("Item")
+        .filter(i => i.type === "powerShift")
+        .map(NumeneraPowerShiftItem.fromOwnedItem);
+
+      //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
+      if (game.data.version.startsWith("0.8."))
+        powerShifts = await Promise.all(powerShifts);
+
+      this.object.powerShifts = powerShifts;
+    }
+
+    this._isInitialized = true;
   }
 
   /**
@@ -295,11 +324,18 @@ export class EffortDialog extends FormApplication {
    * @inheritdoc
    */
   getData() {
+    if (!this._isInitialized) {
+      //TODO translation
+      ui.notifications.error("You need to call init() before using the EffortDialog");
+      this.close();
+      return;
+    }
+      
     const data = super.getData();
 
     data.stats = NUMENERA.stats;
     data.rollModes = EffortDialog.rollModes;
-    
+
     data.skills = this.object.skills;
     data.skill = this.object.skill;
 
@@ -393,6 +429,7 @@ export class EffortDialog extends FormApplication {
     }
 
     const rollData = new RollData();
+
     rollData.effortLevel = this.object.currentEffort;
     rollData.taskLevel = this.finalLevel;
     rollData.rollMode = this.object.rollMode;
@@ -403,12 +440,12 @@ export class EffortDialog extends FormApplication {
       
       //Fetch the skill, might be one of these weird kind-of-Item objects
       if (skill._id)
-        skill = this.object.actor.getOwnedItem(this.object.skill._id);
+        skill = this.object.actor.items.get(this.object.skill._id);
 
       actor.rollSkill(skill, rollData, this.object.ability);
     }
     else {
-      actor.rollAttribute(shortStat, rollData);
+      await actor.rollAttribute(shortStat, rollData);
     }
 
     if (cost <= 0)
@@ -427,15 +464,18 @@ export class EffortDialog extends FormApplication {
 
   async _failAutomatically() {
     //Ensure that is really the case
-    if (!this.automaticFailure) {
+    if (!this.automaticFailure || this.automaticSuccess) {
       throw new Error("Should not fail automatically in this case");
     }
+
+    const flavor = `${game.i18n.localize("NUMENERA.rolling")} ${this.object.skill ? this.object.skill.name : getShortStat(this.object.stat)}`;
 
     await ChatMessage.create({
       user: game.user._id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       sound: CONFIG.sounds.dice,
       content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
+        flavor,
         result: game.i18n.localize("NUMENERA.effort.failAutomatically"),  
       }),
     });
@@ -448,13 +488,16 @@ export class EffortDialog extends FormApplication {
     if (this.automaticFailure || !this.automaticSuccess) {
       throw new Error("Should not succeed automatically in this case");
     }
+    
+    const flavor = `${game.i18n.localize("NUMENERA.rolling")} ${this.object.skill ? this.object.skill.name : getShortStat(this.object.stat)}`;
 
     await ChatMessage.create({
       user: game.user._id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       sound: CONFIG.sounds.dice,
       content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
-        result: game.i18n.localize("NUMENERA.effort.succeedAutomatically"),  
+        flavor,
+        result: game.i18n.localize("NUMENERA.effort.succeedAutomatically"),
       }),
     });
 
@@ -476,14 +519,14 @@ export class EffortDialog extends FormApplication {
     // Did the skill change?
     if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
       //In that case, update the stat to be the skill's stat
-      this.object.skill = this.object.actor.getOwnedItem(formData.skill);
+      this.object.skill = this.object.actor.items.get(formData.skill);
 
       if (this.object.skill) {
         this.object.stat = getShortStat(this.object.skill.data.data.stat);
 
         //Check for a related ability, use for calculating the final cost
         if (this.object.skill.data.data.relatedAbilityId) {
-          this.object.ability = this.object.actor.getOwnedItem(this.object.skill.data.data.relatedAbilityId);
+          this.object.ability = this.object.actor.items.get(this.object.skill.data.data.relatedAbilityId);
         }
         else {
           this.object.ability = null;
@@ -520,7 +563,7 @@ export class EffortDialog extends FormApplication {
     this.object.remaining = this.object.current - this.object.cost;
 
     if (formData.powerShift) {
-      const powerShift = actor.getEmbeddedCollection("OwnedItem")
+      const powerShift = actor.getEmbeddedCollection("Item")
                           .find(i => i._id === formData.powerShift);
       this.object.powerShift = NumeneraPowerShiftItem.fromOwnedItem(powerShift);
     }

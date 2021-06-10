@@ -12,7 +12,7 @@
             {{#if displayCypherType}}
             <label>{{localize "NUMENERA.item.cypher.type.label"}}
                 <select name="data.cypherType" data-dtype="String" class="cypher-type">
-                    {{#select data.cypherType}}
+                    {{#select data.data.cypherType}}
                     {{#each cypherTypes}}
                     <option value="{{this}}">{{localize this}}</option>
                     {{/each}}

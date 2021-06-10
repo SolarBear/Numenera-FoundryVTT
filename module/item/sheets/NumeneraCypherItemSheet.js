@@ -32,6 +32,9 @@ export class NumeneraCypherItemSheet extends ItemSheet {
     getData() {
         const sheetData = super.getData();
 
+        if (game.data.version.startsWith("0.8."))
+            sheetData.data = sheetData.data.data;   
+
         const flavor = NumeneraCypherItem.cypherTypeFlavor;
         const useCypherTypes = !!flavor;
         

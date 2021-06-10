@@ -13,9 +13,10 @@ export class NumeneraArtifactItem extends Item {
             artifact = NumeneraArtifactItem.fromOwnedItem(artifact);
 
         artifact.data.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
-        artifact.data.level = game.i18n.localize("NUMENERA.unknown");
-        artifact.data.effect = game.i18n.localize("NUMENERA.unknown");
-        artifact.data.depletion = null;
+        artifact.data.data.level = game.i18n.localize("NUMENERA.unknown");
+        artifact.data.data.effect = game.i18n.localize("NUMENERA.unknown");
+        artifact.data.data.laws = game.i18n.localize("NUMENERA.unknown");
+        artifact.data.data.depletion = null;
 
         return artifact;
     }
@@ -29,8 +30,19 @@ export class NumeneraArtifactItem extends Item {
      * @returns
      * @memberof NumeneraArtifactItem
      */
-    static fromOwnedItem(ownedItem, actor) {
-        let artifactItem = new NumeneraArtifactItem();
+    static async fromOwnedItem(ownedItem, actor) {
+        let artifactItem;
+
+        if (game.data.version.startsWith("0.7.")) {
+            artifactItem = new NumeneraArtifactItem();
+        }
+        else {
+            if (actor === null)
+                artifactItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+            else
+                artifactItem = new Item(this.object);
+        }
+
         artifactItem.data._id = ownedItem._id;
         artifactItem.data.name = ownedItem.name;
         artifactItem.data.price = ownedItem.data.price;
@@ -51,14 +63,15 @@ export class NumeneraArtifactItem extends Item {
     }
 
     async prepareData() {
-		// Override common default icon
-	    if (!this.data.img) this.data.img = 'icons/svg/mage-shield.svg';
-
         super.prepareData();
+
+        // Override common default icon
+        if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+            this.data.img = 'icons/svg/mage-shield.svg';
 
         let itemData = this.data;
         if (itemData.hasOwnProperty("data"))
-          itemData = itemData.data;
+            itemData = itemData.data;
 
         itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.artifact.newArtifact");;
         itemData.price = itemData.price || 0;

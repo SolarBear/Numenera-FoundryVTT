@@ -13,9 +13,9 @@ export class NumeneraCypherItem extends Item {
         cypher = NumeneraCypherItem.fromOwnedItem(cypher);
 
       cypher.data.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
-      cypher.data.level = game.i18n.localize("NUMENERA.unknown");
-      cypher.data.effect = game.i18n.localize("NUMENERA.unknown");
-      cypher.data.cypherType = null;
+      cypher.data.data.level = game.i18n.localize("NUMENERA.unknown");
+      cypher.data.data.effect = game.i18n.localize("NUMENERA.unknown");
+      cypher.data.data.cypherType = null;
 
       return cypher;
   }
@@ -49,10 +49,11 @@ export class NumeneraCypherItem extends Item {
   }
 
   prepareData() {
-    // Override common default icon
-    if (!this.data.img) this.data.img = 'icons/svg/pill.svg';
-
     super.prepareData();
+
+    // Override common default icon
+    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+      this.data.img = 'icons/svg/pill.svg';    
 
     let itemData = this.data;
     if (itemData.hasOwnProperty("data"))

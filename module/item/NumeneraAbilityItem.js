@@ -1,9 +1,16 @@
-import { confirmSpellUse,  selectRecoveryToUse } from "../apps/SpellDialog.js";
+import { confirmSpellUse, selectRecoveryToUse } from "../apps/SpellDialog.js";
 import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 
 export class NumeneraAbilityItem extends Item {
   static get type() {
-      return "ability";
+    return "ability";
+  }
+
+  static get object() {
+    return {
+      type: NumeneraAbilityItem.type,
+      name: game.i18n.localize("NUMENERA.item.ability.newAbility"),
+    }
   }
 
   get spellCastingTime() {
@@ -19,25 +26,26 @@ export class NumeneraAbilityItem extends Item {
   }
 
   prepareData() {
-      // Override common default icon
-      if (!this.data.img) this.data.img = 'icons/svg/lightning.svg';
+    super.prepareData();
 
-      super.prepareData();
+    // Override common default icon
+    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+      this.data.img = 'icons/svg/lightning.svg';
 
-      let itemData = this.data;
-      if (itemData.hasOwnProperty("data"))
-        itemData = itemData.data;
+    let itemData = this.data;
+    if (itemData.hasOwnProperty("data"))
+      itemData = itemData.data;
 
-      itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.ability.newAbility");
-      itemData.category = itemData.category || "";
-      itemData.categoryValue = itemData.categoryValue || "";
-      itemData.abilityType = itemData.abilityType || false;
-      itemData.cost = itemData.cost || {};
-      itemData.cost.amount = itemData.cost.amount || 0;
-      itemData.cost.pool = itemData.cost.pool || "";
-      itemData.tier = itemData.tier || 1;
-      itemData.range = itemData.range || "";
-      itemData.notes = itemData.notes || "";
+    itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.ability.newAbility");
+    itemData.category = itemData.category || "";
+    itemData.categoryValue = itemData.categoryValue || "";
+    itemData.abilityType = itemData.abilityType || false;
+    itemData.cost = itemData.cost || {};
+    itemData.cost.amount = itemData.cost.amount || 0;
+    itemData.cost.pool = itemData.cost.pool || "";
+    itemData.tier = itemData.tier || 1;
+    itemData.range = itemData.range || "";
+    itemData.notes = itemData.notes || "";
   }
 
   /**
@@ -81,7 +89,7 @@ export class NumeneraAbilityItem extends Item {
       "data.relatedAbilityId": this._id,
       "data.stat": this.data.data.cost.pool,
     },
-    options);
+      options);
 
     return updated;
   }
@@ -101,7 +109,14 @@ export class NumeneraAbilityItem extends Item {
     }
 
     //Get the skill related to that ability
-    let skill = this.actor.data.items.find(
+    let skill;
+    if (game.data.version.startsWith("0.7."))
+      skill = this.actor.data.items;
+    else
+      skill = this.actor.items;
+
+
+    skill = skill.find(
       i => i.name === this.data.name && i.type === NumeneraSkillItem.type
     );
 
@@ -114,11 +129,18 @@ export class NumeneraAbilityItem extends Item {
     }
 
     if (!skill) {
-      skill = new NumeneraSkillItem();
+      if (game.data.version.startsWith("0.7.")) {
+        skill = new NumeneraSkillItem();
+        skill.options.actor = this.actor;
+      }
+      else {
+        //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
+        skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, { parent: this.actor });
+      }
+
       skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
-      skill.options.actor = this.actor;
     }
-    else if (skill.prototype !== NumeneraSkillItem) {
+    else if (!(skill instanceof NumeneraSkillItem)) {
       skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
     }
 
@@ -169,10 +191,10 @@ export class NumeneraAbilityItem extends Item {
         }
 
         message = game.i18n.localize("NUMENERA.pc.recovery." + recovery)
-                + game.i18n.localize ("NUMENERA.features.spells.recovery");
+          + game.i18n.localize("NUMENERA.features.spells.recovery");
 
         //Save the actor data for that recovery's use
-        await this.actor.update({"data.recoveries": recoveries});
+        await this.actor.update({ "data.recoveries": recoveries });
         break;
       default:
         //That one's easy.

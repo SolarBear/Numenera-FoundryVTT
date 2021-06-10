@@ -2,7 +2,6 @@ import { onItemCreateGenerator, onItemDeleteGenerator, onItemEditGenerator, sort
 
 import { NUMENERA } from "../../config.js";
 
-import { EffortDialog } from "../../apps/EffortDialog.js";
 import { RecoveryDialog } from "../../apps/RecoveryDialog.js";
 
 import { NumeneraAbilityItem } from "../../item/NumeneraAbilityItem.js";
@@ -15,7 +14,28 @@ import { NumeneraSkillItem } from "../../item/NumeneraSkillItem.js";
 import { NumeneraWeaponItem } from "../../item/NumeneraWeaponItem.js";
 import { StrangeRecursionItem } from "../../item/StrangeRecursionItem.js";
 import { NumeneraPowerShiftItem } from "../../item/NumeneraPowerShiftItem.js";
-import { removeHtmlTags, useAlternateButtonBehavior } from "../../utils.js";
+import { removeHtmlTags } from "../../utils.js";
+
+/**
+ * Utility function to comparer orderable Items.
+ *
+ * @param {Item} a First element
+ * @param {Item} b
+ * @returns Number
+ */
+function orderItems(a, b) {
+  let dataA = a.data;
+  let dataB = b.data;
+
+  if (game.data.version.startsWith("0.8.")) {
+    dataA = dataA.data;
+    dataB = dataB.data;
+  }
+
+  if (dataA.order < dataB.order) return -1;
+  if (dataA.order > dataB.order) return 1;
+  return 0;
+}
 
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
@@ -108,15 +128,25 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
+    if (game.data.version.startsWith("0.7."))
+      return "systems/numenera/templates/actor/characterSheet07.html";
+    
     return "systems/numenera/templates/actor/characterSheet.html";
-    }
+  }
 
   /**
    * Provides the data objects provided to the character sheet. Use that method
    * to insert new values or mess with existing ones.
    */
   getData() {
+    //getData behaves MUCH differently in 0.8!
+    //see https://gitlab.com/foundrynet/foundryvtt/-/issues/4321
     const sheetData = super.getData();
+
+    //lol? https://discord.com/channels/170995199584108546/670336275496042502/836066464388743188
+    //TODO remove condition when removing support for 0.7
+    if (game.data.version.startsWith("0.8."))
+      sheetData.data = sheetData.data.data;
 
     this._setLabelsData(sheetData);
     this._setCypherTypeData(sheetData);
@@ -135,11 +165,13 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setItemsData(sheetData) {
-    sheetData.data.items = sheetData.actor.items || {};
+    //0.8
+    if (!sheetData.data.items)
+      sheetData.data.items = sheetData.actor.items || {};
 
     const itemClassMap = {
       abilities: NumeneraAbilityItem.type,
-      armor: NumeneraArmorItem.type,
+      armorPieces: NumeneraArmorItem.type,
       artifacts: NumeneraArtifactItem.type,
       cyphers: NumeneraCypherItem.type,
       equipment: NumeneraEquipmentItem.type,
@@ -152,7 +184,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     Object.entries(itemClassMap).forEach(([val, type]) => {
       if (!sheetData.data.items[val])
-        sheetData.data.items[val] = sheetData.data.items.filter(i => i.type === type).sort(sortFunction)
+        sheetData.data[val] = sheetData.data.items.filter(i => i.type === type).sort(sortFunction)
     });
 
     this._setCyphersData(sheetData, sheetData.displayCypherType);
@@ -219,6 +251,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setComputedValuesData(sheetData) {
+    const actorData = game.data.version.startsWith("0.7.") ? sheetData.actor.data : sheetData.actor.data.data;
+    
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
     sheetData.data.currentFocus = this.actor.getFocus();
 
@@ -229,7 +263,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.stats[prop] = game.i18n.localize(NUMENERA.stats[prop]);
     }
 
-    sheetData.advances = Object.entries(sheetData.actor.data.advances).map(
+    sheetData.advances = Object.entries(actorData.advances).map(
       ([key, value]) => {
         return {
           name: key,
@@ -257,14 +291,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
       }
       else {
         sheetData.saveSpeedEffortPenalty = true;
-        sheetData.speedEffortPenalty = this.actor.data.data.armorPenalty;
+        sheetData.speedEffortPenalty = actorData.armorPenalty;
       }
     }
     
     const recoveriesLabels = Object.entries(NUMENERA.recoveries);
-    sheetData.recoveriesData = this.actor.data.data.recoveries
+    sheetData.recoveriesData = actorData.recoveries
       .map((recovery, index) => {
-        const recoveryIndex = Math.max(0, index - (this.actor.data.data.recoveries.length - NUMENERA.totalRecoveries));
+        const recoveryIndex = Math.max(0, index - (actorData.recoveries.length - NUMENERA.totalRecoveries));
         const [key, label] = recoveriesLabels[recoveryIndex];
         return {
           key,
@@ -300,12 +334,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //ODDITIES
     sheetData.useOddities = game.settings.get("numenera", "useOddities");
     if (sheetData.useOddities) {
-      sheetData.data.items.oddities = sheetData.data.items.oddities.map(oddity => {
+      sheetData.data.oddities = sheetData.data.oddities.map(oddity => {
         oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
         oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
-        oddity.data.notes = removeHtmlTags(oddity.data.notes);
+        
+        if (game.data.version.startsWith("0.7."))
+          oddity.data.notes = removeHtmlTags(oddity.data.notes);
+        else
+          oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
         return oddity;
       });
+
+      sheetData.data.oddities.sort(orderItems);
     }
 
     //POWER SHIFTS
@@ -320,11 +360,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
 
     if (sheetData.usePowerShifts) {
-      sheetData.data.items.powerShifts = sheetData.data.items.powerShifts.map(powerShift => {
+      sheetData.data.powerShifts = sheetData.data.powerShifts.map(powerShift => {
         powerShift.showIcon = powerShift.img && sheetData.settings.icons.powerShifts;
-        powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
+        if (game.data.version.startsWith("0.7."))
+          powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
+        else
+          powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
         return powerShift;
       });
+
+      sheetData.data.powerShifts.sort(orderItems);
     }
 
     //This section MUST be the last one in _setFeaturesData
@@ -354,35 +399,39 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setCyphersData(sheetData, useCypherType) {
-    sheetData.data.items.artifacts = sheetData.data.items.artifacts.map(artifact => {
+    sheetData.data.artifacts = sheetData.data.artifacts.map(artifact => {
       artifact.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
-      if (!artifact.data.identified && !artifact.editable) {
+      //TODO find some means to avoid repeating this code for artifacts and cyphers
+      //both here and inside their respective classes
+      const artifactData = game.data.version.startsWith("0.7.") ? artifact.data : artifact.data.data;
+      if (!artifactData.identified && !artifact.editable) {
         //Make it so that unidentified artifacts appear as blank items
         artifact = NumeneraArtifactItem.asUnidentified(artifact);
       }
       else {
-        artifact.data.effect = removeHtmlTags(artifact.data.effect);
+        artifactData.effect = removeHtmlTags(artifactData.effect);
       }
 
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
       return artifact;
     });
 
-    sheetData.data.items.cyphers = sheetData.data.items.cyphers.map(cypher => {
+    sheetData.data.cyphers = sheetData.data.cyphers.map(cypher => {
       cypher.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
-      if (!cypher.data.identified && !cypher.editable) {
+      const cypherData = game.data.version.startsWith("0.7.") ? cypher.data : cypher.data.data;
+      if (!cypherData.identified && !cypher.editable) {
         //Make it so that unidentified cyphers appear as blank items
         cypher = NumeneraCypherItem.asUnidentified(cypher);
       }
       else {
-        cypher.data.effect = removeHtmlTags(cypher.data.effect);
+        cypherData.effect = removeHtmlTags(cypherData.effect);
       }
 
-      if (useCypherType && cypher.data.identified && !cypher.data.cypherType) {
+      if (useCypherType && cypherData.identified && !cypherData.cypherType) {
         //Use the very first object key as property since none has been defined yet
-        cypher.data.cypherType = Object.keys(NUMENERA.cypherTypes[cypherTypeFlavor]);
+        cypherData.cypherType = Object.keys(NUMENERA.cypherTypes[NumeneraCypherItem.cypherTypeFlavor])[0];
       }
 
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
@@ -390,6 +439,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.displayCypherLimitWarning = this.actor.isOverCypherLimit();
+
+    sheetData.data.artifacts.sort(orderItems);
+    sheetData.data.cyphers.sort(orderItems);
   }
 
   /**
@@ -400,23 +452,36 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setEquipmentData(sheetData) {
-    sheetData.data.items.weapons = sheetData.data.items.weapons.map(weapon => {
+    sheetData.data.weapons = sheetData.data.weapons.map(weapon => {
       weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
-      weapon.data.notes = removeHtmlTags(weapon.data.notes);
+      if (game.data.version.startsWith("0.7."))
+        weapon.data.notes = removeHtmlTags(weapon.data.notes);
+      else
+        weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
       return weapon;
     });
 
-    sheetData.data.items.armor = sheetData.data.items.armor.map(armor => {
+    sheetData.data.armorPieces = sheetData.data.armorPieces.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
-      armor.data.notes = removeHtmlTags(armor.data.notes);
+      if (game.data.version.startsWith("0.7."))
+        armor.data.notes = removeHtmlTags(armor.data.notes);
+      else
+        armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
       return armor;
     });
 
-    sheetData.data.items.equipment = sheetData.data.items.equipment.map(equipment => {
+    sheetData.data.equipment = sheetData.data.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
-      equipment.data.notes = removeHtmlTags(equipment.data.notes);
+      if (game.data.version.startsWith("0.7."))
+        equipment.data.notes = removeHtmlTags(equipment.data.notes);
+      else
+      equipment.data.data.notes = removeHtmlTags(equipment.data.data.notes);
       return equipment;
     });
+
+    sheetData.data.weapons.sort(orderItems);
+    sheetData.data.armorPieces.sort(orderItems);
+    sheetData.data.equipment.sort(orderItems);
   }
 
   /**
@@ -432,14 +497,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
     else
       sheetData.abilityTypes = NUMENERA.abilityTypes;
 
-    sheetData.data.items.abilities = sheetData.data.items.abilities.map(ability => {
-      ability.nocost = (ability.data.cost.amount <= 0);
+    sheetData.data.abilities = sheetData.data.abilities.map(ability => {
+      const abilityData = game.data.version.startsWith("0.7.") ? ability.data : ability.data.data;
+      ability.nocost = (abilityData.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
       ability.showIcon = ability.img && sheetData.settings.icons.abilities;
-      ability.data.notes = removeHtmlTags(ability.data.notes);
+      abilityData.notes = removeHtmlTags(abilityData.notes);
       return ability;
     });
+
+    sheetData.data.abilities.sort(orderItems);
   }
 
   /**
@@ -450,14 +518,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setSkillsData(sheetData) {
-    sheetData.data.items.skills = sheetData.data.items.skills.map(skill => {
+    sheetData.data.skills = sheetData.data.skills.map(skill => {
+      const skillData = game.data.version.startsWith("0.7.") ? skill.data : skill.data.data;
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
-      skill.untrained = skill.data.skillLevel == 0;
-      skill.trained = skill.data.skillLevel == 1;
-      skill.specialized = skill.data.skillLevel == 2;
+      skill.untrained = skillData.skillLevel == 0;
+      skill.trained = skillData.skillLevel == 1;
+      skill.specialized = skillData.skillLevel == 2;
       return skill;
     });
+    
+    sheetData.data.skills.sort(orderItems);
   }
 
   /**
@@ -527,7 +598,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     if (game.user.isGM) {
       artifactsList.on("blur", "input,textarea", this.onArtifactEdit.bind(this));
-      cyphersList.on("blur", "input,textarea", this.onCypherEdit.bind(this));
+      cyphersList.on("blur", "input,textarea,select", this.onCypherEdit.bind(this));
 
       if (game.settings.get("numenera", "useOddities"))
         html.find("ul.oddities").on("blur", "input", this.onOddityEdit.bind(this));
@@ -535,7 +606,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     html.find("#recoveryRoll").on("click", this.onRecoveryRoll.bind(this));
 
-    if (this.actor.owner) {
+    if (this.actor.isOwner) {
       // Find all abilitiy, skill, weapon and recursion items on the character sheet.
       html.find('tr.ability,tr.skill,tr.weapon,tr.recursion,tr.equipment,tr.armor,tr.powerShift,li.cypher,li.artifact,li.oddity,li.recursion').each((i, elem) => {
         // Add draggable attribute and dragstart listener.
@@ -545,9 +616,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
-  _onDrop(event) {
-    super._onDrop(event);
-    this.reorderElements(event);
+  async _onDrop(event) {
+    const drop = await super._onDrop(event);
+    this.reorderElements(event, drop);
+
+    return drop;
   }
 
   _onDragStart(event) {
@@ -556,6 +629,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!itemId) return;
 
     const clickedItem = duplicate(
+      //TODO
       this.actor.getEmbeddedEntity("OwnedItem", itemId)
     );
     clickedItem.data.stored = "";
@@ -574,10 +648,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     return super._onDragStart(event);
   }
 
-  async reorderElements(event) {
-    const dragged = JSON.parse(event.dataTransfer.getData("text/plain"));
+  async reorderElements(event, item = null) {
     const container = event.target.closest(".row-container");
-
     if (!container || !("children" in container))
       return;
 
@@ -585,27 +657,38 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!children || children.length === 0)
       return;
 
-    const draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.id);
     const dragTargetIndex = children.findIndex(row => row.dataset.itemId == event.target.closest("tr").dataset.itemId);
 
-    const update = children.map((row, i) => {
+    let draggedRowIndex;
+    if (item && item.id)
+      draggedRowIndex = children.findIndex(row => row.dataset.itemId == item.id);
+    else {
+      const dragged = JSON.parse(event.dataTransfer.getData("text/plain"));
+      draggedRowIndex = children.findIndex(row => row.dataset.itemId == dragged.id);
+    }
+
+    const updates = children.map((row, i) => {
       return {
         _id: row.dataset.itemId,
       };
     });
 
-    const deleted = update.splice(draggedRowIndex, 1);
-    update.splice(dragTargetIndex, 0, deleted[0]);
+    const deleted = updates.splice(draggedRowIndex, 1);
+    updates.splice(dragTargetIndex, 0, deleted[0]);
 
-    for (let i = 0; i < update.length; i++) {
-      update[i]["data.order"] = i;
+    for (let i = 0; i < updates.length; i++) {
+      updates[i]["data.order"] = i;
 
-      const row = children.find(row => row.dataset.itemId == update[i]._id);
+      const row = children.find(row => row.dataset.itemId == updates[i]._id);
       row.dataset.order = i;
     }
 
-    if (update.length > 0)
-      await this.actor.updateEmbeddedEntity("OwnedItem", update);
+    if (updates.length > 0) {
+      if (game.data.version.startsWith("0.7."))
+        await this.actor.updateEmbeddedEntity(updates);
+      else
+        await this.actor.updateEmbeddedDocuments("Item", updates);
+    }
   }
 
   /**
@@ -615,17 +698,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @returns
    * @memberof NumeneraPCActorSheet
    */
-  onAttributeUse(event) {
+  async onAttributeUse(event) {
     event.preventDefault();
     let stat = event.target.closest(".stats").dataset.stat;
 
-    if (useAlternateButtonBehavior()) {
-      stat = stat.toLowerCase();
-      new EffortDialog(this.actor, { stat }).render(true);
-    }
-    else {
-      return this.actor.rollAttribute(stat);
-    }
+    await this.actor.rollAttribute(stat);
   }
 
   /**
@@ -641,7 +718,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!skillId)
       return;
 
-    this.actor.getOwnedItem(skillId).use();
+    //this.actor.items.get(skillId).use();
+    this.actor.useItemById(skillId);
   }
 
   /**
@@ -657,7 +735,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!weaponId)
       return;
 
-    this.actor.getOwnedItem(weaponId).use();
+    this.actor.useItemById(weaponId);
   }
 
   /**
@@ -673,7 +751,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!abilityId)
       return;
 
-    this.actor.getOwnedItem(abilityId).use();
+    //this.actor.items.get(abilityId).use();
+    this.actor.useItemById(abilityId);
   }
 
   onArtifactDepletionRoll(event) {
@@ -684,8 +763,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return;
 
     //TODO move to the Artifact item class
-    const artifact = this.actor.getOwnedItem(artifactId);
-    const depletion = artifact.data.data.depletion;
+    const artifact = this.actor.items.get(artifactId);
+    const depletion = game.data.version.startsWith("0.7.") ? artifact.data.depletion : artifact.data.data.depletion;
     if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
       return;
 
@@ -709,16 +788,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
   async onPowerShiftUpdated() {
     const expectedRecoveries = this.actor.nbRecoveries;
 
-    if (expectedRecoveries !== this.actor.data.data.recoveries.length) {
+    const actorData = game.data.version.startsWith("0.7.") ? this.actor.data : this.actor.data.data;
+
+    if (expectedRecoveries !== actorData.recoveries.length) {
       //TODO  handle in PCActor class plz
-      const deltaRecoveries = expectedRecoveries - this.actor.data.data.recoveries.length;
+      const deltaRecoveries = expectedRecoveries - actorData.recoveries.length;
 
       if (deltaRecoveries > 0) {
         //Increased the level, create an array of unused recoveries (ie. "true" values)
         const newRecoveries = new Array(deltaRecoveries).fill(true);
 
         //Prepend to the recoveries array; unshift() mutates the Array in place so make a copy first
-        const recoveries = Array.from(this.actor.data.data.recoveries);
+        const recoveries = Array.from(actorData.recoveries);
         recoveries.unshift(...newRecoveries);
 
         await this.actor.update({ "data.recoveries": recoveries });
@@ -726,7 +807,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       else if (deltaRecoveries < 0) {
         //Decreased the level, must remove some recoveries
         //slice() does not act in place, it returns a new array
-        await this.actor.update({ "data.recoveries": this.actor.data.data.recoveries.slice(-deltaRecoveries) });
+        await this.actor.update({ "data.recoveries": actorData.recoveries.slice(-deltaRecoveries) });
       }
 
       //If recoveries changed, update the sheet, the number of recoveries has changed
@@ -790,21 +871,29 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super._onChangeInput(event);
   }
 
-  _onDropItem(event, data) {
-    //TODO remove this with 0.6 version support
-    if (game.data.version.startsWith("0.6.")) {
-      
+  async _onDropItem(event, data) {
+    const items = await super._onDropItem(event, data);
+    let item = await items[0];
+
+    let id;
+    if (game.data.version.startsWith("0.7.")) {
+      id = JSON.parse(event.dataTransfer.getData("text/plain"));
     }
     else {
-      super._onDropItem(event, data);
-    }
+      if (typeof(item) === "undefined")
+        return;
 
-    const { id } = JSON.parse(event.dataTransfer.getData("text/plain"));
+      id = item._id;
+    }
 
     if (!id)
       return;
 
-    const item = Item.collection.entities.find(i => i._id == id)
+    //let item;
+    if (game.data.version.startsWith("0.7."))
+      item = Item.collection.entities.find(i => i._id == id)
+    else
+      item = this.actor.items.get(id);
 
     //To avoid "false drops"
     if (!item)
@@ -821,6 +910,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
         this.onPowerShiftUpdated();
         return;
     }
+
+    return item;
   }
 
   _updateObject(event, formData) {

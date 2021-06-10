@@ -1,6 +1,13 @@
 export class NumeneraNpcAttackItem extends Item {
   static get type() {
-      return "npcattack";
+      return "npcAttack";
+  }
+
+  static get object() {
+    return {
+      type: NumeneraNpcAttackItem.type,
+      name: "",
+    }
   }
 
   prepareData() {
