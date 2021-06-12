@@ -298,7 +298,7 @@
                     <td><a class="armor-create" title="{{localize "NUMENERA.pc.armor.createTooltip"}}"><i class="fas fa-plus"></i></a></td>
                 </thead>
                 <tbody class="row-container">
-                {{#each data.armorPieces as |armor|}}
+                {{#each data.armor as |armor|}}
                     <tr class="armor" data-item-id="{{armor._id}}" data-order="{{armor.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>

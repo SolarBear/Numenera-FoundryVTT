@@ -153,10 +153,19 @@ export function add3rdBarToPCTokens() {
     //Update existing tokens with the extra attribute
     game.scenes.entities.forEach(scene => {
         scene.data.tokens.forEach(token => {
-            if (!token.data.hasOwnProperty("bar3")) {
-                token.bar1 = {attribute: "stats.might.pool"};
-                token.bar2 = {attribute: "stats.speed.pool"};
-                token.bar3 = {attribute: "stats.intellect.pool"};
+            if (game.data.version.startsWith("0.7.")) {
+                if (!token.hasOwnProperty("bar3")) {
+                    token.bar1 = {attribute: "stats.might.pool"};
+                    token.bar2 = {attribute: "stats.speed.pool"};
+                    token.bar3 = {attribute: "stats.intellect.pool"};
+                }
+            }
+            else {
+                if (!token.data.hasOwnProperty("bar3")) {
+                    token.bar1 = {attribute: "stats.might.pool"};
+                    token.bar2 = {attribute: "stats.speed.pool"};
+                    token.bar3 = {attribute: "stats.intellect.pool"};
+                }
             }
         })
     });
