@@ -7,7 +7,7 @@ export const sortFunction = (a, b) => {
   if (game.data.version.startsWith("0.7."))
     return sortFunction07(a, b);
   
-  return a.data.data.order < b.data.data.order ? -1 : a.data.data.order > b.data.data.order ? 1 : 0;
+  return a.data.order < b.data.order ? -1 : a.data.order > b.data.order ? 1 : 0;
 };
 
 /**
