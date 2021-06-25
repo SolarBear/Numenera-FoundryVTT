@@ -32,18 +32,15 @@ export class NumeneraArmorItem extends Item {
                 armorItem = new Item(this.object);
         }
 
-        if (game.data.version.startsWith("0.7."))
-            armorItem._data._id = ownedItem._id;
-        else
-            armorItem._id = ownedItem._id;
-
-        armorItem.data.name = ownedItem.name;
-        armorItem.data.armor = ownedItem.data.armor;
-        armorItem.data.notes = ownedItem.data.notes;
-        armorItem.data.price = ownedItem.data.price;
-        armorItem.data.weight = ownedItem.data.weight;
-        armorItem.data.skillLevel = ownedItem.data.skillLevel;
-        armorItem.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
+        armorItem._data.id = ownedItem._id;
+        armorItem._data.data = ownedItem.data.data || {};
+        armorItem._data.data.name = ownedItem.name;
+        armorItem._data.data.armor = ownedItem.data.armor;
+        armorItem._data.data.notes = ownedItem.data.notes;
+        armorItem._data.data.price = ownedItem.data.price;
+        armorItem._data.data.weight = ownedItem.data.weight;
+        armorItem._data.data.skillLevel = ownedItem.data.skillLevel;
+        armorItem._data.data.additionalSpeedEffortCost = ownedItem.data.additionalSpeedEffortCost;
         armorItem.options.actor = actor;
 
         armorItem.prepareData();
