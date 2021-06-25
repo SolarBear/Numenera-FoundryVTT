@@ -172,7 +172,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const itemClassMap = {
       abilities: NumeneraAbilityItem.type,
-      armor: NumeneraArmorItem.type,
+      armorPieces: NumeneraArmorItem.type,
       artifacts: NumeneraArtifactItem.type,
       cyphers: NumeneraCypherItem.type,
       equipment: NumeneraEquipmentItem.type,
@@ -307,10 +307,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
     sheetData.displayMightCostPerHour = game.settings.get("numenera", "armorPenalty") === "old";
-    sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;
+    if (sheetData.displayMightCostPerHour)
+      sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;
 
     sheetData.displaySpeedPoolReduction = game.settings.get("numenera", "armorPenalty") === "old";
-    sheetData.armorSpeedPoolReduction = this.actor.speedPoolPenalty;
+    if (sheetData.displaySpeedPoolReduction)
+      sheetData.armorSpeedPoolReduction = this.actor.speedPoolPenalty;
 
     sheetData.displaySpeedEffortPenalty = ["none", "new"].some(s => s === game.settings.get("numenera", "armorPenalty"));
 
@@ -494,7 +496,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       return weapon;
     });
 
-    sheetData.data.armor = sheetData.data.armor.map(armor => {
+    sheetData.data.armorPieces = sheetData.data.armorPieces.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
       if (game.data.version.startsWith("0.7."))
         armor.data.notes = removeHtmlTags(armor.data.notes);
@@ -513,7 +515,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     });
 
     sheetData.data.weapons.sort(orderItems);
-    sheetData.data.armor.sort(orderItems);
+    sheetData.data.armorPieces.sort(orderItems);
     sheetData.data.equipment.sort(orderItems);
   }
 
