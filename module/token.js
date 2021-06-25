@@ -140,9 +140,8 @@ export function cypherToken() {
             let result = await superFunction.apply(this, arguments);
 
             result.isPC = this.actor && this.actor.data.type === "pc";
-            if (result.isPC) {
-                result.bar3 = this.object.getBarAttribute("bar3");
-            }
+            if (result.isPC)
+                result.bar3 = this.token.getBarAttribute("bar3");
 
             return result;
         };
