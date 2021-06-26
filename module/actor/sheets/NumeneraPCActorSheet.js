@@ -63,7 +63,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @return {Object}
    */
   static get defaultOptions() {
-    const options = mergeObject(super.defaultOptions, {
+    return mergeObject(super.defaultOptions, {
       scrollY: [
         "#pc-sheet-body",
       ],
@@ -76,12 +76,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
         },
       ],
     });
-
-    //TODO static method, cannot get Actor... :(
-    // if (game.data.version.startsWith("0.8.") && this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
-    //   options.height = 400;
-
-    return options;
   }
 
   static get advances() {
@@ -166,6 +160,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
     else {
       sheetData.data.background = removeHtmlTags(sheetData.data.background);
+      this.position.height = 400;
     }
 
     return sheetData;
