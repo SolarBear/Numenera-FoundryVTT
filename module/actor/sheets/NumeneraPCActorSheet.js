@@ -63,7 +63,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @return {Object}
    */
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    const options = mergeObject(super.defaultOptions, {
       scrollY: [
         "#pc-sheet-body",
       ],
@@ -76,6 +76,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
         },
       ],
     });
+
+    //TODO static method, cannot get Actor... :(
+    // if (game.data.version.startsWith("0.8.") && this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
+    //   options.height = 400;
+
+    return options;
   }
 
   static get advances() {
@@ -131,6 +137,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (game.data.version.startsWith("0.7."))
       return "systems/numenera/templates/actor/characterSheet07.html";
     
+    if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
+      return "systems/numenera/templates/actor/characterSheetLimited.html";
+    
     return "systems/numenera/templates/actor/characterSheet.html";
   }
 
@@ -148,11 +157,16 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (game.data.version.startsWith("0.8."))
       sheetData.data = sheetData.data.data;
 
-    this._setLabelsData(sheetData);
-    this._setCypherTypeData(sheetData);
-    this._setIconSettingsData(sheetData);
-    this._setComputedValuesData(sheetData);
-    this._setItemsData(sheetData);
+    if (this.actor.getUserLevel() >= CONST.ENTITY_PERMISSIONS.OBSERVER) {
+      this._setLabelsData(sheetData);
+      this._setCypherTypeData(sheetData);
+      this._setIconSettingsData(sheetData);
+      this._setComputedValuesData(sheetData);
+      this._setItemsData(sheetData);
+    }
+    else {
+      sheetData.data.background = removeHtmlTags(sheetData.data.background);
+    }
 
     return sheetData;
   }

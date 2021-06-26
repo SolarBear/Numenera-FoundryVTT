@@ -69,6 +69,7 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/actor/partials/cyphers.html",
         "systems/numenera/templates/actor/partials/features.html",
         "systems/numenera/templates/actor/partials/oddities.html",
+        "systems/numenera/templates/actor/partials/pcHeader.html",
         "systems/numenera/templates/actor/partials/powerShifts.html",
         "systems/numenera/templates/actor/partials/recursions.html",
         "systems/numenera/templates/actor/partials/weapons.html",

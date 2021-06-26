@@ -1,0 +1,14 @@
+<form class="{{cssClass}} numenera pc" autocomplete="off">
+    {{> "systems/numenera/templates/actor/partials/pcHeader.html" data=data}}
+    <div class="flexcol">
+        <div class="flexrow header">
+            <div class="picture">
+                <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}">
+            </div>
+            <div class="contents limited">
+                <h2>Bio</h2>
+                <p>{{data.background}}</p>
+            </div>
+        </div>
+    </div>
+</form>
