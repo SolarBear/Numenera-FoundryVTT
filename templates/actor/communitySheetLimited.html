@@ -3,16 +3,16 @@
         <div class="picture">
             <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
         </div>
-        <div class="flexcol">
-            <div class="flexrow community-info">
+        <div>
+            <div class="community-info limited">
                 <h1 class="character">
                     <input type="text" name="name" value="{{actor.name}}" class="charname" />
                     <label for="data.level">{{localize "NUMENERA.community.rank"}}</label>
                     <input type="text" name="data.level" value="{{data.level}}" class="level" data-dtype="Number" />
                 </h1>
             </div>
-            <div class="community-stats">
-                <h2>Description</h2>
+            <div>
+                <h2>{{localize "NUMENERA.communityActorSheet.tab.overview"}}</h2>
                 <p>{{data.overview}}</p>
             </div>
         </div>

@@ -1,3 +1,5 @@
+import { removeHtmlTags } from "../../utils.js";
+
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
  *
@@ -26,6 +28,9 @@ export class NumeneraCommunityActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
+    if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
+      return "systems/numenera/templates/actor/communitySheetLimited.html";
+  
     return "systems/numenera/templates/actor/communitySheet.html";
   }
 
@@ -39,6 +44,12 @@ export class NumeneraCommunityActorSheet extends ActorSheet {
     //TODO remove condition when removing support for 0.7
     if (game.data.version.startsWith("0.8."))
       sheetData.data = sheetData.data.data;
+
+    if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
+    {
+      sheetData.data.overview = removeHtmlTags(sheetData.data.overview);
+      this.position.height = 350;
+    }
 
     return sheetData;
   }

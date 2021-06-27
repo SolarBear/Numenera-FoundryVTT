@@ -16,8 +16,13 @@ $font-edit-color: #093f55;
 $glow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 $bggrad: linear-gradient(225deg, rgba(0, 0, 0, 0) 0%, rgba(189, 107, 107, 0.267) 50%, #2294b133 80%);
 
-@mixin editor($class, $height, $id) {
-    div.#{$class}  {
+@mixin editor($class, $height, $id, $exclusion: "") {
+    $exclusionSelector: "";
+    @if $exclusion != "" {
+        $exclusionSelector: ":not(.#{$exclusion})"
+    }
+
+    div.#{$class}#{$exclusionSelector} {
         height: #{$height};
 
         .editor {
@@ -243,7 +248,13 @@ form.numenera {
         }
 
         div > div.npc-info,div.community-info {
-            flex: 0.25;
+            &:not(.limited) {
+                flex: 0.25;
+            }
+            .limited {
+                display: block;
+            }
+            
 
             h1 {
                 margin-left: 0.5em;
@@ -261,9 +272,17 @@ form.numenera {
         }
 
         div > div.npc-stats,div.community-stats {
-            flex: 0.15;
+            &:not(.limited) {
+                flex: 0.15;
+                text-align: center;
+            }
+
+            .limited {
+                display: block;
+            }
+            
             padding: 1em;
-            text-align: center;
+            
 
             label {
                 padding-top: 2px;
@@ -541,13 +560,13 @@ form.numenera {
     $buttonHeight: 34px;
     $descriptionHeight: $totalDescriptionHeight - $buttonHeight;
 
-    @include editor("npc-description", $descriptionHeight, "npc-description");
-    @include editor("npc-info", $descriptionHeight, "npc-info");
+    @include editor("npc-description", $descriptionHeight, "npc-description", "limited");
+    @include editor("npc-info", $descriptionHeight, "npc-info", "limited");
 
     @include editor("community-overview", $descriptionHeight, "community-overview");
     @include editor("community-government", $descriptionHeight, "community-government");
     @include editor("community-combat", $descriptionHeight, "community-combat");
-    @include editor("community-info", $descriptionHeight, "community-info");
+    @include editor("community-info", $descriptionHeight, "community-info", "limited");
 
     @include editor("item-notes", $descriptionHeight, "item-notes");
 
@@ -897,7 +916,7 @@ form.numenera-dialog {
             font-weight: bold;
             font-size: 16px;
             vertical-align: center;
-            align-items: center;;
+            align-items: center;
         }
 
         button {

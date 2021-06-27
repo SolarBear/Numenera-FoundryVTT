@@ -2,6 +2,7 @@ import { onItemCreateGenerator, onItemDeleteGenerator, onItemEditGenerator, sort
 
 import { NUMENERA } from "../../config.js";
 import { NumeneraNpcAttackItem } from "../../item/NumeneraNPCAttack.js";
+import { removeHtmlTags } from "../../utils.js";
 
 /**
  * Extend the basic ActorSheet class to do all the Numenera things!
@@ -39,6 +40,9 @@ export class NumeneraNPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
+    if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
+      return "systems/numenera/templates/actor/npcSheetLimited.html";
+  
     return "systems/numenera/templates/actor/npcSheet.html";
   }
 
@@ -62,6 +66,12 @@ export class NumeneraNPCActorSheet extends ActorSheet {
     //TODO is this really needed in 0.7?
     //if (!sheetData.data.attacks)
       sheetData.data.attacks = items.filter(i => i.type === NumeneraNpcAttackItem.type).sort(sortFunction);
+
+    if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
+    {
+      sheetData.data.notes = removeHtmlTags(sheetData.data.notes);
+      this.position.height = 350;
+    }
 
     return sheetData;
   }
