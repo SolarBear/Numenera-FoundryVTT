@@ -376,7 +376,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         if (game.data.version.startsWith("0.7."))
           oddity.data.notes = removeHtmlTags(oddity.data.notes);
         else
-          oddity.data.notes = removeHtmlTags(oddity.data.notes);
+          oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
         return oddity;
       });
 
@@ -400,7 +400,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         if (game.data.version.startsWith("0.7."))
           powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
         else
-          powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
+          powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
         return powerShift;
       });
 
@@ -562,7 +562,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   _setSkillsData(sheetData) {
     sheetData.data.skills = sheetData.data.skills.map(skill => {
-      const skillData = game.data.version.startsWith("0.7.") ? skill.data : skill.data;
+      const skillData = game.data.version.startsWith("0.7.") ? skill.data : skill.data.data;
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
       skill.untrained = skillData.skillLevel == 0;

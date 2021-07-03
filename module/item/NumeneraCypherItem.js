@@ -38,9 +38,9 @@ export class NumeneraCypherItem extends Item {
     }
     else {
       if (actor === null)
-        cypherItem = await actor.createEmbeddedDocuments("Item", [this.object]);
-      else
         cypherItem = new Item(this.object);
+      else
+        cypherItem = await actor.createEmbeddedDocuments("Item", [this.object]);
     }
 
     cypherItem.data._id = ownedItem._id;

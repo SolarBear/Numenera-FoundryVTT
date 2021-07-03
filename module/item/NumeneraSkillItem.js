@@ -29,14 +29,13 @@ export class NumeneraSkillItem extends Item {
         skillItem = await actor.createEmbeddedDocuments("Item", [this.object]);
     }
 
-    skillItem._data._id = ownedItem._id;
-    skillItem._data.name = ownedItem.name;
-    skillItem._data.data = ownedItem.data.data || {};
-    skillItem._data.data.notes = ownedItem.data.notes;
-    skillItem._data.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
-    skillItem._data.data.stat = ownedItem.data.data.stat;
-    skillItem._data.data.inability = ownedItem.data.data.inability;
-    skillItem._data.data.skillLevel = ownedItem.data.data.skillLevel;
+    skillItem.data._id = ownedItem._id;
+    skillItem.data.name = ownedItem.name;
+    skillItem.data.notes = ownedItem.data.notes;
+    skillItem.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
+    skillItem.data.stat = ownedItem.data.data.stat;
+    skillItem.data.inability = ownedItem.data.data.inability;
+    skillItem.data.skillLevel = ownedItem.data.data.skillLevel;
 
     skillItem.prepareData();
 
