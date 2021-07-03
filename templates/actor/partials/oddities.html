@@ -29,10 +29,10 @@
                     <td class="oddity-description">
                     {{#if oddity.editable}}
                         <span>
-                            <input type="text" name="data.oddities.{{oddity._id}}.data.notes" value="{{oddity.data.notes}}" />
+                            <input type="text" name="data.oddities.{{oddity._id}}.data.notes" value="{{oddity.data.data.notes}}" />
                         </span>
                     {{else}}
-                        {{oddity.data.notes}}
+                        {{oddity.data.data.notes}}
                     {{/if}}
                     </td>
                     <td>

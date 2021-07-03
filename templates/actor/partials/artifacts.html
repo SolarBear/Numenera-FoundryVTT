@@ -2,7 +2,7 @@
 
 <ul class="artifacts row-container">
 {{#each data.artifacts as |artifact|}}
-<li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.order}}>
+<li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.data.order}}>
     <table class="artifact-header-table">
         <tbody>
             <td>
@@ -21,16 +21,16 @@
             <td class="artifact-level">
             {{#if artifact.editable}}
                 <label>{{localize "NUMENERA.pc.numenera.artifact.identified"}}
-                    <input type="checkbox" name="data.artifacts.{{artifact._id}}.data.identified"
-                        data-dtype="Boolean" {{checked artifact.data.identified}}/>
+                    <input type="checkbox" name="data.data.artifacts.{{artifact._id}}.data.identified"
+                        data-dtype="Boolean" {{checked artifact.data.data.identified}}/>
                 </label>
                 <br />
                 <label>{{localize "NUMENERA.pc.numenera.artifact.level"}}
-                    <input type="number" name="data.artifacts.{{artifact._id}}.data.level"
-                        min="1" value="{{artifact.data.level}}" data-dtype="Number" />
+                    <input type="number" name="data.data.artifacts.{{artifact._id}}.data.level"
+                        min="1" value="{{artifact.data.data.level}}" data-dtype="Number" />
                 </label>
             {{else}}
-                <span>Level</span> {{artifact.data.level}}
+                <span>Level</span> {{artifact.data.data.level}}
             {{/if}}
             </td>
 
@@ -39,32 +39,32 @@
               {{#if ../isTheStrange}}
                 <label>
                     {{localize "NUMENERA.pc.numenera.artifact.laws"}}
-                  <input type="text" name="data.artifacts.{{artifact._id}}.data.laws" value="{{artifact.data.laws}}" />
+                  <input type="text" name="data.data.artifacts.{{artifact._id}}.data.laws" value="{{artifact.data.data.laws}}" />
                 </label>
               {{/if}}
                 <label>
                     {{localize "NUMENERA.pc.numenera.artifact.form"}}
-                    <input type="text" name="data.artifacts.{{artifact._id}}.data.form" value="{{artifact.data.form}}" />
+                    <input type="text" name="data.data.artifacts.{{artifact._id}}.data.form" value="{{artifact.data.data.form}}" />
                 </label>
                 <label>
                     {{localize "NUMENERA.pc.numenera.artifact.effect"}}
-                    <textarea name="data.artifacts.{{artifact._id}}.data.effect">{{artifact.data.effect}}</textarea>
+                    <textarea name="data.data.artifacts.{{artifact._id}}.data.effect">{{artifact.data.data.effect}}</textarea>
                 </label>
             {{else}}
               {{#if ../isTheStrange}}
-                <span><strong>{{localize "NUMENERA.pc.numenera.artifact.laws"}}:</strong></span> {{artifact.data.laws}}
+                <span><strong>{{localize "NUMENERA.pc.numenera.artifact.laws"}}:</strong></span> {{artifact.data.data.laws}}
               {{/if}}
                 <p>
-                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.form"}}:</strong></span> {{artifact.data.form}}
+                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.form"}}:</strong></span> {{artifact.data.data.form}}
                 </p>
                 <p>
-                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.effect"}}:</strong></span> {{artifact.data.effect}}
+                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.effect"}}:</strong></span> {{artifact.data.data.effect}}
                 </p>
             {{/if}}
-            {{#if artifact.data.depletion.isDepleting}}
+            {{#if artifact.data.data.depletion.isDepleting}}
                 <p>
-                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.depletion"}}: </strong></span> {{artifact.data.depletion.threshold}} {{localize "NUMENERA.pc.numenera.artifact.in"}}
-                    {{artifact.data.depletion.die}}
+                    <span><strong>{{localize "NUMENERA.pc.numenera.artifact.depletion"}}: </strong></span> {{artifact.data.data.depletion.threshold}} {{localize "NUMENERA.pc.numenera.artifact.in"}}
+                    {{artifact.data.data.depletion.die}}
                     <button class="artifact-depletion-roll">{{localize "NUMENERA.pc.numenera.artifact.roll"}}</button>
                 </p>
             {{/if}}
