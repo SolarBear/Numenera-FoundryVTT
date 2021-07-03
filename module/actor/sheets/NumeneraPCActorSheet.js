@@ -133,6 +133,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (game.data.version.startsWith("0.7."))
       return "systems/numenera/templates/actor/characterSheet07.html";
     
+    if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
+      return "systems/numenera/templates/actor/characterSheetLimited.html";
+    
     return "systems/numenera/templates/actor/characterSheet.html";
   }
 
@@ -150,11 +153,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (game.data.version.startsWith("0.8."))
       sheetData.data = sheetData.data.data;
 
-    this._setLabelsData(sheetData);
-    this._setCypherTypeData(sheetData);
-    this._setIconSettingsData(sheetData);
-    this._setComputedValuesData(sheetData);
-    this._setItemsData(sheetData);
+    if (this.actor.getUserLevel() >= CONST.ENTITY_PERMISSIONS.OBSERVER) {
+      this._setLabelsData(sheetData);
+      this._setCypherTypeData(sheetData);
+      this._setIconSettingsData(sheetData);
+      this._setComputedValuesData(sheetData);
+      this._setItemsData(sheetData);
+    }
+    else {
+      sheetData.data.background = removeHtmlTags(sheetData.data.background);
+      this.position.height = 400;
+    }
 
     return sheetData;
   }
@@ -376,7 +385,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         if (game.data.version.startsWith("0.7."))
           oddity.data.notes = removeHtmlTags(oddity.data.notes);
         else
-          oddity.data.notes = removeHtmlTags(oddity.data.notes);
+          oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
         return oddity;
       });
 
@@ -400,7 +409,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
         if (game.data.version.startsWith("0.7."))
           powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
         else
-          powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
+          powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
         return powerShift;
       });
 
@@ -500,7 +509,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.data.version.startsWith("0.7."))
         weapon.data.notes = removeHtmlTags(weapon.data.notes);
       else
-        weapon.data.notes = removeHtmlTags(weapon.data.notes);
+        weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
       return weapon;
     });
 
@@ -509,7 +518,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.data.version.startsWith("0.7."))
         armor.data.notes = removeHtmlTags(armor.data.notes);
       else
-        armor.data.notes = removeHtmlTags(armor.data.notes);
+        armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
       return armor;
     });
 
@@ -518,7 +527,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.data.version.startsWith("0.7."))
         equipment.data.notes = removeHtmlTags(equipment.data.notes);
       else
-      equipment.data.notes = removeHtmlTags(equipment.data.notes);
+      equipment.data.data.notes = removeHtmlTags(equipment.data.data.notes);
       return equipment;
     });
 
@@ -541,7 +550,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.abilityTypes = NUMENERA.abilityTypes;
 
     sheetData.data.abilities = sheetData.data.abilities.map(ability => {
-      const abilityData = game.data.version.startsWith("0.7.") ? ability.data : ability.data;
+      const abilityData = game.data.version.startsWith("0.7.") ? ability.data : ability.data.data;
       ability.nocost = (abilityData.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
@@ -562,7 +571,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   _setSkillsData(sheetData) {
     sheetData.data.skills = sheetData.data.skills.map(skill => {
-      const skillData = game.data.version.startsWith("0.7.") ? skill.data : skill.data;
+      const skillData = game.data.version.startsWith("0.7.") ? skill.data : skill.data.data;
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
       skill.untrained = skillData.skillLevel == 0;
@@ -590,6 +599,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
+    abilitiesTable.on("click", ".ability-to-chat", this.onAbilityDelete.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
     abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
 

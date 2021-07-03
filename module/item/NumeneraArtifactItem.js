@@ -38,9 +38,9 @@ export class NumeneraArtifactItem extends Item {
         }
         else {
             if (actor === null)
-                artifactItem = await actor.createEmbeddedDocuments("Item", [this.object]);
-            else
                 artifactItem = new Item(this.object);
+            else
+                artifactItem = await actor.createEmbeddedDocuments("Item", [this.object]);
         }
 
         artifactItem.data._id = ownedItem._id;

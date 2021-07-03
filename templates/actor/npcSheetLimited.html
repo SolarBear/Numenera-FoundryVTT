@@ -1,0 +1,20 @@
+<form class="{{cssClass}} numenera npc flexcol" autocomplete="off">
+    <div class="flexrow header">
+        <div class="picture">
+            <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+        </div>
+        <div class="">
+            <div class="npc-info limited">
+                <h1 class="character">
+                    <input type="text" name="name" value="{{actor.name}}" class="charname" />
+                    <label for="data.level">{{localize "NUMENERA.npc.level"}}</label>
+                    <input type="text" name="data.level" value="{{data.level}}" class="level" data-dtype="Number" />
+                </h1>
+            </div>
+            <div class="npc-stats limited">
+                <h2>Description</h2>
+                <p>{{data.notes}}</p>
+            </div>
+        </div>
+    </div>
+</form>

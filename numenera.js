@@ -93,3 +93,11 @@ Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
 Hooks.once("ready", registerHooks);
+
+Hooks.once("ready", function() {
+    if (game.data.version.startsWith("0.7."))
+        ui.notifications.warn("Hello! SolarBear, the system author, here.<br><br>I try to make compatibility between older version of Foundry a priority but due to the heavy changes and resulting bugs between versions 0.7 and 0.8, "+
+        "I have decided to remove 0.7 support soon. If you Foundry 0.7 is important to you, contact me ASAP on the <a href=\"https://discord.gg/foundryvtt\">Foundry Discord</a> (@SolarBear) to let me know, otherwise this support " +
+        " will be removed around the middle of July. Cheers and happy gaming!",
+        {permanent: true});
+});

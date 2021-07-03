@@ -63,12 +63,16 @@ export const preloadHandlebarsTemplates = async() => {
     }
     else {
         templatePaths.push("systems/numenera/templates/actor/characterSheet.html",
+        "systems/numenera/templates/actor/characterSheetLimited.html",
         "systems/numenera/templates/actor/communitySheet.html",
+        "systems/numenera/templates/actor/communitySheetLimited.html",
         "systems/numenera/templates/actor/npcSheet.html",
+        "systems/numenera/templates/actor/npcSheetLimited.html",
         "systems/numenera/templates/actor/partials/artifacts.html",
         "systems/numenera/templates/actor/partials/cyphers.html",
         "systems/numenera/templates/actor/partials/features.html",
         "systems/numenera/templates/actor/partials/oddities.html",
+        "systems/numenera/templates/actor/partials/pcHeader.html",
         "systems/numenera/templates/actor/partials/powerShifts.html",
         "systems/numenera/templates/actor/partials/recursions.html",
         "systems/numenera/templates/actor/partials/weapons.html",
