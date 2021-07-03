@@ -591,6 +591,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
+    abilitiesTable.on("click", ".ability-to-chat", this.onAbilityDelete.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
     abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
 
