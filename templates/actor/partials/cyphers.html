@@ -31,12 +31,12 @@
                     {{#if cypher.editable}}
                         <label>{{localize "NUMENERA.pc.numenera.cypher.identified"}}
                             <input type="checkbox" name="data.cyphers.{{cypher._id}}.data.identified"
-                                data-dtype="Boolean" {{checked cypher.data.identified}} />
+                                data-dtype="Boolean" {{checked cypher.data.data.identified}} />
                         </label>
                         <br />
                         <label>{{localize "NUMENERA.pc.numenera.cypher.level"}}
                             <input type="number" name="data.cyphers.{{cypher._id}}.data.level"
-                                value="{{cypher.data.level}}" min="1" data-dtype="Number" />
+                                value="{{cypher.data.data.level}}" min="1" data-dtype="Number" />
                         </label>
                         
                         {{#if ../displayCypherType}}
@@ -44,7 +44,7 @@
                         <label>{{localize "NUMENERA.item.cypher.type.label"}}
                             <select name="data.cyphers.{{cypher._id}}.data.cypherType" data-dtype="String"
                                 class="cypher-type">
-                                {{#select cypher.data.cypherType}}
+                                {{#select cypher.data.data.cypherType}}
                                 {{#each ../cypherTypes}}
                                 <option value="{{this}}">{{localize this}}</option>
                                 {{/each}}
@@ -53,12 +53,12 @@
                         </label>
                         {{/if}}
                     {{else}}
-                        <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.level}}
+                        <span>{{localize "NUMENERA.pc.numenera.cypher.level"}}</span> {{cypher.data.data.level}}
                         
                         {{#if ../displayCypherType}}
                             <br />
                             <span>{{localize "NUMENERA.item.cypher.type.label"}}</span>&nbsp;
-                            {{#if cypher.data.identified}}
+                            {{#if cypher.data.data.identified}}
                                 {{localize cypher.data.cypherType}}
                             {{else}}
                                 {{localize "NUMENERA.unknown"}}
@@ -71,11 +71,11 @@
                     {{#if cypher.editable}}
                         <label>
                             {{localize "NUMENERA.pc.numenera.cypher.form"}}
-                            <input type="text" name="data.cyphers.{{cypher._id}}.data.form" value="{{cypher.data.form}}" />
+                            <input type="text" name="data.cyphers.{{cypher._id}}.data.form" value="{{cypher.data.data.form}}" />
                         </label>
                         <label>
                             {{localize "NUMENERA.pc.numenera.cypher.effect"}}
-                            <textarea name="data.cyphers.{{cypher._id}}.data.effect">{{cypher.data.effect}}</textarea>
+                            <textarea name="data.cyphers.{{cypher._id}}.data.effect">{{cypher.data.data.effect}}</textarea>
                         </label>
                     {{else}}
                         <p>

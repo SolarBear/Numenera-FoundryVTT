@@ -27,10 +27,12 @@ function orderItems(a, b) {
   let dataA = a.data;
   let dataB = b.data;
 
-  // if (game.data.version.startsWith("0.8.")) {
-  //   dataA = dataA.data;
-  //   dataB = dataB.data;
-  // }
+  //TODO wat
+  if (dataA.data)
+    dataA = dataA.data;
+
+  if (dataB.data)
+    dataB = dataB.data;
 
   if (dataA.order < dataB.order) return -1;
   if (dataA.order > dataB.order) return 1;
@@ -198,7 +200,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       // }
 
       //TODO: fix this, this is TERRIBLE, but necessary
-      if (typeof sheetData.data.items === "object") {
+      //if (typeof sheetData.data.items === "object") {
+      if (sheetData.data.items.constructor.name !== "EmbeddedCollection") {
         //"old style" PCs have an object as items property, whose properties are item types
         // if (sheetData.data[val])
         //   sheetData.data[val] = Object.values(sheetData.data[val]);
@@ -431,34 +434,37 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setCyphersData(sheetData, useCypherType) {
+    const isEditable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
+
     sheetData.data.artifacts = sheetData.data.artifacts.map(artifact => {
       // if (artifact.data)
       //   artifact = artifact.data;
 
-      artifact.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
-
       //TODO find some means to avoid repeating this code for artifacts and cyphers
       //both here and inside their respective classes
-      const artifactData = game.data.version.startsWith("0.7.") ? artifact.data : artifact.data;
-      if (!artifactData.identified && !artifact.editable) {
+      let artifactData = game.data.version.startsWith("0.7.") ? artifact.data : artifact.data.data;
+      if (!artifactData.identified && !isEditable) {
         //Make it so that unidentified artifacts appear as blank items
         artifact = NumeneraArtifactItem.asUnidentified(artifact);
+        artifactData = game.data.version.startsWith("0.7.") ? artifact.data : artifact.data.data;
       }
       else {
         artifactData.effect = removeHtmlTags(artifactData.effect);
       }
 
+      artifact.editable = isEditable;
       artifact.showIcon = artifact.img && sheetData.settings.icons.numenera;
+
       return artifact;
     });
 
     sheetData.data.cyphers = sheetData.data.cyphers.map(cypher => {
-      cypher.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
-
-      const cypherData = game.data.version.startsWith("0.7.") ? cypher.data : cypher.data;
-      if (!cypherData.identified && !cypher.editable) {
+      //TODO this is disgusting, really.
+      let cypherData = game.data.version.startsWith("0.7.") ? cypher.data : cypher.data.data;
+      if (!cypherData.identified && !isEditable) {
         //Make it so that unidentified cyphers appear as blank items
         cypher = NumeneraCypherItem.asUnidentified(cypher);
+        cypherData = game.data.version.startsWith("0.7.") ? cypher.data : cypher.data.data;
       }
       else {
         cypherData.effect = removeHtmlTags(cypherData.effect);
@@ -469,7 +475,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
         cypherData.cypherType = Object.keys(NUMENERA.cypherTypes[NumeneraCypherItem.cypherTypeFlavor])[0];
       }
 
+      cypher.editable = isEditable;
       cypher.showIcon = cypher.img && sheetData.settings.icons.numenera;
+
       return cypher;
     });
 

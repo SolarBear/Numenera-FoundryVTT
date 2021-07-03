@@ -8,16 +8,17 @@ export class NumeneraCypherItem extends Item {
      *
      * @memberof NumeneraCypherItem
      */
-    static asUnidentified(cypher) {
-      if (cypher.constructor === Object)
-        cypher = NumeneraCypherItem.fromOwnedItem(cypher);
+  static asUnidentified(cypher) {
+    debugger;
+    if (cypher.constructor === Object)
+      cypher = NumeneraCypherItem.fromOwnedItem(cypher);
 
-      cypher.data.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
-      cypher.data.data.level = game.i18n.localize("NUMENERA.unknown");
-      cypher.data.data.effect = game.i18n.localize("NUMENERA.unknown");
-      cypher.data.data.cypherType = null;
+    cypher.data.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
+    cypher.data.data.level = game.i18n.localize("NUMENERA.unknown");
+    cypher.data.data.effect = game.i18n.localize("NUMENERA.unknown");
+    cypher.data.data.cypherType = null;
 
-      return cypher;
+    return cypher;
   }
 
   /**
@@ -29,23 +30,34 @@ export class NumeneraCypherItem extends Item {
    * @returns
    * @memberof NumeneraCypherItem
    */
-  static fromOwnedItem(ownedItem, actor) {
-      let cypherItem = new NumeneraCypherItem();
-      cypherItem.data._id = ownedItem._id;
-      cypherItem.data.name = ownedItem.name;
-      cypherItem.data.price = ownedItem.data.price;
-      cypherItem.data.notes = ownedItem.data.notes;
-      cypherItem.data.efffect = ownedItem.data.effect;
-      cypherItem.data.form = ownedItem.data.form;
-      cypherItem.data.level = ownedItem.data.level;
-      cypherItem.data.levelDie = ownedItem.data.levelDie;
-      cypherItem.data.range = ownedItem.data.range;
+  static async fromOwnedItem(ownedItem, actor) {
+    let cypherItem;
 
-      cypherItem.options.actor = actor;
+    if (game.data.version.startsWith("0.7.")) {
+      cypherItem = new NumeneraCypherItem();
+    }
+    else {
+      if (actor === null)
+        cypherItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+      else
+        cypherItem = new Item(this.object);
+    }
 
-      cypherItem.prepareData();
+    cypherItem.data._id = ownedItem._id;
+    cypherItem.data.name = ownedItem.name;
+    cypherItem.data.price = ownedItem.data.price;
+    cypherItem.data.notes = ownedItem.data.notes;
+    cypherItem.data.efffect = ownedItem.data.effect;
+    cypherItem.data.form = ownedItem.data.form;
+    cypherItem.data.level = ownedItem.data.level;
+    cypherItem.data.levelDie = ownedItem.data.levelDie;
+    cypherItem.data.range = ownedItem.data.range;
 
-      return cypherItem;
+    cypherItem.options.actor = actor;
+
+    cypherItem.prepareData();
+
+    return cypherItem;
   }
 
   prepareData() {
@@ -53,7 +65,7 @@ export class NumeneraCypherItem extends Item {
 
     // Override common default icon
     if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
-      this.data.img = 'icons/svg/pill.svg';    
+      this.data.img = 'icons/svg/pill.svg';
 
     let itemData = this.data;
     if (itemData.hasOwnProperty("data"))
