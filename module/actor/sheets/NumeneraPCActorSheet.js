@@ -500,7 +500,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.data.version.startsWith("0.7."))
         weapon.data.notes = removeHtmlTags(weapon.data.notes);
       else
-        weapon.data.notes = removeHtmlTags(weapon.data.notes);
+        weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
       return weapon;
     });
 
@@ -509,7 +509,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.data.version.startsWith("0.7."))
         armor.data.notes = removeHtmlTags(armor.data.notes);
       else
-        armor.data.notes = removeHtmlTags(armor.data.notes);
+        armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
       return armor;
     });
 
@@ -518,7 +518,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (game.data.version.startsWith("0.7."))
         equipment.data.notes = removeHtmlTags(equipment.data.notes);
       else
-      equipment.data.notes = removeHtmlTags(equipment.data.notes);
+      equipment.data.data.notes = removeHtmlTags(equipment.data.data.notes);
       return equipment;
     });
 
@@ -541,7 +541,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.abilityTypes = NUMENERA.abilityTypes;
 
     sheetData.data.abilities = sheetData.data.abilities.map(ability => {
-      const abilityData = game.data.version.startsWith("0.7.") ? ability.data : ability.data;
+      const abilityData = game.data.version.startsWith("0.7.") ? ability.data : ability.data.data;
       ability.nocost = (abilityData.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
