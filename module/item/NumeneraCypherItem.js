@@ -33,15 +33,10 @@ export class NumeneraCypherItem extends Item {
   static async fromOwnedItem(ownedItem, actor) {
     let cypherItem;
 
-    if (game.data.version.startsWith("0.7.")) {
-      cypherItem = new NumeneraCypherItem();
-    }
-    else {
-      if (actor === null)
-        cypherItem = new Item(this.object);
-      else
-        cypherItem = await actor.createEmbeddedDocuments("Item", [this.object]);
-    }
+    if (actor === null)
+      cypherItem = new Item(this.object);
+    else
+      cypherItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
     cypherItem.data._id = ownedItem._id;
     cypherItem.data.name = ownedItem.name;
@@ -64,7 +59,7 @@ export class NumeneraCypherItem extends Item {
     super.prepareData();
 
     // Override common default icon
-    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+    if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
       this.data.img = 'icons/svg/pill.svg';
 
     let itemData = this.data;

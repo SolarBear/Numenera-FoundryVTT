@@ -7,7 +7,7 @@ export class NumeneraEquipmentItem extends Item {
     super.prepareData();
 
     // Override common default icon
-    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+    if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
       this.data.img = 'icons/svg/anchor.svg';
 
     let itemData = this.data;

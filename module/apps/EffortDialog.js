@@ -165,18 +165,15 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   async init() {
-    const collection = game.data.version.startsWith("0.7.") ? "OwnedItem" : "Item";
-    this.object.skills = this.object.actor.getEmbeddedCollection(collection)
+    this.object.skills = this.object.actor.getEmbeddedCollection("Item")
       .filter(i => i.type === NumeneraSkillItem.type);
 
       //TODO still required in 0.7?
       //.map(NumeneraSkillItem.fromOwnedItem);
 
     //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
-    if (game.data.version.startsWith("0.8.")) {
-      //0.8 returns Promise<Item>s instead of straight Items
-      this.object.skills = await Promise.all(this.object.skills);
-    }
+    //0.8 returns Promise<Item>s instead of straight Items
+    this.object.skills = await Promise.all(this.object.skills);
 
     this.object.skills = this.object.skills.map(sk => {
       //Append an extra label to tell which skills are related to an ability
@@ -193,8 +190,7 @@ export class EffortDialog extends FormApplication {
         .map(NumeneraPowerShiftItem.fromOwnedItem);
 
       //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
-      if (game.data.version.startsWith("0.8."))
-        powerShifts = await Promise.all(powerShifts);
+      powerShifts = await Promise.all(powerShifts);
 
       this.object.powerShifts = powerShifts;
     }

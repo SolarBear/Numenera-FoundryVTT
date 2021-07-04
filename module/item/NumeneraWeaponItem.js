@@ -11,7 +11,7 @@ export class NumeneraWeaponItem extends Item {
         super.prepareData();
 
         // Override common default icon
-        if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+        if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
             this.data.img = 'icons/svg/sword.svg';
 
         let itemData = this.data.data || {};
@@ -62,14 +62,8 @@ export class NumeneraWeaponItem extends Item {
         );
 
         if (!skill) {
-            if (game.data.version.startsWith("0.7.")) {
-                skill = new NumeneraSkillItem();
-                skill.options.actor = this.actor;
-            }
-            else {
-                //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
-                skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, { parent: this.actor });
-            }
+            //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
+            skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, { parent: this.actor });
 
             skill.data.data = skill.data.data || {};
             skill.data.name = skill.data.data.name = skill._data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;

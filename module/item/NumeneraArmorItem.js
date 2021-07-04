@@ -22,21 +22,12 @@ export class NumeneraArmorItem extends Item {
     static async fromOwnedItem(ownedItem, actor) {
         let armorItem;
 
-        if (game.data.version.startsWith("0.7.")) {
-            armorItem = new NumeneraArmorItem();
-        }
-        else {
-            if (actor === null)
-                armorItem = await actor.createEmbeddedDocuments("Item", [this.object]);
-            else
-                armorItem = new Item(this.object);
-        }
-
-        if (game.data.version.startsWith("0.7."))
-            armorItem._data._id = ownedItem._id;
+        if (actor === null)
+            armorItem = new Item(this.object);
         else
-            armorItem._id = ownedItem._id;
+            armorItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
+        armorItem._id = ownedItem._id;
         armorItem.data.name = ownedItem.name;
         armorItem.data.armor = ownedItem.data.armor;
         armorItem.data.notes = ownedItem.data.notes;
@@ -55,7 +46,7 @@ export class NumeneraArmorItem extends Item {
         super.prepareData();
 
         // Override common default icon
-        if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+        if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
             this.data.img = 'icons/svg/statue.svg';
 
         let itemData = this.data;

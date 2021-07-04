@@ -45,13 +45,8 @@ Hooks.once("init", function() {
     CONFIG.NUMENERA = NUMENERA;
 
     //Dirty trick to instantiate the right class. Kids, do NOT try this at home.
-    if (game.data.version.startsWith("0.7.")) {
-        CONFIG.Actor.entityClass = NumeneraActor;
-        CONFIG.Item.entityClass = NumeneraItem;
-    } else {
-        CONFIG.Actor.documentClass = NumeneraActor;
-        CONFIG.Item.documentClass = NumeneraItem;
-    }
+    CONFIG.Actor.documentClass = NumeneraActor;
+    CONFIG.Item.documentClass = NumeneraItem;
 
     //Each type of Actor will provi^de its own personal, free-range, bio, nut-free formula.
     Combat.prototype._getInitiativeFormula = getInitiativeFormula;
@@ -93,11 +88,3 @@ Hooks.once("ready", numeneraSocketListeners);
 
 //Random hooks should go in there
 Hooks.once("ready", registerHooks);
-
-Hooks.once("ready", function() {
-    if (game.data.version.startsWith("0.7."))
-        ui.notifications.warn("Hello! SolarBear, the system author, here.<br><br>I try to make compatibility between older version of Foundry a priority but due to the heavy changes and resulting bugs between versions 0.7 and 0.8, "+
-        "I have decided to remove 0.7 support soon. If you Foundry 0.7 is important to you, contact me ASAP on the <a href=\"https://discord.gg/foundryvtt\">Foundry Discord</a> (@SolarBear) to let me know, otherwise this support " +
-        " will be removed around the middle of July. Cheers and happy gaming!",
-        {permanent: true});
-});
