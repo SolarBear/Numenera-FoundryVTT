@@ -59,7 +59,7 @@
                             <br />
                             <span>{{localize "NUMENERA.item.cypher.type.label"}}</span>&nbsp;
                             {{#if cypher.data.data.identified}}
-                                {{localize cypher.data.cypherType}}
+                                {{localize cypher.data.data.cypherType}}
                             {{else}}
                                 {{localize "NUMENERA.unknown"}}
                             {{/if}}
@@ -80,11 +80,11 @@
                     {{else}}
                         <p>
                             <span><strong>{{localize "NUMENERA.pc.numenera.cypher.form"}}:</strong></span>
-                            {{cypher.data.form}}
+                            {{cypher.data.data.form}}
                         </p>
                         <p>
                             <span><strong>{{localize "NUMENERA.pc.numenera.cypher.effect"}}:</strong></span>
-                            {{cypher.data.effect}}
+                            {{cypher.data.data.effect}}
                         </p>
                     {{/if}}
                     </td>
