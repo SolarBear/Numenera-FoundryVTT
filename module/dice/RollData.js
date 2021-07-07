@@ -103,14 +103,8 @@ export class RollData {
 
   static _rollTextWithTaskLevel(roll) {
     let dieRoll, success;
-    if (game.data.version.startsWith("0.7.")) {
-      dieRoll = roll.terms[0].rolls[0].results[0];
-      success = !!parseInt(roll.total);
-    }
-    else {
-      dieRoll = roll.terms[0].rolls[0].total  ;
-      success = !!roll.total;
-    }
+    dieRoll = roll.terms[0].rolls[0].total  ;
+    success = !!roll.total;
 
     if (success) {
       let combat = "";
@@ -168,15 +162,8 @@ export class RollData {
 
   static _rollTextWithoutTaskLevel(roll) {
     //TODO Roll.roll() now gives some weird warnings, perhaps switch to evaluate()?
-    let dieRoll;
+    let dieRoll = roll.terms[0].results[0].result;
     let total = roll.total;
-
-    if (game.data.version.startsWith("0.7.")) {
-      dieRoll = roll.result;
-    }
-    else {
-      dieRoll = roll.terms[0].results[0].result;
-    }
 
     let combat = "";
     if (dieRoll >= 17) {

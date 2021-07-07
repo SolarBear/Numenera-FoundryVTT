@@ -133,7 +133,7 @@
             "laws": ""
         },
         "cypher": {
-            "templates": ["carriable", "common", "numenera"],
+            "templates": ["common", "numenera"],
             "cypherType": ""
         },
         "equipment": {
@@ -144,7 +144,7 @@
             "templates": ["common"]
         },
         "oddity": {
-            "templates": ["carriable", "common"]
+            "templates": ["common"]
         },
         "powerShift": {
             "templates": ["common"],

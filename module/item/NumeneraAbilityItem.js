@@ -29,7 +29,7 @@ export class NumeneraAbilityItem extends Item {
     super.prepareData();
 
     // Override common default icon
-    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+    if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
       this.data.img = 'icons/svg/lightning.svg';
 
     let itemData = this.data;
@@ -109,14 +109,7 @@ export class NumeneraAbilityItem extends Item {
     }
 
     //Get the skill related to that ability
-    let skill;
-    if (game.data.version.startsWith("0.7."))
-      skill = this.actor.data.items;
-    else
-      skill = this.actor.items;
-
-
-    skill = skill.find(
+    let skill = this.actor.items.find(
       i => i.name === this.data.name && i.type === NumeneraSkillItem.type
     );
 
@@ -129,15 +122,8 @@ export class NumeneraAbilityItem extends Item {
     }
 
     if (!skill) {
-      if (game.data.version.startsWith("0.7.")) {
-        skill = new NumeneraSkillItem();
-        skill.options.actor = this.actor;
-      }
-      else {
-        //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
-        skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, { parent: this.actor });
-      }
-
+      //We can't use NumeneraItem directly here as its inclusion would create a circular dependency
+      skill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, { parent: this.actor });
       skill.data.name = `${game.i18n.localize(this.data.data.weight)} ${game.i18n.localize(this.data.data.weaponType)}`;
     }
     else if (!(skill instanceof NumeneraSkillItem)) {

@@ -33,15 +33,10 @@ export class NumeneraArtifactItem extends Item {
     static async fromOwnedItem(ownedItem, actor) {
         let artifactItem;
 
-        if (game.data.version.startsWith("0.7.")) {
-            artifactItem = new NumeneraArtifactItem();
-        }
-        else {
-            if (actor === null)
-                artifactItem = new Item(this.object);
-            else
-                artifactItem = await actor.createEmbeddedDocuments("Item", [this.object]);
-        }
+        if (actor === null)
+            artifactItem = new Item(this.object);
+        else
+            artifactItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
         artifactItem.data._id = ownedItem._id;
         artifactItem.data.name = ownedItem.name;
@@ -66,7 +61,7 @@ export class NumeneraArtifactItem extends Item {
         super.prepareData();
 
         // Override common default icon
-        if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+        if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
             this.data.img = 'icons/svg/mage-shield.svg';
 
         let itemData = this.data;

@@ -130,9 +130,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @type {String}
    */
   get template() {
-    if (game.data.version.startsWith("0.7."))
-      return "systems/numenera/templates/actor/characterSheet07.html";
-    
     if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
       return "systems/numenera/templates/actor/characterSheetLimited.html";
     
@@ -223,9 +220,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
         sheetData.data[val] = sheetData.data.items.filter(i => i.type === type);
       }
 
-      if (game.data.version.startsWith("0.7."))
-        sheetData.data[val].sort(sortFunction);
-      else
       sheetData.data[val].sort(sortFunction);
     });
 
@@ -293,7 +287,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setComputedValuesData(sheetData) {
-    const actorData = game.data.version.startsWith("0.7.") ? sheetData.actor.data : sheetData.actor.data.data;
+    const actorData = sheetData.actor.data.data;
     
     //Make sure to use getFocus(), not .focus since there is some important business logic bound to it
     sheetData.data.currentFocus = this.actor.getFocus();
@@ -381,11 +375,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.data.oddities = sheetData.data.oddities.map(oddity => {
         oddity.editable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
         oddity.showIcon = oddity.img && sheetData.settings.icons.numenera;
-        
-        if (game.data.version.startsWith("0.7."))
-          oddity.data.notes = removeHtmlTags(oddity.data.notes);
-        else
-          oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
+        oddity.data.data.notes = removeHtmlTags(oddity.data.data.notes);
         return oddity;
       });
 
@@ -406,10 +396,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (sheetData.usePowerShifts) {
       sheetData.data.powerShifts = sheetData.data.powerShifts.map(powerShift => {
         powerShift.showIcon = powerShift.img && sheetData.settings.icons.powerShifts;
-        if (game.data.version.startsWith("0.7."))
-          powerShift.data.notes = removeHtmlTags(powerShift.data.notes);
-        else
-          powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
+        powerShift.data.data.notes = removeHtmlTags(powerShift.data.data.notes);
         return powerShift;
       });
 
@@ -451,11 +438,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
       //TODO find some means to avoid repeating this code for artifacts and cyphers
       //both here and inside their respective classes
-      let artifactData = game.data.version.startsWith("0.7.") ? artifact.data : artifact.data.data;
+      let artifactData = artifact.data.data;
       if (!artifactData.identified && !isEditable) {
         //Make it so that unidentified artifacts appear as blank items
         artifact = NumeneraArtifactItem.asUnidentified(artifact);
-        artifactData = game.data.version.startsWith("0.7.") ? artifact.data : artifact.data.data;
+        artifactData = artifact.data.data;
       }
       else {
         artifactData.effect = removeHtmlTags(artifactData.effect);
@@ -469,11 +456,11 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     sheetData.data.cyphers = sheetData.data.cyphers.map(cypher => {
       //TODO this is disgusting, really.
-      let cypherData = game.data.version.startsWith("0.7.") ? cypher.data : cypher.data.data;
+      let cypherData = cypher.data.data;
       if (!cypherData.identified && !isEditable) {
         //Make it so that unidentified cyphers appear as blank items
         cypher = NumeneraCypherItem.asUnidentified(cypher);
-        cypherData = game.data.version.startsWith("0.7.") ? cypher.data : cypher.data.data;
+        cypherData = cypher.data.data;
       }
       else {
         cypherData.effect = removeHtmlTags(cypherData.effect);
@@ -506,27 +493,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
   _setEquipmentData(sheetData) {
     sheetData.data.weapons = sheetData.data.weapons.map(weapon => {
       weapon.showIcon = weapon.img && sheetData.settings.icons.equipment;
-      if (game.data.version.startsWith("0.7."))
-        weapon.data.notes = removeHtmlTags(weapon.data.notes);
-      else
-        weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
+      weapon.data.data.notes = removeHtmlTags(weapon.data.data.notes);
       return weapon;
     });
 
     sheetData.data.armorPieces = sheetData.data.armorPieces.map(armor => {
       armor.showIcon = armor.img && sheetData.settings.icons.equipment;
-      if (game.data.version.startsWith("0.7."))
-        armor.data.notes = removeHtmlTags(armor.data.notes);
-      else
-        armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
+      armor.data.data.notes = removeHtmlTags(armor.data.data.notes);
       return armor;
     });
 
     sheetData.data.equipment = sheetData.data.equipment.map(equipment => {
       equipment.showIcon = equipment.img && sheetData.settings.icons.equipment;
-      if (game.data.version.startsWith("0.7."))
-        equipment.data.notes = removeHtmlTags(equipment.data.notes);
-      else
       equipment.data.data.notes = removeHtmlTags(equipment.data.data.notes);
       return equipment;
     });
@@ -550,7 +528,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       sheetData.abilityTypes = NUMENERA.abilityTypes;
 
     sheetData.data.abilities = sheetData.data.abilities.map(ability => {
-      const abilityData = game.data.version.startsWith("0.7.") ? ability.data : ability.data.data;
+      const abilityData = ability.data.data;
       ability.nocost = (abilityData.cost.amount <= 0);
       ability.ranges = NUMENERA.optionalRanges;
       ability.stats = NUMENERA.stats;
@@ -571,7 +549,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    */
   _setSkillsData(sheetData) {
     sheetData.data.skills = sheetData.data.skills.map(skill => {
-      const skillData = game.data.version.startsWith("0.7.") ? skill.data : skill.data.data;
+      const skillData = skill.data.data;
       skill.stats = NUMENERA.stats;
       skill.showIcon = skill.img && sheetData.settings.icons.skills;
       skill.untrained = skillData.skillLevel == 0;
@@ -736,12 +714,8 @@ export class NumeneraPCActorSheet extends ActorSheet {
       row.dataset.order = i;
     }
 
-    if (updates.length > 0) {
-      if (game.data.version.startsWith("0.7."))
-        await this.actor.updateEmbeddedEntity(updates);
-      else
-        await this.actor.updateEmbeddedDocuments("Item", updates);
-    }
+    if (updates.length > 0)
+      await this.actor.updateEmbeddedDocuments("Item", updates);
   }
 
   /**
@@ -817,7 +791,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     //TODO move to the Artifact item class
     const artifact = this.actor.items.get(artifactId);
-    const depletion = game.data.version.startsWith("0.7.") ? artifact.data.depletion : artifact.data.data.depletion;
+    const depletion = artifact.data.data.depletion;
     if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
       return;
 
@@ -841,7 +815,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   async onPowerShiftUpdated() {
     const expectedRecoveries = this.actor.nbRecoveries;
 
-    const actorData = game.data.version.startsWith("0.7.") ? this.actor.data : this.actor.data.data;
+    const actorData = this.actor.data.data;
 
     if (expectedRecoveries !== actorData.recoveries.length) {
       //TODO  handle in PCActor class plz
@@ -928,25 +902,15 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const items = await super._onDropItem(event, data);
     let item = await items[0];
 
-    let id;
-    if (game.data.version.startsWith("0.7.")) {
-      id = JSON.parse(event.dataTransfer.getData("text/plain"));
-    }
-    else {
-      if (typeof(item) === "undefined")
-        return;
+    if (typeof(item) === "undefined")
+      return;
 
-      id = item._id;
-    }
+    const id = item._id;
 
     if (!id)
       return;
 
-    //let item;
-    if (game.data.version.startsWith("0.7."))
-      item = Item.collection.entities.find(i => i._id == id)
-    else
-      item = this.actor.items.get(id);
+    item = this.actor.items.get(id);
 
     //To avoid "false drops"
     if (!item)

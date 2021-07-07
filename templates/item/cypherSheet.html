@@ -1,3 +1,4 @@
+{{log data}}
 <form class="{{cssClass}} numenera item" autocomplete="off">
     <h1><input type="text" name="name" value="{{item.name}}" /></h1>
     <div class="flexrow item">
@@ -12,7 +13,7 @@
             {{#if displayCypherType}}
             <label>{{localize "NUMENERA.item.cypher.type.label"}}
                 <select name="data.cypherType" data-dtype="String" class="cypher-type">
-                    {{#select data.data.cypherType}}
+                    {{#select data.cypherType}}
                     {{#each cypherTypes}}
                     <option value="{{this}}">{{localize this}}</option>
                     {{/each}}

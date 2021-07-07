@@ -59,17 +59,6 @@ const toBundle = [
     "templates/scene/tokenConfig.html",
     "templates/settings/features.html",
     "LICENSE",
-
-    "templates/actor/characterSheet07.html",
-    "templates/actor/communitySheet07.html",
-    "templates/actor/npcSheet07.html",
-    "templates/actor/partials/artifacts07.html",
-    "templates/actor/partials/cyphers07.html",
-    "templates/actor/partials/features07.html",
-    "templates/actor/partials/oddities07.html",
-    "templates/actor/partials/powerShifts07.html",
-    "templates/actor/partials/recursions07.html",
-    "templates/actor/partials/weapons07.html"
 ];
 
 export default [{

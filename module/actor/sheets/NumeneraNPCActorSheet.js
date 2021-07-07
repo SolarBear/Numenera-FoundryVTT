@@ -166,12 +166,8 @@ export class NumeneraNPCActorSheet extends ActorSheet {
     }
 
     if (updates.length > 0) {
-      if (game.data.version.startsWith("0.7."))
-        return this.actor.updateEmbeddedEntity(updates);
-      else {
-        const calisse = await this.actor.updateEmbeddedDocuments("Item", updates, {fromActorUpdateEmbeddedEntity: true});
-        return calisse;
-      }
+      const calisse = await this.actor.updateEmbeddedDocuments("Item", updates, {fromActorUpdateEmbeddedEntity: true});
+      return calisse;
     }
   }
 

@@ -17,17 +17,11 @@ export class NumeneraSkillItem extends Item {
   static async fromOwnedItem(ownedItem, actor) {
     let skillItem;
 
-    if (game.data.version.startsWith("0.7.")) {
-      skillItem = new NumeneraSkillItem();
-      skillItem.options.actor = actor;
-    }
-    else {
-      //TODO find a more elegant way plz
-      if (actor === null)
-        skillItem = new Item(NumeneraSkillItem.object);
-      else
-        skillItem = await actor.createEmbeddedDocuments("Item", [this.object]);
-    }
+    //TODO find a more elegant way plz
+    if (actor === null)
+      skillItem = new Item(NumeneraSkillItem.object);
+    else
+      skillItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
     skillItem.data._id = ownedItem._id;
     skillItem.data.name = ownedItem.name;
@@ -46,7 +40,7 @@ export class NumeneraSkillItem extends Item {
     super.prepareData();
 
     // Override common default icon
-    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+    if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
       this.data.img = 'icons/svg/book.svg';
 
     if (!this.data.hasOwnProperty("data")) {

@@ -8,16 +8,11 @@ export class NumeneraPowerShiftItem extends Item {
   static async fromOwnedItem(ownedItem, actor) {
     let powerShiftItem;
 
-    if (game.data.version.startsWith("0.7.")) {
-      powerShiftItem = new NumeneraPowerShiftItem();
-    }
-    else {
-      if (actor === null)
-      powerShiftItem = await actor.createEmbeddedDocuments("Item", [this.object]);
-      else
+    if (actor === null)
       powerShiftItem = new Item(this.object);
-    }
-
+    else
+      powerShiftItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+      
     powerShiftItem.data._id = ownedItem._id;
     powerShiftItem.data.name = ownedItem.name;
     powerShiftItem.data.data.version = parseInt(ownedItem.data.version);
@@ -36,7 +31,7 @@ export class NumeneraPowerShiftItem extends Item {
     super.prepareData();
 
     // Override common default icon
-    if (!this.data.img || (game.data.version.startsWith("0.7.") || this.data.img === this.data.constructor.DEFAULT_ICON))
+    if (!this.data.img || this.data.img === this.data.constructor.DEFAULT_ICON)
       this.data.img = 'icons/svg/upgrade.svg';
 
     if (!this.data.hasOwnProperty("data")) {

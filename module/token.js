@@ -1,12 +1,6 @@
 import { NUMENERA } from './config.js';
 
 export function cypherToken() {
-    let t;
-    if (game.data.version.startsWith("0.7."))
-        t = Token;
-    else
-        t = TokenDocument;
-
     // Here we monkey-patch in a bunch of crap because I can see no better way to have custom token behavior
     Token.prototype._drawAttributeBars = cypherTokenDrawAttributeBars;
 
@@ -15,8 +9,8 @@ export function cypherToken() {
 
     // Trying to get the bar data from the config form seems a little janky (model not expecting a third bar?),
     // so let's just shove the bars onto PC characters. At least you can still configure _if_ they're shown or not!
-    t.prototype._onCreate =  (function () {
-        let superFunction = t.prototype._onCreate;
+    TokenDocument.prototype._onCreate =  (function () {
+        let superFunction = TokenDocument.prototype._onCreate;
         return async function() {
             await superFunction.apply(this, arguments);
             
@@ -25,23 +19,17 @@ export function cypherToken() {
                 this.data.bar2 = {attribute: "stats.speed.pool"};
                 this.data.bar3 = {attribute: "stats.intellect.pool"};
 
-            if (game.data.version.startsWith("0.7."))
-                this.drawBars();
-            else
                 this.object.drawBars();
             }
         }
     })();
 
-    t.prototype._onUpdate = (function () {
-        const superFunction = t.prototype._onUpdate;
+    TokenDocument.prototype._onUpdate = (function () {
+        const superFunction = TokenDocument.prototype._onUpdate;
         return async function() {
             superFunction.apply(this, arguments);
 
-            if (game.data.version.startsWith("0.7."))
-                this.drawBars();
-            else
-                this.object.drawBars();
+            this.object.drawBars();
         }
     })();
     
@@ -73,8 +61,8 @@ export function cypherToken() {
     })();
 
     // Since we're hard-coding what stats our bars link against, we'll selective override the getter for PCs
-    t.prototype.getBarAttribute = (function () {
-        let superFunction = t.prototype.getBarAttribute;
+    TokenDocument.prototype.getBarAttribute = (function () {
+        let superFunction = TokenDocument.prototype.getBarAttribute;
         return function (barName, { alternative } = {}) {
             if (!this.actor)
                 return;
@@ -152,19 +140,10 @@ export function add3rdBarToPCTokens() {
     //Update existing tokens with the extra attribute
     game.scenes.entities.forEach(scene => {
         scene.data.tokens.forEach(token => {
-            if (game.data.version.startsWith("0.7.")) {
-                if (!token.hasOwnProperty("bar3")) {
-                    token.bar1 = {attribute: "stats.might.pool"};
-                    token.bar2 = {attribute: "stats.speed.pool"};
-                    token.bar3 = {attribute: "stats.intellect.pool"};
-                }
-            }
-            else {
-                if (!token.data.hasOwnProperty("bar3")) {
-                    token.bar1 = {attribute: "stats.might.pool"};
-                    token.bar2 = {attribute: "stats.speed.pool"};
-                    token.bar3 = {attribute: "stats.intellect.pool"};
-                }
+            if (!token.data.hasOwnProperty("bar3")) {
+                token.bar1 = {attribute: "stats.might.pool"};
+                token.bar2 = {attribute: "stats.speed.pool"};
+                token.bar3 = {attribute: "stats.intellect.pool"};
             }
         })
     });
@@ -216,12 +195,8 @@ function cypherOnUpdateBarAttributes(updateData) {
       return bar.attribute && hasProperty(updateData, "data."+bar.attribute);
     });
 
-    if (update) {
-        if (game.data.version.startsWith("0.7."))
-            this.drawBars();
-        else
-            this.object.drawBars();
-    }
+    if (update)
+        this.object.drawBars();
   }
 
 /**
