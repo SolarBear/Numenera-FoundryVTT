@@ -11,12 +11,12 @@ export async function migrateWorld() {
   const currentItemVersion = ItemMigrator.forVersion;
 
   //Actors - split PCs and NPCs as they are completely different
-  let pcActors = game.actors.entities.filter(actor => actor.data.type === 'pc' && actor.data.data.version < currentPCActorVersion);
-  let npcActors = game.actors.entities.filter(actor => actor.data.type === 'npc' && actor.data.data.version < currentNPCActorVersion);
+  let pcActors = game.actors.contents.filter(actor => actor.data.type === 'pc' && actor.data.data.version < currentPCActorVersion);
+  let npcActors = game.actors.contents.filter(actor => actor.data.type === 'npc' && actor.data.data.version < currentNPCActorVersion);
 
   //Items - compendium/item directory Items are kept in a different location than Actor-owned Items!
-  const nonActorItems = game.items.entities;
-  const actorItems = game.actors.entities
+  const nonActorItems = game.items.contents;
+  const actorItems = game.actors.contents
                       .map(a => a.items)
                       .filter(m => m.size > 0)
                       .flatMap(m => Array.from(m.values()));

@@ -13,7 +13,7 @@ NPCActorv1ToV2Migrator.forType = NumeneraNPCActor;
     been moved to a single "info" property
 */
 NPCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ _id: actor._id}, obj);
+  const newData = Object.assign({ id: actor.id}, obj);
 
   //Convert attack POJOs into Items
   const attacks = Object.values(actor.data.data.attacks);
@@ -61,7 +61,7 @@ NPCActorv2To32Migrator.forType = NumeneraNPCActor;
 * - NPC "description" field was saved as "notes" because of obscure reasons
 */
 NPCActorv2To32Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ _id: actor._id}, obj);
+  const newData = Object.assign({ id: actor.id}, obj);
 
   if (actor.data.data.notes) {
     let str = actor.data.data.notes;

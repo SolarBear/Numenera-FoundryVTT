@@ -23,7 +23,7 @@ function handleGMIntrusion(actorId, userIds) {
     return;
 
   //TODO disable or don't show Refuse button if PC has 0 XP
-  const actor = game.actors.entities.find(a => a.data._id === actorId);
+  const actor = game.actors.entities.find(a => a.data.id === actorId);
   const dialog = new GMIntrusionDialog(actor);
   dialog.render(true);
 }

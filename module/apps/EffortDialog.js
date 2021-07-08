@@ -435,8 +435,8 @@ export class EffortDialog extends FormApplication {
       let skill = this.object.skill;
       
       //Fetch the skill, might be one of these weird kind-of-Item objects
-      if (skill._id)
-        skill = this.object.actor.items.get(this.object.skill._id);
+      if (skill.id)
+        skill = this.object.actor.items.get(this.object.skill.id);
 
       actor.rollSkill(skill, rollData, this.object.ability);
     }
@@ -449,7 +449,7 @@ export class EffortDialog extends FormApplication {
 
     const poolProp = `data.stats.${shortStat}.pool.value`;
 
-    const data = { _id: actor._id };
+    const data = { id: actor.id };
     data[poolProp] = poolValue - cost;
 
     //TIME TO PAY THE PRICE MWAHAHAHAHAHAHAH
@@ -467,7 +467,7 @@ export class EffortDialog extends FormApplication {
     const flavor = `${game.i18n.localize("NUMENERA.rolling")} ${this.object.skill ? this.object.skill.name : getShortStat(this.object.stat)}`;
 
     await ChatMessage.create({
-      user: game.user._id,
+      user: game.user.id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       sound: CONFIG.sounds.dice,
       content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
@@ -488,7 +488,7 @@ export class EffortDialog extends FormApplication {
     const flavor = `${game.i18n.localize("NUMENERA.rolling")} ${this.object.skill ? this.object.skill.name : getShortStat(this.object.stat)}`;
 
     await ChatMessage.create({
-      user: game.user._id,
+      user: game.user.id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       sound: CONFIG.sounds.dice,
       content: await renderTemplate("systems/numenera/templates/chat/automaticResult.html", {
@@ -513,7 +513,7 @@ export class EffortDialog extends FormApplication {
       formData.stat = getShortStat(formData.stat);
 
     // Did the skill change?
-    if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
+    if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill.id)) {
       //In that case, update the stat to be the skill's stat
       this.object.skill = this.object.actor.items.get(formData.skill);
 
@@ -560,7 +560,7 @@ export class EffortDialog extends FormApplication {
 
     if (formData.powerShift) {
       const powerShift = actor.getEmbeddedCollection("Item")
-                          .find(i => i._id === formData.powerShift);
+                          .find(i => i.id === formData.powerShift);
       this.object.powerShift = NumeneraPowerShiftItem.fromOwnedItem(powerShift);
     }
     else {

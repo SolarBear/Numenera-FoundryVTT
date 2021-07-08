@@ -84,7 +84,7 @@ export async function registerHooks() {
 
               game.socket.emit("system.numenera", {type: "gmIntrusion", data: {
                   userIds: ownerIds,
-                  actorId: actor.data._id,
+                  actorId: actor.data.id,
               }});
 
               ChatMessage.create({

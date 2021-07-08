@@ -13,7 +13,7 @@ export class NumeneraPowerShiftItem extends Item {
     else
       powerShiftItem = await actor.createEmbeddedDocuments("Item", [this.object]);
       
-    powerShiftItem.data._id = ownedItem._id;
+    powerShiftItem.data.id = ownedItem.id;
     powerShiftItem.data.name = ownedItem.name;
     powerShiftItem.data.data.version = parseInt(ownedItem.data.version);
     powerShiftItem.data.data.order = parseInt(ownedItem.data.order);
