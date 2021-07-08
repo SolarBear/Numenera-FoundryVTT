@@ -138,7 +138,7 @@ export function cypherToken() {
 
 export function add3rdBarToPCTokens() {
     //Update existing tokens with the extra attribute
-    game.scenes.entities.forEach(scene => {
+    game.scenes.contents.forEach(scene => {
         scene.data.tokens.forEach(token => {
             if (!token.data.hasOwnProperty("bar3")) {
                 token.bar1 = {attribute: "stats.might.pool"};

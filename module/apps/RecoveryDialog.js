@@ -178,7 +178,7 @@ export class RecoveryDialog extends FormApplication {
     //Update the actor with its newly-found pool points to attribute and its new checked recoveries
     const actor = this.object.actor;
     actor.update({
-      _id: actor.data._id,
+      id: actor.data.id,
       "data.recoveries": [...this.object.recoveriesLeft],
     });
 

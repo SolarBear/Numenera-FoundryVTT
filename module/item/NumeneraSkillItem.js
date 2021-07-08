@@ -23,7 +23,7 @@ export class NumeneraSkillItem extends Item {
     else
       skillItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
-    skillItem.data._id = ownedItem._id;
+    skillItem.data.id = ownedItem.id;
     skillItem.data.name = ownedItem.name;
     skillItem.data.notes = ownedItem.data.notes;
     skillItem.data.relatedAbilityId = ownedItem.data.relatedAbilityId;
@@ -68,7 +68,7 @@ export class NumeneraSkillItem extends Item {
       return;
 
     const updated = await ability.update({
-      _id: ability._id,
+      id: ability.id,
       name: this.name,
       "data.cost.pool": this.data.data.stat,
     },

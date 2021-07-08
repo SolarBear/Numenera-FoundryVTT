@@ -2,7 +2,7 @@
 
 <ul class="artifacts row-container">
 {{#each data.artifacts as |artifact|}}
-<li class="artifact" data-item-id={{artifact._id}} data-order={{artifact.data.data.order}}>
+<li class="artifact" data-item-id={{artifact.id}} data-order={{artifact.data.data.order}}>
     <table class="artifact-header-table">
         <tbody>
             <td>
@@ -21,12 +21,12 @@
             <td class="artifact-level">
             {{#if artifact.editable}}
                 <label>{{localize "NUMENERA.pc.numenera.artifact.identified"}}
-                    <input type="checkbox" name="data.data.artifacts.{{artifact._id}}.data.identified"
+                    <input type="checkbox" name="data.data.artifacts.{{artifact.id}}.data.identified"
                         data-dtype="Boolean" {{checked artifact.data.data.identified}}/>
                 </label>
                 <br />
                 <label>{{localize "NUMENERA.pc.numenera.artifact.level"}}
-                    <input type="number" name="data.data.artifacts.{{artifact._id}}.data.level"
+                    <input type="number" name="data.data.artifacts.{{artifact.id}}.data.level"
                         min="1" value="{{artifact.data.data.level}}" data-dtype="Number" />
                 </label>
             {{else}}
@@ -39,16 +39,16 @@
               {{#if ../isTheStrange}}
                 <label>
                     {{localize "NUMENERA.pc.numenera.artifact.laws"}}
-                  <input type="text" name="data.data.artifacts.{{artifact._id}}.data.laws" value="{{artifact.data.data.laws}}" />
+                  <input type="text" name="data.data.artifacts.{{artifact.id}}.data.laws" value="{{artifact.data.data.laws}}" />
                 </label>
               {{/if}}
                 <label>
                     {{localize "NUMENERA.pc.numenera.artifact.form"}}
-                    <input type="text" name="data.data.artifacts.{{artifact._id}}.data.form" value="{{artifact.data.data.form}}" />
+                    <input type="text" name="data.data.artifacts.{{artifact.id}}.data.form" value="{{artifact.data.data.form}}" />
                 </label>
                 <label>
                     {{localize "NUMENERA.pc.numenera.artifact.effect"}}
-                    <textarea name="data.data.artifacts.{{artifact._id}}.data.effect">{{artifact.data.data.effect}}</textarea>
+                    <textarea name="data.data.artifacts.{{artifact.id}}.data.effect">{{artifact.data.data.effect}}</textarea>
                 </label>
             {{else}}
               {{#if ../isTheStrange}}

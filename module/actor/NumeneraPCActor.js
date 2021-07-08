@@ -43,7 +43,7 @@ export class NumeneraPCActor extends Actor {
     //Default case: there is no specific ID
     allFoci[Object.keys(allFoci)[0]] = value;
 
-    const data = {_id: this._id};
+    const data = {id: this.id};
     data["data.focus"] = {"": value};
 
     this.update(data);
@@ -369,7 +369,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     this.update({
-      _id: this._id,
+      id: this.id,
       "data.xp": xp,
     });
 
@@ -499,7 +499,7 @@ export class NumeneraPCActor extends Actor {
       const newPoolValue = stat.pool.value + stat.edge - cost.amount;
       const poolProp = `data.stats.${cost.pool}.pool.value`;
 
-      const data = { _id: this._id };
+      const data = { id: this.id };
       data[poolProp] = newPoolValue;
 
       await this.update(data);
@@ -563,7 +563,7 @@ export class NumeneraPCActor extends Actor {
           }
 
           await this.updateEmbeddedDocuments("Item", [{
-            _id: newItem._id,
+            id: newItem.id,
             "data.level": itemData.level,
             "data.form": itemData.form,
           }]);
@@ -588,8 +588,8 @@ export class NumeneraPCActor extends Actor {
             //A skil already has the same name as the ability
             //This is certainly the matching skill, no need to create a new one
             const updated = {
-              _id: relatedSkill.data._id,
-              "data.relatedAbilityId": actorAbility._id,
+              id: relatedSkill.data.id,
+              "data.relatedAbilityId": actorAbility.id,
             };
             await this.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
 
@@ -599,7 +599,7 @@ export class NumeneraPCActor extends Actor {
             //Create a related skill if one does not already exist
             const skillData = {
               stat: actorAbility.data.data.cost.pool,
-              relatedAbilityId: actorAbility._id,
+              relatedAbilityId: actorAbility.id,
             };
 
             const itemData = {
@@ -635,7 +635,7 @@ export class NumeneraPCActor extends Actor {
     for (const updatedItem of updatedItems) {
       switch (updatedItem.type) {
         case NumeneraAbilityItem.type:
-          const relatedSkill = this.items.find(i => i.data.data.relatedAbilityId === updatedItem._id);
+          const relatedSkill = this.items.find(i => i.data.data.relatedAbilityId === updatedItem.id);
           if (!relatedSkill)
             break;
   
@@ -654,11 +654,11 @@ export class NumeneraPCActor extends Actor {
           if (!updatedItem.data.data.relatedAbilityId)
             break;
   
-          const skill = this.items.get(updatedItem._id);
+          const skill = this.items.get(updatedItem.id);
           if (!skill)
             break;
   
-          const relatedAbility = this.items.find(i => i.data._id === skill.data.data.relatedAbilityId);
+          const relatedAbility = this.items.find(i => i.data.id === skill.data.data.relatedAbilityId);
           if (!relatedAbility)
             break;
   

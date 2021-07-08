@@ -84,9 +84,9 @@ export class NumeneraAbilityItem extends Item {
       return;
 
     const updated = await skill.update({
-      _id: skill._id,
+      id: skill.id,
       name: this.name,
-      "data.relatedAbilityId": this._id,
+      "data.relatedAbilityId": this.id,
       "data.stat": this.data.data.cost.pool,
     },
       options);
@@ -189,7 +189,7 @@ export class NumeneraAbilityItem extends Item {
 
     if (message !== null) {
       ChatMessage.create({
-        user: game.user._id,
+        user: game.user.id,
         speaker: this.actor,
         content: message,
       });

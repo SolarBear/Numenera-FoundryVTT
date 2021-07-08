@@ -38,7 +38,7 @@ export class NumeneraCypherItem extends Item {
     else
       cypherItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
-    cypherItem.data._id = ownedItem._id;
+    cypherItem.data.id = ownedItem.id;
     cypherItem.data.name = ownedItem.name;
     cypherItem.data.price = ownedItem.data.price;
     cypherItem.data.notes = ownedItem.data.notes;

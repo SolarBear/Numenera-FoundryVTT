@@ -4,7 +4,7 @@
  * @return {Promise}
  */
 export function useItemMacro(actorId, itemId) {
-  const actor = game.actors.entities.find(a => a._id === actorId);
+  const actor = game.actors.entities.find(a => a.id === actorId);
   return actor.useItemById(itemId);
 }
 
@@ -25,7 +25,7 @@ export async function createNumeneraMacro(data, slot) {
     const item = data.data;
 
     // Create the macro command
-    const command = `game.numenera.useItemMacro("${data.actorId}", "${item._id}");`;
+    const command = `game.numenera.useItemMacro("${data.actorId}", "${item.id}");`;
 
     let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
     if (!macro) {
