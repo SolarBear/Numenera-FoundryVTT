@@ -151,7 +151,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
 
     const updates = children.map((row, i) => {
       return {
-        id: row.dataset.itemId,
+        _id: row.dataset.itemId,
       };
     });
 
@@ -161,7 +161,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
     for (let i = 0; i < updates.length; i++) {
       updates[i]["data.order"] = i;
 
-      const row = children.find(row => row.dataset.itemId == updates[i].id);
+      const row = children.find(row => row.dataset.itemId == updates[i]._id);
       row.dataset.order = i;
     }
 

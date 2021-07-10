@@ -27,7 +27,7 @@ export class NumeneraArmorItem extends Item {
         else
             armorItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
-        armorItem.id = ownedItem.id;
+        armorItem._id = ownedItem._id;
         armorItem.data.name = ownedItem.name;
         armorItem.data.armor = ownedItem.data.armor;
         armorItem.data.notes = ownedItem.data.notes;

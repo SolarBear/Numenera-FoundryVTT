@@ -700,7 +700,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const updates = children.map((row, i) => {
       return {
-        id: row.dataset.itemId,
+        _id: row.dataset.itemId,
       };
     });
 
@@ -710,7 +710,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     for (let i = 0; i < updates.length; i++) {
       updates[i]["data.order"] = i;
 
-      const row = children.find(row => row.dataset.itemId == updates[i].id);
+      const row = children.find(row => row.dataset.itemId == updates[i]._id);
       row.dataset.order = i;
     }
 
@@ -848,12 +848,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (
       ability &&
       this.actor.data.items.find(i => i.type === "skill" &&
-      i.data.relatedAbilityId === ability.id)
+      i.data.relatedAbilityId === ability._id)
     )
       ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.skillWithSameNameExists"));
 
     //Check for any macro related to that ability
-    game.macros.filter(m => m.data.command.indexOf(ability.id) !== -1)
+    game.macros.filter(m => m.data.command.indexOf(ability._id) !== -1)
       .forEach(m => m.delete());      
   }
 
@@ -862,12 +862,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (
       skill &&
       skill.data.relatedAbilityId &&
-      this.actor.data.items.find(i => i.id === skill.data.relatedAbilityId)
+      this.actor.data.items.find(i => i._id === skill.data.relatedAbilityId)
     )
       ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.abilityWithSameNameExists"));
 
     //Check for any macro related to that skill
-    game.macros.filter(m => m.data.command.indexOf(skill.id) !== -1)
+    game.macros.filter(m => m.data.command.indexOf(skill._id) !== -1)
       .forEach(m => m.delete());   
   }
 
@@ -875,7 +875,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //TODO move to Weapon class
     if (equipment.type === NumeneraWeaponItem.type) {
       //Check for any macro related to that skill
-      game.macros.filter(m => m.data.command.indexOf(equipment.id) !== -1)
+      game.macros.filter(m => m.data.command.indexOf(equipment._id) !== -1)
         .forEach(m => m.delete());   
     }
   }
@@ -905,7 +905,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (typeof(item) === "undefined")
       return;
 
-    const id = item.id;
+    const id = item._id;
 
     if (!id)
       return;

@@ -21,7 +21,7 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
   if (!ids)
     return this;
 
-  const currentId = this.combatant.id;
+  const currentId = this.combatant._id;
 
   // Iterate over Combatants, performing an initiative roll for each
   const [updates, messages] = ids.reduce(
@@ -37,7 +37,7 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
 
       const cf = formula || this._getInitiativeFormula(c);
       const roll = new Roll(cf, rollData).roll();
-      updates.push({ id: id, initiative: roll.total });
+      updates.push({ _id: id, initiative: roll.total });
 
       // In Numenera, initiative is fixed for NPCs so don't spam the chat with constant values!
       if (c.actor.data.type === "pc") {
@@ -51,9 +51,9 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
         // Construct chat message data
         let messageData = mergeObject({
             speaker: {
-              scene: canvas.scene.id,
-              actor: c.actor ? c.actor.id : null,
-              token: c.token.id,
+              scene: canvas.scene._id,
+              actor: c.actor ? c.actor._id : null,
+              token: c.token._id,
               alias: c.token.name,
             },
             flavor: `${c.token.name} ${game.i18n.localize("NUMENERA.pc.initiativeRoll")}`,
@@ -86,7 +86,7 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
 
   // Ensure the turn order remains with the same combatant
   if (updateTurn)
-    await this.update({ turn: this.turns.findIndex((t) => t.id === currentId) });
+    await this.update({ turn: this.turns.findIndex((t) => t._id === currentId) });
 
   // Create multiple chat messages
   await CONFIG.ChatMessage.entityClass.create(messages);

@@ -38,7 +38,7 @@ export class NumeneraArtifactItem extends Item {
         else
             artifactItem = await actor.createEmbeddedDocuments("Item", [this.object]);
 
-        artifactItem.data.id = ownedItem.id;
+        artifactItem.data._id = ownedItem._id;
         artifactItem.data.name = ownedItem.name;
         artifactItem.data.price = ownedItem.data.price;
         artifactItem.data.notes = ownedItem.data.notes;
