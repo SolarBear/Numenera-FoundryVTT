@@ -14,7 +14,7 @@ Itemv1ToV2Migrator.forType = NumeneraItem;
    to a player but only have it identified later
 */
 Itemv1ToV2Migrator.migrationFunction = async function(item, obj = {}) {
-  const newData = Object.assign({ id: item.id}, obj);
+  const newData = Object.assign({ _id: item._id}, obj);
 
   if (["artifact", "cypher"].indexOf(item.type) !== -1) {
 
@@ -48,7 +48,7 @@ Itemv2ToV3Migrator.forType = NumeneraItem;
   while there were no changes so... empty migrator.
 */
 Itemv2ToV3Migrator.migrationFunction = async function(item, obj = {}) {
-  return Object.assign({ id: item.id}, obj);
+  return Object.assign({ _id: item._id}, obj);
 }
 
 //Keep migrators in order: v1 to v2, v2 to v3, etc.
@@ -61,7 +61,7 @@ Itemv3ToV4Migrator.forType = NumeneraItem;
   - skill levels are now an integer isntea of being a couple of boolean flags
 */
 Itemv3ToV4Migrator.migrationFunction = async function(item, obj = {}) {
-  const newData = Object.assign({ id: item.id}, obj);
+  const newData = Object.assign({ _id: item._id}, obj);
   
   if (item.type === "skill") {
     let skillLevel = 0;
@@ -91,7 +91,7 @@ Itemv4ToV5Migrator.forType = NumeneraItem;
   - removed "isAction" boolean value on Abilities, transformed it into a "abilityType" string value
 */
 Itemv4ToV5Migrator.migrationFunction = async function(item, obj = {}) {
-  const newData = Object.assign({ id: item.id}, obj);
+  const newData = Object.assign({ _id: item._id}, obj);
   
   if (item.type === "ability") {
     const abilityType = item.data.data.isAction ? "NUMENERA.item.ability.type.action" 

@@ -22,7 +22,7 @@ export function onItemCreateGenerator(itemType, itemClass, callback = null) {
     const newName = game.i18n.localize(`NUMENERA.item.${itemType}.new${itemType.capitalize()}`);
 
     const itemData = {
-      id: null,
+      _id: null,
       name: newName,
       type: itemType,
     };
@@ -48,10 +48,10 @@ export function onItemEditGenerator(editClass, callback = null) {
     else if (!elem.dataset.itemId)
       throw new Error(`No itemID on ${editClass} element`);
 
-    const updated = {id: elem.dataset.itemId};
+    const updated = {_id: elem.dataset.itemId};
 
     const splitName = event.currentTarget.name.split(".");
-    const idIndex = splitName.indexOf(updated.id);
+    const idIndex = splitName.indexOf(updated._id);
     const parts = splitName.splice(idIndex + 1);
 
     //Add the newly added property to the object
@@ -91,7 +91,7 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
     if (await confirmDeletion(deleteType)) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
-      const toDelete = this.actor.data.items.find(i => i.id === itemId);
+      const toDelete = this.actor.data.items.find(i => i._id === itemId);
 
       await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
 

@@ -18,7 +18,7 @@ PCActorv1ToV2Migrator.forType = NumeneraPCActor;
     but right now I want to avoid automating too much stuff
 */
 PCActorv1ToV2Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ id: actor.id}, obj);
+  const newData = Object.assign({ _id: actor._id}, obj);
 
   if (actor.data.data.numenera) {
     if (actor.data.data.numenera.oddities) {
@@ -131,7 +131,7 @@ PCActorv2ToV3Migrator.forType = NumeneraPCActor;
 * - added "damage track" property to PC actors
 */
 PCActorv2ToV3Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ id: actor.id}, obj);
+  const newData = Object.assign({ _id: actor._id}, obj);
 
   newData["data.damageTrack"] = 0;
   newData["data.version"] = this.forVersion;
@@ -149,7 +149,7 @@ PCActorv3ToV4Migrator.forType = NumeneraPCActor;
     from existing POJOs and then delete the properties
 */
 PCActorv3ToV4Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ id: actor.id}, obj);
+  const newData = Object.assign({ _id: actor._id}, obj);
 
   for (let [name, ability] of Object.entries(actor.data.data.abilities)) {
     const data = {
@@ -223,7 +223,7 @@ PCActorv4ToV5Migrator.forType = NumeneraPCActor;
   - recoveries change to an integer total instead of being individual boolean flags
 */
 PCActorv4ToV5Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ id: actor.id}, obj);
+  const newData = Object.assign({ _id: actor._id}, obj);
 
   if (actor.data.data.recoveries) {
     let recoveriesLeft;
@@ -271,7 +271,7 @@ PCActorv5ToV6Migrator.forType = NumeneraPCActor;
     into the system \o/
 */
 PCActorv5ToV6Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ id: actor.id}, obj);
+  const newData = Object.assign({ _id: actor._id}, obj);
 
   //Transform current focus property into an object
   const focusBackup = actor.data.data.focus;
@@ -293,7 +293,7 @@ PCActorv6ToV7Migrator.forType = NumeneraPCActor;
   - re-introducing recoveries field as an array of booleans
 */
 PCActorv6ToV7Migrator.migrationFunction = async function(actor, obj = {}) {
-  const newData = Object.assign({ id: actor.id}, obj);
+  const newData = Object.assign({ _id: actor._id}, obj);
 
   const recoveries = actor.data.data.recoveries;
 

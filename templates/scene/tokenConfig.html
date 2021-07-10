@@ -30,7 +30,7 @@
                 {{#select object.actorId}}
                 <option value="">None</option>
                 {{#each actors}}
-                <option value="{{this.id}}">{{this.name}}</option>
+                <option value="{{this._id}}">{{this.name}}</option>
                 {{/each}}
                 {{/select}}
             </select>

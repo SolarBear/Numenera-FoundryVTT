@@ -3,7 +3,7 @@
 </h2>
 <ul class="oddities row-container">
     {{#each data.oddities as |oddity|}}
-    <li class="oddity" data-item-id={{oddity.id}} data-order={{oddity.data.order}}>
+    <li class="oddity" data-item-id={{oddity._id}} data-order={{oddity.data.order}}>
         <table class="oddity-header-table">
             <tbody>
                 <tr>
@@ -20,7 +20,7 @@
                     <td class="oddity-name">
                         <h4>
                         {{#if oddity.editable}}
-                            <input type="text" name="data.oddities.{{oddity.id}}.name" value="{{oddity.name}}" />
+                            <input type="text" name="data.oddities.{{oddity._id}}.name" value="{{oddity.name}}" />
                         {{else}}
                             <strong>{{oddity.name}}</strong>
                         {{/if}}
@@ -29,7 +29,7 @@
                     <td class="oddity-description">
                     {{#if oddity.editable}}
                         <span>
-                            <input type="text" name="data.oddities.{{oddity.id}}.data.notes" value="{{oddity.data.data.notes}}" />
+                            <input type="text" name="data.oddities.{{oddity._id}}.data.notes" value="{{oddity.data.data.notes}}" />
                         </span>
                     {{else}}
                         {{oddity.data.data.notes}}
