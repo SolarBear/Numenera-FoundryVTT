@@ -146,9 +146,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const sheetData = super.getData();
 
     //lol? https://discord.com/channels/170995199584108546/670336275496042502/836066464388743188
-    //TODO remove condition when removing support for 0.7
-    if (game.data.version.startsWith("0.8."))
-      sheetData.data = sheetData.data.data;
+    sheetData.data = sheetData.data.data;
 
     if (this.actor.getUserLevel() >= CONST.ENTITY_PERMISSIONS.OBSERVER) {
       this._setLabelsData(sheetData);
@@ -173,10 +171,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   _setItemsData(sheetData) {
-    //0.8
-
-    if (!sheetData.data.items)
-      sheetData.data.items = sheetData.actor.items || {};
+    sheetData.data.items = sheetData.actor.items || {};
 
     const itemClassMap = {
       abilities: NumeneraAbilityItem.type,
@@ -191,29 +186,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
       weapons: NumeneraWeaponItem.type,
     };
 
+    //TODO with the bug fixed, is this still required?
     Object.entries(itemClassMap).forEach(([val, type]) => {
-      // try {
-      //   if (sheetData.data[val]) {
-      //     if (sheetData.data[val].constructor === Object)
-      //       sheetData.data[val] = Object.values(sheetData.data[val]);
-      //   }
-      //   else {
-      //     sheetData.data[val] = sheetData.data.items.filter(i => i.type === type).sort(sortFunction);
-      //   }
-      // }
-      // catch (e) {
-      //   sheetData.data[val] = [];
-      // }
-
-      //TODO: fix this, this is TERRIBLE, but necessary
-      //if (typeof sheetData.data.items === "object") {
       if (sheetData.data.items.constructor.name !== "EmbeddedCollection") {
-        //"old style" PCs have an object as items property, whose properties are item types
-        // if (sheetData.data[val])
-        //   sheetData.data[val] = Object.values(sheetData.data[val]);
-        // else
-        //   sheetData.data[val] = [];
-
         sheetData.data[val] = sheetData.items.filter(i => i.type === type);
       }
       else {
@@ -433,9 +408,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const isEditable = game.user.hasRole(game.settings.get("numenera", "cypherArtifactEdition"));
 
     sheetData.data.artifacts = sheetData.data.artifacts.map(artifact => {
-      // if (artifact.data)
-      //   artifact = artifact.data;
-
       //TODO find some means to avoid repeating this code for artifacts and cyphers
       //both here and inside their respective classes
       let artifactData = artifact.data.data;
