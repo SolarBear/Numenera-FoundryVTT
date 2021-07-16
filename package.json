@@ -1,6 +1,6 @@
 {
   "name": "numenera-foundryvtt",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Support for the Cypher System (including Numenera and The Strange role playing games) for the Foundry virtual tabletop",
   "devDependencies": {
     "ava": "^3.13.0",
