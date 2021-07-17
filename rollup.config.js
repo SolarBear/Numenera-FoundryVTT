@@ -42,6 +42,7 @@ const toBundle = [
     "templates/actor/partials/recursions.html",
     "templates/actor/partials/weapons.html",
     "templates/chat/automaticResult.html",
+    "templates/chat/items/ability.html",
     "templates/dialog/effort.html",
     "templates/dialog/recovery.html",
     "templates/dialog/spellUse.html",

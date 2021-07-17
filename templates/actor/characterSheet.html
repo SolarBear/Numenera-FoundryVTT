@@ -203,7 +203,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.abilities as |ability| }}
-                    <tr class="ability" data-item-id="{{ability._id}}" data-order="{{ability.data.data.order}}">
+                    <tr class="ability item" data-item-id="{{ability._id}}" data-order="{{ability.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -252,7 +252,7 @@
                         </td>
                         <td>
                             <a class="rollable"><img src="/icons/svg/d20-black.svg" width="24" height="24" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
-                            <a class="ability-to-chat" title="{{localize "NUMENERA.item.ability.tab.showInfoTooltip"}}"><i class="fas fa-comment"></i></a>
+                            <a class="ability-to-chat" data-action="to-chat" title="{{localize "NUMENERA.item.ability.tab.showInfoTooltip"}}"><i class="fas fa-comment"></i></a>
                             <a class="ability-delete" data-action="delete" title="{{localize "NUMENERA.item.ability.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>

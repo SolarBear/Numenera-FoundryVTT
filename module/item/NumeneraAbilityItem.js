@@ -134,6 +134,28 @@ export class NumeneraAbilityItem extends Item {
     return true;
   }
 
+  async toChatMessage() {
+    const data = {
+      type: this.type,
+      name: this.data.name,
+      form: this.data.data.form,
+      abilityType: this.data.data.abilityType,
+      cost: this.data.data.cost.amount,
+      stat: this.data.data.cost.pool,
+      range: this.data.data.range,
+      description: this.data.data.notes,
+    };
+
+    await ChatMessage.create({
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      content: await renderTemplate(
+        "systems/numenera/templates/chat/items/ability.html", 
+        data,
+      )
+    });
+  }
+
   /**
    * If the current ability is a spell
    *

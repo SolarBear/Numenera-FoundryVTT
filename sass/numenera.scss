@@ -926,6 +926,22 @@ form.numenera-dialog {
 }
 
 /// ----------
+/// CHAT
+/// ----------
+
+div.numenera.chat {
+    font-size: 13px;
+
+    span.name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    p {
+        font-size: 14px;
+    }
+}
+
+/// ----------
 /// DIALOG BUTTONS
 /// ----------
 
