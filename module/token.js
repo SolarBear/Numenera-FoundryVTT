@@ -138,7 +138,7 @@ export function cypherToken() {
 
 export function add3rdBarToPCTokens() {
     //Update existing tokens with the extra attribute
-    game.scenes.entities.forEach(scene => {
+    game.scenes.forEach(scene => {
         scene.data.tokens.forEach(token => {
             if (!token.data.hasOwnProperty("bar3")) {
                 token.bar1 = {attribute: "stats.might.pool"};
@@ -266,10 +266,13 @@ function getCypherNPCTokenBarAttribute(barName, { alternative } = {}) {
 
     let data = getProperty(this.actor.data.data, "health");
     data = duplicate(data);
+    const model = game.system.model.Actor[this.actor.type];
+
     return {
         type: "bar",
         attribute: "health",
         value: parseInt(data.value || 0),
-        max: parseInt(data.max || 0)
-    }
+        max: parseInt(data.max || 0),
+        editable: foundry.utils.hasProperty(model, "health.value"),
+    };
 }
