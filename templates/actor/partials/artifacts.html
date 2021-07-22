@@ -2,7 +2,7 @@
 
 <ul class="artifacts row-container">
 {{#each data.artifacts as |artifact|}}
-<li class="artifact" data-item-id={{artifact.id}} data-order={{artifact.data.data.order}}>
+<li class="artifact item" data-item-id={{artifact.id}} data-order={{artifact.data.data.order}}>
     <table class="artifact-header-table">
         <tbody>
             <td>
@@ -70,7 +70,12 @@
             {{/if}}
             </td>
             <td>
-                <a class="artifact-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                <a class="artifact-to-chat" data-action="to-chat" title="Send to chat">
+                    <i class="fas fa-comment" />
+                </a>
+                <a class="artifact-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.deleteTooltip"}}">
+                    i class="fas fa-trash"></i>
+                </a>
             </td>
         </tbody>
     </table>

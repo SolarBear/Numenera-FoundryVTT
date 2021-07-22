@@ -552,7 +552,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     abilitiesTable.on("click", "a.ability-to-chat", this.onItemToChat.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
     abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
-    
 
     const armorTable = html.find("table.armor");
     armorTable.on("click", ".armor-create", this.onArmorCreate.bind(this));
@@ -582,6 +581,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
+    html.find("ul.artifacts").on("click", ".artifact-to-chat", this.onItemToChat.bind(this));
     html.find("ul.artifacts").on("click", ".artifact-depletion-roll", this.onArtifactDepletionRoll.bind(this));
 
     const cyphersList = html.find("ul.cyphers");

@@ -1,7 +1,17 @@
 <div class="numenera chat">
-    <span class="name">{{type}}: {{name}}</span><br/>
+    <span class="name">{{capitalize type}}: {{name}}</span><br/>
     <span class="form">Form: {{form}}</span><br/>
-    <span class="type">Type: {{cypherType}}</span><br/>
-    <span class="level">Level: {{level}}</span>
+    {{#if laws}}
+    <span class="laws">Laws: {{laws}}</span><br/>
+    {{/if}}
+    <span class="level">Level: {{level}}</span><br/>
+    {{#if depletion}}
+    <span class="depletion">
+        Depletion: {{#if depletion.isDepleting}}{{depletion.threshold}} on {{depletion.die}}{{else}}--{{/if}}
+    </span>
+    {{else}}
+    <span class="depletion">Depletion: Unknown</span>
+    {{/if}}
+    </span>
     <p>{{effect}}</p>
 </div>
