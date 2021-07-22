@@ -3,13 +3,16 @@ export class NumeneraCypherItem extends Item {
     return "cypher";
   }
 
+  static get name() {
+    return game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
+  }
+
   /**
      * Transform the current cypher so it doesn't look identified.
      *
      * @memberof NumeneraCypherItem
      */
   static asUnidentified(cypher) {
-    debugger;
     if (cypher.constructor === Object)
       cypher = NumeneraCypherItem.fromOwnedItem(cypher);
 
@@ -67,12 +70,41 @@ export class NumeneraCypherItem extends Item {
       itemData = itemData.data;
 
     itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.cypher.newCypher");
+    itemData.identified = itemData.identified || false;
     itemData.level = itemData.level || null;
     itemData.levelDie = itemData.levelDie || "";
     itemData.form = itemData.form || "";
     itemData.range = itemData.range || "Immediate";
     itemData.effect = itemData.effect || "";
     itemData.cypherType = itemData.cypherType || "";
+  }
+
+  async toChatMessage() {
+    const data = {
+      type: this.type,
+      name: this.data.name,
+      form: this.data.data.form,
+      useCypherType: !!NumeneraCypherItem.cypherTypeFlavor,
+      cypherType: this.data.data.cypherType,
+      level: this.data.data.level,
+      effect: this.data.data.effect,
+    };
+
+    if (!this.data.data.identified) {
+      data.name = game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
+      data.level = game.i18n.localize("NUMENERA.unknown");
+      data.effect = game.i18n.localize("NUMENERA.unknown");
+      data.cypherType = game.i18n.localize("NUMENERA.unknown");;
+    }
+
+    await ChatMessage.create({
+      user: game.user._id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      content: await renderTemplate(
+        "systems/numenera/templates/chat/items/cypher.html", 
+        data,
+      )
+    });
   }
 
   /**

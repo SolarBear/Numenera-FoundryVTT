@@ -146,7 +146,7 @@ export class NumeneraAbilityItem extends Item {
     };
 
     await ChatMessage.create({
-      user: game.user._id,
+      user: game.user.id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       content: await renderTemplate(
         "systems/numenera/templates/chat/items/ability.html", 
