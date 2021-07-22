@@ -56,6 +56,13 @@ export class NumeneraSkillItem extends Item {
     itemData.skillLevel = itemData.skillLevel || 0;
   }
 
+  async getRelatedAbility() {
+    if (!this.data.data.relatedAbilityId)
+      return null;
+
+    return this.actor.getEmbeddedDocument("Item", this.data.data.relatedAbilityId);
+  }
+
   async updateRelatedAbility(ability, options = {}) {
     //If it is not owned by an Actor, it has no related skill
     if (!this.actor || !ability)
