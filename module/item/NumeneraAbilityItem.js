@@ -101,7 +101,7 @@ export class NumeneraAbilityItem extends Item {
    * @returns {Boolean} True if the ability was used, false otherwise.
    * @memberof NumeneraAbilityItem
    */
-  async use() {
+  async use(event = null) {
     //An ability must be related to an Actor to be used
     if (this.actor === null) {
       ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
@@ -130,8 +130,7 @@ export class NumeneraAbilityItem extends Item {
       skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
     }
 
-    skill.use();
-    return true;
+    return skill.use(event, this);
   }
 
   async toChatMessage() {

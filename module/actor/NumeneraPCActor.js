@@ -109,11 +109,11 @@ export class NumeneraPCActor extends Actor {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
-        return;
+        return false;
 
       case 3:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.dead.warning"));
-        return;
+        return false;
     }
 
     if (rollData) {
@@ -157,6 +157,8 @@ export class NumeneraPCActor extends Actor {
     {
       rollMode: rollData.rollMode,
     });
+
+    return true;
   }
 
   /**
@@ -427,6 +429,14 @@ export class NumeneraPCActor extends Actor {
         return this.useAbility(item);
 
       case NumeneraSkillItem.type:
+        //Get the related ability if there is one, and use it: this way we make sure the
+        //abiity cost will be substracted from its pool.
+        const relatedAbility = await item.getRelatedAbility();
+        if (relatedAbility)
+          return this.useItem(relatedAbility);
+
+        return item.use();
+
       case NumeneraWeaponItem.type:
         return item.use();
 
@@ -635,7 +645,7 @@ export class NumeneraPCActor extends Actor {
     for (const updatedItem of updatedItems) {
       switch (updatedItem.type) {
         case NumeneraAbilityItem.type:
-          const relatedSkill = this.items.find(i => i.data.data.relatedAbilityId === updatedItem._id);
+          const relatedSkill = this.items.find(i => i.data.data.relatedAbilityId === updatedItem.id);
           if (!relatedSkill)
             break;
   
