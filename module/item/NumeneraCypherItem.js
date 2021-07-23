@@ -83,6 +83,7 @@ export class NumeneraCypherItem extends Item {
     const data = {
       type: this.type,
       name: this.data.name,
+      img: this.data.img,
       form: this.data.data.form,
       useCypherType: !!NumeneraCypherItem.cypherTypeFlavor,
       cypherType: this.data.data.cypherType,
@@ -98,7 +99,7 @@ export class NumeneraCypherItem extends Item {
     }
 
     await ChatMessage.create({
-      user: game.user._id,
+      user: game.user.id,
       speaker: ChatMessage.getSpeaker({user: game.user}),
       content: await renderTemplate(
         "systems/numenera/templates/chat/items/cypher.html", 

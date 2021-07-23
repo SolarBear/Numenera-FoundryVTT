@@ -90,6 +90,7 @@ export class NumeneraArtifactItem extends Item {
         const data = {
           type: this.type,
           name: this.data.name,
+          img: this.data.img,
           form: this.data.data.form,
           level: this.data.data.level,
           effect: this.data.data.effect,

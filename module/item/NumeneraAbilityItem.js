@@ -137,6 +137,7 @@ export class NumeneraAbilityItem extends Item {
     const data = {
       type: this.type,
       name: this.data.name,
+      img: this.data.img,
       form: this.data.data.form,
       abilityType: this.data.data.abilityType,
       cost: this.data.data.cost.amount,
