@@ -1,0 +1,19 @@
+<div class="numenera chat">
+    <img src={{img}} />
+    <span class="name">
+        {{capitalize type}}: {{name}}</span><br/>
+    <span class="form">Form: {{form}}</span><br/>
+    {{#if laws}}
+    <span class="laws">Laws: {{laws}}</span><br/>
+    {{/if}}
+    <span class="level">Level: {{level}}</span><br/>
+    {{#if depletion}}
+    <span class="depletion">
+        Depletion: {{#if depletion.isDepleting}}{{depletion.threshold}} on {{depletion.die}}{{else}}--{{/if}}
+    </span>
+    {{else}}
+    <span class="depletion">Depletion: Unknown</span>
+    {{/if}}
+    </span>
+    <p>{{effect}}</p>
+</div>

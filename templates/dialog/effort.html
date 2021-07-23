@@ -20,7 +20,7 @@
         <div>
             <h2>{{localize "NUMENERA.skill"}}
                 <select name="skill" data-dtype="String">
-                    {{#select skill._id}}
+                    {{#select skill.id}}
                     <option value=""></option>
                     {{#each skills}}
                     <option value="{{this.id}}">{{this.name}}</option>
@@ -33,7 +33,7 @@
         <div>
             <h2>{{localize "NUMENERA.powerShift"}}
                 <select name="powerShift">
-                {{#select powerShift._id}}
+                {{#select powerShift.id}}
                     <option value=""></option>
                     {{#each powerShifts}}
                     <option value="{{this.id}}">{{this.name}}</option>

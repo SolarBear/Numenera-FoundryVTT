@@ -436,7 +436,7 @@ export class EffortDialog extends FormApplication {
       
       //Fetch the skill, might be one of these weird kind-of-Item objects
       if (skill._id)
-        skill = this.object.actor.items.get(this.object.skill._id);
+        skill = this.object.actor.items.get(this.object.skill.id);
 
       actor.rollSkill(skill, rollData, this.object.ability);
     }
@@ -449,7 +449,7 @@ export class EffortDialog extends FormApplication {
 
     const poolProp = `data.stats.${shortStat}.pool.value`;
 
-    const data = { _id: actor._id };
+    const data = { _id: actor.id };
     data[poolProp] = poolValue - cost;
 
     //TIME TO PAY THE PRICE MWAHAHAHAHAHAHAH
@@ -475,7 +475,7 @@ export class EffortDialog extends FormApplication {
         result: game.i18n.localize("NUMENERA.effort.failAutomatically"),  
       }),
     });
-    
+
     this.close();
   }
 
@@ -513,7 +513,7 @@ export class EffortDialog extends FormApplication {
       formData.stat = getShortStat(formData.stat);
 
     // Did the skill change?
-    if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill._id)) {
+    if (formData.skill && (this.object.skill == null || formData.skill !== this.object.skill.id)) {
       //In that case, update the stat to be the skill's stat
       this.object.skill = this.object.actor.items.get(formData.skill);
 

@@ -101,7 +101,7 @@ export class NumeneraAbilityItem extends Item {
    * @returns {Boolean} True if the ability was used, false otherwise.
    * @memberof NumeneraAbilityItem
    */
-  async use() {
+  async use(event = null) {
     //An ability must be related to an Actor to be used
     if (this.actor === null) {
       ui.notifications.error(game.i18n.localize("NUMENERA.item.ability.useNotLinkedToActor"));
@@ -130,8 +130,30 @@ export class NumeneraAbilityItem extends Item {
       skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
     }
 
-    skill.use();
-    return true;
+    return skill.use(event, this);
+  }
+
+  async toChatMessage() {
+    const data = {
+      type: this.type,
+      name: this.data.name,
+      img: this.data.img,
+      form: this.data.data.form,
+      abilityType: this.data.data.abilityType,
+      cost: this.data.data.cost.amount,
+      stat: this.data.data.cost.pool,
+      range: this.data.data.range,
+      description: this.data.data.notes,
+    };
+
+    await ChatMessage.create({
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      content: await renderTemplate(
+        "systems/numenera/templates/chat/items/ability.html", 
+        data,
+      )
+    });
   }
 
   /**

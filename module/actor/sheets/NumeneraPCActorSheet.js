@@ -549,7 +549,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
     abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
-    abilitiesTable.on("click", ".ability-to-chat", this.onAbilityDelete.bind(this));
+    abilitiesTable.on("click", "a.ability-to-chat", this.onItemToChat.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
     abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
 
@@ -581,10 +581,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const artifactsList = html.find("ul.artifacts");
     html.find("ul.artifacts").on("click", ".artifact-delete", this.onArtifactDelete.bind(this));
+    html.find("ul.artifacts").on("click", ".artifact-to-chat", this.onItemToChat.bind(this));
     html.find("ul.artifacts").on("click", ".artifact-depletion-roll", this.onArtifactDepletionRoll.bind(this));
 
     const cyphersList = html.find("ul.cyphers");
     html.find("ul.cyphers").on("click", ".cypher-delete", this.onCypherDelete.bind(this));
+    html.find("ul.cyphers").on("click", ".cypher-to-chat", this.onItemToChat.bind(this));
 
     if (game.settings.get("numenera", "usePowerShifts")) {
       const powerShiftsTable = html.find("table.powerShifts");
@@ -868,6 +870,27 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
 
     super._onChangeInput(event);
+  }
+
+  async onItemToChat(event) {
+    event.preventDefault();
+    event.stopPropagation(); //Important! otherwise we get double rendering
+
+    const elem = event.currentTarget.closest(".item");
+
+    if (!elem)
+      throw new Error(`Missing .item class element`);
+    else if (!elem.dataset.itemId)
+      throw new Error(`No itemID on .item element`);
+
+    const item = await this.actor.getEmbeddedDocument("Item", elem.dataset.itemId);
+
+    if (!!!item.toChatMessage) {
+      console.warn(`Tried to output ${item.type} type to chat, which is currently not supported`);
+      return;
+    }
+
+    await item.toChatMessage();
   }
 
   async _onDropItem(event, data) {

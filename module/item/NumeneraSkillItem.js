@@ -56,6 +56,13 @@ export class NumeneraSkillItem extends Item {
     itemData.skillLevel = itemData.skillLevel || 0;
   }
 
+  async getRelatedAbility() {
+    if (!this.data.data.relatedAbilityId)
+      return null;
+
+    return this.actor.getEmbeddedDocument("Item", this.data.data.relatedAbilityId);
+  }
+
   async updateRelatedAbility(ability, options = {}) {
     //If it is not owned by an Actor, it has no related skill
     if (!this.actor || !ability)
@@ -77,7 +84,7 @@ export class NumeneraSkillItem extends Item {
     return updated;
   }
 
-  async use(event = null) {
+  async use(event = null, ability = null) {
     if (event === null)
       event = window.event;
 
@@ -87,11 +94,11 @@ export class NumeneraSkillItem extends Item {
     }
 
     if (event && useAlternateButtonBehavior()) {
-      const dialog = new EffortDialog(this.actor, { skill: this });
+      const dialog = new EffortDialog(this.actor, { skill: this, ability });
       await dialog.init();
       return dialog.render(true);
     } else {
-      await this.actor.rollSkill(this);
+      return await this.actor.rollSkill(this);
     }
   }
 }

@@ -85,4 +85,33 @@ export class NumeneraArtifactItem extends Item {
         itemData.levelDie = itemData.levelDie || "";
         itemData.level = itemData.level || "";
     }
+
+    async toChatMessage() {
+        const data = {
+          type: this.type,
+          name: this.data.name,
+          img: this.data.img,
+          form: this.data.data.form,
+          level: this.data.data.level,
+          effect: this.data.data.effect,
+          laws: this.data.data.laws,
+          depletion: this.data.data.depletion,
+        };
+    
+        if (!this.data.data.identified) {
+          data.name = game.i18n.localize("NUMENERA.pc.numenera.artifact.unidentified");
+          data.level = game.i18n.localize("NUMENERA.unknown");
+          data.effect = game.i18n.localize("NUMENERA.unknown");
+          data.depletion = null;
+        }
+    
+        await ChatMessage.create({
+          user: game.user._id,
+          speaker: ChatMessage.getSpeaker({user: game.user}),
+          content: await renderTemplate(
+            "systems/numenera/templates/chat/items/artifact.html", 
+            data,
+          )
+        });
+      }
 }

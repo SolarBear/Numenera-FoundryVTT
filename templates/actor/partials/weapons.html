@@ -20,7 +20,7 @@
     </thead>
     <tbody class="row-container">
     {{#each data.weapons as |weapon|}}
-        <tr class="weapon" data-item-id="{{weapon._id}}" data-order="{{weapon.data.data.order}}">
+        <tr class="weapon" data-item-id="{{weapon.id}}" data-order="{{weapon.data.data.order}}">
             <td class="handle">
                 <a><i class="fas fa-grip-vertical"></i></a>
             </td>
@@ -32,10 +32,10 @@
             </td>
         {{/if}}
             <td class="weapon-name">
-                <input type="text" name="data.weapons.{{weapon._id}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}"/>
+                <input type="text" name="data.weapons.{{weapon.id}}.name" placeholder="Weapon name" class="weapon-name-input" value="{{weapon.name}}"/>
             </td>
             <td class="weapon-weight-type">
-                <select name="data.weapons.{{weapon._id}}.data.weight" class="weapon-weight">
+                <select name="data.weapons.{{weapon.id}}.data.weight" class="weapon-weight">
                 {{#select weapon.data.data.weight}}
                 {{#each ../weights}}
                     <option value="{{this}}">{{localize this}}</option>
@@ -43,7 +43,7 @@
                 {{/select}}
                 </select>
 
-                <select name="data.weapons.{{weapon._id}}.data.weaponType">
+                <select name="data.weapons.{{weapon.id}}.data.weaponType">
                 {{#select weapon.data.data.weaponType}}
                 {{#each ../weaponTypes}}
                     <option value="{{this}}">
@@ -54,10 +54,10 @@
                 </select>
             </td>
             <td class="weapon-damage">
-                <input type="number" name="data.weapons.{{weapon._id}}.data.damage" min="1" value="{{weapon.data.data.damage}}" class="weapon-damage" />
+                <input type="number" name="data.weapons.{{weapon.id}}.data.damage" min="1" value="{{weapon.data.data.damage}}" class="weapon-damage" />
             </td>
             <td class="weapon-range">
-                <select name="data.weapons.{{weapon._id}}.data.data.range">
+                <select name="data.weapons.{{weapon.id}}.data.data.range">
                 {{#select weapon.data.range}}
                 {{#each ../ranges}}
                     <option value="{{this}}">
@@ -68,11 +68,11 @@
                 </select>
                 <div class="ammo">
                     <label>{{localize "NUMENERA.pc.weapons.ammo"}}</label>
-                    <input type="number" name="data.weapons.{{weapon._id}}.data.ammo" value="{{weapon.data.data.ammo}}" min="0" class="weapon-ammo" />
+                    <input type="number" name="data.weapons.{{weapon.id}}.data.ammo" value="{{weapon.data.data.ammo}}" min="0" class="weapon-ammo" />
                 </div>
             </td>
             <td class="weapon-notes">
-                <input type="text" name="data.weapons.{{weapon._id}}.data.notes" value="{{weapon.data.data.notes}}" title="{{weapon.data.data.notes}}" />
+                <input type="text" name="data.weapons.{{weapon.id}}.data.notes" value="{{weapon.data.data.notes}}" title="{{weapon.data.data.notes}}" />
             </td>
             <td>
                 <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>

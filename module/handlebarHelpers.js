@@ -9,5 +9,9 @@ export function registerHandlebarHelpers() {
     if (value == this.switch_value) {
       return options.fn(this);
     }
-  });  
+  });
+
+  Handlebars.registerHelper('capitalize', phrase => 
+    phrase.charAt(0).toUpperCase() + phrase.slice(1)
+  );
 }
