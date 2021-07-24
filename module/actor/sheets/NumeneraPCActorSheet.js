@@ -570,6 +570,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     skillsTable.on("click", ".skill-delete", this.onSkillDelete.bind(this));
     skillsTable.on("change", "input,select", this.onSkillEdit.bind(this));
     skillsTable.on("click", "a.rollable", this.onSkillUse.bind(this));
+    skillsTable.on("click", ".skill-to-chat", this.onItemToChat.bind(this));
 
     const weaponsTable = html.find("table.weapons");
     weaponsTable.on("click", ".weapon-create", this.onWeaponCreate.bind(this));
@@ -598,12 +599,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
       powerShiftsTable.on("click", ".powerShift-create", this.onPowerShiftCreate.bind(this));
       powerShiftsTable.on("click", ".powerShift-delete", this.onPowerShiftDelete.bind(this));
       powerShiftsTable.on("blur", "input,select", this.onPowerShiftEdit.bind(this));
+      powerShiftsTable.on("click", ".power-shift-to-chat", this.onItemToChat.bind(this));
     }
 
     if (game.settings.get("numenera", "useRecursions")) {
       const recursionTable = html.find("table.recursion");
       recursionTable.on("blur", "input,select,textarea", this.onRecursionEdit.bind(this));
       recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+      recursionTable.on("click", ".recursion-to-chat", this.onItemToChat.bind(this));
     }
 
     if (game.user.isGM) {

@@ -56,6 +56,23 @@ export class NumeneraSkillItem extends Item {
     itemData.skillLevel = itemData.skillLevel || 0;
   }
 
+  get skillLevelDescription() {
+    //TODO this mix of integer values and shorthand for strings is messy... fix it!
+    switch(parseInt(this.data.data.skillLevel)) {
+      case 0:
+        return NUMENERA.skillLevels.u;
+
+      case 1:
+        return NUMENERA.skillLevels.t;
+
+      case 2:
+        return NUMENERA.skillLevels.s;
+      
+      default:
+        throw new Error("Unknown skill level value " + this.data.data.skillLevel);
+    }
+  }
+
   async getRelatedAbility() {
     if (!this.data.data.relatedAbilityId)
       return null;
@@ -97,8 +114,35 @@ export class NumeneraSkillItem extends Item {
       const dialog = new EffortDialog(this.actor, { skill: this, ability });
       await dialog.init();
       return dialog.render(true);
-    } else {
+    }
+    else {
       return await this.actor.rollSkill(this);
     }
+  }
+
+  async toChatMessage() {
+    let level = game.i18n.localize(this.skillLevelDescription);
+    if (this.data.data.inability)
+      level += " + " + game.i18n.localize("NUMENERA.skillLevels.Inability");
+      
+    const data = {
+      id: this.id,
+      actorId: this.actor.id,
+      type: this.type,
+      name: this.data.name,
+      img: this.data.img,
+      stat: this.data.data.stat,
+      level,
+      notes: this.data.data.notes,
+    };
+
+    await ChatMessage.create({
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      content: await renderTemplate(
+        "systems/numenera/templates/chat/items/skill.html", 
+        data,
+      )
+    });
   }
 }
