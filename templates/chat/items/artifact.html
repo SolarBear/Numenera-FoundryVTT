@@ -1,7 +1,8 @@
 <div class="numenera chat">
     <img src={{img}} />
-    <span class="name">
-        {{capitalize type}}: {{name}}</span><br/>
+    <a class="sheet" data-id={{id}} data-actor-id={{actorId}}>
+        <span class="name">{{capitalize type}}: {{name}}</span>
+    </a><br/>
     <span class="form">Form: {{form}}</span><br/>
     {{#if laws}}
     <span class="laws">Laws: {{laws}}</span><br/>

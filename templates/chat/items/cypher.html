@@ -1,6 +1,8 @@
 <div class="numenera chat">
     <img src={{img}} />
-    <span class="name">{{capitalize type}}: {{name}}</span><br/>
+    <a class="sheet" data-id={{id}} data-actor-id={{actorId}}>
+        <span class="name">{{capitalize type}}: {{name}}</span><br/>
+    </a>
 {{#if useCypherType}}
     <span class="type">Type: {{capitalize cypherType}}</span><br/>
 {{/if}}
