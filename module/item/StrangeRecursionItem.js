@@ -26,4 +26,30 @@ export class StrangeRecursionItem extends Item {
     itemData.focus = itemData.focus || "";
     itemData.focusAbilities = itemData.focusAbilities || "";
   }
+
+  async toChatMessage() {
+    const data = {
+      id: this.id,
+      actorId: this.actor.id,
+      type: this.type,
+      name: this.data.name,
+      img: this.data.img,
+      active: this.data.data.active ? "Yes" : "No",
+      level: this.data.data.level,
+      laws: this.data.data.laws,
+      race: this.data.data.race,
+      trait: this.data.data.trait,
+      focus: this.data.data.focus,
+      focusAbilities: this.data.data.focusAbilities,
+    };
+
+    await ChatMessage.create({
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      content: await renderTemplate(
+        "systems/numenera/templates/chat/items/recursion.html", 
+        data,
+      )
+    });
+  }
 }

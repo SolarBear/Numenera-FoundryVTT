@@ -606,6 +606,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       const recursionTable = html.find("table.recursion");
       recursionTable.on("blur", "input,select,textarea", this.onRecursionEdit.bind(this));
       recursionTable.on("click", ".recursion-delete", this.onRecursionDelete.bind(this));
+      recursionTable.on("click", ".recursion-to-chat", this.onItemToChat.bind(this));
     }
 
     if (game.user.isGM) {

@@ -23,7 +23,7 @@
     </thead>
     <tbody class="row-container">
       {{#each data.recursion as |recursion|}}
-        <tr class="recursion" data-item-id="{{recursion.id}}" data-order="{{recursion.data.data.order}}">
+        <tr class="recursion item" data-item-id="{{recursion.id}}" data-order="{{recursion.data.data.order}}">
             <td class="handle">
                 <a><i class="fas fa-grip-vertical"></i></a>
             </td>
@@ -61,7 +61,12 @@
             </td>
 
             <td>
-                <a class="recursion-delete" data-action="delete" title="{{localize "NUMENERA.item.recursion.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+              <a class="recursion-to-chat" data-action="to-chat" title="Send to chat">
+                <i class="fas fa-comment"></i>
+              </a>
+              <a class="recursion-delete" data-action="delete" title="{{localize "NUMENERA.item.recursion.tab.deleteTooltip"}}">
+                <i class="fas fa-trash"></i>
+              </a>
             </td>
           </tr>
         {{else}}

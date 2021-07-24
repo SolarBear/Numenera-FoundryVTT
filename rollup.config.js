@@ -49,6 +49,7 @@ const toBundle = [
     "templates/chat/items/equipment.html",
     "templates/chat/items/oddity.html",
     "templates/chat/items/powerShift.html",
+    "templates/chat/items/recursion.html",
     "templates/chat/items/skill.html",
     "templates/chat/items/weapon.html",
     "templates/dialog/effort.html",
