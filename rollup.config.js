@@ -45,6 +45,7 @@ const toBundle = [
     "templates/chat/items/ability.html",
     "templates/chat/items/artifact.html",
     "templates/chat/items/cypher.html",
+    "templates/chat/items/oddity.html",
     "templates/dialog/effort.html",
     "templates/dialog/recovery.html",
     "templates/dialog/spellUse.html",

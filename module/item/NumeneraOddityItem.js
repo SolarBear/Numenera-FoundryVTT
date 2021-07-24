@@ -17,4 +17,24 @@ export class NumeneraOddityItem extends Item {
     itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.oddity.newOddity");
     itemData.notes = itemData.notes || "";
   }
+
+  async toChatMessage() {
+    const data = {
+      id: this.id,
+      actorId: this.actor.id,
+      type: this.type,
+      name: this.data.name,
+      img: this.data.img,
+      notes: this.data.data.notes,
+    };
+
+    await ChatMessage.create({
+      user: game.user.id,
+      speaker: ChatMessage.getSpeaker({user: game.user}),
+      content: await renderTemplate(
+        "systems/numenera/templates/chat/items/oddity.html", 
+        data,
+      )
+    });
+  }
 }

@@ -3,7 +3,7 @@
 </h2>
 <ul class="oddities row-container">
     {{#each data.oddities as |oddity|}}
-    <li class="oddity" data-item-id={{oddity.id}} data-order={{oddity.data.order}}>
+    <li class="oddity item" data-item-id={{oddity.id}} data-order={{oddity.data.order}}>
         <table class="oddity-header-table">
             <tbody>
                 <tr>
@@ -36,7 +36,12 @@
                     {{/if}}
                     </td>
                     <td>
-                        <a class="oddity-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                        <a class="oddity-to-chat" data-action="to-chat" title="Send to chat">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                        <a class="oddity-delete" data-action="delete" title="{{localize "NUMENERA.pc.numenera.deleteTooltip"}}">
+                            <i class="fas fa-trash"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>

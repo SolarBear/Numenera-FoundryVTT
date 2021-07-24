@@ -576,7 +576,9 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("click", "a.rollable", this.onWeaponUse.bind(this));
 
     if (game.settings.get("numenera", "useOddities")) {
-      html.find("ul.oddities").on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+      const odditiesTable = html.find("ul.oddities");
+      odditiesTable.on("click", ".oddity-delete", this.onOddityDelete.bind(this));
+      odditiesTable.on("click", ".oddity-to-chat", this.onItemToChat.bind(this));
     }
 
     const artifactsList = html.find("ul.artifacts");
@@ -900,7 +902,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (typeof(item) === "undefined")
       return;
 
-    const id = item._id;
+    const id = item.id;
 
     if (!id)
       return;
