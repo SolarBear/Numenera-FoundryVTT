@@ -599,7 +599,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       powerShiftsTable.on("click", ".powerShift-create", this.onPowerShiftCreate.bind(this));
       powerShiftsTable.on("click", ".powerShift-delete", this.onPowerShiftDelete.bind(this));
       powerShiftsTable.on("blur", "input,select", this.onPowerShiftEdit.bind(this));
-      powerShiftsTable.on("click", ".cypher-to-chat", this.onItemToChat.bind(this));
+      powerShiftsTable.on("click", ".power-shift-to-chat", this.onItemToChat.bind(this));
     }
 
     if (game.settings.get("numenera", "useRecursions")) {
