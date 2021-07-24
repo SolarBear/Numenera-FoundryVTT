@@ -563,6 +563,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     equipmentTable.on("click", ".equipment-create", this.onEquipmentCreate.bind(this));
     equipmentTable.on("click", ".equipment-delete", this.onEquipmentDelete.bind(this));
     equipmentTable.on("blur", "input,select", this.onEquipmentEdit.bind(this));
+    equipmentTable.on("click", ".equipment-to-chat", this.onItemToChat.bind(this));
 
     const skillsTable = html.find("table.skills");
     skillsTable.on("click", ".skill-create", this.onSkillCreate.bind(this));

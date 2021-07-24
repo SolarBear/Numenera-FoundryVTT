@@ -370,7 +370,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.equipment as |equipment|}}
-                    <tr class="equipment" data-item-id="{{equipment.id}}" data-order="{{equipment.data.data.order}}">
+                    <tr class="equipment item" data-item-id="{{equipment.id}}" data-order="{{equipment.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -391,7 +391,12 @@
                             <input type="text" name="data.equipment.{{equipment.id}}.data.notes" value="{{equipment.data.data.notes}}" title="{{equipment.data.data.notes}}" />
                         </td>
                         <td>
-                            <a class="equipment-delete" data-action="delete" title="{{localize "NUMENERA.pc.otherItems.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                            <a class="equipment-to-chat" data-action="to-chat" title="Send to chat">
+                                <i class="fas fa-comment"></i>
+                            </a>
+                            <a class="equipment-delete" data-action="delete" title="{{localize "NUMENERA.pc.otherItems.deleteTooltip"}}">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 {{else}}
