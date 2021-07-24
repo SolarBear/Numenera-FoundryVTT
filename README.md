@@ -12,7 +12,7 @@ We currently officially support
 
 * [Numenera](https://numenera.com/)
 * [The Strange](https://thestrangerpg.com/)
-* [Cypher System](https://cypher-system.com/) (most features)
+* [Cypher System](https://cypher-system.com/)
 * [Gods of the Fall](https://www.montecookgames.com/welcome-to-gods-of-the-fall/)
 
 Don't know about them? Check them out!
