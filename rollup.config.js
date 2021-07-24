@@ -43,6 +43,7 @@ const toBundle = [
     "templates/actor/partials/weapons.html",
     "templates/chat/automaticResult.html",
     "templates/chat/items/ability.html",
+    "templates/chat/items/armor.html",
     "templates/chat/items/artifact.html",
     "templates/chat/items/cypher.html",
     "templates/chat/items/oddity.html",

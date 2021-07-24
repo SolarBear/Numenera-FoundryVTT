@@ -91,6 +91,29 @@ export class NumeneraArmorItem extends Item {
         return this.weightIndex;
     }
 
+    async toChatMessage() {
+        const data = {
+          id: this.id,
+          actorId: this.actor.id,
+          type: this.type,
+          name: this.data.name,
+          img: this.data.img,
+          armor: this.data.data.armor,
+          weight: this.data.data.weight,
+          notes: this.data.data.notes,
+          additionalSpeedEffortCost: this.data.data.additionalSpeedEffortCost,
+        };
+    
+        await ChatMessage.create({
+          user: game.user.id,
+          speaker: ChatMessage.getSpeaker({user: game.user}),
+          content: await renderTemplate(
+            "systems/numenera/templates/chat/items/armor.html", 
+            data,
+          )
+        });
+      }
+
     static compareArmorWeights(armor1, armor2) {
         if (!(armor1 instanceof NumeneraArmorItem))
             armor1 = NumeneraArmorItem.fromOwnedItem(armor1);

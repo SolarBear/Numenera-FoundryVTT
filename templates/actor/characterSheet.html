@@ -300,7 +300,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.armorPieces as |armor|}}
-                    <tr class="armor" data-item-id="{{armor.id}}" data-order="{{armor.data.data.order}}">
+                    <tr class="armor item" data-item-id="{{armor.id}}" data-order="{{armor.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -333,7 +333,12 @@
                             <input type="text" name="data.armor.{{armor.id}}.data.notes" value="{{armor.data.data.notes}}" title="{{armor.data.data.notes}}" />
                         </td>
                         <td>
-                            <a class="armor-delete" data-action="delete" title="{{localize "NUMENERA.pc.armor.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                            <a class="armor-to-chat" data-action="to-chat" title="Send to chat">
+                                <i class="fas fa-comment"></i>
+                            </a>
+                            <a class="armor-delete" data-action="delete" title="{{localize "NUMENERA.pc.armor.deleteTooltip"}}">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 {{else}}
