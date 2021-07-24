@@ -32,6 +32,7 @@ export const preloadHandlebarsTemplates = async() => {
         "systems/numenera/templates/chat/items/cypher.html",
         "systems/numenera/templates/chat/items/equipment.html",
         "systems/numenera/templates/chat/items/oddity.html",
+        "systems/numenera/templates/chat/items/powerShift.html",
         "systems/numenera/templates/chat/items/skill.html",
         "systems/numenera/templates/chat/items/weapon.html",
 

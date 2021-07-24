@@ -18,7 +18,7 @@
     </thead>
     <tbody class="row-container">
     {{#each data.powerShifts as |powerShift|}}
-        <tr class="powerShift" data-item-id="{{powerShift.id}}" data-order="{{powerShift.data.data.order}}">
+        <tr class="powerShift item" data-item-id="{{powerShift.id}}" data-order="{{powerShift.data.data.order}}">
             <td class="handle">
                 <a><i class="fas fa-grip-vertical"></i></a>
             </td>
@@ -35,7 +35,7 @@
             <td class="powerShift-effect">
                 <select name="data.powerShifts.{{powerShift.id}}.data.effect">
                 {{#select powerShift.data.data.effect}}
-                    <option value=""></option>
+                    <option value=""></op   tion>
                     {{#each ../powerShiftEffects}}
                     <option value="{{this}}">{{localize this}}</option>
                     {{/each}}
@@ -49,6 +49,9 @@
                 <input type="number" name="data.powerShifts.{{powerShift.id}}.data.level" value="{{powerShift.data.data.level}}" min="0" data-dtype="Number" />
             </td>
             <td>
+                <a class="cypher-to-chat" data-action="to-chat" title="Send to chat">
+                    <i class="fas fa-comment"></i>
+                </a>
                 <a class="powerShift-delete" data-action="delete" title="{{localize "NUMENERA.pcActorSheet.features.powerShifts.deleteTooltip"}}">
                     <i class="fas fa-trash"></i>
                 </a>
