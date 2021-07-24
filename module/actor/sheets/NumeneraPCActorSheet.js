@@ -574,6 +574,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     weaponsTable.on("click", ".weapon-delete", this.onWeaponDelete.bind(this));
     weaponsTable.on("blur", "input,select", this.onWeaponEdit.bind(this));
     weaponsTable.on("click", "a.rollable", this.onWeaponUse.bind(this));
+    weaponsTable.on("click", ".weapon-to-chat", this.onItemToChat.bind(this));
 
     if (game.settings.get("numenera", "useOddities")) {
       const odditiesTable = html.find("ul.oddities");

@@ -74,4 +74,28 @@ export class NumeneraWeaponItem extends Item {
 
         skill.use();
     }
+
+    async toChatMessage() {
+        const data = {
+          id: this.id,
+          actorId: this.actor.id,
+          type: this.type,
+          name: this.data.name,
+          img: this.data.img,
+          damage: this.data.data.damage,
+          range: this.data.data.range,
+          weaponType: this.data.data.weaponType,
+          weight: this.data.data.weight,
+          notes: this.data.data.notes,
+        };
+    
+        await ChatMessage.create({
+          user: game.user.id,
+          speaker: ChatMessage.getSpeaker({user: game.user}),
+          content: await renderTemplate(
+            "systems/numenera/templates/chat/items/weapon.html", 
+            data,
+          )
+        });
+    }
 }

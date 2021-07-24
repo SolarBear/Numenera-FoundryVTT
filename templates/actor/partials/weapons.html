@@ -20,7 +20,7 @@
     </thead>
     <tbody class="row-container">
     {{#each data.weapons as |weapon|}}
-        <tr class="weapon" data-item-id="{{weapon.id}}" data-order="{{weapon.data.data.order}}">
+        <tr class="weapon item" data-item-id="{{weapon.id}}" data-order="{{weapon.data.data.order}}">
             <td class="handle">
                 <a><i class="fas fa-grip-vertical"></i></a>
             </td>
@@ -75,8 +75,15 @@
                 <input type="text" name="data.weapons.{{weapon.id}}.data.notes" value="{{weapon.data.data.notes}}" title="{{weapon.data.data.notes}}" />
             </td>
             <td>
-                <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
-                <a class="weapon-delete" data-action="delete" title="{{localize "NUMENERA.pc.weapons.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                <a class="rollable">
+                    <img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" />
+                </a>
+                <a class="weapon-to-chat" data-action="to-chat" title="Send to chat">
+                    <i class="fas fa-comment"></i>
+                </a>
+                <a class="weapon-delete" data-action="delete" title="{{localize "NUMENERA.pc.weapons.deleteTooltip"}}">
+                    <i class="fas fa-trash"></i>
+                </a>
             </td>
         </tr>
     {{else}}
