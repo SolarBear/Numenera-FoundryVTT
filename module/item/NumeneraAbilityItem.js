@@ -135,6 +135,8 @@ export class NumeneraAbilityItem extends Item {
 
   async toChatMessage() {
     const data = {
+      id: this.id,
+      actorId: this.actor.id,
       type: this.type,
       name: this.data.name,
       img: this.data.img,

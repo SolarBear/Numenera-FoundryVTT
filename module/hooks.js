@@ -63,6 +63,25 @@ export async function registerHooks() {
         }
     });
 
+    //Change a chat message when it contains some roll data
+    Hooks.on("renderChatMessage", (app, html, data) => {
+        html.find("a.sheet").click(function(event) {
+            event.preventDefault();
+
+            const element = event.currentTarget;
+            const actor = game.actors.get(element.dataset.actorId);
+            const item = actor.items.get(element.dataset.id);
+            const sheet = item.sheet;
+        
+            if (sheet.rendered) {
+              sheet.bringToTop();
+              return sheet.maximize();
+            }
+        
+            sheet.render(true);
+        });
+    });
+
   /**
    * Add additional system-specific sidebar directory context menu options for D&D5e Actor entities
    * @param {jQuery} html         The sidebar HTML
