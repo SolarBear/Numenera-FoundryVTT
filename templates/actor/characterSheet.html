@@ -133,7 +133,7 @@
                 </thead>
                 <tbody class="row-container">
                 {{#each data.skills as |skill| }}
-                    <tr class="skill" data-item-id="{{skill.id}}" data-order="{{skill.data.data.order}}">
+                    <tr class="skill item" data-item-id="{{skill.id}}" data-order="{{skill.data.data.order}}">
                         <td class="handle">
                             <a><i class="fas fa-grip-vertical"></i></a>
                         </td>
@@ -170,7 +170,12 @@
                         </td>
                         <td>
                             <a class="rollable"><img src="/icons/svg/d20-black.svg" title="{{localize "NUMENERA.item.tab.rollTooltip"}}" alt="d20" /></a>
-                            <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.item.skill.tab.deleteTooltip"}}"><i class="fas fa-trash"></i></a>
+                            <a class="skill-to-chat" data-action="to-chat" title="Send to chat">
+                                <i class="fas fa-comment"></i>
+                            </a>
+                            <a class="skill-delete" data-action="delete" title="{{localize "NUMENERA.item.skill.tab.deleteTooltip"}}">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         </td>
                     </tr>
                 {{else}}
