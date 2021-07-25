@@ -573,7 +573,7 @@ export class NumeneraPCActor extends Actor {
           }
 
           await this.updateEmbeddedDocuments("Item", [{
-            _id: newItem._id,
+            _id: newItem.id,
             "data.level": itemData.level,
             "data.form": itemData.form,
           }]);

@@ -643,7 +643,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const clickedItem = duplicate(
       //TODO
-      this.actor.getEmbeddedEntity("OwnedItem", itemId)
+      this.actor.getEmbeddedDocument("Item", itemId)
     );
     clickedItem.data.stored = "";
 
