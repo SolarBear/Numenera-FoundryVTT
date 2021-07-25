@@ -188,6 +188,7 @@
     "NUMENERA.item.skill.tab.stat": "Caractéristique",
     "NUMENERA.item.skill.tab.instructions": "Pas de compétences. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
     "NUMENERA.item.skill.newSkill": "Nouvelle compétence",
+    "NUMENERA.skillLevels.label": "Niveau",
     "NUMENERA.skillLevels.Inability": "Incompétence",
     "NUMENERA.skillLevels.Untrained": "Non entraîné",
     "NUMENERA.skillLevels.Trained": "Entraîné",
@@ -372,5 +373,7 @@
     "NUMENERA.warnings.skillWithSameNameExists": "Une compétence portant le même nom existe déjà",
 
     "NUMENERA.macro.use.notActorsItem": "L'acteur que vous contrôlez ne possède pas un tel item",
-    "NUMENERA.macro.create.onlyOwned": "Vous ne pouvez créer des boutons de macro que pour des items que vous possédez"
+    "NUMENERA.macro.create.onlyOwned": "Vous ne pouvez créer des boutons de macro que pour des items que vous possédez",
+
+    "NUMENERA.chat.sendToChat": "Envoyer dans le chat"
 }
