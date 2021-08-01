@@ -10,7 +10,8 @@ export class RollData {
       + obj.nbAssets
       - (obj.isHindered ? 1 : 0)
       - (obj.damageTrackPenalty ? 1 : 0)
-      + obj.effortLevel;
+      + obj.effortLevel
+      + obj.enhancements;
   }
 
   constructor() {
@@ -21,6 +22,7 @@ export class RollData {
     this.isHindered = false;
     this.damageTrackPenalty = false;
     this.effortLevel = 0;
+    this.enhancements = 0;
     this.rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
   }
 
@@ -90,7 +92,7 @@ export class RollData {
    * Given a Roll object, determine the text for the roll's results.
    *
    * @export
-   * @returns {object}
+   * @returns {object}  
    */
   static rollText(roll) {
     if (!roll.hasOwnProperty("numenera") || roll.numenera.taskLevel === null) {

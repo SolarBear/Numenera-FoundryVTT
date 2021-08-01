@@ -433,7 +433,7 @@ export class EffortDialog extends FormApplication {
 
     if (this.object.skill) {
       let skill = this.object.skill;
-      
+      w
       //Fetch the skill, might be one of these weird kind-of-Item objects
       if (skill._id)
         skill = this.object.actor.items.get(this.object.skill.id);

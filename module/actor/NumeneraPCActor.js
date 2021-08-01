@@ -43,7 +43,7 @@ export class NumeneraPCActor extends Actor {
     //Default case: there is no specific ID
     allFoci[Object.keys(allFoci)[0]] = value;
 
-    const data = {_id: this._id};
+    const data = {};
     data["data.focus"] = {"": value};
 
     this.update(data);
@@ -88,10 +88,12 @@ export class NumeneraPCActor extends Actor {
    *
    * @param {String} skillId
    * @param {RollData} rollData
+   * @param {NumeneraAbilityItem} ability
+   * @param {Number} enhancements
    * @returns {Roll}
    * @memberof NumeneraPCActor
    */
-  rollSkillById(skillId, rollData = null, ability = null) {
+  rollSkillById(skillId, rollData = null, ability = null, enhancements = 0) {
     const skill = this.items.get(skillId);
     return this.rollSkill(skill, rollData, ability);
   }
@@ -102,10 +104,12 @@ export class NumeneraPCActor extends Actor {
    *
    * @param {NumeneraSkillItem} skill
    * @param {RollData} rollData
+   * @param {NumeneraAbilityItem} ability
+   * @param {Number} enhancements
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skill, rollData = null, ability = null) {
+  rollSkill(skill, rollData = null, ability = null, enhancements = 0) {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -125,6 +129,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     rollData.ability = ability;
+    rollData.enhancements = enhancements;
     
     const roll = rollData.getRoll();
     roll.roll();
@@ -133,11 +138,13 @@ export class NumeneraPCActor extends Actor {
 
     const mods = []; //any roll modifier goes here: effort, skill level, etc.
 
-    if (skill.data.data.skillLevel == 2) {
-      mods.push("specialized");
-    }
-    else if (skill.data.data.skillLevel == 1) {
-      mods.push("trained");
+    switch (skill.data.data.skillLevel) {
+      case 2:
+        mods.push("specialized");
+        break;
+      case 1:
+        mods.push("trained");
+        break;
     }
 
     if (skill.data.data.inability)
@@ -145,6 +152,9 @@ export class NumeneraPCActor extends Actor {
 
     if (rollData.effortLevel > 0)
       mods.push(`${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`);
+
+    if (enhancements > 0)
+      mods.push(`${enhancements} ${game.i18n.localize("NUMENERA.effort.other")pure}`);
 
     if (mods.length > 0)
       flavor += ` (${mods.join(", ")})`;
