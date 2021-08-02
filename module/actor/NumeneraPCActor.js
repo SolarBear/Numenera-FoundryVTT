@@ -154,7 +154,7 @@ export class NumeneraPCActor extends Actor {
       mods.push(`${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`);
 
     if (enhancements > 0)
-      mods.push(`${enhancements} ${game.i18n.localize("NUMENERA.effort.other")pure}`);
+      mods.push(`${enhancements} ${game.i18n.localize("NUMENERA.effort.other")}`);
 
     if (mods.length > 0)
       flavor += ` (${mods.join(", ")})`;
