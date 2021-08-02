@@ -43,10 +43,20 @@
             "path": "lang/pt-BR.json"
         }
     ],
+    "dependencies": [
+        {
+            "name": "bug-reporter",
+            "manifest": "https://github.com/League-of-Foundry-Developers/bug-reporter/releases/download/latest/manifest.json"
+        }
+    ],
+    "flags": {
+        "allowBugReporter": true
+    },
     "socket": true,
     "minimumCoreVersion": "0.8.8",
     "compatibleCoreVersion": "0.8.8",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",
+    "bugs": "https://github.com/SolarBear/Numenera-FoundryVTT/issues",
     "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json",
     "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/1.7.1/numenera-foundryvtt-1.7.1.zip"
 }
