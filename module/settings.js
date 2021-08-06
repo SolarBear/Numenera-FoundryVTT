@@ -78,7 +78,7 @@ export const registerSystemSettings = function() {
     scope: "world",
     config: true,
     type: String,
-    default: "taskLevels",
+    default: "addModifiers",
     choices: {
       "taskLevels": "Output plain task level success without modifiers",
       "addModifiers": "Output task level success, adding any modifiers (eg. skill level)",
