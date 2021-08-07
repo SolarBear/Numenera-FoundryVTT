@@ -542,6 +542,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    //TODO yo wazzat
     html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
 
     html.find("div.stats").on("click", "a.rollable", this.onAttributeUse.bind(this));

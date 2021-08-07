@@ -51,10 +51,13 @@ export class NumeneraPCActor extends Actor {
 
   getInitiativeFormula() {
     //Check for an initiative skill
-    let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
+    const setting = game.settings.get("numenera", "initiativeSkill");
+
+    let initSkill = this.items.find(i => i.type === "skill" && i.name === setting);
+
     if (!initSkill) {
       initSkill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, {parent: this});
-      initSkill.data.data.name = "Initiative";
+      initSkill.data.data.name = setting;
     }
 
     const rollData = this.getSkillRollData(initSkill);
@@ -76,7 +79,7 @@ export class NumeneraPCActor extends Actor {
     if (data.hasOwnProperty("data"))
       data = data.data;
 
-    rollOptions.skillLevel = data ? data.skillLevel : 0;
+    rollOptions.skillLevel = data ? parseInt(data.skillLevel) : 0;
     rollOptions.isHindered = data ? data.inability : false;
     rollOptions.damageTrackPenalty = this.data.data.damageTrack > 0;
 
@@ -316,18 +319,19 @@ export class NumeneraPCActor extends Actor {
     let speedEffortPenalty = heaviestArmor.weightIndex;
 
     //Local, utility function
-    const searchArmorSkill = name => {
+    const searchArmorAbility = name => {
       return !!this.getEmbeddedCollection("Item")
       .some(i => i.type === NumeneraAbilityItem.type && i.name === name);
     }
 
+    const trainingAbility = game.settings.get("numenera", "armorTrainingAbility");
+    const trainingSpecialization = game.settings.get("numenera", "armorSpecializationAbility");
+    
     //Look for any reducing skill(s)
-    if (searchArmorSkill("Mastery with Armor")) {
+    if (searchArmorAbility(trainingSpecialization))
       speedEffortPenalty -= 2;
-    }
-    else if (searchArmorSkill("Trained in Armor")) {
+    else if (searchArmorAbility(trainingAbility))
       speedEffortPenalty -= 1;
-    }
 
     //Negative penalties are not allowed, for obvious reasons!
     return Math.max(speedEffortPenalty, 0);
