@@ -10,18 +10,13 @@
    * @param {object} [messageOptions] Additional options with which to customize created Chat Messages
    * @return {Promise<Combat>}        A promise which resolves to the updated Combat entity once updates are complete.
  */
-export async function rollInitiative(args) {
-  //TODO remove this middle-man
-    return rollInitiative07.apply(this, args);
-}
-
-async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
+export async function rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
   // Structure input data
   ids = typeof ids === "string" ? [ids] : ids;
   if (!ids)
     return this;
 
-  const currentId = this.combatant._id;
+  const currentId = this.combatant.id;
 
   // Iterate over Combatants, performing an initiative roll for each
   const [updates, messages] = ids.reduce(
@@ -51,9 +46,9 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
         // Construct chat message data
         let messageData = mergeObject({
             speaker: {
-              scene: canvas.scene._id,
-              actor: c.actor ? c.actor._id : null,
-              token: c.token._id,
+              scene: canvas.scene.id,
+              actor: c.actor ? c.actor.id : null,
+              token: c.token.id,
               alias: c.token.name,
             },
             flavor: `${c.token.name} ${game.i18n.localize("NUMENERA.pc.initiativeRoll")}`,
@@ -86,10 +81,10 @@ async function rollInitiative07(ids, {formula=null, updateTurn=true, messageOpti
 
   // Ensure the turn order remains with the same combatant
   if (updateTurn)
-    await this.update({ turn: this.turns.findIndex((t) => t._id === currentId) });
+    await this.update({ turn: this.turns.findIndex((t) => t.id === currentId) });
 
   // Create multiple chat messages
-  await CONFIG.ChatMessage.entityClass.create(messages);
+  await CONFIG.ChatMessage.documentClass.create(messages);
 
   // Return the updated Combat
   return this;

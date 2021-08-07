@@ -381,7 +381,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     this.update({
-      _id: this._id,
+      _id: this._id, //TODO necessary?
       "data.xp": xp,
     });
 
@@ -519,7 +519,7 @@ export class NumeneraPCActor extends Actor {
       const newPoolValue = stat.pool.value + stat.edge - cost.amount;
       const poolProp = `data.stats.${cost.pool}.pool.value`;
 
-      const data = { _id: this._id };
+      const data = { _id: this._id }; //TODO necessary?
       data[poolProp] = newPoolValue;
 
       await this.update(data);
@@ -619,7 +619,7 @@ export class NumeneraPCActor extends Actor {
             //Create a related skill if one does not already exist
             const skillData = {
               stat: actorAbility.data.data.cost.pool,
-              relatedAbilityId: actorAbility._id,
+              relatedAbilityId: actorAbility.id,
             };
 
             const itemData = {
