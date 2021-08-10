@@ -312,13 +312,10 @@ export class NumeneraPCActor extends Actor {
     //TODO we're hitting the embedded collections twice... maybe cache the result?
     //recompute whenever armor values change, are added or deleted
 
-    const heaviestArmor = this._getHeaviestArmor();
-    if (!heaviestArmor)
-      return 0;
+    let speedEffortPenalty = this.items.filter(i => i.type === NumeneraArmorItem.type)
+      .reduce((max, current) => Math.max(max, current.data.data.additionalSpeedEffortCost), 0);
 
-    let speedEffortPenalty = heaviestArmor.weightIndex;
-
-    //Local, utility function
+    // //Local, utility function
     const searchArmorAbility = name => {
       return !!this.getEmbeddedCollection("Item")
       .some(i => i.type === NumeneraAbilityItem.type && i.name === name);

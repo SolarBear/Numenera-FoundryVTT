@@ -75,16 +75,15 @@ export class NumeneraArmorItem extends Item {
     }
 
     get armorSpeedPoolReduction() {
-        if (game.settings.get("numenera", "armorPenalty") !== "old") {
-            return 0;
-        }
+        if (game.settings.get("numenera", "armorPenalty") !== "old")
+            return 0; //irrelevant in cases other than older Cypher games
 
         return speedPoolReductions[this.data.weight];
     }
 
     get mightCostPerHour() {
         if (game.settings.get("numenera", "armorPenalty") !== "old") {
-            return 0;
+            return 0; //irrelevant in cases other than older Cypher games
         }
 
         //N/A is simply 0, 1 for Light, 2 for Medium, 3 for Heavy

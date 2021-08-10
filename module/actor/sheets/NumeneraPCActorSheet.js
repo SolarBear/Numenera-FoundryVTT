@@ -287,18 +287,20 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
-    sheetData.displayMightCostPerHour = game.settings.get("numenera", "armorPenalty") === "old";
+    const armorPenaltySetting = game.settings.get("numenera", "armorPenalty");
+
+    sheetData.displayMightCostPerHour = armorPenaltySetting === "old";
     if (sheetData.displayMightCostPerHour)
       sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;
 
-    sheetData.displaySpeedPoolReduction = game.settings.get("numenera", "armorPenalty") === "old";
+    sheetData.displaySpeedPoolReduction = armorPenaltySetting === "old";
     if (sheetData.displaySpeedPoolReduction)
       sheetData.armorSpeedPoolReduction = this.actor.speedPoolPenalty;
 
-    sheetData.displaySpeedEffortPenalty = ["none", "new"].some(s => s === game.settings.get("numenera", "armorPenalty"));
+    sheetData.displaySpeedEffortPenalty = ["none", "new"].indexOf(armorPenaltySetting) !== -1;
 
     if (sheetData.displaySpeedEffortPenalty) {
-      if (game.settings.get("numenera", "armorPenalty") === "new") {
+      if (armorPenaltySetting === "new") {
         sheetData.saveSpeedEffortPenalty = false;
         sheetData.speedEffortPenalty = this.actor.extraSpeedEffortCost;
       }
