@@ -18,6 +18,33 @@ export const registerSystemSettings = function() {
     default: false,
   });
 
+  game.settings.register("numenera", "initiativeSkill", {
+    name: "Initiative Skill",
+    hint: "Skill name to use for initiative. When rolling for initiative, the skill with that name will be used if it exists.",
+    scope: "client",
+    config: true,
+    type: String,
+    default: "Initiative",
+  });
+
+  game.settings.register("numenera", "armorTrainingAbility", {
+    name: "Armor Skill",
+    hint: "Ability name to look for as armor training, reducing armor penalties by 1 step.",
+    scope: "client",
+    config: true,
+    type: String,
+    default: "Trained in Armor",
+  });
+
+  game.settings.register("numenera", "armorSpecializationAbility", {
+    name: "Armor Skill",
+    hint: "Ability name to look for as armor specialization, reducing armor penalties by 2 steps.",
+    scope: "client",
+    config: true,
+    type: String,
+    default: "Mastery with Armor",
+  });
+
   game.settings.register("numenera", "gameFeaturesPreset", {
     name: "Game Features Preset",
     label: "Game Features Preset",
@@ -78,7 +105,7 @@ export const registerSystemSettings = function() {
     scope: "world",
     config: true,
     type: String,
-    default: "taskLevels",
+    default: "addModifiers",
     choices: {
       "taskLevels": "Output plain task level success without modifiers",
       "addModifiers": "Output task level success, adding any modifiers (eg. skill level)",

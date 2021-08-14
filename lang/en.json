@@ -188,6 +188,7 @@
     "NUMENERA.item.skill.tab.stat": "Stat",
     "NUMENERA.item.skill.tab.instructions": "No skills yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
     "NUMENERA.item.skill.newSkill": "New Skill",
+    "NUMENERA.skillLevels.label": "Level",
     "NUMENERA.skillLevels.Inability": "Inability",
     "NUMENERA.skillLevels.Untrained": "Untrained",
     "NUMENERA.skillLevels.Trained": "Trained",
@@ -372,5 +373,8 @@
     "NUMENERA.warnings.skillWithSameNameExists": "A Skill with the same name also exists",
 
     "NUMENERA.macro.use.notActorsItem": "Your controlled Actor does not have such an item",
-    "NUMENERA.macro.create.onlyOwned": "You can only create macro buttons for owned Items"
+    "NUMENERA.macro.create.onlyOwned": "You can only create macro buttons for owned Items",
+
+    "NUMENERA.chat.sendToChat": "Send to chat"
+    
 }

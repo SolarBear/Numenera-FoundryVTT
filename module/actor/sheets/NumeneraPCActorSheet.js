@@ -287,18 +287,20 @@ export class NumeneraPCActorSheet extends ActorSheet {
     sheetData.damageTrackData = NUMENERA.damageTrack;
     sheetData.damageTrackDescription = NUMENERA.damageTrack[sheetData.data.damageTrack].description;
 
-    sheetData.displayMightCostPerHour = game.settings.get("numenera", "armorPenalty") === "old";
+    const armorPenaltySetting = game.settings.get("numenera", "armorPenalty");
+
+    sheetData.displayMightCostPerHour = armorPenaltySetting === "old";
     if (sheetData.displayMightCostPerHour)
       sheetData.armorMightCostPerHour = this.actor.mightCostPerHour;
 
-    sheetData.displaySpeedPoolReduction = game.settings.get("numenera", "armorPenalty") === "old";
+    sheetData.displaySpeedPoolReduction = armorPenaltySetting === "old";
     if (sheetData.displaySpeedPoolReduction)
       sheetData.armorSpeedPoolReduction = this.actor.speedPoolPenalty;
 
-    sheetData.displaySpeedEffortPenalty = ["none", "new"].some(s => s === game.settings.get("numenera", "armorPenalty"));
+    sheetData.displaySpeedEffortPenalty = ["none", "new"].indexOf(armorPenaltySetting) !== -1;
 
     if (sheetData.displaySpeedEffortPenalty) {
-      if (game.settings.get("numenera", "armorPenalty") === "new") {
+      if (armorPenaltySetting === "new") {
         sheetData.saveSpeedEffortPenalty = false;
         sheetData.speedEffortPenalty = this.actor.extraSpeedEffortCost;
       }
@@ -542,6 +544,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    //TODO yo wazzat
     html.find("input.focus").on("change", this.actor.setFocusFromEvent.bind(this.actor));
 
     html.find("div.stats").on("click", "a.rollable", this.onAttributeUse.bind(this));
@@ -643,7 +646,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const clickedItem = duplicate(
       //TODO
-      this.actor.getEmbeddedEntity("OwnedItem", itemId)
+      this.actor.getEmbeddedDocument("Item", itemId)
     );
     clickedItem.data.stored = "";
 
@@ -727,7 +730,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!skillId)
       return;
 
-    //this.actor.items.get(skillId).use();
     this.actor.useItemById(skillId);
   }
 

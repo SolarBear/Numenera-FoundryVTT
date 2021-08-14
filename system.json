@@ -2,7 +2,7 @@
     "name": "numenera",
     "title": "Numenera (Cypher System)",
     "description": "Featureful support for Cypher system games, including Numenera and The Strange for the Fountry Virtual TableTop.",
-    "version": "1.7.1",
+    "version": "1.8.0",
     "author": "SolarBear (David Lacerte)",
     "scripts": [],
     "esmodules": ["numenera.js"],
@@ -47,6 +47,7 @@
     "minimumCoreVersion": "0.8.8",
     "compatibleCoreVersion": "0.8.8",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",
+    "bugs": "https://github.com/SolarBear/Numenera-FoundryVTT/issues",
     "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json",
-    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/1.7.1/numenera-foundryvtt-1.7.1.zip"
+    "download": "https://github.com/SolarBear/Numenera-FoundryVTT/releases/download/1.8.0/numenera-foundryvtt-1.8.0.zip"
 }

@@ -1,5 +1,6 @@
 import { NumeneraSkillItem } from "./NumeneraSkillItem.js";
 import { NUMENERA } from '../config.js';
+import { RollData } from "../dice/RollData.js";
 
 export class NumeneraWeaponItem extends Item {
 
@@ -72,9 +73,18 @@ export class NumeneraWeaponItem extends Item {
             skill = await NumeneraSkillItem.fromOwnedItem(skill, null);
         }
 
-        skill.use();
+        //Provide the RollData to the skill so the weapon damage is known for chat output
+        const rollData = new RollData();
+        rollData.damage = this.data.data.damage;
+
+        skill.use({ rollData });
     }
 
+    /**
+     * Output the weapon's data to the chat area.
+     *
+     * @memberof NumeneraWeaponItem
+     */
     async toChatMessage() {
         const data = {
           id: this.id,

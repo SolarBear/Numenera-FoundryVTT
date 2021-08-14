@@ -3,6 +3,13 @@ export class NumeneraArtifactItem extends Item {
         return "artifact";
     }
 
+    static get object() {
+        return {
+          type: NumeneraArtifactItem.type,
+          name: game.i18n.localize("NUMENERA.item.artifact.newArtifact"),
+        }
+      }
+
     /**
      * Transform the current artifact so it doesn't look identified.
      *
@@ -34,9 +41,9 @@ export class NumeneraArtifactItem extends Item {
         let artifactItem;
 
         if (actor === null)
-            artifactItem = new Item(this.object);
+            artifactItem = new Item(NumeneraArtifactItem.object);
         else
-            artifactItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+            artifactItem = await actor.createEmbeddedDocuments("Item", [NumeneraArtifactItem.object]);
 
         artifactItem.data._id = ownedItem._id;
         artifactItem.data.name = ownedItem.name;
@@ -68,7 +75,7 @@ export class NumeneraArtifactItem extends Item {
         if (itemData.hasOwnProperty("data"))
             itemData = itemData.data;
 
-        itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.artifact.newArtifact");;
+        itemData.name = this.data.name || game.i18n.localize("NUMENERA.item.artifact.newArtifact");
         itemData.price = itemData.price || 0;
         itemData.notes = itemData.notes || "";
         itemData.form = itemData.form || "";

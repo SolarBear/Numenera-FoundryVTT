@@ -5,17 +5,17 @@
             {{capitalize type}}: {{name}}
         </span>
     </a><br/>
-    <span class="form">Form: {{form}}</span><br/>
+    <span class="form">{{localize "NUMENERA.pc.numenera.artifact.form"}}: {{form}}</span><br/>
     {{#if laws}}
-    <span class="laws">Laws: {{laws}}</span><br/>
+    <span class="laws">{{localize "NUMENERA.pc.numenera.artifact.laws"}}: {{laws}}</span><br/>
     {{/if}}
-    <span class="level">Level: {{level}}</span><br/>
+    <span class="level">{{localize "NUMENERA.pc.numenera.artifact.level"}}: {{level}}</span><br/>
     {{#if depletion}}
     <span class="depletion">
-        Depletion: {{#if depletion.isDepleting}}{{depletion.threshold}} on {{depletion.die}}{{else}}--{{/if}}
+        {{localize "NUMENERA.pc.numenera.artifact.depletion"}}: {{#if depletion.isDepleting}}{{depletion.threshold}} {{localize "NUMENERA.pc.numenera.artifact.in":}} {{depletion.die}}{{else}}--{{/if}}
     </span>
     {{else}}
-    <span class="depletion">Depletion: Unknown</span>
+    <span class="depletion">{{localize "NUMENERA.pc.numenera.artifact.depletion"}}: {{localize "NUMENERA.unknown"}}</span>
     {{/if}}
     </span>
     <p>{{effect}}</p>

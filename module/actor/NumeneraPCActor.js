@@ -43,7 +43,7 @@ export class NumeneraPCActor extends Actor {
     //Default case: there is no specific ID
     allFoci[Object.keys(allFoci)[0]] = value;
 
-    const data = {_id: this._id};
+    const data = {};
     data["data.focus"] = {"": value};
 
     this.update(data);
@@ -51,10 +51,13 @@ export class NumeneraPCActor extends Actor {
 
   getInitiativeFormula() {
     //Check for an initiative skill
-    let initSkill = this.items.find(i => i.type === "skill" && i.name.toLowerCase() === "initiative");
+    const setting = game.settings.get("numenera", "initiativeSkill");
+
+    let initSkill = this.items.find(i => i.type === "skill" && i.name === setting);
+
     if (!initSkill) {
       initSkill = new CONFIG.Item.documentClass(NumeneraSkillItem.object, {parent: this});
-      initSkill.data.data.name = "Initiative";
+      initSkill.data.data.name = setting;
     }
 
     const rollData = this.getSkillRollData(initSkill);
@@ -70,13 +73,14 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   getSkillRollData(skill) {
+    //TODO this REALLY should be in the Skill class
     const rollOptions = new RollData();
 
     let data = skill.data;
     if (data.hasOwnProperty("data"))
       data = data.data;
 
-    rollOptions.skillLevel = data ? data.skillLevel : 0;
+    rollOptions.skillLevel = data ? parseInt(data.skillLevel) : 0;
     rollOptions.isHindered = data ? data.inability : false;
     rollOptions.damageTrackPenalty = this.data.data.damageTrack > 0;
 
@@ -88,10 +92,12 @@ export class NumeneraPCActor extends Actor {
    *
    * @param {String} skillId
    * @param {RollData} rollData
+   * @param {NumeneraAbilityItem} ability
+   * @param {Number} enhancements
    * @returns {Roll}
    * @memberof NumeneraPCActor
    */
-  rollSkillById(skillId, rollData = null, ability = null) {
+  rollSkillById(skillId, rollData = null, ability = null, enhancements = 0) {
     const skill = this.items.get(skillId);
     return this.rollSkill(skill, rollData, ability);
   }
@@ -102,10 +108,12 @@ export class NumeneraPCActor extends Actor {
    *
    * @param {NumeneraSkillItem} skill
    * @param {RollData} rollData
+   * @param {NumeneraAbilityItem} ability
+   * @param {Number} enhancements
    * @returns
    * @memberof NumeneraPCActor
    */
-  rollSkill(skill, rollData = null, ability = null) {
+  rollSkill(skill, rollData = null, ability = null, enhancements = 0) {
     switch (this.data.data.damageTrack) {
       case 2:
         ui.notifications.warn(game.i18n.localize("NUMENERA.pc.damageTrack.debilitated.warning"));
@@ -125,6 +133,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     rollData.ability = ability;
+    rollData.enhancements = enhancements;
     
     const roll = rollData.getRoll();
     roll.roll();
@@ -133,11 +142,13 @@ export class NumeneraPCActor extends Actor {
 
     const mods = []; //any roll modifier goes here: effort, skill level, etc.
 
-    if (skill.data.data.skillLevel == 2) {
-      mods.push("specialized");
-    }
-    else if (skill.data.data.skillLevel == 1) {
-      mods.push("trained");
+    switch (skill.data.data.skillLevel) {
+      case 2:
+        mods.push("specialized");
+        break;
+      case 1:
+        mods.push("trained");
+        break;
     }
 
     if (skill.data.data.inability)
@@ -145,6 +156,9 @@ export class NumeneraPCActor extends Actor {
 
     if (rollData.effortLevel > 0)
       mods.push(`${rollData.effortLevel} ${game.i18n.localize("NUMENERA.effort.title")}`);
+
+    if (enhancements > 0)
+      mods.push(`${enhancements} ${game.i18n.localize("NUMENERA.effort.other")}`);
 
     if (mods.length > 0)
       flavor += ` (${mods.join(", ")})`;
@@ -299,25 +313,23 @@ export class NumeneraPCActor extends Actor {
     //TODO we're hitting the embedded collections twice... maybe cache the result?
     //recompute whenever armor values change, are added or deleted
 
-    const heaviestArmor = this._getHeaviestArmor();
-    if (!heaviestArmor)
-      return 0;
+    let speedEffortPenalty = this.items.filter(i => i.type === NumeneraArmorItem.type)
+      .reduce((max, current) => Math.max(max, current.data.data.additionalSpeedEffortCost), 0);
 
-    let speedEffortPenalty = heaviestArmor.weightIndex;
-
-    //Local, utility function
-    const searchArmorSkill = name => {
+    // //Local, utility function
+    const searchArmorAbility = name => {
       return !!this.getEmbeddedCollection("Item")
       .some(i => i.type === NumeneraAbilityItem.type && i.name === name);
     }
 
+    const trainingAbility = game.settings.get("numenera", "armorTrainingAbility");
+    const trainingSpecialization = game.settings.get("numenera", "armorSpecializationAbility");
+    
     //Look for any reducing skill(s)
-    if (searchArmorSkill("Mastery with Armor")) {
+    if (searchArmorAbility(trainingSpecialization))
       speedEffortPenalty -= 2;
-    }
-    else if (searchArmorSkill("Trained in Armor")) {
+    else if (searchArmorAbility(trainingAbility))
       speedEffortPenalty -= 1;
-    }
 
     //Negative penalties are not allowed, for obvious reasons!
     return Math.max(speedEffortPenalty, 0);
@@ -371,7 +383,7 @@ export class NumeneraPCActor extends Actor {
     }
 
     this.update({
-      _id: this._id,
+      _id: this._id, //TODO necessary?
       "data.xp": xp,
     });
 
@@ -509,7 +521,7 @@ export class NumeneraPCActor extends Actor {
       const newPoolValue = stat.pool.value + stat.edge - cost.amount;
       const poolProp = `data.stats.${cost.pool}.pool.value`;
 
-      const data = { _id: this._id };
+      const data = { _id: this._id }; //TODO necessary?
       data[poolProp] = newPoolValue;
 
       await this.update(data);
@@ -573,7 +585,7 @@ export class NumeneraPCActor extends Actor {
           }
 
           await this.updateEmbeddedDocuments("Item", [{
-            _id: newItem._id,
+            _id: newItem.id,
             "data.level": itemData.level,
             "data.form": itemData.form,
           }]);
@@ -609,7 +621,7 @@ export class NumeneraPCActor extends Actor {
             //Create a related skill if one does not already exist
             const skillData = {
               stat: actorAbility.data.data.cost.pool,
-              relatedAbilityId: actorAbility._id,
+              relatedAbilityId: actorAbility.id,
             };
 
             const itemData = {

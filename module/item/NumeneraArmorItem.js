@@ -23,9 +23,9 @@ export class NumeneraArmorItem extends Item {
         let armorItem;
 
         if (actor === null)
-            armorItem = new Item(this.object);
+            armorItem = new Item(NumeneraArmorItem.object);
         else
-            armorItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+            armorItem = await actor.createEmbeddedDocuments("Item", [NumeneraArmorItem.object]);
 
         armorItem._id = ownedItem._id;
         armorItem.data.name = ownedItem.name;
@@ -75,16 +75,15 @@ export class NumeneraArmorItem extends Item {
     }
 
     get armorSpeedPoolReduction() {
-        if (game.settings.get("numenera", "armorPenalty") !== "old") {
-            return 0;
-        }
+        if (game.settings.get("numenera", "armorPenalty") !== "old")
+            return 0; //irrelevant in cases other than older Cypher games
 
         return speedPoolReductions[this.data.weight];
     }
 
     get mightCostPerHour() {
         if (game.settings.get("numenera", "armorPenalty") !== "old") {
-            return 0;
+            return 0; //irrelevant in cases other than older Cypher games
         }
 
         //N/A is simply 0, 1 for Light, 2 for Medium, 3 for Heavy

@@ -91,7 +91,7 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
     if (await confirmDeletion(deleteType)) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
-      const toDelete = this.actor.data.items.find(i => i._id === itemId);
+      const toDelete = this.actor.data.items.find(i => i.id === itemId);
 
       await this.actor.deleteEmbeddedDocuments("Item", [itemId]);
 
