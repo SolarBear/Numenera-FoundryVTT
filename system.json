@@ -43,15 +43,6 @@
             "path": "lang/pt-BR.json"
         }
     ],
-    "dependencies": [
-        {
-            "name": "bug-reporter",
-            "manifest": "https://github.com/League-of-Foundry-Developers/bug-reporter/releases/download/latest/manifest.json"
-        }
-    ],
-    "flags": {
-        "allowBugReporter": true
-    },
     "socket": true,
     "minimumCoreVersion": "0.8.8",
     "compatibleCoreVersion": "0.8.8",
