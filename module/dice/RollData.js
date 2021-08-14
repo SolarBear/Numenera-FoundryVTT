@@ -206,7 +206,7 @@ export class RollData {
 
         return {
           special: false,
-          text: `${game.i18n.localize("NUMENERA.successLevel")} ${taskLevel}`,
+          text: `${game.i18n.localize("NUMENERA.successLevel")} \u2265 ${taskLevel}`, // >= sign
           combat,
           color: 0x000000,
         }
