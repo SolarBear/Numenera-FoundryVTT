@@ -730,7 +730,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!skillId)
       return;
 
-    //this.actor.items.get(skillId).use();
     this.actor.useItemById(skillId);
   }
 

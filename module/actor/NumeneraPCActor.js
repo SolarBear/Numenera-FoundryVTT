@@ -73,6 +73,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   getSkillRollData(skill) {
+    //TODO this REALLY should be in the Skill class
     const rollOptions = new RollData();
 
     let data = skill.data;
