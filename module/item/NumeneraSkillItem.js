@@ -21,7 +21,7 @@ export class NumeneraSkillItem extends Item {
     if (actor === null)
       skillItem = new Item(NumeneraSkillItem.object);
     else
-      skillItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+      skillItem = await actor.createEmbeddedDocuments("Item", [NumeneraSkillItem.object]);
 
     skillItem.data._id = ownedItem._id;
     skillItem.data.name = ownedItem.name;

@@ -7,6 +7,13 @@ export class NumeneraCypherItem extends Item {
     return game.i18n.localize("NUMENERA.pc.numenera.cypher.unidentified");
   }
 
+  static get object() {
+    return {
+      type: NumeneraCypherItem.type,
+      name: game.i18n.localize("NUMENERA.item.cypher.newCypher"),
+    }
+  }
+
   /**
      * Transform the current cypher so it doesn't look identified.
      *
@@ -37,9 +44,9 @@ export class NumeneraCypherItem extends Item {
     let cypherItem;
 
     if (actor === null)
-      cypherItem = new Item(this.object);
+      cypherItem = new Item(NumeneraCypherItem.object);
     else
-      cypherItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+      cypherItem = await actor.createEmbeddedDocuments("Item", [NumeneraCypherItem.object]);
 
     cypherItem.data._id = ownedItem._id;
     cypherItem.data.name = ownedItem.name;

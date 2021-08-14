@@ -5,13 +5,22 @@ export class NumeneraPowerShiftItem extends Item {
     return "powerShift";
   }
 
+  static get object() {
+    return {
+      type: NumeneraPowerShiftItem.type,
+      name: game.i18n.localize("NUMENERA.item.powerShift.newPowerShift"),
+    }
+  }
+
   static async fromOwnedItem(ownedItem, actor) {
     let powerShiftItem;
 
     if (actor === null)
-      powerShiftItem = new Item(this.object);
-    else
-      powerShiftItem = await actor.createEmbeddedDocuments("Item", [this.object]);
+      powerShiftItem = new Item(NumeneraPowerShiftItem.object);
+    else {
+      powerShiftItem = await actor.createEmbeddedDocuments("Item", [NumeneraPowerShiftItem.object]);
+      powerShiftItem = powerShiftItem[0];
+    }
       
     powerShiftItem.data._id = ownedItem._id;
     powerShiftItem.data.name = ownedItem.name;
@@ -20,7 +29,6 @@ export class NumeneraPowerShiftItem extends Item {
     powerShiftItem.data.data.notes = ownedItem.data.notes;
     powerShiftItem.data.data.effect = ownedItem.data.effect;
     powerShiftItem.data.data.level = parseInt(ownedItem.data.level);
-    powerShiftItem.options.actor = actor;
 
     powerShiftItem.prepareData();
 

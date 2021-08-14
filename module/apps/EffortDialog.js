@@ -152,7 +152,7 @@ export class EffortDialog extends FormApplication {
       armorSpeedEffortIncrease: actor.extraSpeedEffortCost,
       powerShifts: [],
       powerShift,
-    }, {});
+  }, {});
 
     this._isInitialized = false;
   }
@@ -165,15 +165,8 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   async init() {
-    this.object.skills = this.object.actor.getEmbeddedCollection("Item")
+    this.object.skills = (await this.object.actor.getEmbeddedCollection("Item"))
       .filter(i => i.type === NumeneraSkillItem.type);
-
-      //TODO still required in 0.7?
-      //.map(NumeneraSkillItem.fromOwnedItem);
-
-    //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
-    //0.8 returns Promise<Item>s instead of straight Items
-    this.object.skills = await Promise.all(this.object.skills);
 
     this.object.skills = this.object.skills.map(sk => {
       //Append an extra label to tell which skills are related to an ability
@@ -185,14 +178,8 @@ export class EffortDialog extends FormApplication {
 
     let powerShifts = null;
     if (game.settings.get("numenera", "usePowerShifts")) {
-      powerShifts = this.object.actor.getEmbeddedCollection("Item")
-        .filter(i => i.type === "powerShift")
-        .map(NumeneraPowerShiftItem.fromOwnedItem);
-
-      //TODO _might_ not be necessary. Isn't an object an auto-fulfilled Promise or something?
-      powerShifts = await Promise.all(powerShifts);
-
-      this.object.powerShifts = powerShifts;
+      this.object.powerShifts = (await this.object.actor.getEmbeddedCollection("Item"))
+                                .filter(i => i.type === "powerShift");
     }
 
     this._isInitialized = true;
@@ -558,14 +545,11 @@ export class EffortDialog extends FormApplication {
     this.object.current = actor.data.data.stats[shortStat].pool.value;
     this.object.remaining = this.object.current - this.object.cost;
 
-    if (formData.powerShift) {
-      const powerShift = actor.getEmbeddedCollection("Item")
-                          .find(i => i._id === formData.powerShift);
-      this.object.powerShift = NumeneraPowerShiftItem.fromOwnedItem(powerShift);
-    }
-    else {
+    if (formData.powerShift)
+      this.object.powerShift = actor.getEmbeddedCollection("Item")
+                           .find(i => i._id === formData.powerShift);
+    else
       this.object.powerShift = null;
-    }
     
     //Re-render the form since it's not provided for free in FormApplications
     this.render();
