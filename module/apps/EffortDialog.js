@@ -112,9 +112,10 @@ export class EffortDialog extends FormApplication {
   * @param {Number} [assets=0]
   * @param {Number} [taskLevel=null]
   * @param {NumeneraPowerShiftItem} [powerShift=null]
+  * @param {RollData} [rollData=null]
   * @memberof EffortDialog
   */
-  constructor(actor, {stat=null, skill=null, ability=null, assets=0, taskLevel=null, powerShift=null}) {
+  constructor(actor, {stat=null, skill=null, ability=null, assets=0, taskLevel=null, powerShift=null, rollData=null}) {
     if (!stat) {
       if (ability) {
         stat = getShortStat(ability.data.data.cost.pool);
@@ -152,6 +153,7 @@ export class EffortDialog extends FormApplication {
       armorSpeedEffortIncrease: actor.extraSpeedEffortCost,
       powerShifts: [],
       powerShift,
+      rollData,
   }, {});
 
     this._isInitialized = false;
@@ -411,7 +413,7 @@ export class EffortDialog extends FormApplication {
       return;
     }
 
-    const rollData = new RollData();
+    const rollData = this.object.rollData ? this.object.rollData : new RollData();
 
     rollData.effortLevel = this.object.currentEffort;
     rollData.taskLevel = this.finalLevel;
@@ -431,16 +433,15 @@ export class EffortDialog extends FormApplication {
       await actor.rollAttribute(shortStat, rollData);
     }
 
-    if (cost <= 0)
-      return;
+    if (cost > 0) {
+      const poolProp = `data.stats.${shortStat}.pool.value`;
 
-    const poolProp = `data.stats.${shortStat}.pool.value`;
-
-    const data = { _id: actor.id };
-    data[poolProp] = poolValue - cost;
-
-    //TIME TO PAY THE PRICE MWAHAHAHAHAHAHAH
-    actor.update(data);
+      const data = { _id: actor.id };
+      data[poolProp] = poolValue - cost;
+  
+      //TIME TO PAY THE PRICE MWAHAHAHAHAHAHAH
+      actor.update(data);
+    }
 
     this.close();
   }

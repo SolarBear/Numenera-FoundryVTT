@@ -130,7 +130,7 @@ export class NumeneraAbilityItem extends Item {
       skill = NumeneraSkillItem.fromOwnedItem(skill, this.actor);
     }
 
-    return skill.use(event, this);
+    return skill.use({ event, ability: this });
   }
 
   async toChatMessage() {

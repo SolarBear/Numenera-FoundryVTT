@@ -23,6 +23,7 @@ export class RollData {
     this.damageTrackPenalty = false;
     this.effortLevel = 0;
     this.enhancements = 0;
+    this.damage = null;
     this.rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
   }
 
@@ -95,24 +96,41 @@ export class RollData {
    * @returns {object}  
    */
   static rollText(roll) {
+    let rollText;
+
     if (!roll.hasOwnProperty("numenera") || roll.numenera.taskLevel === null) {
-      return RollData._rollTextWithoutTaskLevel(roll);
+      rollText = RollData._rollTextWithoutTaskLevel(roll);
     }
     else {
-      return RollData._rollTextWithTaskLevel(roll);
+      rollText = RollData._rollTextWithTaskLevel(roll);
     }
+
+    return rollText;
+  }
+
+  static _getCombatText(roll, dieRoll) {
+    let combat = "";
+    
+    if (roll.numenera.damage)
+      combat = roll.numenera.damage.toString();
+
+    const extraDamage = Math.max(0, dieRoll - 16);
+    if (extraDamage > 0)
+      combat += ` + ${extraDamage}`;
+
+    if (combat !== "")
+      combat = "Damage: " + combat; //add prefix if any damage is output
+
+    return combat;
   }
 
   static _rollTextWithTaskLevel(roll) {
     let dieRoll, success;
-    dieRoll = roll.terms[0].rolls[0].total  ;
+    dieRoll = roll.terms[0].rolls[0].total;
     success = !!roll.total;
 
     if (success) {
-      let combat = "";
-      if (dieRoll >= 17) {  
-        combat = `Combat: +${dieRoll - 16} damage`;
-      }
+      let combat = this._getCombatText(roll, dieRoll);
 
       switch (dieRoll) {  
         case 19:
@@ -167,10 +185,7 @@ export class RollData {
     let dieRoll = roll.terms[0].results[0].result;
     let total = roll.total;
 
-    let combat = "";
-    if (dieRoll >= 17) {
-      combat = `Combat: +${dieRoll - 16} damage`;
-    }
+    let combat = this._getCombatText(roll, dieRoll);
 
     switch (dieRoll) {
       case 1:

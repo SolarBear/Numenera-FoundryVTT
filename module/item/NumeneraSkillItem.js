@@ -101,7 +101,7 @@ export class NumeneraSkillItem extends Item {
     return updated;
   }
 
-  async use(event = null, ability = null) {
+  async use({event = null, ability = null, rollData = null} = {}) {
     if (event === null)
       event = window.event;
 
@@ -111,12 +111,12 @@ export class NumeneraSkillItem extends Item {
     }
 
     if (event && useAlternateButtonBehavior()) {
-      const dialog = new EffortDialog(this.actor, { skill: this, ability });
+      const dialog = new EffortDialog(this.actor, { skill: this, ability, rollData, });
       await dialog.init();
       return dialog.render(true);
     }
     else {
-      return await this.actor.rollSkill(this);
+      return await this.actor.rollSkill(this, rollData);
     }
   }
 
