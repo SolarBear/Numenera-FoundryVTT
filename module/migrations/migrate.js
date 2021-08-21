@@ -11,6 +11,7 @@ export async function migrateWorld() {
   const currentItemVersion = ItemMigrator.forVersion;
 
   //Actors - split PCs and NPCs as they are completely different
+  //TODO 0.9 warning: The WorldCollection#entities property is deprecated in favor of the Collection#contents attribute and will be removed in 0.9.0
   let pcActors = game.actors.entities.filter(actor => actor.data.type === 'pc' && actor.data.data.version < currentPCActorVersion);
   let npcActors = game.actors.entities.filter(actor => actor.data.type === 'npc' && actor.data.data.version < currentNPCActorVersion);
 

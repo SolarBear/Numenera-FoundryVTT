@@ -228,3 +228,25 @@ export class RollData {
     }
   }
 }
+
+/**
+ * Simple function to make rolls, Numenera-style. Mostly useful for macro use.
+ *
+ * @export
+ * @param {String} topic
+ */
+export function numeneraRoll(topic) {
+  const rollData = new RollData();
+  rollData.topic = topic;
+
+  const roll = rollData.getRoll().roll();
+
+  roll.toMessage({
+    speaker: ChatMessage.getSpeaker(),
+    messageData: RollData.rollText(roll),
+    flavor: topic,
+  },
+  {
+    rollMode: rollData.rollMode,
+  });
+}
