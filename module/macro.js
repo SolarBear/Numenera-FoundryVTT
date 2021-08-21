@@ -16,29 +16,31 @@ export function useItemMacro(actorId, itemId) {
  * @returns {Promise}
  */
 export async function createNumeneraMacro(data, slot) {
-    if (data.type !== "Item")
-        return;
+  if (data.type !== "Item")
+    return;
 
-    if (!("data" in data))
-        return ui.notifications.warn(game.i18n.localize("NUMENERA.macro.create.onlyOwned"));
+  if (!("data" in data))
+    return ui.notifications.warn(game.i18n.localize("NUMENERA.macro.create.onlyOwned"));
 
-    const item = data.data;
+  const actor = Actors.instance.get(data.actorId);
+  const item = actor.items.get(data.data._id);
 
-    // Create the macro command
-    const command = `game.numenera.useItemMacro("${data.actorId}", "${item._id}");`;
+  // Create the macro command
+  const command = `game.numenera.useItemMacro("${data.actorId}", "${item._id}");`;
 
-    let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
-    if (!macro) {
-      macro = await Macro.create({
-        name: item.name,
-        type: "script",
-        img: item.img,
-        command: command,
-        flags: { "numenera.itemMacro": true }
-      });
-    }
-
-    game.user.assignHotbarMacro(macro, slot);
-
-    return false;
+  //TODO 0.9 warning: The WorldCollection#entities property is deprecated in favor of the Collection#contents attribute and will be removed in 0.9.0
+  let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));
+  if (!macro) {
+    macro = await Macro.create({
+      name: item.name,
+      type: "script",
+      img: item.img,
+      command: command,
+      flags: { "numenera.itemMacro": true }
+    });
   }
+
+  game.user.assignHotbarMacro(macro, slot);
+
+  return false;
+}
