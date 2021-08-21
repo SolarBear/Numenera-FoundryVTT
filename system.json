@@ -45,7 +45,7 @@
     ],
     "socket": true,
     "minimumCoreVersion": "0.8.8",
-    "compatibleCoreVersion": "0.8.8",
+    "compatibleCoreVersion": "0.8.9",
     "url": "https://github.com/SolarBear/Numenera-FoundryVTT",
     "bugs": "https://github.com/SolarBear/Numenera-FoundryVTT/issues",
     "manifest": "https://raw.githubusercontent.com/SolarBear/Numenera-FoundryVTT/master/system.json",
