@@ -29,6 +29,7 @@ import { registerHooks } from './module/hooks.js';
 import { useItemMacro } from './module/macro.js';
 import { cypherRuler } from './module/ruler.js';
 import { cypherRoll } from './module/dice/cypherRoll.js';
+import { numeneraRoll } from './module/dice/RollData.js';
 
 Hooks.once("init", function() {
     console.log('Numenera | Initializing Numenera System');
@@ -38,6 +39,7 @@ Hooks.once("init", function() {
             EffortDialog,
             RecoveryDialog,
         },
+        numeneraRoll,
         useItemMacro,
     };
 
