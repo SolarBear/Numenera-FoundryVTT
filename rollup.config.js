@@ -33,6 +33,7 @@ const toBundle = [
     "templates/actor/communitySheetLimited.html",
     "templates/actor/npcSheet.html",
     "templates/actor/npcSheetLimited.html",
+    "templates/actor/partials/abilities.html",
     "templates/actor/partials/artifacts.html",
     "templates/actor/partials/cyphers.html",
     "templates/actor/partials/features.html",

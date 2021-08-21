@@ -17,6 +17,7 @@ export const preloadHandlebarsTemplates = async() => {
 
         //Actor partials
         "systems/numenera/templates/actor/partials/artifacts.html",
+        "systems/numenera/templates/actor/partials/abilities.html",
         "systems/numenera/templates/actor/partials/cyphers.html",
         "systems/numenera/templates/actor/partials/features.html",
         "systems/numenera/templates/actor/partials/oddities.html",
