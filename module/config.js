@@ -27,57 +27,6 @@ NUMENERA.skillLevels = {
   "s": "NUMENERA.skillLevels.Specialized"
 };
 
-NUMENERA.types = [
-  {
-    abbrev: "a",
-    name: "Arkus",
-  },
-  {
-    abbrev: "d",
-    name: "Delve",
-  },
-  {
-    abbrev: "g",
-    name: "Glaive",
-  },
-  {
-    abbrev: "j",
-    name: "Jack",
-  },
-  {
-    abbrev: "n",
-    name: "Nano",
-  },
-  {
-    abbrev: "w",
-    name: "Wright",
-  },
-  {
-    abbrev: 'p',
-    name: 'Paradox',
-  },
-  {
-    abbrev: 's',
-    name: 'Spinner',
-  },
-  {
-    abbrev: 'v',
-    name: 'Vector',
-  },
-];
-
-NUMENERA.typePowers = {
-  'g': 'Combat Maneuvers',
-  'j': 'Tricks of the Trade',
-  'n': 'Esoteries',
-  'a': 'Precepts',
-  'd': 'Delve Lores',
-  'w': 'Inspired Techniques',
-  'v': 'Moves',
-  'p': 'Revisions',
-  's': 'Twists',
-};
-
 NUMENERA.damageTrack = [
   {
     label: "NUMENERA.pc.damageTrack.hale.label",
