@@ -434,20 +434,6 @@ form.numenera {
                 &:hover {
                     background-color: rgba(0, 0, 0, 0.1)
                 };
-
-                #context-menu {
-                    position: relative;
-                    &.expand-left {
-                        right: calc(100% + 2px);
-                      }
-                    .expand-right {
-                        left: calc(100% + 2px);
-                      }
-                }
-
-                a.context-menu {
-                    position:absolute;
-                }
             }
 
             td {
@@ -456,7 +442,6 @@ form.numenera {
                 font-weight: bold;
                 font-size: 16px;
                 text-align: center;
-                vertical-align: center;
                 border-bottom: 1px solid $border-color;
             }
 
@@ -539,7 +524,6 @@ form.numenera {
                 font-weight: bold;
                 font-size: 16px;
                 text-align: center;
-                vertical-align: center;
             }
 
             tbody td input[type="text"] {
@@ -758,7 +742,6 @@ form.numenera {
             font-weight:normal;
             font-size:1em;
             text-align: center;
-            vertical-align: center;
         }
 
         td h4 {
