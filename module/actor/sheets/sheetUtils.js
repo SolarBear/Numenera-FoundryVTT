@@ -108,10 +108,15 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
     });
 
     if (answer) {
-      //const elem = event.currentTarget.closest("." + deleteType);
-      const elem = event.closest("." + deleteType);
-      //const itemId = elem.dataset.itemId;
-      const itemId = elem.data("itemId");
+      //Here, event might be an actual Event or a jQuery object provided by ContextMenu.
+      let elem;
+      if (event.hasOwnProperty("currentTarget"))
+        elem = $(event.currentTarget);
+      else
+        elem = $(event);
+
+      const elemItem = elem.closest("." + deleteType);
+      const itemId = elemItem.data("itemId");
       const toDelete = this.actor.data.items.find(i => i.id === itemId);
 
       await this.actor.deleteEmbeddedDocuments("Item", [itemId]);

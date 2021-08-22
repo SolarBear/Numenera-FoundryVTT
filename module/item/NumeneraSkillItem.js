@@ -101,22 +101,19 @@ export class NumeneraSkillItem extends Item {
     if (!this.actor || !ability)
       return;
 
-
-      debugger;
-    if (
-      ability.data.data.cost.pool === this.data.data.stat &&
-      ability.data.name === this.data.name
-    )
+    //Only perform an Ability update if some shared values were actually changed
+    //TODO kind of a hack, improve this
+    if ( ability.data.data.cost.pool === this.data.data.stat
+      && ability.data.name === this.data.name) {
       return;
+    }
 
-    const updated = await ability.update({
-      _id: ability.id,
-      name: this.name,
-      "data.cost.pool": this.data.data.stat,
-    },
+    return await ability.update({
+        _id: ability.id,
+        name: this.name,
+        "data.cost.pool": this.data.data.stat,
+      },
       options);
-
-    return updated;
   }
 
   /**
