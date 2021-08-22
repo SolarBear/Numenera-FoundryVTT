@@ -555,7 +555,6 @@ export class NumeneraPCActorSheet extends ActorSheet {
     abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
 
     //TODO make generic plz
-    //TODO localize
     new ContextMenu(abilitiesTable, "a.context-menu", [
       {
         name: game.i18n.localize("NUMENERA.chat.sendToChat"),
@@ -572,7 +571,10 @@ export class NumeneraPCActorSheet extends ActorSheet {
         icon: '<i class="fas fa-trash"></i>',
         callback: this.onAbilityDelete.bind(this),
       },
-    ]);
+    ],
+    {
+      eventName: "click" //otherwise, it binds to the contextmenu event (ie. right-click)
+    });
 
     const armorTable = html.find("table.armor");
     armorTable.on("click", ".armor-create", this.onArmorCreate.bind(this));
@@ -848,7 +850,14 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
+  /**
+   * Create the skill related to a given ability
+   *
+   * @param {*} elem
+   * @memberof NumeneraPCActorSheet
+   */
   async onCreateRelatedSkill(elem) {
+    //TODO prompt for confirmation somewhere along the way
     const abilityId = elem.closest("tr.ability.item").data("itemId");
     const ability = this.actor.getEmbeddedDocument("Item", abilityId);
     ability.createRelatedSkill();
@@ -909,18 +918,15 @@ export class NumeneraPCActorSheet extends ActorSheet {
     super._onChangeInput(event);
   }
 
-  async onItemToChat(event) {
-    event.preventDefault();
-    event.stopPropagation(); //Important! otherwise we get double rendering
-
-    const elem = event.currentTarget.closest(".item");
+  async onItemToChat(element) {
+    const elem = element.closest(".item");
 
     if (!elem)
       throw new Error(`Missing .item class element`);
-    else if (!elem.dataset.itemId)
+    else if (!elem.data("itemId"))
       throw new Error(`No itemID on .item element`);
 
-    const item = await this.actor.getEmbeddedDocument("Item", elem.dataset.itemId);
+    const item = await this.actor.getEmbeddedDocument("Item", elem.data("itemId"));
 
     if (!!!item.toChatMessage) {
       console.warn(`Tried to output ${item.type} type to chat, which is currently not supported`);

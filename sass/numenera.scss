@@ -434,6 +434,13 @@ form.numenera {
                 &:hover {
                     background-color: rgba(0, 0, 0, 0.1)
                 };
+
+                a.context-menu #context-menu {
+                    left: unset;
+                    right: 0;
+                    white-space: nowrap;
+                    width: unset;
+                }
             }
 
             td {
@@ -703,10 +710,10 @@ form.numenera {
     }
 
 	#pc-sheet-body {
-        overflow-y: auto;
+        overflow-y: visible;
 
         & > div {
-            overflow: auto;
+            overflow-y: visible;
         }
 
         &.item-icon {
