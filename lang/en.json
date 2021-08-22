@@ -366,7 +366,7 @@
     "NUMENERA.dialog.confirmDeletion.cancel": "Cancel",
 
     "NUMENERA.info.linkedToSkillWithSameName": "The ability had been linked to the skill bearing the same name",
-    "NUMENERA.info.skillWithSameNameCreated": "A skill with the same name linked to this ability has also been created",
+    "NUMENERA.info.skillWithSameNameCreated": "A skill with the same name linked to this ability has been created",
 
     "NUMENERA.warnings.abilityWithSameNameExists": "An Ability with the same name also exists",
     "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Not enough points left in your pool to use that Ability",

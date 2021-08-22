@@ -366,7 +366,7 @@
     "NUMENERA.dialog.confirmDeletion.cancel": "Annuler",
 
     "NUMENERA.info.linkedToSkillWithSameName": "L'aptitude a été reliée à une compétence portant le même nom",
-    "NUMENERA.info.skillWithSameNameCreated": "Une compétence portant le même nom a aussi été créée",
+    "NUMENERA.info.skillWithSameNameCreated": "Une compétence portant le même nom a été créée",
 
     "NUMENERA.warnings.abilityWithSameNameExists": "Une aptitude portant le même nom existe déjà",
     "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Pas suffisamment de points disponibles dans votre Réserve pour cette Aptitude",
