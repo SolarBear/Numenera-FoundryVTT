@@ -37,6 +37,24 @@ export class NumeneraSkillItem extends Item {
     return skillItem;
   }
 
+  /**
+   * Get the RollData object for this Skill.
+   *
+   * @param {Number} damageTrack The Actor's current damage track penalty, in the range [0,3]
+   * @returns {RollData}
+   * @memberof NumeneraPCActor
+   */
+  getRollData(damageTrack = 0) {
+    const data = this.data.data;
+    
+    const rollOptions = new RollData();
+    rollOptions.skillLevel = data ? parseInt(data.skillLevel) : 0;
+    rollOptions.isHindered = data ? data.inability : false;
+    rollOptions.damageTrackPenalty = damageTrack > 0;
+
+    return rollOptions;
+  }
+
   prepareData() {
     super.prepareData();
 

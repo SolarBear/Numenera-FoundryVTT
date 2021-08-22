@@ -60,31 +60,9 @@ export class NumeneraPCActor extends Actor {
       initSkill.data.data.name = setting;
     }
 
-    const rollData = this.getSkillRollData(initSkill);
+    const rollData = initSkill.getRollData(this.data.data.damageTrack);
 
     return rollData.getInitiativeRollFormula();
-  }
-
-  /**
-   * Given a skill id, get the related RollData object.
-   *
-   * @param {NumeneraSkillItem} skill
-   * @returns {RollData}
-   * @memberof NumeneraPCActor
-   */
-  getSkillRollData(skill) {
-    //TODO this REALLY should be in the Skill class
-    const rollOptions = new RollData();
-
-    let data = skill.data;
-    if (data.hasOwnProperty("data"))
-      data = data.data;
-
-    rollOptions.skillLevel = data ? parseInt(data.skillLevel) : 0;
-    rollOptions.isHindered = data ? data.inability : false;
-    rollOptions.damageTrackPenalty = this.data.data.damageTrack > 0;
-
-    return rollOptions;
   }
 
   /**
@@ -129,7 +107,7 @@ export class NumeneraPCActor extends Actor {
       rollData.isHindered = skill.data.data.inability;
     }
     else {
-      rollData = this.getSkillRollData(skill);
+      rollData = skill.getRollData(this.data.data.damageTrack);
     }
 
     rollData.ability = ability;

@@ -857,6 +857,26 @@ export class NumeneraPCActorSheet extends ActorSheet {
    * @memberof NumeneraPCActorSheet
    */
   async onCreateRelatedSkill(elem) {
+    Dialog.confirm({
+      title: game.i18n.localize("NUMENERA.recoveries.resetDialog.title"),
+      content: game.i18n.localize("NUMENERA.recoveries.resetDialog.content"),
+      yes: () => {
+        this.object.recoveriesLeft = new Array(this.object.actor.nbRecoveries).fill(true);
+        this.object.initialRecoveriesLeft = Array.from(this.object.recoveriesLeft);
+        this.object.unspentRecoveryPoints = 0;
+
+        this.object.actor.update({
+          "data.recoveries": this.object.recoveriesLeft
+        });
+
+        ChatMessage.create({
+          content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
+        });
+
+        this.render();
+      }
+    });
+    
     //TODO prompt for confirmation somewhere along the way
     const abilityId = elem.closest("tr.ability.item").data("itemId");
     const ability = this.actor.getEmbeddedDocument("Item", abilityId);
@@ -878,7 +898,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
   }
 
   onSkillDeleted(skill) {
-    //TODO move to Skill class
+    //TODO move to some kind of post-deletion hook
     if (
       skill &&
       skill.data.relatedAbilityId &&

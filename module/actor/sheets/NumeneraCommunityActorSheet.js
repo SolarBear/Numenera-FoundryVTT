@@ -41,9 +41,7 @@ export class NumeneraCommunityActorSheet extends ActorSheet {
     const sheetData = super.getData();
 
     //lol? https://discord.com/channels/170995199584108546/670336275496042502/836066464388743188
-    //TODO remove condition when removing support for 0.7
-    if (game.data.version.startsWith("0.8."))
-      sheetData.data = sheetData.data.data;
+    sheetData.data = sheetData.data.data;
 
     if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
     {

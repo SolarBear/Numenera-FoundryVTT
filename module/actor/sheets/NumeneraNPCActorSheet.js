@@ -53,9 +53,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
     const sheetData = super.getData();
 
     //lol? https://discord.com/channels/170995199584108546/670336275496042502/836066464388743188
-    //TODO remove condition when removing support for 0.7
-    if (game.data.version.startsWith("0.8."))
-      sheetData.data = sheetData.data.data;
+    sheetData.data = sheetData.data.data;
 
     sheetData.ranges = NUMENERA.ranges.map(r => game.i18n.localize(r));
 
@@ -63,9 +61,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
 
     const items = sheetData.data.items;
 
-    //TODO is this really needed in 0.7?
-    //if (!sheetData.data.attacks)
-      sheetData.data.attacks = items.filter(i => i.type === NumeneraNpcAttackItem.type).sort(sortFunction);
+    sheetData.data.attacks = items.filter(i => i.type === NumeneraNpcAttackItem.type).sort(sortFunction);
 
     if (this.actor.getUserLevel() < CONST.ENTITY_PERMISSIONS.OBSERVER)
     {

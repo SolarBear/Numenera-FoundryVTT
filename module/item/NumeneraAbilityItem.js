@@ -103,8 +103,6 @@ export class NumeneraAbilityItem extends Item {
 
       //A skil already has the same name as the ability
       //This is certainly the matching skill, no need to create a new one
-
-      //TODO prompt for link
       const updated = {
         _id: relatedSkill.data._id,
         "data.relatedAbilityId": this.id,
