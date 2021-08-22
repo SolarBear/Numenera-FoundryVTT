@@ -590,73 +590,10 @@ export class NumeneraPCActor extends Actor {
             "data.form": itemData.form,
           }]);
           break;
-
-        case NumeneraAbilityItem.type:
-          //TODO related skill
-          const actorAbility = newItem;
-
-          if (!actorAbility) throw new Error("No related ability exists");
-
-          //Now check if a skill with the same name already exists
-          const relatedSkill = this.items.find(
-            (i) => i.data.type === "skill" && i.data.name === actorAbility.name
-          );
-
-          if (relatedSkill) {
-            if (relatedSkill.relatedAbilityId)
-              throw new Error(
-                "Skill related to new abiltiy already has a skill linked to it"
-              );
-
-            //A skil already has the same name as the ability
-            //This is certainly the matching skill, no need to create a new one
-
-            //TODO prompt for link
-            const updated = {
-              _id: relatedSkill.data._id,
-              "data.relatedAbilityId": actorAbility.id,
-            };
-            await this.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
-
-            ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
-          } else {
-            //Create a related skill if one does not already exist
-            await this.createAbilityRelatedSkill(actorAbility);
-          }
-          break;
       }
     }
 
     return newItems;
-  }
-
-  /**
-   * Given an Ability item, create a related skill for it.
-   *
-   * @param {NumeneraAbilityItem} actorAbility The Ability object.
-   * @param {boolean} [notify=true] If true, display a UI notification about the skill having been created.
-   * 
-   * @memberof NumeneraPCActor
-   */
-  async createAbilityRelatedSkill(actorAbility, notify=true) {
-    //TODO related skill
-    //TODO move to NumeneraAbilityItem class
-
-    const skillData = {
-      stat: actorAbility.data.data.cost.pool,
-      relatedAbilityId: actorAbility.id,
-    };
-
-    const itemData = {
-      name: actorAbility.name,
-      type: NumeneraSkillItem.type,
-      data: skillData,
-    };
-
-    await this.createEmbeddedDocuments("Item", [itemData]);
-
-    if (notify)
-      ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
   }
 
   /**
@@ -675,21 +612,18 @@ export class NumeneraPCActor extends Actor {
     for (const updatedItem of updatedItems) {
       switch (updatedItem.type) {
         case NumeneraAbilityItem.type:
+          //TODO bind to some post-update hook instead?
           const relatedSkill = await updatedItem.getRelatedSkill();
           if (!relatedSkill)
             break;
   
-          //TODO is this really useful? getRelatedSkill() already performs such a check
-          const ability = this.items.get(relatedSkill.data.data.relatedAbilityId);
-          if (!ability) {
-            throw new Error("huh");
+          //TODO is this still necessary?
+          if (!context.fromActorUpdateEmbeddedEntity) {
+            debugger;
+            context.fromActorUpdateEmbeddedEntity = NumeneraAbilityItem.type;
           }
   
-          //TODO is this still necessary?
-          if (!context.fromActorUpdateEmbeddedEntity)
-            context.fromActorUpdateEmbeddedEntity = NumeneraAbilityItem.type;
-  
-          ability.updateRelatedSkill(relatedSkill, context);
+          updatedItem.updateRelatedSkill(relatedSkill, context);
           break;
   
         case NumeneraSkillItem.type:
