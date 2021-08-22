@@ -26,7 +26,7 @@ export async function createNumeneraMacro(data, slot) {
   const item = actor.items.get(data.data._id);
 
   // Create the macro command
-  const command = `game.numenera.useItemMacro("${data.actorId}", "${item._id}");`;
+  const command = `game.numenera.useItemMacro("${data.actorId}", "${item.id}");`;
 
   //TODO 0.9 warning: The WorldCollection#entities property is deprecated in favor of the Collection#contents attribute and will be removed in 0.9.0
   let macro = game.macros.entities.find(m => (m.name === item.name) && (m.command === command));

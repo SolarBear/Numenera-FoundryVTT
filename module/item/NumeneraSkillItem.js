@@ -1,6 +1,7 @@
 import { NUMENERA } from "../config.js";
 import { EffortDialog } from "../apps/EffortDialog.js";
 import { useAlternateButtonBehavior } from "../utils.js";
+import { NumeneraAbilityItem } from "./NumeneraAbilityItem.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {
@@ -73,18 +74,35 @@ export class NumeneraSkillItem extends Item {
     }
   }
 
+  /**
+   * Get the ability item related to this skill, if any exists.
+   *
+   * @return {NumeneraAbilityItem | null} The ability item, or null if none exists.
+   * @memberof NumeneraSkillItem
+   */
   async getRelatedAbility() {
-    if (!this.data.data.relatedAbilityId)
+    if (!this.actor || !this.data.data.relatedAbilityId)
       return null;
 
     return this.actor.getEmbeddedDocument("Item", this.data.data.relatedAbilityId);
   }
 
+  /**
+   * Given a skill item, update some of its values whenever this item changes.
+   *
+   * @param {NumeneraSkillItem} skill The skill item.
+   * @param {Object} [options={}] Options given to the Item.update method
+   * @return {NumeneraSkillItem} The updated skill item
+   *
+   * @memberof NumeneraAbilityItem
+   */
   async updateRelatedAbility(ability, options = {}) {
     //If it is not owned by an Actor, it has no related skill
     if (!this.actor || !ability)
       return;
 
+
+      debugger;
     if (
       ability.data.data.cost.pool === this.data.data.stat &&
       ability.data.name === this.data.name
@@ -92,7 +110,7 @@ export class NumeneraSkillItem extends Item {
       return;
 
     const updated = await ability.update({
-      _id: ability._id,
+      _id: ability.id,
       name: this.name,
       "data.cost.pool": this.data.data.stat,
     },
@@ -101,6 +119,14 @@ export class NumeneraSkillItem extends Item {
     return updated;
   }
 
+  /**
+   * The Actor uses the Skill. This will either make a roll for that skill or open the Effort Dialog,
+   * depending on how the use was made as well as system settings.
+   *
+   * @param {Object} [{event = null, ability = null, rollData = null}={}]
+   * @return {Roll|boolean} 
+   * @memberof NumeneraSkillItem
+   */
   async use({event = null, ability = null, rollData = null} = {}) {
     if (event === null)
       event = window.event;

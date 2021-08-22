@@ -72,7 +72,37 @@ export class NumeneraAbilityItem extends Item {
     };
   }
 
+  /**
+   * Get the skill related to the current ability, if one exists.
+   *
+   * @return {NumeneraSkillItem|null} The related skill item; null, if none exists.
+   * @memberof NumeneraAbilityItem
+   */
+   async getRelatedSkill() {
+    if (!this.actor || this.data.data.relatedSkill)
+      return null;
+
+    //TODO should we provide an empty Skill item if no skill is found here?
+    return this.actor.items.find(
+      i =>    i.data.type === NumeneraSkillItem.type
+           && i.data.data.relatedAbilityId === this.id
+      );
+  }
+
+  /**
+   * Given a skill item, update some of its values whenever this item changes.
+   *
+   * @param {NumeneraSkillItem} skill The skill item.
+   * @param {Object} [options={}] Options given to the Item.update method
+   * @return {NumeneraSkillItem} The updated skill item
+   *
+   * @memberof NumeneraAbilityItem
+   */
   async updateRelatedSkill(skill, options = {}) {
+    //TODO related skill : bind to postUpdate hook instead of calling manually
+    //TODO why bother passing the skill as an argument?
+    //TODO are options actually useful here?
+
     //If it is not owned by an Actor, it has no related skill
     if (!this.actor || !skill)
       return;
@@ -95,6 +125,39 @@ export class NumeneraAbilityItem extends Item {
   }
 
   /**
+   * Whenever an ability item is deleted, if a related skill exists, prompt the
+   * user to ask if that skill should be deleted, too. Also, delete any macro
+   * related to that ability.
+   *
+   * @memberof NumeneraAbilityItem
+   */
+  async deleteRelatedSkill() {
+    debugger;
+
+    //TODO related skill : can I bind this to some kind of postDelete event?
+    const relatedSkill = await this.getRelatedSkill();
+    if (relatedSkill) {
+      //TODO localize
+      const answer = await Dialog.confirm({
+        title: "Delete Related Skill",
+        content: "A skill related to that ability exists. Delete it too?",
+        defaultYes: false,
+        options: {jQuery: false}
+      });
+
+      if (answer)
+        this.actor.deleteEmbeddedDocuments("Item", [relatedSkill.id]);
+
+      //TODO unused? remove from localization files
+      //ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.skillWithSameNameExists"));
+    }
+
+    //Check for any macro related to that ability
+    game.macros.filter(m => m.data.command.indexOf(this.id) !== -1)
+      .forEach(m => m.delete());  
+  }
+
+  /**
    * Use the Ability: gets the related skill, if any, then checks whether it is a spell.
    * Performs the roll and returns whether the ability was successfully used.
    *
@@ -109,9 +172,7 @@ export class NumeneraAbilityItem extends Item {
     }
 
     //Get the skill related to that ability
-    let skill = this.actor.items.find(
-      i => i.name === this.data.name && i.type === NumeneraSkillItem.type
-    );
+    let skill = this.getRelatedSkill();
 
     //Is this a spell?
     if (this.isSpell) {
@@ -133,6 +194,11 @@ export class NumeneraAbilityItem extends Item {
     return skill.use({ event, ability: this });
   }
 
+  /**
+   * Create a ChatMessage from this Ability and output it to chat.
+   *
+   * @memberof NumeneraAbilityItem
+   */
   async toChatMessage() {
     const data = {
       id: this.id,

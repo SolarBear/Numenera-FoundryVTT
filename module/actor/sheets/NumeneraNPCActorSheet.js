@@ -171,6 +171,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
     }
   }
 
+  //TODO is this still necessary?
   /**
    * @override
    */

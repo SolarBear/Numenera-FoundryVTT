@@ -827,18 +827,18 @@ export class NumeneraPCActorSheet extends ActorSheet {
     }
   }
 
-  onAbilityDeleted(ability) {
-    //TODO move to Ability class
-    if (
-      ability &&
-      this.actor.data.items.find(i => i.type === "skill" &&
-      i.data.relatedAbilityId === ability._id)
-    )
-      ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.skillWithSameNameExists"));
+  /**
+   * Triggered whenever the user deletes an ability.
+   *
+   * @param {NumeneraAbilityItem} ability The ability item
+   *
+   * @memberof NumeneraPCActorSheet
+   */
+  async onAbilityDeleted(ability) {
+    if (!ability)
+      return;
 
-    //Check for any macro related to that ability
-    game.macros.filter(m => m.data.command.indexOf(ability._id) !== -1)
-      .forEach(m => m.delete());      
+    await ability.deleteRelatedSkill();
   }
 
   onSkillDeleted(skill) {
@@ -851,7 +851,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
       ui.notifications.warn(game.i18n.localize("NUMENERA.warnings.abilityWithSameNameExists"));
 
     //Check for any macro related to that skill
-    game.macros.filter(m => m.data.command.indexOf(skill._id) !== -1)
+    game.macros.filter(m => m.data.command.indexOf(skill.id) !== -1)
       .forEach(m => m.delete());   
   }
 
@@ -859,7 +859,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //TODO move to Weapon class
     if (equipment.type === NumeneraWeaponItem.type) {
       //Check for any macro related to that skill
-      game.macros.filter(m => m.data.command.indexOf(equipment._id) !== -1)
+      game.macros.filter(m => m.data.command.indexOf(equipment.id) !== -1)
         .forEach(m => m.delete());   
     }
   }
