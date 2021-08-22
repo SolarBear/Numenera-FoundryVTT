@@ -88,7 +88,30 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
   return async function (event) {
     event.preventDefault();
 
-    if (await confirmDeletion(deleteType)) {
+    const answer = await Dialog.confirm({
+      title: game.i18n.localize("NUMENERA.dialog.confirmDeletion.title"),
+      content: `${game.i18n.localize("NUMENERA.dialog.confirmDeletion.text")} ${deleteType}?`,
+      buttons: {
+        ok: {
+          icon: '<i class="fas fa-check"></i>',
+          label: game.i18n.localize("NUMENERA.dialog.confirmDeletion.ok"),
+          callback: () => resolve(true)
+        },
+        cancel: {
+          icon: '<i class="fas fa-times"></i>',
+          label: game.i18n.localize("NUMENERA.dialog.confirmDeletion.cancel"),
+          callback: () => resolve(false)
+        },
+      },
+      defaultYes: false,
+      close: () => resolve(false),
+      options: {
+        jQuery: false,
+        classes: ["numenera", "dialog"]
+      },
+    });
+
+    if (answer) {
       const elem = event.currentTarget.closest("." + deleteType);
       const itemId = elem.dataset.itemId;
       const toDelete = this.actor.data.items.find(i => i.id === itemId);
