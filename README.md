@@ -45,6 +45,7 @@ First and foremost, use it! Use the system for your games and send any feedback 
 
 Otherwise, I'm always looking for all kinds of help:
 
+* discussions: be a part of the action! 
 * wiki: this repo has a wiki and it would be a great place to document features and tips!
 * translations: any language translations are welcome! Already translated:
     * English
@@ -60,7 +61,7 @@ Whatever the case, just get in touch.
 
 ## Requests
 
-If you'd like something added or prioritized, just drop me a line! You can easily join me by creating in issue here or through the [Foundry Discord server](https://discordapp.com/invite/DDBZUDf).
+If you'd like something added or prioritized, just drop me a line! You can easily join me by creating in issue here or through the [Foundry Discord server](https://discordapp.com/invite/DDBZUDf). You can also [create an issue](https://github.com/SolarBear/Numenera-FoundryVTT/issues) here on Github or start a new thread in [Discussions](https://github.com/SolarBear/Numenera-FoundryVTT/discussions).
 
 ## Dev Info
 
