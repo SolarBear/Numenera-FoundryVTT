@@ -2,6 +2,7 @@ import { NUMENERA } from "../config.js";
 import { EffortDialog } from "../apps/EffortDialog.js";
 import { useAlternateButtonBehavior } from "../utils.js";
 import { NumeneraAbilityItem } from "./NumeneraAbilityItem.js";
+import { RollData } from "../dice/RollData.js";
 
 export class NumeneraSkillItem extends Item {
   static get type() {
