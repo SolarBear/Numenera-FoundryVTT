@@ -39,7 +39,7 @@ export class NumeneraAbilityItem extends Item {
     itemData.name = this.data ? this.data.name : game.i18n.localize("NUMENERA.item.ability.newAbility");
     itemData.category = itemData.category || "";
     itemData.categoryValue = itemData.categoryValue || "";
-    itemData.abilityType = itemData.abilityType || false;
+    itemData.abilityType = itemData.abilityType || "NUMENERA.item.ability.type.action";
     itemData.cost = itemData.cost || {};
     itemData.cost.amount = itemData.cost.amount || 0;
     itemData.cost.pool = itemData.cost.pool || "";
