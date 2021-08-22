@@ -271,6 +271,7 @@
     "NUMENERA.item.ability.tab.name": "Name",
     "NUMENERA.item.ability.tab.range": "Range",
     "NUMENERA.item.ability.tab.instructions": "No abilities yet. Create one by clicking the <a><i class=\"fas fa-plus\"></i></a> icon on the top right of the table or pick one from the Items Directory or a Compendium and drag it here.",
+    "NUMENERA.item.ability.tab.options.createRelatedSkill": "Create Related SKill",
     "NUMENERA.item.ability.cost": "Cost",
     "NUMENERA.item.ability.category": "Category",
     "NUMENERA.item.ability.categoryPlaceholder": "Category (eg. Type, Focus, etc.)",
@@ -376,5 +377,4 @@
     "NUMENERA.macro.create.onlyOwned": "You can only create macro buttons for owned Items",
 
     "NUMENERA.chat.sendToChat": "Send to chat"
-    
 }

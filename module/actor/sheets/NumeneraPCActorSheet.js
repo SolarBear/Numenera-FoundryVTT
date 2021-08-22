@@ -558,17 +558,17 @@ export class NumeneraPCActorSheet extends ActorSheet {
     //TODO localize
     new ContextMenu(abilitiesTable, "a.context-menu", [
       {
-        name: "Ability.ToChat",
+        name: game.i18n.localize("NUMENERA.chat.sendToChat"),
         icon: '<i class="fas fa-comment"></i>',
         callback: this.onItemToChat.bind(this),
       },
       {
-        name: "Ability.CreateRelatedSkill",
+        name: game.i18n.localize("NUMENERA.item.ability.tab.options.createRelatedSkill"),
         icon: '<i class="fas fa-link"></i>',
         callback: this.onCreateRelatedSkill.bind(this),
       },
       {
-        name: "Ability.Delete",
+        name: game.i18n.localize("NUMENERA.item.ability.tab.deleteTooltip"),
         icon: '<i class="fas fa-trash"></i>',
         callback: this.onAbilityDelete.bind(this),
       },

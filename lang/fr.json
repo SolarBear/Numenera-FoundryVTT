@@ -271,6 +271,7 @@
     "NUMENERA.item.ability.tab.name": "Nom",
     "NUMENERA.item.ability.tab.range": "Portée",
     "NUMENERA.item.ability.tab.instructions": "Pas d'aptitudes. Créez-en une en cliquant sur l'icône <a><i class=\"fas fa-plus\"></i></a> en haut à droite du tableau ou sélectionnez-en une du ITEMS DIRECTORY ou d'un Compendium et DRAGGEZ-la jusque ici.",
+    "NUMENERA.item.ability.tab.options.createRelatedSkill": "Créer compétence liée",
     "NUMENERA.item.ability.cost": "Coût",
     "NUMENERA.item.ability.category": "Catégorie",
     "NUMENERA.item.ability.categoryPlaceholder": "Catégorie (ex. Type, Focus, etc.)",
