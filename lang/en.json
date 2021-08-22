@@ -369,7 +369,7 @@
     "NUMENERA.info.skillWithSameNameCreated": "A skill with the same name linked to this ability has also been created",
 
     "NUMENERA.warnings.abilityWithSameNameExists": "An Ability with the same name also exists",
-    "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Not enough point left in your pool to use that Ability",
+    "NUMENERA.warnings.notEnoughPointsInPoolForAbility": "Not enough points left in your pool to use that Ability",
     "NUMENERA.warnings.noSkillRelatedToAbility": "No skill related to that ability",
     "NUMENERA.warnings.skillWithSameNameExists": "A Skill with the same name also exists",
 
