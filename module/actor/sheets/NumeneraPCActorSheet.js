@@ -560,7 +560,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
       {
         name: "Ability.ToChat",
         icon: '<i class="fas fa-comment"></i>',
-        callback: () => this.onItemToChat.bind(this),
+        callback: this.onItemToChat.bind(this),
+      },
+      {
+        name: "Ability.CreateRelatedSkill",
+        icon: '<i class="fas fa-link"></i>',
+        callback: this.onCreateRelatedSkill.bind(this),
       },
       {
         name: "Ability.Delete",
@@ -838,6 +843,12 @@ export class NumeneraPCActorSheet extends ActorSheet {
       if (deltaRecoveries !== 0)
         this.render();
     }
+  }
+
+  async onCreateRelatedSkill(elem) {
+    const abilityId = elem.closest("tr.ability.item").data("itemId");
+    const ability = this.actor.getEmbeddedDocument("Item", abilityId);
+    ability.createRelatedSkill();
   }
 
   /**
