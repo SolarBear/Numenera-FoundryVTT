@@ -132,8 +132,6 @@ export class NumeneraAbilityItem extends Item {
    * @memberof NumeneraAbilityItem
    */
   async deleteRelatedSkill() {
-    debugger;
-
     //TODO related skill : can I bind this to some kind of postDelete event?
     const relatedSkill = await this.getRelatedSkill();
     if (relatedSkill) {
@@ -172,7 +170,7 @@ export class NumeneraAbilityItem extends Item {
     }
 
     //Get the skill related to that ability
-    let skill = this.getRelatedSkill();
+    let skill = await this.getRelatedSkill();
 
     //Is this a spell?
     if (this.isSpell) {

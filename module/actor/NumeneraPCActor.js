@@ -614,7 +614,7 @@ export class NumeneraPCActor extends Actor {
             //TODO prompt for link
             const updated = {
               _id: relatedSkill.data._id,
-              "data.relatedAbilityId": actorAbility._id,
+              "data.relatedAbilityId": actorAbility.id,
             };
             await this.updateEmbeddedDocuments("Item", [updated], {fromActorUpdateEmbeddedEntity: true});
 

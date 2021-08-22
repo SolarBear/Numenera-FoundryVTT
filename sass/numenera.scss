@@ -430,11 +430,25 @@ form.numenera {
                 &.cypher-header {
                     color: #131517;
                 }
-            }
 
-            tr:hover {
-                background-color: rgba(0, 0, 0, 0.1)
-            };
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.1)
+                };
+
+                #context-menu {
+                    position: relative;
+                    &.expand-left {
+                        right: calc(100% + 2px);
+                      }
+                    .expand-right {
+                        left: calc(100% + 2px);
+                      }
+                }
+
+                a.context-menu {
+                    position:absolute;
+                }
+            }
 
             td {
                 padding: 5px;

@@ -84,8 +84,6 @@ export function onItemEditGenerator(editClass, callback = null) {
 
 export function onItemDeleteGenerator(deleteType, callback = null) {
   return async function (event) {
-    event.preventDefault();
-
     const answer = await Dialog.confirm({
       title: game.i18n.localize("NUMENERA.dialog.confirmDeletion.title"),
       content: `${game.i18n.localize("NUMENERA.dialog.confirmDeletion.text")} ${deleteType}?`,
@@ -110,8 +108,10 @@ export function onItemDeleteGenerator(deleteType, callback = null) {
     });
 
     if (answer) {
-      const elem = event.currentTarget.closest("." + deleteType);
-      const itemId = elem.dataset.itemId;
+      //const elem = event.currentTarget.closest("." + deleteType);
+      const elem = event.closest("." + deleteType);
+      //const itemId = elem.dataset.itemId;
+      const itemId = elem.data("itemId");
       const toDelete = this.actor.data.items.find(i => i.id === itemId);
 
       await this.actor.deleteEmbeddedDocuments("Item", [itemId]);

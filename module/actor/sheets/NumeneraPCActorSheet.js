@@ -551,10 +551,23 @@ export class NumeneraPCActorSheet extends ActorSheet {
 
     const abilitiesTable = html.find("table.abilities");
     abilitiesTable.on("click", ".ability-create", this.onAbilityCreate.bind(this));
-    abilitiesTable.on("click", ".ability-delete", this.onAbilityDelete.bind(this));
-    abilitiesTable.on("click", "a.ability-to-chat", this.onItemToChat.bind(this));
     abilitiesTable.on("blur", "input,select,textarea", this.onAbilityEdit.bind(this));
     abilitiesTable.on("click", "a.rollable", this.onAbilityUse.bind(this));
+
+    //TODO make generic plz
+    //TODO localize
+    new ContextMenu(abilitiesTable, "a.context-menu", [
+      {
+        name: "Ability.ToChat",
+        icon: '<i class="fas fa-comment"></i>',
+        callback: () => this.onItemToChat.bind(this),
+      },
+      {
+        name: "Ability.Delete",
+        icon: '<i class="fas fa-trash"></i>',
+        callback: this.onAbilityDelete.bind(this),
+      },
+    ]);
 
     const armorTable = html.find("table.armor");
     armorTable.on("click", ".armor-create", this.onArmorCreate.bind(this));
