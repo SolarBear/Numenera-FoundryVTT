@@ -1,5 +1,3 @@
-import { confirmDeletion } from "../../apps/ConfirmationDialog.js";
-
 //Sort function for order
 //TODO does this really work in 0.8?
 export const sortFunction = (a, b) => { 
