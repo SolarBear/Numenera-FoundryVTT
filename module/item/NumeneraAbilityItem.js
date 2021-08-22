@@ -89,6 +89,49 @@ export class NumeneraAbilityItem extends Item {
       );
   }
 
+  async createRelatedSkill() {
+    //First check if a skill with the same name already exists
+    const relatedSkill = this.actor.items.find(
+      (i) => i.data.type === NumeneraSkillItem.type && i.data.name === this.name
+    );
+
+    if (relatedSkill) {
+      if (relatedSkill.relatedAbilityId)
+        throw new Error(
+          "Skill related to new abiltiy already has a skill linked to it"
+        );
+
+      //A skil already has the same name as the ability
+      //This is certainly the matching skill, no need to create a new one
+
+      //TODO prompt for link
+      const updated = {
+        _id: relatedSkill.data._id,
+        "data.relatedAbilityId": this.id,
+      };
+      await this.actor.updateEmbeddedDocuments("Item", [updated], { fromActorUpdateEmbeddedEntity: true });
+
+      ui.notifications.info(game.i18n.localize("NUMENERA.info.linkedToSkillWithSameName"));
+    } else {
+      const skillData = {
+        stat: this.data.data.cost.pool,
+        relatedAbilityId: this.id,
+      };
+
+      const itemData = {
+        name: this.name,
+        type: NumeneraSkillItem.type,
+        data: skillData,
+      };
+
+      const skill = await this.actor.createEmbeddedDocuments("Item", [itemData]);
+
+      //TODO handle failure?
+      if (skill)
+        ui.notifications.info(game.i18n.localize("NUMENERA.info.skillWithSameNameCreated"));
+    }
+  }
+
   /**
    * Given a skill item, update some of its values whenever this item changes.
    *
