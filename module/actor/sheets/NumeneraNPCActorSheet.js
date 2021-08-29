@@ -83,6 +83,7 @@ export class NumeneraNPCActorSheet extends ActorSheet {
 
     const attacksTable = html.find("table.attacks");
     attacksTable.on("click", ".attack-create", this.onAttackCreate.bind(this));
+    attacksTable.on("click", ".attack-to-chat", this._onSendToChat.bind(this));
     attacksTable.on("click", ".attack-delete", this.onAttackDelete.bind(this));
     attacksTable.on("change", "input", this.onAttackEdit.bind(this));
 
@@ -93,6 +94,26 @@ export class NumeneraNPCActorSheet extends ActorSheet {
         elem.addEventListener("dragstart", ev => this._onDragStart(ev), false);
       });
     }
+  }
+
+
+  async _onSendToChat(event) {
+    //TODO this is _mostly_ copy & pasted from PCActorSheet, please refac
+    const elem = event.currentTarget.closest(".item");
+
+    if (!elem)
+      throw new Error(`Missing .item class element`);
+    else if (!elem.dataset["itemId"])
+      throw new Error(`No itemID on .item element`);
+
+    const item = await this.actor.getEmbeddedDocument("Item", elem.dataset.itemId);
+
+    if (!!!item.toChatMessage) {
+      console.warn(`Tried to output ${item.type} type to chat, which is currently not supported`);
+      return;
+    }
+
+    await item.toChatMessage();
   }
 
   //TODO these 4 functions are copy & paste frmo PCActorSheet, putthem somewhere else

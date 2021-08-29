@@ -48,6 +48,7 @@ const toBundle = [
     "templates/chat/items/artifact.html",
     "templates/chat/items/cypher.html",
     "templates/chat/items/equipment.html",
+    "templates/chat/items/npcAttack.html",
     "templates/chat/items/oddity.html",
     "templates/chat/items/powerShift.html",
     "templates/chat/items/recursion.html",
