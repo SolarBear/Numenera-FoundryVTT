@@ -22,7 +22,7 @@ export class EffortDialog extends FormApplication {
       submitOnChange: true,
       submitOnClose: false,
       editable: true,
-      width: 360,
+      width: 460,
       height: "auto",
     });
   }
@@ -147,6 +147,7 @@ export class EffortDialog extends FormApplication {
       remaining,
       assets,
       currentEffort: 0,
+      damageEffort: 0,
       cost: 0,
       taskLevel,
       useArmorSpeedEffortRule: (game.settings.get("numenera", "armorPenalty") === "new"),
@@ -178,7 +179,6 @@ export class EffortDialog extends FormApplication {
       return sk;
     });
 
-    let powerShifts = null;
     if (game.settings.get("numenera", "usePowerShifts")) {
       this.object.powerShifts = (await this.object.actor.getEmbeddedCollection("Item"))
                                 .filter(i => i.type === "powerShift");
@@ -197,14 +197,13 @@ export class EffortDialog extends FormApplication {
    */
   get warning() {
     if (!this.object.stat)
-    {
       return game.i18n.localize("NUMENERA.effort.warning.provideStat");
-    }
 
     if (this.object.remaining < 0)
-    {
       return game.i18n.localize("NUMENERA.effort.warning.notEnoughPoolPoints");
-    }
+
+    if (this.object.actor.data.data.effort < this.totalEffort)
+      return game.i18n.localize("NUMENERA.effort.warning.tooManyEffortLevels");
 
     return null;
   }
@@ -217,7 +216,7 @@ export class EffortDialog extends FormApplication {
    * @returns {Number} The total task level.
    * @memberof EffortDialog
    */
-  get finalLevel() {
+  get finalTaskLevel() {
     if (this.object.taskLevel === null)
       return null;
 
@@ -246,6 +245,17 @@ export class EffortDialog extends FormApplication {
   }
 
   /**
+   * Get the total number of Effort levels invested, whether it's task or damage levels.
+   *
+   * @readonly
+   * @returns {Number} Total number of Effort levels invested
+   * @memberof EffortDialog
+   */
+  get totalEffort() {
+    return this.object.currentEffort + this.object.damageEffort;
+  }
+
+  /**
    * Checks whether the current task allows an automatic sucess.
    *
    * @readonly
@@ -260,7 +270,7 @@ export class EffortDialog extends FormApplication {
 
     #ididntchoosetheJSlife
     */
-    const finalLevel = this.finalLevel;
+    const finalLevel = this.finalTaskLevel;
     return finalLevel !== null && finalLevel <= 0;
   }
 
@@ -271,7 +281,7 @@ export class EffortDialog extends FormApplication {
    * @memberof EffortDialog
    */
   get automaticFailure() {
-    const finalLevel = this.finalLevel;
+    const finalLevel = this.finalTaskLevel;
     //A task level of 7 would require rolling a 21 on a d20. Good luck with that!
     //Also, see note in the automaticSuccess getter.
     return finalLevel !== null && finalLevel >= 7;
@@ -286,12 +296,12 @@ export class EffortDialog extends FormApplication {
    */
   get rollButtonText() {
     let text = game.i18n.localize("NUMENERA.roll");
-    if (this.object.currentEffort > 0) {
+    if (this.totalEffort > 0) {
       text += ` ${game.i18n.localize("NUMENERA.with")} ${this.object.currentEffort} ${game.i18n.localize("NUMENERA.effort.title")}`;
     }
 
     if (this.object.taskLevel > 0) {
-      text += ` ${game.i18n.localize("NUMENERA.effort.againstTaskLevel")} ${this.finalLevel}`;
+      text += ` ${game.i18n.localize("NUMENERA.effort.againstTaskLevel")} ${this.finalTaskLevel}`;
     }
 
     return text;
@@ -341,19 +351,26 @@ export class EffortDialog extends FormApplication {
 
     data.assets = this.object.assets;
     data.damageTrackPenalty = this.object.actor.data.data.damageTrack > 0;
+
     data.currentEffort = this.object.currentEffort;
+    data.damageEffort = this.object.damageEffort;
     data.maxEffortLevel = this.object.actor.data.data.effort;
+
+    const remainingEffort = this.object.actor.data.data.effort - this.object.currentEffort - this.object.damageEffort;
+    data.maxTaskEffortLevel = this.object.currentEffort + remainingEffort;
+    data.maxDamageEffortLevel = this.object.damageEffort + remainingEffort;
+
     data.taskLevel = this.object.taskLevel;
-    data.finalLevel = this.finalLevel;
+    data.finalLevel = this.finalTaskLevel;
     data.current = this.object.current;
     data.rollMode = this.object.rollMode;
 
     if (this.object.ability) {
-      data.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
+      data.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.totalEffort);
       data.remaining = data.current - data.cost;
     }
     else if (data.stat) {
-      data.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.object.currentEffort);
+      data.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.totalEffort);
       data.remaining = data.current - data.cost;
     }
     else {
@@ -404,9 +421,9 @@ export class EffortDialog extends FormApplication {
 
     let cost;
     if (this.object.ability)
-      cost = actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
+      cost = actor.getEffortCostFromAbility(this.object.ability, this.totalEffort);
     else
-      cost = actor.getEffortCostFromStat(shortStat, this.object.currentEffort);
+      cost = actor.getEffortCostFromStat(shortStat, this.totalEffort);
     
     if (cost > poolValue) {
       ui.notifications.warn(game.i18n.localize("NUMENERA.effort.warning.notEnoughPoolPoints"));
@@ -415,8 +432,9 @@ export class EffortDialog extends FormApplication {
 
     const rollData = this.object.rollData ? this.object.rollData : new RollData();
 
-    rollData.effortLevel = this.object.currentEffort;
-    rollData.taskLevel = this.finalLevel;
+    rollData.effortLevel = this.currentEffort;
+    rollData.effortDamage = this.damageEffort;
+    rollData.taskLevel = this.finalTaskLevel;
     rollData.rollMode = this.object.rollMode;
     rollData.damageTrackPenalty = this.object.actor.data.data.damageTrack;
 
@@ -495,6 +513,7 @@ export class EffortDialog extends FormApplication {
     this.object.assets = formData.assets;
     this.object.taskLevel = formData.taskLevel;
     this.object.currentEffort = formData.currentEffort;
+    this.object.damageEffort = formData.damageEffort;
     this.object.rollMode = formData.rollMode;
 
     if (formData.stat)
@@ -533,12 +552,10 @@ export class EffortDialog extends FormApplication {
       this.object.ability = null;
     }
 
-    if (this.object.ability) {
-      this.object.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.object.currentEffort);
-    }
-    else {
-      this.object.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.object.currentEffort);
-    }
+    if (this.object.ability)
+      this.object.cost = this.object.actor.getEffortCostFromAbility(this.object.ability, this.totalEffort);
+    else
+      this.object.cost = this.object.actor.getEffortCostFromStat(this.object.stat, this.totalEffort);
 
     //Recompute current and remaining pool values
     const actor = this.object.actor;

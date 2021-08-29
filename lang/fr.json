@@ -33,11 +33,12 @@
     "NUMENERA.effort.confirmUnspentTitle": "Confirmation : points non dépensés",
     "NUMENERA.effort.confirmUnspent": "Vous n'avez pas dépensé tous vos points et vos Réserves ne sont pas encore pleines. Voulvez-vous vraiment quitter? Ces points seront perdus.",
     "NUMENERA.effort.cost": "Coût",
+    "NUMENERA.effort.damageEffort": "Effort pour dommages",
     "NUMENERA.effort.damageTrackPenalty": "Pénalité de niveau de blessures",
     "NUMENERA.effort.effortLevels": "Niveaux d'Effort",
     "NUMENERA.effort.finalTaskLevel": "Niveau final de la tâche",
     "NUMENERA.effort.initialTaskLevel": "Niveau initial de la tâche",
-    "NUMENERA.effort.max": "Max",
+    "NUMENERA.effort.max": "Total max",
     "NUMENERA.effort.poolChangesApplied": "Les changements à vos réserves ont été enregistrés",
     "NUMENERA.effort.remaining": "Restant",
     "NUMENERA.effort.rollType": "Type de jet",
@@ -45,6 +46,7 @@
     "NUMENERA.effort.skillAbilitySuffix": " (Aptitude)",
     "NUMENERA.effort.succeedAutomatically": "Succès automatique",
 
+    "NUMENERA.effort.warning.tooManyEffortLevels":"Le niveau total d'Effort est supérieur à votre score d'Effort",
     "NUMENERA.effort.warning.provideStat": "Vous devez sélectionner une caractéristique avant d'ajouter un Effort",
     "NUMENERA.effort.warning.notEnoughPoolPoints":"Points insuffisants dans cette Réserve",
 

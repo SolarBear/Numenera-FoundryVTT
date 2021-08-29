@@ -499,8 +499,12 @@ export class NumeneraPCActor extends Actor {
       const newPoolValue = stat.pool.value + stat.edge - cost.amount;
       const poolProp = `data.stats.${cost.pool}.pool.value`;
 
-      const data = { _id: this._id }; //TODO necessary?
-      data[poolProp] = newPoolValue;
+      // const data = { _id: this.id }; //TODO necessary?
+      // data[poolProp] = newPoolValue;
+
+      const data = {
+        [poolProp]: newPoolValue,
+      };
 
       await this.update(data);
     }

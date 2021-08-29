@@ -33,11 +33,12 @@
     "NUMENERA.effort.confirmUnspentTitle": "Confirm: Unspent Points",
     "NUMENERA.effort.confirmUnspent": "You have unspent points are your pools are not full yet. Do you really want to exit? These points will be lost.",
     "NUMENERA.effort.cost": "Cost",
+    "NUMENERA.effort.damageEffort": "Damage Effort",
     "NUMENERA.effort.damageTrackPenalty": "Damage Track Penalty",
     "NUMENERA.effort.effortLevels": "Effort Level",
     "NUMENERA.effort.finalTaskLevel": "Final Task Level",
     "NUMENERA.effort.initialTaskLevel": "Initial Task Level",
-    "NUMENERA.effort.max": "Max",
+    "NUMENERA.effort.max": "Max Total",
     "NUMENERA.effort.poolChangesApplied": "Your pools changes have been applied",
     "NUMENERA.effort.remaining": "Remaining",
     "NUMENERA.effort.rollType": "Roll Type",
@@ -45,6 +46,7 @@
     "NUMENERA.effort.skillAbilitySuffix": " (Ability)",
     "NUMENERA.effort.succeedAutomatically": "Automatic Success",
     
+    "NUMENERA.effort.warning.tooManyEffortLevels":"Total Effort levels are higher than Effort stat",
     "NUMENERA.effort.warning.provideStat": "You must provide a stat before using Effort",
     "NUMENERA.effort.warning.notEnoughPoolPoints":"Insufficient points in this Pool",
 

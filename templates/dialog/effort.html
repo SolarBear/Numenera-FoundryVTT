@@ -51,8 +51,15 @@
             <h2>{{localize "NUMENERA.effort.damageTrackPenalty"}} <input type="number" value="-1" disabled="disabled" /></h2>
         </div>
         {{/if}}
+        <div class="flexrow">
+            <div>
+                <h2>{{localize "NUMENERA.effort.effortLevels"}} <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxTaskEffortLevel}}" step="1" /></h2>
+            </div>
+            <div>
+                <h2>{{localize "NUMENERA.effort.damageEffort"}} <input type="number" name="damageEffort" data-dtype="Number" value="{{damageEffort}}" max="{{maxDamageEffortLevel}}" min="0" step="1" /></h2>
+            </div>
+        </div>
         <div>
-            <h2>{{localize "NUMENERA.effort.effortLevels"}} <input type="number" name="currentEffort" data-dtype="Number" value="{{currentEffort}}" min="0" max="{{maxEffortLevel}}" step="1" /></h2>
             {{localize "NUMENERA.effort.max"}}: <input type="number" class="max-effort" value="{{ maxEffortLevel }}" disabled />
         </div>
         {{#if useArmorSpeedEffortRule}}

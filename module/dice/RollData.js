@@ -22,6 +22,7 @@ export class RollData {
     this.isHindered = false;
     this.damageTrackPenalty = false;
     this.effortLevel = 0;
+    this.effortDamage = 0;
     this.enhancements = 0;
     this.damage = null;
     this.rollMode = CONST.DICE_ROLL_MODES.PUBLIC;
