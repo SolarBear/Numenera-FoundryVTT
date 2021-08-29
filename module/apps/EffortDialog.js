@@ -297,7 +297,7 @@ export class EffortDialog extends FormApplication {
   get rollButtonText() {
     let text = game.i18n.localize("NUMENERA.roll");
     if (this.totalEffort > 0) {
-      text += ` ${game.i18n.localize("NUMENERA.with")} ${this.object.currentEffort} ${game.i18n.localize("NUMENERA.effort.title")}`;
+      text += ` ${game.i18n.localize("NUMENERA.with")} ${this.totalEffort} ${game.i18n.localize("NUMENERA.effort.title")}`;
     }
 
     if (this.object.taskLevel > 0) {
@@ -432,8 +432,8 @@ export class EffortDialog extends FormApplication {
 
     const rollData = this.object.rollData ? this.object.rollData : new RollData();
 
-    rollData.effortLevel = this.currentEffort;
-    rollData.effortDamage = this.damageEffort;
+    rollData.effortLevel = this.object.currentEffort;
+    rollData.effortDamage = this.object.damageEffort;
     rollData.taskLevel = this.finalTaskLevel;
     rollData.rollMode = this.object.rollMode;
     rollData.damageTrackPenalty = this.object.actor.data.data.damageTrack;
@@ -442,8 +442,8 @@ export class EffortDialog extends FormApplication {
       let skill = this.object.skill;
 
       //Fetch the skill, might be one of these weird kind-of-Item objects
-      if (skill._id)
-        skill = this.object.actor.items.get(this.object.skill.id);
+      if (skill.id)
+        skill = this.object.actor.items.get(skill.id);
 
       actor.rollSkill(skill, rollData, this.object.ability);
     }

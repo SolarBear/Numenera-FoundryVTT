@@ -601,7 +601,6 @@ export class NumeneraPCActor extends Actor {
   
           //TODO is this still necessary?
           if (!context.fromActorUpdateEmbeddedEntity) {
-            debugger;
             context.fromActorUpdateEmbeddedEntity = NumeneraAbilityItem.type;
           }
   

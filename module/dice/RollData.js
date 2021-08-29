@@ -119,6 +119,9 @@ export class RollData {
     if (extraDamage > 0)
       combat += ` + ${extraDamage}`;
 
+    if (roll.numenera && roll.numenera.effortDamage && roll.numenera.effortDamage > 0)
+      combat += ` + ${roll.numenera.effortDamage * 3}`;
+
     if (combat !== "")
       combat = "Damage: " + combat; //add prefix if any damage is output
 
