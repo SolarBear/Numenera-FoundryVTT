@@ -710,11 +710,8 @@ form.numenera {
     }
 
 	#pc-sheet-body {
-        overflow-y: visible;
-
-        & > div {
-            overflow-y: visible;
-        }
+        overflow-y: auto;
+        height: 100%;
 
         &.item-icon {
             padding-left: 0px;
