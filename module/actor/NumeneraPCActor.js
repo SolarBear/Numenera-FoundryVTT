@@ -189,7 +189,6 @@ export class NumeneraPCActor extends Actor {
       await dialog.init();
       return dialog.render(true);
     }
-    //console.log(dialog);
 
     // Create a pseudo-skill to avoid repeating the roll logic
     //Do NOT create an embedded Document here, we really want a temporary item
