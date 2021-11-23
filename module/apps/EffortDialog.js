@@ -315,7 +315,7 @@ export class EffortDialog extends FormApplication {
       this.close();
       return;
     }
-      
+
     const data = super.getData();
 
     data.stats = NUMENERA.stats;
@@ -419,6 +419,7 @@ export class EffortDialog extends FormApplication {
     rollData.taskLevel = this.finalLevel;
     rollData.rollMode = this.object.rollMode;
     rollData.damageTrackPenalty = this.object.actor.data.data.damageTrack;
+    rollData.assets = this.object.assets;
 
     if (this.object.skill) {
       let skill = this.object.skill;
@@ -427,7 +428,7 @@ export class EffortDialog extends FormApplication {
       if (skill._id)
         skill = this.object.actor.items.get(this.object.skill.id);
 
-      actor.rollSkill(skill, rollData, this.object.ability);
+      actor.rollSkill(skill, rollData, this.object.ability, this.object.assets);
     }
     else {
       await actor.rollAttribute(shortStat, rollData);
