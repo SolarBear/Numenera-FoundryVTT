@@ -134,7 +134,7 @@ export class NumeneraPCActor extends Actor {
 
     rollData.ability = ability;
     rollData.enhancements = enhancements;
-    
+
     const roll = rollData.getRoll();
     roll.roll();
 
@@ -142,7 +142,7 @@ export class NumeneraPCActor extends Actor {
 
     const mods = []; //any roll modifier goes here: effort, skill level, etc.
 
-    switch (skill.data.data.skillLevel) {
+    switch (Number(skill.data.data.skillLevel)) {
       case 2:
         mods.push("specialized");
         break;
@@ -166,7 +166,7 @@ export class NumeneraPCActor extends Actor {
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
       messageData: RollData.rollText(roll),
-      flavor,
+      flavor: flavor,
     },
     {
       rollMode: rollData.rollMode,
@@ -184,7 +184,7 @@ export class NumeneraPCActor extends Actor {
    * @memberof NumeneraPCActor
    */
   async rollAttribute(attribute, rollData = null) {
-    if (rollData === null && useAlternateButtonBehavior()) {      
+    if (rollData === null && useAlternateButtonBehavior()) {
       const dialog = new EffortDialog(this, { stat: attribute });
       await dialog.init();
       return dialog.render(true);
@@ -199,7 +199,12 @@ export class NumeneraPCActor extends Actor {
     //Need to modify the deep property since skill.name is a getter
     skill.data.data.name = attribute.replace(/^\w/, (c) => c.toUpperCase()); //capitalized
 
-    return this.rollSkill(skill, rollData);
+    let assets = 0;
+    if (rollData) {
+      assets = rollData.assets;
+    }
+
+    return this.rollSkill(skill, rollData, null, assets);
   }
 
   /**
