@@ -139,9 +139,9 @@ export class RecoveryDialog extends FormApplication {
           "data.recoveries": this.object.recoveriesLeft
         });
 
-        ChatMessage.create({
-          content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
-        });
+          ChatMessage.create({
+            content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
+          });
 
         this.render();
       }
@@ -166,10 +166,12 @@ export class RecoveryDialog extends FormApplication {
     }
 
     const roll = new Roll(this._getFormula(nbDice, this.object.tempBonus)).roll();
-    /*roll.toMessage({
+    console.log(roll.terms);
+    roll.evaluate();
+    roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
       flavor: `${this.object.actor.data.name} rolls for Recovery`,
-    });*/
+    });
 
     this.object.unspentRecoveryPoints += roll.total;
     this.object.initialUnspentRecoveryPoints += roll.total;
