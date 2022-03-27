@@ -1,8 +1,8 @@
 {
-    "name": "numenera",
-    "title": "Numenera (Cypher System)",
+    "name": "numenera2",
+    "title": "Numenera2 (Cypher System)",
     "description": "Featureful support for Cypher system games, including Numenera and The Strange for the Fountry Virtual TableTop.",
-    "version": "1.8.1",
+    "version": "1.8.2",
     "author": "SolarBear (David Lacerte)",
     "scripts": [],
     "esmodules": ["numenera.js"],
@@ -11,7 +11,7 @@
         {
           "name": "systemMacros",
           "label": "System Macros",
-          "system": "numenera",
+          "system": "numenera2",
           "path": "./packs/system-macros.db",
           "entity": "Macro"
         }
