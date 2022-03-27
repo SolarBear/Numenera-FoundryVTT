@@ -48,6 +48,6 @@
     "compatibleCoreVersion": "0.8.9",
     "url": "https://github.com/SolarBear/numenera2-foundryvtt",
     "bugs": "https://github.com/SolarBear/numenera2-foundryvtt/issues",
-    "manifest": "https://raw.githubusercontent.com/RomuloCANunes/numenera2-foundryvtt/master/system.json",
+    "manifest": "https://raw.githubusercontent.com/RomuloCANunes/numenera-foundryvtt/master/system.json",
     "numenera2-foundryvtt": "https://github.com/RomuloCANunes/Numenera-FoundryVTT/releases/download/effort-test/numenera-foundryvtt-1.8.2.zip"
 }
