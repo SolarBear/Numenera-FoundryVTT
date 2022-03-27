@@ -1,5 +1,5 @@
 {
-  "name": "numenera-foundryvtt",
+  "name": "numenera2-foundryvtt",
   "version": "1.8.1",
   "description": "Support for the Cypher System (including Numenera and The Strange role playing games) for the Foundry virtual tabletop",
   "devDependencies": {
@@ -34,12 +34,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SolarBear/Numenera-FoundryVTT.git"
+    "url": "git+https://github.com/SolarBear/numenera2-foundryvtt.git"
   },
   "author": "SolarBear (David Lacerte)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SolarBear/Numenera-FoundryVTT/issues"
+    "url": "https://github.com/SolarBear/numenera2-foundryvtt/issues"
   },
-  "homepage": "https://github.com/SolarBear/Numenera-FoundryVTT#readme"
+  "homepage": "https://github.com/SolarBear/numenera2-foundryvtt#readme"
 }
