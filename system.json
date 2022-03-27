@@ -49,5 +49,5 @@
     "url": "https://github.com/SolarBear/numenera2-foundryvtt",
     "bugs": "https://github.com/SolarBear/numenera2-foundryvtt/issues",
     "manifest": "https://raw.githubusercontent.com/RomuloCANunes/numenera2-foundryvtt/master/system.json",
-    "download": "https://github.com/SolarBear/numenera2-foundryvtt/releases/download/1.8.1/numenera2-foundryvtt-1.8.1.zip"
+    "numenera2-foundryvtt": "https://github.com/RomuloCANunes/Numenera-FoundryVTT/releases/download/effort-test/numenera-foundryvtt-1.8.2.zip"
 }
