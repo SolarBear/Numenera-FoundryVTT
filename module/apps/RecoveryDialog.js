@@ -166,10 +166,10 @@ export class RecoveryDialog extends FormApplication {
     }
 
     const roll = new Roll(this._getFormula(nbDice, this.object.tempBonus)).roll();
-    roll.toMessage({
+    /*roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
       flavor: `${this.object.actor.data.name} rolls for Recovery`,
-    });
+    });*/
 
     this.object.unspentRecoveryPoints += roll.total;
     this.object.initialUnspentRecoveryPoints += roll.total;
