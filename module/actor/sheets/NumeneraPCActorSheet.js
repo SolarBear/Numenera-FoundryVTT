@@ -779,7 +779,7 @@ export class NumeneraPCActorSheet extends ActorSheet {
     if (!depletion.isDepleting || !depletion.die || !depletion.threshold)
       return;
 
-    const roll = new Roll(depletion.die).roll();
+    const roll = new Roll(depletion.die).roll({async:false});
 
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
