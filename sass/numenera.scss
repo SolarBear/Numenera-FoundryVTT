@@ -125,7 +125,6 @@ form.numenera {
 
         input:hover {
             text-shadow: $glow;
-            color: whitesmoke;
         }
     }
 
@@ -423,7 +422,6 @@ form.numenera {
 
             tr {
                 background-color: rgba(0, 0, 0, 0);
-                color: whitesmoke;
                 text-shadow: none;
 
                 &.cypher-header {
