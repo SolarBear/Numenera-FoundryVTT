@@ -45,7 +45,7 @@
     ],
     "socket": true,
     "minimumCoreVersion": "0.9.0",
-    "compatibleCoreVersion": "0.9.255",
+    "compatibleCoreVersion": "0.9.0",
     "url": "https://github.com/SolarBear/numenera2-foundryvtt",
     "bugs": "https://github.com/SolarBear/numenera2-foundryvtt/issues",
     "manifest": "https://raw.githubusercontent.com/RomuloCANunes/numenera-foundryvtt/master/system.json",
