@@ -166,16 +166,9 @@ export class RecoveryDialog extends FormApplication {
       return;
     }
 
-    console.log("bonus " + this.object.tempBonus);
-    console.log("nbDice " + nbDice);
-    
     const formula = this._getFormula(nbDice, this.object.tempBonus);
-    console.log("formula " + formula);
     const roll = new Roll(formula);
-    console.log("terms " + roll.terms);
     roll.evaluate({async:false});
-    console.log("result " + roll.result);
-    console.log("total " + roll.total);
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
       messageData: "recovery test",
