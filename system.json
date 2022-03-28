@@ -48,6 +48,6 @@
     "compatibleCoreVersion": "0.9.0",
     "url": "https://github.com/rommie-nunes/numenera-foundryvtt",
     "bugs": "https://github.com/rommie-nunes/numenera-foundryvtt/issues",
-    "manifest": "https://raw.githubusercontent.com/rommie-nunes/numenera-foundryvtt/master/system.json",
+    "manifest": "https://raw.githubusercontent.com/rommie-nunes/Numenera-FoundryVTT/master/system.json",
     "download": "https://github.com/rommie-nunes/numenera-foundryvtt/releases/download/effort-test/numenera-foundryvtt-1.8.2.zip" 
 }
