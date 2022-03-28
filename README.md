@@ -6,6 +6,7 @@ Go into you Foundry Setup > Install System.
 Enter this URL on the manifest field: https://raw.githubusercontent.com/rommie-nunes/Numenera-FoundryVTT/master/system.json 
 Done, you have the Numenera-Improved system installed.
 
+## Enjoying it?
 [![Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/rommienunes)
 
 # Cypher System for the Foundry VTT
