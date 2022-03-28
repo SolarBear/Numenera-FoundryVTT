@@ -3,8 +3,11 @@ The orginal plugin had mutiple incompatibility with Foundry v9 so I did a few fi
 
 ## How to use this?
 Go into you Foundry Setup > Install System. 
+
 Enter this URL on the manifest field: https://raw.githubusercontent.com/rommie-nunes/Numenera-FoundryVTT/master/system.json 
+
 Done, you have the Numenera-Improved system installed.
+
 Note: This will not override your current Numenera system.
 
 ## Enjoying it?
