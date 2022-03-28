@@ -31,7 +31,7 @@ export async function rollInitiative(ids, {formula=null, updateTurn=true, messag
       const rollData = c.actor ? c.actor.getRollData() : {};
 
       const cf = formula || this._getInitiativeFormula(c);
-      const roll = new Roll(cf, rollData).roll();
+      const roll = new Roll(cf, rollData).roll({async:false});
       updates.push({ _id: id, initiative: roll.total });
 
       // In Numenera, initiative is fixed for NPCs so don't spam the chat with constant values!

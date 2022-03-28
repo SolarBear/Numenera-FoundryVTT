@@ -239,7 +239,7 @@ export function numeneraRoll(topic) {
   const rollData = new RollData();
   rollData.topic = topic;
 
-  const roll = rollData.getRoll().roll();
+  const roll = rollData.getRoll().roll({async:false});
 
   roll.toMessage({
     speaker: ChatMessage.getSpeaker(),
