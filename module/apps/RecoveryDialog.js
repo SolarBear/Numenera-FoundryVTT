@@ -1,5 +1,6 @@
 import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 import { NUMENERA } from "../config.js";
+import { RollData } from '../dice/RollData.js';
 
 export class RecoveryDialog extends FormApplication {
 
@@ -165,12 +166,20 @@ export class RecoveryDialog extends FormApplication {
       return;
     }
 
-    const roll = new Roll(this._getFormula(nbDice, this.object.tempBonus)).roll();
-    console.log(roll.terms);
-    roll.evaluate();
+    console.log("bonus " + this.object.tempBonus);
+    console.log("nbDice " + nbDice);
+    
+    const formula = this._getFormula(nbDice, this.object.tempBonus);
+    console.log("formula " + formula);
+    const roll = new Roll(formula);
+    console.log("terms " + roll.terms);
+    roll.evaluate({async:false});
+    console.log("result " + roll.result);
+    console.log("total " + roll.total);
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
-      flavor: `${this.object.actor.data.name} rolls for Recovery`,
+      messageData: "recovery test",
+      flavor: `${this.object.actor.data.name} rolls for Recovery`, 
     });
 
     this.object.unspentRecoveryPoints += roll.total;
