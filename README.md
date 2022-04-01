@@ -1,3 +1,18 @@
+# Numenera Improved
+The orginal plugin had mutiple incompatibility with Foundry v9 so I did a few fixes. Besides the popular little improvements to make it more compatible with the system language (Extra effort -> Assets, Cypher -> Numenera). I had trouble trying to make this as an update to the current version so I have renamed it to Numenera Improved. It is compatible with Numenera shared compendiums so you can migrate your games over easily.
+
+## How to use this?
+Go into you Foundry Setup > Install System. 
+
+Enter this URL on the manifest field: https://raw.githubusercontent.com/rommie-nunes/Numenera-FoundryVTT/master/system.json 
+
+Done, you have the Numenera-Improved system installed.
+
+Note: This will not override your current Numenera system.
+
+## Enjoying it?
+[![Coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://buymeacoffee.com/rommienunes)
+
 # Cypher System for the Foundry VTT
 
 Do you enjoy using the system? Then support my harmful caffeine intake habits and buy me some beans!

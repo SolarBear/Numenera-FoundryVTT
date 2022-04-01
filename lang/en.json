@@ -29,7 +29,7 @@
     "NUMENERA.effort.title": "Effort",
     "NUMENERA.effort.againstTaskLevel": "against task level",
     "NUMENERA.effort.failAutomatically": "Automatic Failure",
-    "NUMENERA.effort.other": "Other Enhancements",
+    "NUMENERA.effort.other": "Assets",
     "NUMENERA.effort.confirmUnspentTitle": "Confirm: Unspent Points",
     "NUMENERA.effort.confirmUnspent": "You have unspent points are your pools are not full yet. Do you really want to exit? These points will be lost.",
     "NUMENERA.effort.cost": "Cost",
@@ -111,7 +111,7 @@
 
     "NUMENERA.pcActorSheet.tab.skills": "Skills",
     "NUMENERA.pcActorSheet.tab.abilities": "Abilities",
-    "NUMENERA.pcActorSheet.tab.cyphers": "Cyphers",
+    "NUMENERA.pcActorSheet.tab.cyphers": "Numenera",
     "NUMENERA.pcActorSheet.tab.strange": "Strange",
     "NUMENERA.pcActorSheet.tab.recursion": "Recursions",
     "NUMENERA.pcActorSheet.tab.equipment": "Equipment",

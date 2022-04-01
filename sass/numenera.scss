@@ -1,6 +1,5 @@
 @font-face {
-    font-family: "Ogirema";
-    src: url("fonts/ogirema.ttf") format("ttf");
+    font-family: "sans-serif";
 }
 
 /// ----------
@@ -10,8 +9,8 @@
 $foundry-border-color: #4ec51f;
 $border-color: rgba(180, 180, 180, 0.5);
 $input-border-color: rgba(245, 245, 245, 0.15);
-$font-stack: Ogirema;
-$font-color: #131517;
+$font-stack: sans-serif;
+$font-color: #0a0a0a;
 $font-edit-color: #093f55;
 $glow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 $bggrad: linear-gradient(225deg, rgba(0, 0, 0, 0) 0%, rgba(189, 107, 107, 0.267) 50%, #2294b133 80%);
@@ -126,7 +125,6 @@ form.numenera {
 
         input:hover {
             text-shadow: $glow;
-            color: whitesmoke;
         }
     }
 
@@ -424,7 +422,6 @@ form.numenera {
 
             tr {
                 background-color: rgba(0, 0, 0, 0);
-                color: whitesmoke;
                 text-shadow: none;
 
                 &.cypher-header {
@@ -760,6 +757,7 @@ form.numenera {
         td.cypher-name, td.artifact-name {
             width: 15%;
             text-align: center;
+            color: $font-color;
         }
 
         td.oddity-name {

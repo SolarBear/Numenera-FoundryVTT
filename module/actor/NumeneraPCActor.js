@@ -136,7 +136,7 @@ export class NumeneraPCActor extends Actor {
     rollData.enhancements = enhancements;
     
     const roll = rollData.getRoll();
-    roll.roll();
+    roll.roll({async:false});
 
     let flavor = game.i18n.localize("NUMENERA.rolling") + " " + skill.data.data.name;
 
@@ -561,7 +561,7 @@ export class NumeneraPCActor extends Actor {
               //TODO move all of this BEFORE the item creation
 
               //Try the formula as is first
-              itemData.level = new Roll(itemData.levelDie).roll().total;
+              itemData.level = new Roll(itemData.levelDie).roll({async:false}).total;
               
             } catch (Error) {
               try {

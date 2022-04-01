@@ -1,5 +1,6 @@
 import { NumeneraPCActor } from "../actor/NumeneraPCActor.js";
 import { NUMENERA } from "../config.js";
+import { RollData } from '../dice/RollData.js';
 
 export class RecoveryDialog extends FormApplication {
 
@@ -139,9 +140,9 @@ export class RecoveryDialog extends FormApplication {
           "data.recoveries": this.object.recoveriesLeft
         });
 
-        ChatMessage.create({
-          content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
-        });
+          ChatMessage.create({
+            content: `<h3>${this.object.actor.data.name} ${game.i18n.localize("NUMENERA.recoveries.resetDialog.confirmation")}</h3>`,
+          });
 
         this.render();
       }
@@ -165,10 +166,13 @@ export class RecoveryDialog extends FormApplication {
       return;
     }
 
-    const roll = new Roll(this._getFormula(nbDice, this.object.tempBonus)).roll();
+    const formula = this._getFormula(nbDice, this.object.tempBonus);
+    const roll = new Roll(formula);
+    roll.evaluate({async:false});
     roll.toMessage({
       speaker: ChatMessage.getSpeaker(),
-      flavor: `${this.object.actor.data.name} rolls for Recovery`,
+      messageData: "recovery test",
+      flavor: `${this.object.actor.data.name} rolls for Recovery`, 
     });
 
     this.object.unspentRecoveryPoints += roll.total;
